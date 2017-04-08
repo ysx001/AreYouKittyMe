@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:paddingBottom="16dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.android.areyoukittyme.AdoptActivity">
+
+
+    <EditText
+        android:id="@+id/cat_name_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Kitty"
+        android:textAlignment="center"
+        tools:layout_editor_absoluteX="85dp"
+        tools:layout_editor_absoluteY="342dp"/>
+
+    <Button
+        android:id="@+id/cat_name_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Name your Cat!"
+        android:textAlignment="center"
+        tools:layout_editor_absoluteX="123dp"
+        tools:layout_editor_absoluteY="392dp"/>
+
+
+</LinearLayout>
