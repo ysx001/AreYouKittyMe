@@ -17,21 +17,10 @@ public class TimerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timer);
 
-        this.timerStartBtn = (Button) findViewById(R.id.timerBackBtn);
+        this.timerStartBtn = (Button) findViewById(R.id.timerStartBtn);
+        this.timerStartBtn = (Button) findViewById(R.id.timerStartBtn);
 
-        timerBackBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                // Store the context variable
-                Context context = TimerActivity.this;
-
-                // This is the class we want to start and open when button is clicked
-                Class destActivity = MainActivity.class;
-
-                // create Intent that will start the activity
-                Intent startMainActivityIntent = new Intent(context, destActivity);
-            }
-        });
+        // enable back button to main page
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 }
