@@ -21,7 +21,7 @@ public class VocabStudyActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_vocab);
+        setContentView(R.layout.activity_reviewstudy);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
