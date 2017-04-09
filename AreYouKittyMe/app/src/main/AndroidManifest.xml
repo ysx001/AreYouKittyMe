@@ -41,9 +41,8 @@
         </activity>
         <activity android:name=".VocabActivity">
         </activity>
-        <activity android:name=".TimerActivity">
-            android:name=".TimerActivity"
-            android:label="@string/SLEEP"
+        <activity android:name=".TimerActivity"
+            android:label="@string/title_timer"
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
