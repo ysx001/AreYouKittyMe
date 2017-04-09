@@ -41,11 +41,5 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"/>
 
-    <Button
-        android:id="@+id/go_to_store_btn"
-        android:layout_width="380dp"
-        android:layout_height="wrap_content"
-        android:text="Store" />
-
 
 </RelativeLayout>
