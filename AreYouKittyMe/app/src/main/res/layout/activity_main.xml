@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<FrameLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -14,4 +14,41 @@
         android:text="This is default text. Hopefully it changes."
         android:textSize="30sp"/>
 
-</FrameLayout>
+    <Button
+        android:id="@+id/stats_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="46dp"
+        android:text="Stats"/>
+
+    <Button
+        android:id="@+id/store_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/stats_button"
+        android:layout_below="@+id/stats_button"
+        android:layout_marginTop="34dp"
+        android:text="Store"/>
+
+    <Button
+        android:id="@+id/timer_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/store_button"
+        android:layout_below="@+id/store_button"
+        android:layout_marginTop="49dp"
+        android:text="Timer"/>
+
+    <Button
+        android:id="@+id/vocab_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="52dp"
+        android:text="Vocab"
+        android:layout_below="@+id/timer_button"
+        android:layout_alignStart="@+id/timer_button"/>
+
+
+</RelativeLayout>
