@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.example.android.areyoukittyme">
-
+    <uses-permission android:name="android.permission.VIBRATE"></uses-permission>>
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,13 +9,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AdoptActivity">
+
+        <!--Add the launch mode "single top" attribute to the MainActivity so that when you open-->
+        <!--MainActivity using a notification, it will take you back to the already opened activity, not-->
+        <!--generate a new one-->
+
+        <activity android:name=".AdoptActivity"
+                  android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
@@ -41,9 +48,8 @@
         </activity>
         <activity android:name=".VocabActivity">
         </activity>
-        <activity android:name=".TimerActivity">
-            android:name=".TimerActivity"
-            android:label="@string/SLEEP"
+        <activity android:name=".TimerActivity"
+            android:label="@string/title_timer"
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

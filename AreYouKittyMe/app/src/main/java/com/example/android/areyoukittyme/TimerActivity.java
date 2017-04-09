@@ -5,12 +5,19 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+
+import com.example.android.areyoukittyme.utilities.NotificationUtils;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
 public class TimerActivity extends AppCompatActivity {
+
+    private Button testNotificationButton;
+
 
     private Button timerStartBtn;
     private Button timerBackBtn;
@@ -21,6 +28,20 @@ public class TimerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timer);
+
+        testNotificationButton = (Button) findViewById(R.id.test_notification_btn);
+
+    }
+
+    // triggers notification for testing
+    public void testNotification(View view) {
+        NotificationUtils.remindUserSwitchBack(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        NotificationUtils.remindUserSwitchBack(this);
 
         this.timerStartBtn = (Button) findViewById(R.id.timerStartBtn);
         this.timerStartBtn = (Button) findViewById(R.id.timerStartBtn);
