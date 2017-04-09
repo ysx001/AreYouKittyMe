@@ -33,5 +33,11 @@
         tools:layout_editor_absoluteX="123dp"
         tools:layout_editor_absoluteY="392dp"/>
 
+    <Button
+        android:id="@+id/go_to_store_btn"
+        android:layout_width="380dp"
+        android:layout_height="wrap_content"
+        android:text="Store" />
+
 
 </LinearLayout>

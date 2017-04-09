@@ -8,7 +8,7 @@
     tools:context="com.example.android.areyoukittyme.StoreActivity">
 
 
-    <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="395dp"
         android:layout_height="587dp"
         android:columnCount="2"
@@ -17,14 +17,16 @@
         android:rowCount="2"
         android:stretchMode="columnWidth"
         tools:layout_editor_absoluteY="8dp"
-        tools:layout_editor_absoluteX="8dp">
+        tools:layout_editor_absoluteX="8dp"
+        android:weightSum="1">
 
         <LinearLayout
             android:id="@+id/topleft"
-            android:layout_width="160dp"
+            android:layout_width="match_parent"
             android:layout_height="160dp"
             android:layout_row="0"
-            android:background="@drawable/shape" >
+            android:background="@drawable/shape"
+            android:layout_weight="0.34">
 
             <ImageView
                 android:id="@+id/myimage1"
@@ -35,9 +37,10 @@
 
         <LinearLayout
             android:id="@+id/topright"
-            android:layout_width="160dp"
+            android:layout_width="match_parent"
             android:layout_height="160dp"
-            android:background="@drawable/shape" >
+            android:layout_weight="0.33"
+            android:background="@drawable/shape">
 
             <ImageView
                 android:id="@+id/myimage2"
@@ -47,30 +50,56 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/bottomleft"
-            android:layout_width="160dp"
-            android:layout_height="160dp"
-            android:background="@drawable/shape" >
+            android:id="@+id/currentCashContainer"
+            android:layout_width="match_parent"
+            android:layout_height="57dp"
+            android:orientation="horizontal"
+            android:weightSum="1">
 
-            <ImageView
-                android:id="@+id/myimage3"
+            <TextView
+                android:id="@+id/currentCashLbl"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/ic_launcher" />
+                android:layout_height="47dp"
+                android:text="Current Cash: "
+                android:layout_weight="0.13"></TextView>
+
+            <TextView
+                android:id="@+id/currentCashAmount"
+                android:layout_width="wrap_content"
+                android:layout_height="49dp"
+                android:text="AMOUNT "
+                android:layout_weight="0.28"></TextView>
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/bottomright"
-            android:layout_width="160dp"
-            android:layout_height="160dp"
-            android:background="@drawable/shape" >
+            android:id="@+id/myCash"
+            android:layout_width="match_parent"
+            android:layout_height="57dp"
+            android:orientation="horizontal"
+            android:weightSum="1">
 
-            <ImageView
-                android:id="@+id/myimage4"
+            <TextView
+                android:id="@+id/myCashLbl"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/ic_launcher" />
+                android:layout_height="47dp"
+                android:text="Current Cash: "
+                android:layout_weight="0.13"></TextView>
+
+            <TextView
+                android:id="@+id/myCashAmount"
+                android:layout_width="wrap_content"
+                android:layout_height="49dp"
+                android:text="AMOUNT "
+                android:layout_weight="0.28"></TextView>
         </LinearLayout>
 
-    </GridLayout>
+        <Button
+            android:id="@+id/backToMainBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.34"
+            android:text="Back to Main page" />
+
+
+    </LinearLayout>
     </android.support.constraint.ConstraintLayout>
