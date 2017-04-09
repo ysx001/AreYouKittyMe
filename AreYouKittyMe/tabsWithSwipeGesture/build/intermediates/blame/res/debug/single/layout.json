@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "/home/sarah/csci205finalproject/AreYouKittyMe/tabsWithSwipeGesture/build/intermediates/res/merged/debug/layout/fragment_top_rated.xml",
+        "source": "/home/sarah/csci205finalproject/AreYouKittyMe/tabsWithSwipeGesture/src/main/res/layout/fragment_top_rated.xml"
+    },
+    {
+        "merged": "/home/sarah/csci205finalproject/AreYouKittyMe/tabsWithSwipeGesture/build/intermediates/res/merged/debug/layout/fragment_games.xml",
+        "source": "/home/sarah/csci205finalproject/AreYouKittyMe/tabsWithSwipeGesture/src/main/res/layout/fragment_games.xml"
+    },
+    {
+        "merged": "/home/sarah/csci205finalproject/AreYouKittyMe/tabsWithSwipeGesture/build/intermediates/res/merged/debug/layout/fragment_movies.xml",
+        "source": "/home/sarah/csci205finalproject/AreYouKittyMe/tabsWithSwipeGesture/src/main/res/layout/fragment_movies.xml"
+    },
+    {
+        "merged": "/home/sarah/csci205finalproject/AreYouKittyMe/tabsWithSwipeGesture/build/intermediates/res/merged/debug/layout/activity_main.xml",
+        "source": "/home/sarah/csci205finalproject/AreYouKittyMe/tabsWithSwipeGesture/src/main/res/layout/activity_main.xml"
+    }
+]
