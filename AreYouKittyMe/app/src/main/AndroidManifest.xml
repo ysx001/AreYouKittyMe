@@ -21,6 +21,14 @@
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
+        <activity android:name=".StatsActivity">
+        </activity>
+        <activity android:name=".StoreActivity">
+        </activity>
+        <activity android:name=".VocabActivity">
+        </activity>
+        <activity android:name=".TimerActivity">
+        </activity>
     </application>
 
 </manifest>
