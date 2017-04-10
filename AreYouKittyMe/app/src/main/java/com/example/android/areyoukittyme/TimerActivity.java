@@ -16,7 +16,6 @@ import android.widget.Spinner;
 
 public class TimerActivity extends AppCompatActivity {
 
-    private Button testNotificationButton;
 
 
     private Button timerStartBtn;
@@ -29,7 +28,17 @@ public class TimerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timer);
 
-        testNotificationButton = (Button) findViewById(R.id.test_notification_btn);
+        this.timerStartBtn = (Button) findViewById(R.id.timerStartBtn);
+        this.timerStartBtn = (Button) findViewById(R.id.timerStartBtn);
+
+        this.minSpinner = (Spinner) findViewById(R.id.minSpinner);
+        String[] items = new String[]{"Minutes", "00", "10", "20", "30", "40", "50"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, items);
+        this.minSpinner.setAdapter(adapter);
+
+        // enable back button to main page
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
     }
 
@@ -43,15 +52,6 @@ public class TimerActivity extends AppCompatActivity {
         super.onStop();
         NotificationUtils.remindUserSwitchBack(this);
 
-        this.timerStartBtn = (Button) findViewById(R.id.timerStartBtn);
-        this.timerStartBtn = (Button) findViewById(R.id.timerStartBtn);
 
-        this.minSpinner = (Spinner) findViewById(R.id.minSpinner);
-        String[] items = new String[]{"Minutes", "00", "10", "20", "30", "40", "50"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, items);
-        this.minSpinner.setAdapter(adapter);
-
-        // enable back button to main page
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 }
