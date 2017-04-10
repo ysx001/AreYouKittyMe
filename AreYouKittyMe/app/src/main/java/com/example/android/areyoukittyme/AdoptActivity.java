@@ -13,6 +13,7 @@ public class AdoptActivity extends AppCompatActivity {
 
     private EditText catNameTxt;
     private Button catNameButton;
+    private Button goToStoreBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,24 +24,20 @@ public class AdoptActivity extends AppCompatActivity {
         catNameTxt = (EditText) findViewById(R.id.cat_name_txt);
         catNameButton = (Button) findViewById(R.id.cat_name_btn);
 
+
         // Setting an OnClickLister for the catNameButton
         catNameButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 // get the text entered by the user in the EditText
                 String textEntered = catNameTxt.getText().toString();
-
                 // Store the context variable
                 Context context = AdoptActivity.this;
-
                 // This is the class we want to start and open when button is clicked
                 Class destActivity = MainActivity.class;
-
                 // create Intent that will start the activity
                 Intent startMainActivityIntent = new Intent(context, destActivity);
-
                 startMainActivityIntent.putExtra(Intent.EXTRA_TEXT, textEntered);
-
                 startActivity(startMainActivityIntent);
 
             }

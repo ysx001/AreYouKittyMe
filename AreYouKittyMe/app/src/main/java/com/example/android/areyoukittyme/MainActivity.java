@@ -116,6 +116,18 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+        storeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Context context = MainActivity.this;
+                // This is the class we want to start and open when button is clicked
+                Class destActivity = StoreActivity.class;
+                // create Intent that will start the activity
+                Intent startMainActivityIntent = new Intent(context, destActivity);
+                startActivity(startMainActivityIntent);
+            }
+        });
     }
 
 }
