@@ -25,14 +25,14 @@
             android:layout_width="match_parent"
             android:layout_height="160dp"
             android:layout_row="0"
-            android:background="@drawable/shape"
-            android:layout_weight="0.34">
+            android:layout_weight="0.34"
+            android:background="@drawable/shape">
 
             <ImageView
                 android:id="@+id/myimage1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/ic_launcher" />
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/fish" />
         </LinearLayout>
 
         <LinearLayout
@@ -69,6 +69,13 @@
                 android:layout_height="49dp"
                 android:text="AMOUNT "
                 android:layout_weight="0.28"></TextView>
+
+            <Button
+                android:id="@+id/AddCashTempBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.13"
+                android:text="Add Cash" />
         </LinearLayout>
 
         <LinearLayout
@@ -91,6 +98,7 @@
                 android:layout_height="49dp"
                 android:text="AMOUNT "
                 android:layout_weight="0.28"></TextView>
+
         </LinearLayout>
 
         <Button
