@@ -114,6 +114,7 @@ public class StoreActivity extends Activity {
                     TextView lbl = (TextView) findViewById(R.id.currentCashAmount);
                     int curVal = Integer.parseInt(lbl.getText().toString());
                     curVal -= Integer.parseInt(str);
+                    User.cash = curVal;
                     str = String.valueOf(curVal);
                     lbl.setText(str);
 
