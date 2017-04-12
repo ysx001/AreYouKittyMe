@@ -7,6 +7,21 @@
     android:layout_height="match_parent"
     tools:context="com.example.android.areyoukittyme.TimerActivity">
 
+    <Button
+        android:id="@+id/timerCancelBtn"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="300dp"
+        android:layout_height="38dp"
+        android:layout_alignStart="@+id/timerPauseBtn"
+        android:layout_below="@+id/timerPauseBtn"
+        android:layout_marginTop="29dp"
+        android:background="#DB8DB2"
+        android:elevation="0dp"
+        android:text="@string/cancel_button_timer"
+        android:textAlignment="center"
+        tools:layout_editor_absoluteX="44dp"
+        tools:layout_editor_absoluteY="426dp" />
+
     <TextView
         android:id="@+id/dotTextView"
         android:layout_width="20dp"
@@ -24,40 +39,41 @@
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="300dp"
         android:layout_height="38dp"
-        android:layout_alignStart="@+id/timerStartBtn"
-        android:layout_alignTop="@+id/timerStartBtn"
-        android:layout_marginTop="65dp"
+        android:layout_marginTop="28dp"
         android:background="#F1C3D0"
         android:elevation="0dp"
         android:text="@string/pause_button_timer"
         android:textAlignment="center"
         tools:layout_editor_absoluteX="44dp"
-        tools:layout_editor_absoluteY="426dp" />
+        tools:layout_editor_absoluteY="426dp"
+        android:layout_below="@+id/timerStartBtn"
+        android:layout_alignStart="@+id/timerStartBtn" />
 
     <EditText
         android:id="@+id/hourEditText"
         android:layout_width="120dp"
         android:layout_height="40dp"
-        android:layout_alignStart="@+id/timerStartBtn"
-        android:layout_centerVertical="true"
         android:hint="@string/hour_hint_timer"
         android:inputType="phone"
-        android:maxLength="2" />
+        android:maxLength="2"
+        android:layout_marginTop="48dp"
+        android:layout_below="@+id/dotTextView"
+        android:layout_alignStart="@+id/timerStartBtn" />
 
     <Button
         android:id="@+id/timerStartBtn"
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="300dp"
         android:layout_height="38dp"
-        android:layout_below="@+id/hourEditText"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="74dp"
         android:background="#9FA3E3"
         android:elevation="0dp"
         android:text="@string/start_button_timer"
         android:textAlignment="center"
         tools:layout_editor_absoluteX="44dp"
-        tools:layout_editor_absoluteY="426dp" />
+        tools:layout_editor_absoluteY="426dp"
+        android:layout_below="@+id/hourEditText"
+        android:layout_centerHorizontal="true" />
 
     <Spinner
         android:id="@+id/minSpinner"
@@ -70,12 +86,12 @@
         android:id="@+id/hourCountdown"
         android:layout_width="95dp"
         android:layout_height="100dp"
-        android:layout_above="@+id/hourEditText"
-        android:layout_alignStart="@+id/hourEditText"
-        android:layout_marginBottom="25dp"
         android:text="@string/zero_time_timer"
         android:textAlignment="center"
-        android:textSize="72sp" />
+        android:textSize="72sp"
+        android:layout_marginTop="87dp"
+        android:layout_alignParentTop="true"
+        android:layout_toStartOf="@+id/colonTextView" />
 
     <TextView
         android:id="@+id/minCountdown"
