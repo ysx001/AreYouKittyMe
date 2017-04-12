@@ -72,119 +72,133 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
 
             case R.id.timerStartBtn: {
 
-                boolean hourExist = false;
-                boolean minExist = false;
-
-                // Read hours input
-                try {
-                    hour = Integer.parseInt(String.valueOf(hourEditText.getText()));
-                    hourCountdown.setText(String.format("%02d", hour));
-                    hourExist = (hour != 0);
-
-                } catch (Exception e) {
-                    hour = 0;
-                    hourCountdown.setText("00");
-                }
-
-                // Read minutes input
-                try {
-                    minute = Integer.parseInt(String.valueOf(minSpinner.getSelectedItem()));
-                    minCountdown.setText(String.format("%02d", minute));
-                    minExist = (minute != 0);
-
-                } catch (Exception e) {
-                    minute = 0;
-                    minCountdown.setText("00");
-                }
-
-                // True if either hour or minute is nonzero
-                isCountingdown = hourExist || minExist;
-
-                if (isCountingdown) {
-
-                    // Disable time selection
-                    this.hourEditText.setEnabled(false);
-                    this.hourEditText.setText("");
-                    this.minSpinner.setEnabled(false);
-                    this.minSpinner.setSelection(0);
-                    this.timerStartBtn.setEnabled(false);
-
-                    // Start countdown
-                    this.countdownThreadSetup();
-                }
+                startBtnClicked();
 
                 break;
 
             }
             case R.id.timerPauseBtn: {
-                // Pause button pressed
-                if (isCountingdown) {
-                    // Pause
-                    new AlertDialog.Builder(this)
-                            .setTitle(getResources().getString(R.string.title_pause_timer))
-                            .setMessage(getResources().getString(R.string.message_pause_timer))
-                            .setNeutralButton(getResources().getString(R.string.ok_btn), new DialogInterface.OnClickListener() {
 
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                    isCountingdown = false;
-                                    isPausing = true;
+                pauseBtnClicked();
 
-                                    timerPauseBtn.setText(getResources().getString(R.string.resume_button_timer));
-                                    timerCancelBtn.setEnabled(false);
-
-                                    t.interrupt();
-                                }
-                            }).show();
-                }
-                else if (isPausing){
-                    // Resume
-                    isCountingdown = true;
-                    isPausing = false;
-
-                    timerPauseBtn.setText(getResources().getString(R.string.pause_button_timer));
-                    timerCancelBtn.setEnabled(true);
-
-                    this.countdownThreadSetup();
-                }
                 break;
             }
 
             case R.id.timerCancelBtn: {
-                // Cancel button pressed
-                if (isCountingdown) {
-                    new AlertDialog.Builder(this)
-                            .setTitle(getResources().getString(R.string.title_cancel_timer))
-                            .setMessage(getResources().getString(R.string.message_cancel_timer))
-                            .setPositiveButton(getResources().getString(R.string.yes_btn), new DialogInterface.OnClickListener() {
 
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    // Confirmed to cancel timer, reset time and enable EditText
-                                    hour = 0;
-                                    minute = 0;
-                                    second = 0;
+                cancelBtnClicked();
 
-                                    isCountingdown = false;
-
-                                    timerPauseBtn.setText(getResources().getString(R.string.pause_button_timer));
-
-                                    hourEditText.setEnabled(true);
-                                    minSpinner.setEnabled(true);
-                                    timerStartBtn.setEnabled(true);
-                                }
-                            })
-                            .setNegativeButton(getResources().getString(R.string.no_btn), new DialogInterface.OnClickListener() {
-
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    // Nothing to do
-                                }
-                            }).show();
-                }
                 break;
             }
+        }
+    }
+
+    private void startBtnClicked() {
+        boolean hourExist = false;
+        boolean minExist = false;
+
+        // Read hours input
+        try {
+            hour = Integer.parseInt(String.valueOf(hourEditText.getText()));
+            hourCountdown.setText(String.format("%02d", hour));
+            hourExist = (hour != 0);
+
+        } catch (Exception e) {
+            hour = 0;
+            hourCountdown.setText("00");
+        }
+
+        // Read minutes input
+        try {
+            minute = Integer.parseInt(String.valueOf(minSpinner.getSelectedItem()));
+            minCountdown.setText(String.format("%02d", minute));
+            minExist = (minute != 0);
+
+        } catch (Exception e) {
+            minute = 0;
+            minCountdown.setText("00");
+        }
+
+        // True if either hour or minute is nonzero
+        isCountingdown = hourExist || minExist;
+
+        if (isCountingdown) {
+
+            // Disable time selection
+            this.hourEditText.setEnabled(false);
+            this.hourEditText.setText("");
+            this.minSpinner.setEnabled(false);
+            this.minSpinner.setSelection(0);
+            this.timerStartBtn.setEnabled(false);
+
+            // Start countdown
+            this.countdownThreadSetup();
+        }
+    }
+
+    private void pauseBtnClicked() {
+        if (isCountingdown) {
+            // Pause
+            new AlertDialog.Builder(this)
+                    .setTitle(getResources().getString(R.string.title_pause_timer))
+                    .setMessage(getResources().getString(R.string.message_pause_timer))
+                    .setNeutralButton(getResources().getString(R.string.ok_btn), new DialogInterface.OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            isCountingdown = false;
+                            isPausing = true;
+
+                            timerPauseBtn.setText(getResources().getString(R.string.resume_button_timer));
+                            timerCancelBtn.setEnabled(false);
+
+                            t.interrupt();
+                        }
+                    }).show();
+        }
+        else if (isPausing){
+            // Resume
+            isCountingdown = true;
+            isPausing = false;
+
+            timerPauseBtn.setText(getResources().getString(R.string.pause_button_timer));
+            timerCancelBtn.setEnabled(true);
+
+            this.countdownThreadSetup();
+        }
+    }
+
+    private void cancelBtnClicked() {
+        if (isCountingdown) {
+            new AlertDialog.Builder(this)
+                    .setTitle(getResources().getString(R.string.title_cancel_timer))
+                    .setMessage(getResources().getString(R.string.message_cancel_timer))
+                    .setPositiveButton(getResources().getString(R.string.yes_btn), new DialogInterface.OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // Confirmed to cancel timer, reset time and enable EditText
+                            hour = 0;
+                            minute = 0;
+                            second = 0;
+
+                            isCountingdown = false;
+
+                            timerPauseBtn.setText(getResources().getString(R.string.pause_button_timer));
+
+                            hourEditText.setEnabled(true);
+                            minSpinner.setEnabled(true);
+                            timerStartBtn.setEnabled(true);
+                        }
+                    })
+                    .setNegativeButton(getResources().getString(R.string.no_btn), new DialogInterface.OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // Nothing to do
+                        }
+                    }).show();
         }
     }
 
