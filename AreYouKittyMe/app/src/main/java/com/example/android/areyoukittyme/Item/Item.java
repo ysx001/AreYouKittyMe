@@ -12,5 +12,7 @@ public interface Item {
 
     abstract void setIcon(int icon);
 
+    abstract int getId();
+
 
 }

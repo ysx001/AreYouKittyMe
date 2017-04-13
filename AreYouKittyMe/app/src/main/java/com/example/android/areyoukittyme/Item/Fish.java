@@ -12,6 +12,7 @@ public class Fish implements Item{
 
     private static int price;
     private int icon;
+    private int id;
 
     public Fish() {
         setPrice(80);
@@ -26,6 +27,11 @@ public class Fish implements Item{
     @Override
     public void setIcon(int icon) {
         this.icon = icon;
+    }
+
+    @Override
+    public int getId() {
+        return this.id;
     }
 
     public static int getPrice() {
