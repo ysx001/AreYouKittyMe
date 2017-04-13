@@ -22,6 +22,16 @@
     <string name="title_pause_timer">Pausing</string>
     <string name="message_pause_timer">You can only stay on this page without interrupting my sleep!</string>
     <string name="ok_btn">Got it!</string>
+    <string name="nav_bar_list">Stats</string>
+    <string name="title_adopt_name">Anonymous cat!</string>
+    <string name="message_adopt_name">Give your cat a name before continuing!</string>
+    <string name="drawer_item_stats">STATS</string>
+    <string name="drawer_item_store">STORE</string>
+    <string name="drawer_item_vocab">VOCAB</string>
+    <string name="drawer_item_timer">TIMER</string>
+    <string name="drawer_item_settings">Settings</string>
+    <string name="drawer_item_feedback">Feedback</string>
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
