@@ -15,7 +15,7 @@ public class AdoptActivity extends AppCompatActivity {
 
     private EditText catNameTxt;
     private Button catNameButton;
-    private Button goToStoreBtn;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
