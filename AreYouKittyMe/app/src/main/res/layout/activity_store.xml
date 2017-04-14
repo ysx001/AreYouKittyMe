@@ -42,14 +42,17 @@
             android:verticalSpacing="10dp" />
 
 
-        <LinearLayout
+        <GridView
             android:id="@+id/topright"
             android:layout_width="match_parent"
             android:layout_height="160dp"
-            android:layout_weight="0.33"
-            android:background="@drawable/shape">
-
-        </LinearLayout>
+            android:background="@drawable/shape"
+            android:columnWidth="45dp"
+            android:gravity="center"
+            android:horizontalSpacing="10dp"
+            android:numColumns="auto_fit"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="10dp" />
 
         <LinearLayout
             android:id="@+id/currentCashContainer"

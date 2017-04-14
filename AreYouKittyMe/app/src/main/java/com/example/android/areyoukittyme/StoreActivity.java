@@ -32,6 +32,7 @@ package com.example.android.areyoukittyme;
         import org.w3c.dom.Text;
 
         import java.util.ArrayList;
+        import java.util.List;
 
 public class StoreActivity extends AppCompatActivity {
 
@@ -63,14 +64,14 @@ public class StoreActivity extends AppCompatActivity {
     }
 
     private void addItemToStore() {
+        List<Item> itemL = new ArrayList<Item>();
         for (Item item: this.theStore.getItemList()) {
             // the linear layout for store inventory
-            GridView storeInventory = (GridView) findViewById(R.id.topleft);
-            LinearLayout.LayoutParams parms = new LinearLayout.LayoutParams(170, 170);
-            storeInventory.setAdapter(new ImageAdapter(this));
+            itemL.add(item);
         }
-
-
+        GridView storeInventory = (GridView) findViewById(R.id.topleft);
+        LinearLayout.LayoutParams parms = new LinearLayout.LayoutParams(170, 170);
+        storeInventory.setAdapter(new ImageAdapter(this));
 //        storeInventory.addView(view);
     }
 

@@ -17,6 +17,14 @@ public class Store {
         randomizeList();
     }
 
+    public ArrayList<Item> getItemList() {
+        return itemList;
+    }
+
+    public void setItemList(ArrayList<Item> itemList) {
+        this.itemList = itemList;
+    }
+
     public void randomizeList () {
         this.itemList = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
