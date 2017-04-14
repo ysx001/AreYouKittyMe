@@ -50,9 +50,9 @@ public class MainActivity extends AppCompatActivity {
                 Class destActivity = StatsActivity.class;
 
                 // create Intent that will start the activity
-                Intent startMainActivityIntent = new Intent(context, destActivity);
+                Intent startStatsIntent = new Intent(context, destActivity);
 
-                startActivity(startMainActivityIntent);
+                startActivity(startStatsIntent);
 
             }
         });

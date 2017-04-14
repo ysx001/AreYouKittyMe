@@ -73,7 +73,7 @@ import com.github.mikephil.charting.utils.MPPointF;
  */
 public class StatsActivity extends AppCompatActivity implements OnDataPointListener,
         GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener, SeekBar.OnSeekBarChangeListener,
+        GoogleApiClient.OnConnectionFailedListener , SeekBar.OnSeekBarChangeListener,
         OnChartValueSelectedListener{
 
     private static final int REQUEST_OAUTH = 1;
@@ -94,13 +94,13 @@ public class StatsActivity extends AppCompatActivity implements OnDataPointListe
         setContentView(R.layout.activity_stats);
 
 
-        // Get the ViewPager and set it's PagerAdapter so that it can display items
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
-        viewPager.setAdapter(new TabsPagerAdapter(getSupportFragmentManager(), StatsActivity.this));
-
-        // Give the TabLayout the ViewPager
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
-        tabLayout.setupWithViewPager(viewPager);
+//        // Get the ViewPager and set it's PagerAdapter so that it can display items
+//        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+//        viewPager.setAdapter(new TabsPagerAdapter(getSupportFragmentManager(), StatsActivity.this));
+//
+//        // Give the TabLayout the ViewPager
+//        TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
+//        tabLayout.setupWithViewPager(viewPager);
 
 
         // Connecting to Google Play Service
@@ -128,16 +128,16 @@ public class StatsActivity extends AppCompatActivity implements OnDataPointListe
         mSeekBarY = (SeekBar) findViewById(R.id.seekBar2);
 
         mChart = (BarChart) findViewById(R.id.chart1);
-        mChart.setOnChartValueSelectedListener(this);
+//        mChart.setOnChartValueSelectedListener(this);
 
         mChart.setDrawBarShadow(false);
         mChart.setDrawValueAboveBar(true);
 
         mChart.getDescription().setEnabled(false);
 
-        // if more than 60 entries are displayed in the chart, no values will be
+        // if more than 30 entries are displayed in the chart, no values will be
         // drawn
-        mChart.setMaxVisibleValueCount(60);
+        mChart.setMaxVisibleValueCount(30);
 
         // scaling can now only be done on x- and y-axis separately
         mChart.setPinchZoom(false);
@@ -149,7 +149,7 @@ public class StatsActivity extends AppCompatActivity implements OnDataPointListe
 
         XAxis xAxis = mChart.getXAxis();
         xAxis.setPosition(XAxisPosition.BOTTOM);
-        xAxis.setTypeface(mTfLight);
+        //xAxis.setTypeface(mTfLight);
         xAxis.setDrawGridLines(false);
         xAxis.setGranularity(1f); // only intervals of 1 day
         xAxis.setLabelCount(7);
@@ -158,7 +158,7 @@ public class StatsActivity extends AppCompatActivity implements OnDataPointListe
         IAxisValueFormatter custom = new MyAxisValueFormatter();
 
         YAxis leftAxis = mChart.getAxisLeft();
-        leftAxis.setTypeface(mTfLight);
+        //leftAxis.setTypeface(mTfLight);
         leftAxis.setLabelCount(8, false);
         leftAxis.setValueFormatter(custom);
         leftAxis.setPosition(YAxisLabelPosition.OUTSIDE_CHART);
@@ -167,7 +167,7 @@ public class StatsActivity extends AppCompatActivity implements OnDataPointListe
 
         YAxis rightAxis = mChart.getAxisRight();
         rightAxis.setDrawGridLines(false);
-        rightAxis.setTypeface(mTfLight);
+        //rightAxis.setTypeface(mTfLight);
         rightAxis.setLabelCount(8, false);
         rightAxis.setValueFormatter(custom);
         rightAxis.setSpaceTop(15f);
@@ -197,8 +197,11 @@ public class StatsActivity extends AppCompatActivity implements OnDataPointListe
         mSeekBarY.setProgress(50);
         mSeekBarX.setProgress(12);
 
-        mSeekBarY.setOnSeekBarChangeListener(this);
-        mSeekBarX.setOnSeekBarChangeListener(this);
+//        mSeekBarY.setOnSeekBarChangeListener(this);
+//        mSeekBarX.setOnSeekBarChangeListener(this);
+
+        // enable back button to main page
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
     }
 
@@ -347,35 +350,61 @@ public class StatsActivity extends AppCompatActivity implements OnDataPointListe
             });
         }
     }
-
-
-    // Plotting
-
-    protected String[] mMonths = new String[] {
-            "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dec"
-    };
-
-    protected String[] mParties = new String[] {
-            "Party A", "Party B", "Party C", "Party D", "Party E", "Party F", "Party G", "Party H",
-            "Party I", "Party J", "Party K", "Party L", "Party M", "Party N", "Party O", "Party P",
-            "Party Q", "Party R", "Party S", "Party T", "Party U", "Party V", "Party W", "Party X",
-            "Party Y", "Party Z"
-    };
-
-    protected Typeface mTfRegular;
-    protected Typeface mTfLight;
-
-
-    protected float getRandom(float range, float startsfrom) {
-        return (float) (Math.random() * range) + startsfrom;
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-    }
-
-
+//
+//    @Override
+//    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+//
+//    }
+//
+//    @Override
+//    public void onStartTrackingTouch(SeekBar seekBar) {
+//
+//    }
+//
+//    @Override
+//    public void onStopTrackingTouch(SeekBar seekBar) {
+//
+//    }
+//
+//    @Override
+//    public void onValueSelected(Entry e, Highlight h) {
+//
+//    }
+//
+//    @Override
+//    public void onNothingSelected() {
+//
+//    }
+//
+//
+//    // Plotting
+//
+//    protected String[] mMonths = new String[] {
+//            "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dec"
+//    };
+//
+//    protected String[] mParties = new String[] {
+//            "Party A", "Party B", "Party C", "Party D", "Party E", "Party F", "Party G", "Party H",
+//            "Party I", "Party J", "Party K", "Party L", "Party M", "Party N", "Party O", "Party P",
+//            "Party Q", "Party R", "Party S", "Party T", "Party U", "Party V", "Party W", "Party X",
+//            "Party Y", "Party Z"
+//    };
+//
+//    protected Typeface mTfRegular;
+//    protected Typeface mTfLight;
+//
+//
+//    protected float getRandom(float range, float startsfrom) {
+//        return (float) (Math.random() * range) + startsfrom;
+//    }
+////
+////    @Override
+////    public void onBackPressed() {
+////
+////        super.onBackPressed();
+////    }
+//
+//
     private void setData(int count, float range) {
 
         float start = 1f;
@@ -413,7 +442,7 @@ public class StatsActivity extends AppCompatActivity implements OnDataPointListe
 
             BarData data = new BarData(dataSets);
             data.setValueTextSize(10f);
-            data.setValueTypeface(mTfLight);
+            //data.setValueTypeface(mTfLight);
             data.setBarWidth(0.9f);
 
             mChart.setData(data);
@@ -425,6 +454,10 @@ public class StatsActivity extends AppCompatActivity implements OnDataPointListe
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
+            case android.R.id.home: {
+                onBackPressed();
+                break;
+            }
             case R.id.actionToggleValues: {
                 for (IDataSet set : mChart.getData().getDataSets())
                     set.setDrawValues(!set.isDrawValuesEnabled());
