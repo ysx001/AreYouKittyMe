@@ -16,7 +16,9 @@ package com.example.android.areyoukittyme;
         import android.view.View.OnDragListener;
         import android.view.View.OnTouchListener;
         import android.view.ViewGroup;
+        import android.widget.BaseAdapter;
         import android.widget.Button;
+        import android.widget.GridView;
         import android.widget.ImageView;
         import android.widget.LinearLayout;
         import android.view.View.OnClickListener;
@@ -61,13 +63,15 @@ public class StoreActivity extends AppCompatActivity {
     }
 
     private void addItemToStore() {
-        LinearLayout storeInventory = (LinearLayout) findViewById(R.id.topleft);
-        ImageView view = new ImageView(this);
-        view.setImageResource(R.drawable.fish);
-        view.setOnTouchListener(new MyTouchListener());
-        LinearLayout.LayoutParams parms = new LinearLayout.LayoutParams(170, 170);
-        view.setLayoutParams(parms);
-        storeInventory.addView(view);
+        for (Item item: this.theStore.getItemList()) {
+            // the linear layout for store inventory
+            GridView storeInventory = (GridView) findViewById(R.id.topleft);
+            LinearLayout.LayoutParams parms = new LinearLayout.LayoutParams(170, 170);
+            storeInventory.setAdapter(new ImageAdapter(this));
+        }
+
+
+//        storeInventory.addView(view);
     }
 
     private final class MyClickListener implements OnClickListener {
@@ -129,10 +133,10 @@ public class StoreActivity extends AppCompatActivity {
 //                    lbl.setText(str);
 
                     View view = (View) event.getLocalState();
-                    ViewGroup owner = (ViewGroup) view.getParent();
+                    GridView owner = (GridView) view.getParent();
                     owner.removeView(view);
-                    LinearLayout container = (LinearLayout) v;
-                    container.addView(view);
+                    GridView container = (GridView) v;
+//                    container.addView(view);
                     view.setVisibility(View.VISIBLE);
                     break;
                 case DragEvent.ACTION_DRAG_ENDED:
@@ -143,4 +147,59 @@ public class StoreActivity extends AppCompatActivity {
             return true;
         }
     }
-}
+
+    public class ImageAdapter extends BaseAdapter {
+        private Context mContext;
+
+        public ImageAdapter(Context c) {
+            mContext = c;
+        }
+
+        public int getCount() {
+            return mThumbIds.length;
+        }
+
+        public Object getItem(int position) {
+            return null;
+        }
+
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        // create a new ImageView for each item referenced by the Adapter
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ImageView imageView;
+            if (convertView == null) {
+                // if it's not recycled, initialize some attributes
+                imageView = new ImageView(mContext);
+                imageView.setLayoutParams(new GridView.LayoutParams(170, 170));
+                imageView.setOnTouchListener(new MyTouchListener());
+                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                imageView.setPadding(8, 8, 8, 8);
+            } else {
+                imageView = (ImageView) convertView;
+            }
+
+            imageView.setImageResource(mThumbIds[position]);
+            return imageView;
+        }
+
+        // references to our images
+        private Integer[] mThumbIds = {
+                R.drawable.sample_2, R.drawable.sample_3,
+                R.drawable.sample_4, R.drawable.sample_5,
+                R.drawable.sample_6, R.drawable.sample_7,
+                R.drawable.sample_0, R.drawable.sample_1,
+                R.drawable.sample_2, R.drawable.sample_3,
+                R.drawable.sample_4, R.drawable.sample_5,
+                R.drawable.sample_6, R.drawable.sample_7,
+                R.drawable.sample_0, R.drawable.sample_1,
+                R.drawable.sample_2, R.drawable.sample_3,
+                R.drawable.sample_4, R.drawable.sample_5,
+                R.drawable.sample_6, R.drawable.sample_7
+        };
+    }
+
+
+    }
