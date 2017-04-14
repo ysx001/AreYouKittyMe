@@ -21,7 +21,6 @@ import static android.app.PendingIntent.getActivity;
 
 public class TimerActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private Button testNotificationButton;
 
     private TextView hourCountdown;
     private TextView minCountdown;
@@ -64,6 +63,15 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
 
         // enable back button to main page
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
+    }
+
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        NotificationUtils.remindUserSwitchBack(this);
 
     }
 
@@ -257,14 +265,5 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
         this.secCountdown.setText(String.format("%02d", this.second));
     }
 
-    // triggers notification for testing
-    public void testNotification(View view) {
-        NotificationUtils.remindUserSwitchBack(this);
-    }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        NotificationUtils.remindUserSwitchBack(this);
-    }
 }
