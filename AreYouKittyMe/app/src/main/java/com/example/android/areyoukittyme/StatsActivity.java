@@ -49,7 +49,10 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
         OnChartValueSelectedListener{
 
     private final int day = 1;
-    private final int week = 7;
+    // 52 weeks in a year
+    private final int week = 52;
+    // 12 month in a year
+    private final int month = 12;
     private final int year = 365;
 
     public final int[] STEP_COLORS = { R.color.colorAccent };
@@ -57,7 +60,7 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
     public final int[] VOCAB_COLORS = { R.color.colorAccentDark};
 
 
-    private ArrayList<ArrayList<Double>> dataArray = generateData(7, 30.0);
+    private ArrayList<ArrayList<Double>> dataArray = generateData(year, 30.0);
 
 
     protected LineChart monthChart;
@@ -112,9 +115,9 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
         monthChart.setBackgroundColor(Color.LTGRAY);
 
         // add data
-        setLineData(this.dataArray);
+        setLineData(this.dataArray, 0);
 
-        monthChart.animateX(2500);
+        monthChart.animateX(2000);
 
         // get the legend (only possible after setting data)
         Legend lMonth = monthChart.getLegend();
@@ -140,16 +143,16 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
         YAxis leftMonthAxis = monthChart.getAxisLeft();
 //        leftMonthAxis.setTypeface(mTfLight);
         leftMonthAxis.setTextColor(ColorTemplate.getHoloBlue());
-        leftMonthAxis.setAxisMaximum(200f);
-        leftMonthAxis.setAxisMinimum(0f);
+//        leftMonthAxis.setAxisMaximum(200f);
+        //leftMonthAxis.setAxisMinimum(0f);
         leftMonthAxis.setDrawGridLines(true);
         leftMonthAxis.setGranularityEnabled(true);
 
         YAxis rightMonthAxis = monthChart.getAxisRight();
 //        rightMonthAxis.setTypeface(mTfLight);
         rightMonthAxis.setTextColor(Color.RED);
-        rightMonthAxis.setAxisMaximum(900);
-        rightMonthAxis.setAxisMinimum(0);
+//        rightMonthAxis.setAxisMaximum(900);
+        //rightMonthAxis.setAxisMinimum(0);
         rightMonthAxis.setDrawGridLines(false);
         rightMonthAxis.setDrawZeroLine(false);
         rightMonthAxis.setGranularityEnabled(false);
@@ -177,6 +180,7 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
         weekChart.setPinchZoom(false);
 
         weekChart.setDrawGridBackground(false);
+        weekChart.animateX(2000);
         // weekChart.setDrawYLabels(false);
 
         IAxisValueFormatter xAxisFormatter = new DayAxisValueFormatter(weekChart);
@@ -196,7 +200,7 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
         //leftWeekAxis.setTypeface(mTfLight);
 
 
-        leftWeekAxis.setLabelCount(8, false);
+        leftWeekAxis.setLabelCount(8, true);
         leftWeekAxis.setValueFormatter(weekAxisFormat);
         leftWeekAxis.setPosition(YAxisLabelPosition.OUTSIDE_CHART);
         leftWeekAxis.setSpaceTop(15f);
@@ -206,7 +210,7 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
         // Set Right Axis for focus time
         YAxis rightWeekAxis = weekChart.getAxisRight();
 
-        rightWeekAxis.setDrawGridLines(false);
+        rightWeekAxis.setDrawGridLines(true);
         //rightWeekAxis.setTypeface(mTfLight);
         rightWeekAxis.setLabelCount(8, false);
         rightWeekAxis.setValueFormatter(weekAxisFormat);
@@ -231,14 +235,14 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
         mv.setChartView(weekChart); // For bounds control
         weekChart.setMarker(mv); // Set the marker to the chart
 
-        setBarData(this.dataArray);
+        setBarData(this.dataArray, 0);
 
 
         // setting data
-        mSeekBarWeek.setProgress(10);
-        mSeekBarMonth.setProgress(12);
+        mSeekBarWeek.setProgress(0);
+        mSeekBarMonth.setProgress(0);
 
-        mSeekBarMonth.setMax(year);
+        mSeekBarMonth.setMax(month);
         mSeekBarWeek.setMax(week);
 
         mSeekBarWeek.setOnSeekBarChangeListener(this);
@@ -287,23 +291,23 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
         return data;
     }
 
-    private void setLineData(ArrayList<ArrayList<Double>> dataArray) {
+    private void setLineData(ArrayList<ArrayList<Double>> dataArray, int start) {
 
 
         ArrayList<Entry> stepCounts = new ArrayList<>();
         ArrayList<Entry> focusTime = new ArrayList<>();
         ArrayList<Entry> vocabTime = new ArrayList<>();
 
-        for (int i = 0; i < dataArray.get(0).size(); i++) {
-            stepCounts.add(new Entry(i, dataArray.get(0).get(i).floatValue()));
+        for (int i = start ; i < start + 30; i++) {
+            stepCounts.add(new Entry(i - start, dataArray.get(0).get(i).floatValue()));
         }
 
-        for (int i = 0; i < dataArray.get(1).size(); i++) {
-            focusTime.add(new Entry(i, dataArray.get(1).get(i).floatValue()));
+        for (int i = start; i < start + 30; i++) {
+            focusTime.add(new Entry(i - start, dataArray.get(1).get(i).floatValue()));
         }
 
-        for (int i = 0; i < dataArray.get(2).size(); i++) {
-            vocabTime.add(new Entry(i, dataArray.get(2).get(i).floatValue()));
+        for (int i = start; i < start + 30; i++) {
+            vocabTime.add(new Entry(i - start, dataArray.get(2).get(i).floatValue()));
         }
 
 
@@ -332,6 +336,7 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
             stepSet.setFillColor(Color.BLUE);
             stepSet.setHighLightColor(Color.BLUE);
             stepSet.setDrawCircleHole(false);
+            stepSet.setDrawValues(false);
             //set1.setFillFormatter(new MyFillFormatter(0f));
             //set1.setDrawHorizontalHighlightIndicator(false);
             //set1.setVisible(false);
@@ -348,6 +353,7 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
             focusSet.setFillColor(Color.RED);
             focusSet.setDrawCircleHole(false);
             focusSet.setHighLightColor(Color.rgb(244, 117, 117));
+            focusSet.setDrawValues(false);
             //set2.setFillFormatter(new MyFillFormatter(900f));
 
             vocabSet = new LineDataSet(vocabTime, "Vocab Time");
@@ -360,6 +366,7 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
             vocabSet.setFillColor(ColorTemplate.colorWithAlpha(Color.YELLOW, 200));
             vocabSet.setDrawCircleHole(false);
             vocabSet.setHighLightColor(Color.rgb(244, 117, 117));
+            vocabSet.setDrawValues(false);
 
             // create a data object with the datasets
             LineData data = new LineData(stepSet, focusSet, vocabSet);
@@ -375,9 +382,9 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
 
 
 
-    private void setBarData(ArrayList<ArrayList<Double>> dataArray) {
+    private void setBarData(ArrayList<ArrayList<Double>> dataArray, int start) {
 
-        float start = 1f;
+        //float start = 1f;
 
 
 
@@ -385,12 +392,12 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
         ArrayList<BarEntry> focusTime = new ArrayList<>();
         ArrayList<BarEntry> vocabTime = new ArrayList<>();
 
-        for (int i = 0; i < dataArray.get(0).size(); i++) {
+        for (int i = start; i < start + 7; i++) {
             float stepVal = dataArray.get(0).get(i).floatValue();
             float focusVal = dataArray.get(1).get(i).floatValue();
             float vocabVal = dataArray.get(2).get(i).floatValue();
 
-            stepCounts.add(new BarEntry(i, new float[] {stepVal, focusVal, vocabVal}));
+            stepCounts.add(new BarEntry(i - start, new float[] {stepVal, focusVal, vocabVal}));
         }
 //
 //        for (int i = 0; i < dataArray.get(1).size(); i++) {
@@ -549,10 +556,10 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
         tvMonth.setText("" + (mSeekBarMonth.getProgress()));
         tvWeek.setText("" + (mSeekBarWeek.getProgress()));
 
-       // generateData(7 , Double.valueOf(mSeekBarMonth.getProgress()));
+        setLineData(dataArray , mSeekBarMonth.getProgress());
         monthChart.invalidate();
 
-     //   generateData(7 , Double.valueOf(mSeekBarWeek.getProgress()));
+        setBarData(dataArray , mSeekBarWeek.getProgress());
         weekChart.invalidate();
     }
 
