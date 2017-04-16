@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
             public void onClick(View v) {
 
                 // This is the class we want to start and open when button is clicked
-                Class destActivity = StatsActivity.class;
+                Class destActivity = StatsDayActivity.class;
 
                 // create Intent that will start the activity
                 Intent startStatsIntent = new Intent(context, destActivity);
