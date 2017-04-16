@@ -414,5 +414,4 @@ public class StatsDayActivity extends AppCompatActivity implements OnChartValueS
     public void onNothingSelected() {
     };
 
-
 }
