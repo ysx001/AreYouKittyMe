@@ -14,6 +14,7 @@ import android.support.v4.content.ContextCompat;
 
 import com.example.android.areyoukittyme.MainActivity;
 import com.example.android.areyoukittyme.R;
+import com.example.android.areyoukittyme.TimerActivity;
 
 /**
  * Created by sarah on 4/9/17.
@@ -37,7 +38,7 @@ public class NotificationUtils {
         // - sets the notification defaults to vibrate
         // - uses the content intent returned by the contentIntent helper method for the contentIntent
         // - automatically cancels the notification when the notification is clicked
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context)
+        final NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context)
                 .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
                 .setSmallIcon(R.drawable.ic_notifications_black_24dp)
                 .setContentTitle(context.getString(R.string.reminder_notification_title))
@@ -61,6 +62,10 @@ public class NotificationUtils {
         // Trigger the notification by calling notify on the NotificationManager.
         // Pass in a unique ID of your choosing for the notification and notificationBuilder.build()
         notificationManager.notify(REMINDER_NOTIFICATION_ID, notificationBuilder.build());
+
+        final int[] countdown = {5};
+
+
     }
 
     /**
@@ -73,7 +78,7 @@ public class NotificationUtils {
      */
     private static PendingIntent contentIntent(Context context) {
         // Create an intent that opens up the MainActivity
-        Intent startActivityIntent = new Intent(context, MainActivity.class);
+        Intent startActivityIntent = new Intent(context, TimerActivity.class);
 
         // Has the flag FLAG_UPDATE_CURRENT, so that if the intent is created again, keep the
         // intent but update the data
