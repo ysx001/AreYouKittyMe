@@ -1,16 +1,24 @@
 package com.example.android.areyoukittyme;
 
+import android.app.Activity;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.graphics.Point;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,17 +62,12 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
     private static final String AUTH_PENDING = "auth_state_pending";
     private boolean authInProgress = false;
     private GoogleApiClient mApiClient;
-
     private Context context;
-
     private AccountHeader header;
     private Drawer drawer;
-
     private TextView displayCatName;
-    private Button statsButton;
-    private Button vocabButton;
-    private Button storeButton;
-    private Button timerButton;
+    Point p;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,10 +78,7 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
         context = MainActivity.this;
 
         displayCatName = (TextView) findViewById(R.id.cat_name_display);
-        statsButton = (Button) findViewById(R.id.stats_button);
-        vocabButton = (Button) findViewById(R.id.vocab_button);
-        storeButton = (Button) findViewById(R.id.store_button);
-        timerButton = (Button) findViewById(R.id.timer_button);
+
         findViewById(R.id.miaomiaomiao).setOnTouchListener(new MyTouchListener());
 
 
@@ -87,83 +87,6 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
 
         String catName = startingIntent.getStringExtra(Intent.EXTRA_TEXT);
         displayCatName.setText(catName);
-
-
-        // Setting an OnClickLister for the statsButton
-        statsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                // This is the class we want to start and open when button is clicked
-                Class destActivity = StatsActivity.class;
-
-                // create Intent that will start the activity
-                Intent startStatsIntent = new Intent(context, destActivity);
-
-                startActivity(startStatsIntent);
-
-            }
-        });
-
-        // Setting an OnClickLister for the vocabButton
-        vocabButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                // This is the class we want to start and open when button is clicked
-                Class destActivity = VocabActivity.class;
-
-                // create Intent that will start the activity
-                Intent startMainActivityIntent = new Intent(context, destActivity);
-
-                startActivity(startMainActivityIntent);
-
-            }
-        });
-
-        // Setting an OnClickLister for the storeButton
-        storeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                // This is the class we want to start and open when button is clicked
-                Class destActivity = StoreActivity.class;
-
-                // create Intent that will start the activity
-                Intent startMainActivityIntent = new Intent(context, destActivity);
-
-                startActivity(startMainActivityIntent);
-
-            }
-        });
-
-        // Setting an OnClickLister for the timerButton
-        timerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                // This is the class we want to start and open when button is clicked
-                Class destActivity = TimerActivity.class;
-
-                // create Intent that will start the activity
-                Intent startMainActivityIntent = new Intent(context, destActivity);
-
-                startActivity(startMainActivityIntent);
-
-            }
-        });
-
-        storeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                // This is the class we want to start and open when button is clicked
-                Class destActivity = StoreActivity.class;
-                // create Intent that will start the activity
-                Intent startMainActivityIntent = new Intent(context, destActivity);
-                startActivity(startMainActivityIntent);
-            }
-        });
 
         final IProfile profile = new ProfileDrawerItem().withName(catName).withIcon(GoogleMaterial.Icon.gmd_pets);
 
@@ -253,7 +176,7 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
     protected void onStart() {
         super.onStart();
         // Connecting to google's backend
-        mApiClient.connect();
+//        mApiClient.connect();
     }
 
     @Override
@@ -391,12 +314,11 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
             });
         }
     }
+
     private final class MyTouchListener implements View.OnTouchListener {
         public boolean onTouch(View view, MotionEvent motionEvent) {
             if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-//                ClipData data = ClipData.newPlainText("", "");
-//                Item item = view.getId();
-                ClipData data = ClipData.newPlainText("Item price", "80");
+                showPopup(MainActivity.this, p);
                 return true;
             } else {
                 return false;
@@ -404,5 +326,49 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
         }
     }
 
+    private void showPopup(final Activity context, Point p) {
+        int popupWidth = 700;
+        int popupHeight = 700;
 
+        // Inflate the popup_layout.xml
+        LinearLayout viewGroup = (LinearLayout) context.findViewById(R.id.popup);
+        LayoutInflater layoutInflater = (LayoutInflater) context
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View layout = layoutInflater.inflate(R.layout.popup_layout, viewGroup);
+
+        // Creating the PopupWindow
+        final PopupWindow popup = new PopupWindow(context);
+        popup.setContentView(layout);
+        popup.setWidth(popupWidth);
+        popup.setHeight(popupHeight);
+        popup.setFocusable(true);
+
+        // Some offset to align the popup a bit to the right, and a bit down, relative to button's position.
+        int OFFSET_X = 30;
+        int OFFSET_Y = 30;
+
+        // Clear the default translucent background
+        popup.setBackgroundDrawable(new BitmapDrawable());
+
+        // Displaying the popup at the specified location, + offsets.
+        popup.showAtLocation(layout, Gravity.NO_GRAVITY, p.x + OFFSET_X, p.y + OFFSET_Y);
+
+        // Getting a reference to Close button, and close the popup when clicked.
+//        Button close = (Button) layout.findViewById(R.id.close);
+
+    }
+    public void onWindowFocusChanged(boolean hasFocus) {
+
+        int[] location = new int[2];
+        ImageView button = (ImageView) findViewById(R.id.miaomiaomiao);
+
+        // Get the x, y location and store it in the location[] array
+        // location[0] = x, location[1] = y.
+        button.getLocationOnScreen(location);
+
+        //Initialize the Point with x, and y positions
+        p = new Point();
+        p.x = location[0];
+        p.y = location[1];
+    }
 }
