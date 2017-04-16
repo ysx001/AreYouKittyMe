@@ -16,7 +16,7 @@
         android:text="This is default text. Hopefully it changes."
         android:textSize="30sp"/>
 
-    <Button
+    <!--<Button
         android:id="@+id/stats_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -24,9 +24,8 @@
         android:layout_centerHorizontal="true"
         android:background="#F1C3D0"
         android:elevation="0dp"
-        android:text="Stats"/>
-        android:layout_marginTop="46dp"
-        android:text="Stats" />
+        android:text="Stats"
+        android:layout_marginTop="46dp" />
 
     <Button
         android:id="@+id/store_button"
@@ -63,7 +62,7 @@
         android:textAlignment="center"
         android:text="Vocab"
         android:layout_below="@+id/timer_button"
-        android:layout_alignStart="@+id/timer_button"/>
+        android:layout_alignStart="@+id/timer_button"/>-->
 
     <ImageView
         android:id="@+id/miaomiaomiao"

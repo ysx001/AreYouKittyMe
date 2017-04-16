@@ -80,10 +80,10 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
         context = MainActivity.this;
 
         displayCatName = (TextView) findViewById(R.id.cat_name_display);
-        statsButton = (Button) findViewById(R.id.stats_button);
+        /*statsButton = (Button) findViewById(R.id.stats_button);
         vocabButton = (Button) findViewById(R.id.vocab_button);
         storeButton = (Button) findViewById(R.id.store_button);
-        timerButton = (Button) findViewById(R.id.timer_button);
+        timerButton = (Button) findViewById(R.id.timer_button);*/
         findViewById(R.id.miaomiaomiao).setOnTouchListener(new MyTouchListener());
 
 
@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
         displayCatName.setText(catName);
 
 
-        // Setting an OnClickLister for the statsButton
+        /*// Setting an OnClickLister for the statsButton
         statsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -170,7 +170,7 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
                 Intent startMainActivityIntent = new Intent(context, destActivity);
                 startActivity(startMainActivityIntent);
             }
-        });
+        });*/
 
         final IProfile profile = new ProfileDrawerItem().withName(catName).withIcon(GoogleMaterial.Icon.gmd_pets);
 
@@ -233,6 +233,7 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
                             }
 
                             if (intent != null) {
+                                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                                 startActivity(intent);
                             }
                         }
