@@ -44,12 +44,6 @@ public class StoreActivity extends AppCompatActivity {
     public static ArrayList<Integer> priceList;
     public static ArrayList<TextView> amountList;
 
-    Button itemDogPlus;
-    Button itemDogMinus;
-    Button itemFishPlus;
-    Button itemFishMinus;
-
-
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,14 +52,12 @@ public class StoreActivity extends AppCompatActivity {
         setContentView(R.layout.activity_store);
         priceList = new ArrayList<>();
         amountList = new ArrayList<>();
-
         //TODO: find a way to store the model
         this.user = new User(100, new ArrayList<Item>());
         this.theStore = new Store();
-
         populateStore();
-
     }
+
 
     private void populateStore() {
         LinearLayout storeContainer = (LinearLayout) findViewById(R.id.storeContainer);
@@ -134,11 +126,17 @@ public class StoreActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             String tag = (String) v.getTag();
-            if (tag.compareToIgnoreCase("+0") == 0) {
-                String incremented = incrementString(StoreActivity.amountList.get(0).getText().toString(), 1);
-                StoreActivity.amountList.get(0).setText(incremented);
-            }
+            char sign = tag.charAt(0);
+            int pos = Character.getNumericValue(tag.charAt(1));
 
+            if (sign == '+') {
+                String incremented = incrementString(StoreActivity.amountList.get(pos).getText().toString(), 1);
+                StoreActivity.amountList.get(pos).setText(incremented);
+            }
+            else if (sign == '-') {
+                String incremented = incrementString(StoreActivity.amountList.get(pos).getText().toString(), -1);
+                StoreActivity.amountList.get(pos).setText(incremented);
+            }
 //            if(v.getId() == R.id.itemDogPlus) {
 //                StoreActivity.setItemDogAmount(StoreActivity.getItemDogAmount()+1);
 //                TextView lbl = (TextView) findViewById(R.id.itemDogAmount);
@@ -165,7 +163,10 @@ public class StoreActivity extends AppCompatActivity {
     }
 
 
+
+
 }
+
 //package com.example.android.areyoukittyme;
 //
 //
