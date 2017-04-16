@@ -52,13 +52,20 @@ public class StoreActivity extends AppCompatActivity {
         setContentView(R.layout.activity_store);
         priceList = new ArrayList<>();
         amountList = new ArrayList<>();
+
+        findViewById(R.id.checkoutBtn).setOnClickListener(new MyClickListener());
+
         //TODO: find a way to store the model
         this.user = new User(100, new ArrayList<Item>());
         this.theStore = new Store();
         populateStore();
     }
+    //TODO: implement alert box when not enough money
+    //TODO: add all the items into player's inventory(hash map)
 
-
+    private static void checkout() {
+        //TODO: implement checkout method.
+    }
     private void populateStore() {
         LinearLayout storeContainer = (LinearLayout) findViewById(R.id.storeContainer);
         LinearLayout hContainer = new LinearLayout(this);
@@ -126,17 +133,26 @@ public class StoreActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             String tag = (String) v.getTag();
-            char sign = tag.charAt(0);
-            int pos = Character.getNumericValue(tag.charAt(1));
-
-            if (sign == '+') {
-                String incremented = incrementString(StoreActivity.amountList.get(pos).getText().toString(), 1);
-                StoreActivity.amountList.get(pos).setText(incremented);
+            char sign =  '\u0000' ;
+            int pos = -1;
+            if (tag != null) {
+                sign = tag.charAt(0);
+                pos = Integer.parseInt(tag.substring(1));
+            }
+            if (v.getId() == R.id.checkoutBtn) {
+                StoreActivity.checkout();
+            }
+            else if (sign == '+') {
+                    String incremented = incrementString(StoreActivity.amountList.get(pos).getText().toString(), 1);
+                    StoreActivity.amountList.get(pos).setText(incremented);
             }
             else if (sign == '-') {
-                String incremented = incrementString(StoreActivity.amountList.get(pos).getText().toString(), -1);
-                StoreActivity.amountList.get(pos).setText(incremented);
+                if (Integer.parseInt(StoreActivity.amountList.get(pos).getText().toString()) != 0) {
+                    String incremented = incrementString(StoreActivity.amountList.get(pos).getText().toString(), -1);
+                    StoreActivity.amountList.get(pos).setText(incremented);
+                }
             }
+
 //            if(v.getId() == R.id.itemDogPlus) {
 //                StoreActivity.setItemDogAmount(StoreActivity.getItemDogAmount()+1);
 //                TextView lbl = (TextView) findViewById(R.id.itemDogAmount);

@@ -1,33 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.example.android.areyoukittyme.StoreActivity">
-    <!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
-    <!--    android:layout_width="match_parent"-->
-    <!--    android:layout_height="match_parent"-->
-    <!--    android:paddingLeft="16dp"-->
-    <!--    android:paddingRight="16dp" >-->
 
-            <ScrollView
-            android:layout_width="395dp"
-            android:layout_height="587dp"
-            tools:layout_editor_absoluteX="8dp"
-            tools:layout_editor_absoluteY="8dp">
+    <!--<android.support.constraint.ConstraintLayout-->
+    <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+    <!--xmlns:tools="http://schemas.android.com/tools"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--tools:context="com.example.android.areyoukittyme.StoreActivity">-->
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/parent"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent">
+
+
+        <ScrollView
+            android:id = "@+id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
             <LinearLayout
-                android:id="@+id/storeContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+                <LinearLayout
+                    android:id="@+id/storeContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                </LinearLayout>
+                <TextView
+                    android:layout_height="60dp"
+                    android:layout_width="match_parent"
+                    android:background="@drawable/shape"/>
+
 
             </LinearLayout>
+
         </ScrollView>
-    <!--</RelativeLayout>-->
-</android.support.constraint.ConstraintLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/shape"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/totalAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="TOTAL: 0" />
+
+        <TextView
+            android:id="@+id/myCash"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="CatCash: #" />
+
+        <Button
+            android:id="@+id/checkoutBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Checkout" />
+    </LinearLayout>
+
+    </RelativeLayout>
+
+
+
+
+<!--</android.support.constraint.ConstraintLayout>-->
     <!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
     <!--android:layout_width="395dp"-->
     <!--android:layout_height="587dp"-->
