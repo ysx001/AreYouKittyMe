@@ -1,12 +1,16 @@
 package com.example.android.areyoukittyme;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.RectF;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,8 +31,26 @@ import com.github.mikephil.charting.utils.MPPointF;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StatsDayActivity extends AppCompatActivity implements SeekBar.OnSeekBarChangeListener,
-        OnChartValueSelectedListener {
+public class StatsDayActivity extends AppCompatActivity implements OnChartValueSelectedListener {
+
+    private Button monthweekButton;
+
+    private Context context;
+
+    private final int day = 1;
+    // 52 weeks in a year
+    private final int week = 52;
+    // 12 month in a year
+    private final int month = 12;
+    private final int year = 365;
+
+    public final int[] STEP_COLORS = { R.color.colorAccent };
+    public final int[] FOCUS_COLORS = { R.color.colorAccentLight};
+    public final int[] VOCAB_COLORS = { R.color.colorAccentDark};
+
+
+    private ArrayList<ArrayList<Double>> dataArray = generateData(year, 30.0);
+
 
     protected HorizontalBarChart dayChart;
     private SeekBar mSeekBarX, mSeekBarY;
@@ -38,11 +60,30 @@ public class StatsDayActivity extends AppCompatActivity implements SeekBar.OnSee
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stats_day);
-        tvX = (TextView) findViewById(R.id.tvXMax);
-        tvY = (TextView) findViewById(R.id.tvYMax);
 
-        mSeekBarX = (SeekBar) findViewById(R.id.seekBar1);
-        mSeekBarY = (SeekBar) findViewById(R.id.seekBar2);
+        // Store the context variable
+        context = StatsDayActivity.this;
+
+        monthweekButton = (Button) findViewById(R.id.monthWeekButton);
+
+
+        // Setting an OnClickLister for the statsButton
+        monthweekButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                // This is the class we want to start and open when button is clicked
+                Class destActivity = StatsActivity.class;
+
+                // create Intent that will start the activity
+                Intent startStatsIntent = new Intent(context, destActivity);
+
+                startActivity(startStatsIntent);
+
+            }
+        });
+
+        // Plotting
 
         dayChart = (HorizontalBarChart) findViewById(R.id.dayChart);
         dayChart.setOnChartValueSelectedListener(this);
@@ -62,7 +103,7 @@ public class StatsDayActivity extends AppCompatActivity implements SeekBar.OnSee
         dayChart.setPinchZoom(false);
 
         // draw shadows for each bar that show the maximum value
-        // dayChart.setDrawBarShadow(true);
+//         dayChart.setDrawBarShadow(true);
 
         dayChart.setDrawGridBackground(false);
 
@@ -87,16 +128,12 @@ public class StatsDayActivity extends AppCompatActivity implements SeekBar.OnSee
         yr.setAxisMinimum(0f); // this replaces setStartAtZero(true)
 //        yr.setInverted(true);
 
-        setData(3, 50);
+        // add data
+        setBarData(this.dataArray);
+
         dayChart.setFitBars(true);
         dayChart.animateY(2500);
 
-        // setting data
-        mSeekBarY.setProgress(50);
-        mSeekBarX.setProgress(12);
-
-        mSeekBarY.setOnSeekBarChangeListener(this);
-        mSeekBarX.setOnSeekBarChangeListener(this);
 
         Legend l = dayChart.getLegend();
         l.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
@@ -167,7 +204,6 @@ public class StatsDayActivity extends AppCompatActivity implements SeekBar.OnSee
             case R.id.actionToggleBarBorders: {
                 for (IBarDataSet set : dayChart.getData().getDataSets())
                     ((BarDataSet)set).setBarBorderWidth(set.getBarBorderWidth() == 1.f ? 0.f : 1.f);
-
                 dayChart.invalidate();
                 break;
             }
@@ -197,56 +233,113 @@ public class StatsDayActivity extends AppCompatActivity implements SeekBar.OnSee
         return true;
     }
 
-    @Override
-    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 
-        tvX.setText("" + (mSeekBarX.getProgress() + 1));
-        tvY.setText("" + (mSeekBarY.getProgress()));
+    private ArrayList<ArrayList<Double>> generateData(int count, Double range) {
 
-        setData(mSeekBarX.getProgress() + 1, mSeekBarY.getProgress());
-        dayChart.setFitBars(true);
-        dayChart.invalidate();
-    }
-
-    @Override
-    public void onStartTrackingTouch(SeekBar seekBar) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void onStopTrackingTouch(SeekBar seekBar) {
-        // TODO Auto-generated method stub
-
-    }
-
-    private void setData(int count, float range) {
-
-        float barWidth = 9f;
-        float spaceForBar = 10f;
-        ArrayList<BarEntry> yVals1 = new ArrayList<BarEntry>();
+        ArrayList<ArrayList<Double>> data = new ArrayList<>();
+        ArrayList<Double> stepCounts = new ArrayList<>();
 
         for (int i = 0; i < count; i++) {
-            float val = (float) (Math.random() * range);
-            yVals1.add(new BarEntry(i * spaceForBar, val,
-                    getResources().getDrawable(R.drawable.star)));
+            Double mult = range ;
+            Double val = (Math.random() * mult) + 50;
+            stepCounts.add(val);
         }
 
-        BarDataSet set1;
+        ArrayList<Double> focusTime = new ArrayList<>();
+
+        for (int i = 0; i < count; i++) {
+            Double mult = range / 2.0;
+            Double val = (Math.random() * mult) + 60;
+            focusTime.add(val);
+//            if(i == 10) {
+//                yVals2.add(new Entry(i, val + 50));
+//            }
+        }
+
+        ArrayList<Double> vocabTime = new ArrayList<>();
+
+        for (int i = 0; i < count; i++) {
+            Double mult = range / 5.0;
+            Double val = (Math.random() * mult) + 100;
+            vocabTime.add(val);
+        }
+
+        data.add(stepCounts);
+        data.add(focusTime);
+        data.add(vocabTime);
+
+        return data;
+    }
+
+    private int[] getColors() {
+
+        int stacksize = 3;
+
+        // have as many colors as stack-values per entry
+        int[] colors = new int[stacksize];
+
+        colors[0] = STEP_COLORS[0];
+        colors[1] = FOCUS_COLORS[0];
+        colors[2] = VOCAB_COLORS[0];
+
+        return colors;
+    }
+
+    private void setBarData(ArrayList<ArrayList<Double>> dataArray) {
+
+        float barWidth = 1f;
+        float spaceForBar = 2f;
+
+        ArrayList<BarEntry> stepCounts = new ArrayList<>();
+//        ArrayList<BarEntry> focusTime = new ArrayList<>();
+//        ArrayList<BarEntry> vocabTime = new ArrayList<>();
+
+        int stepSize = dataArray.get(0).size();
+        int focusSize = dataArray.get(1).size();
+        int vocabSize = dataArray.get(2).size();
+
+        float stepVal = dataArray.get(0).get(stepSize - 1).floatValue();
+        float focusVal = dataArray.get(1).get(focusSize - 1).floatValue();
+        float vocabVal = dataArray.get(2).get(vocabSize - 1).floatValue();
+
+        stepCounts.add(new BarEntry(0 * spaceForBar , stepVal));
+        stepCounts.add(new BarEntry(1 * spaceForBar , focusVal));
+        stepCounts.add(new BarEntry(2 * spaceForBar , vocabVal));
+
+        BarDataSet stepSet, focusSet, vocabSet;
 
         if (dayChart.getData() != null &&
                 dayChart.getData().getDataSetCount() > 0) {
-            set1 = (BarDataSet) dayChart.getData().getDataSetByIndex(0);
-            set1.setValues(yVals1);
+            stepSet = (BarDataSet) dayChart.getData().getDataSetByIndex(0);
+            stepSet.setValues(stepCounts);
+
+//
+//            focusSet = (BarDataSet) dayChart.getData().getDataSetByIndex(0);
+//            focusSet.setValues(focusTime);
+//
+//            vocabSet = (BarDataSet) dayChart.getData().getDataSetByIndex(0);
+//            vocabSet.setValues(vocabTime);
+
             dayChart.getData().notifyDataChanged();
             dayChart.notifyDataSetChanged();
         } else {
-            set1 = new BarDataSet(yVals1, "DataSet 1");
+            stepSet = new BarDataSet(stepCounts, "Step Count");
+            stepSet.setDrawIcons(false);
+//            stepSet.setColor(STEP_COLORS[0]);
+            stepSet.setColors(getColors(), StatsDayActivity.this);
 
-            set1.setDrawIcons(false);
+//            focusSet = new BarDataSet(focusTime, "Focus Time");
+//            focusSet.setDrawIcons(false);
+//            focusSet.setColor(FOCUS_COLORS[0]);
+//
+//            vocabSet = new BarDataSet(vocabTime, "Vocab Time");
+//            vocabSet.setDrawIcons(false);
+//            vocabSet.setColor(VOCAB_COLORS[0]);
 
             ArrayList<IBarDataSet> dataSets = new ArrayList<IBarDataSet>();
-            dataSets.add(set1);
+            dataSets.add(stepSet);
+//            dataSets.add(focusSet);
+//            dataSets.add(vocabSet);
 
             BarData data = new BarData(dataSets);
             data.setValueTextSize(10f);
@@ -255,6 +348,8 @@ public class StatsDayActivity extends AppCompatActivity implements SeekBar.OnSee
             dayChart.setData(data);
         }
     }
+
+
 
     protected RectF mOnValueSelectedRectF = new RectF();
     @SuppressLint("NewApi")

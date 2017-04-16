@@ -6,12 +6,16 @@ import com.example.android.areyoukittyme.plot.MyAxisValueFormatter;
 import com.example.android.areyoukittyme.plot.XYMarkerView;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.RectF;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
@@ -49,6 +53,10 @@ import com.github.mikephil.charting.utils.MPPointF;
 public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeListener,
         OnChartValueSelectedListener{
 
+    private Button dayButton;
+
+    private Context context;
+
     private final int day = 1;
     // 52 weeks in a year
     private final int week = 52;
@@ -78,7 +86,29 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stats);
-        
+
+
+        dayButton = (Button) findViewById(R.id.dayButton);
+
+        // Store the context variable
+        context = StatsActivity.this;
+
+
+        // Setting an OnClickLister for the statsButton
+        dayButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                // This is the class we want to start and open when button is clicked
+                Class destActivity = StatsDayActivity.class;
+
+                // create Intent that will start the activity
+                Intent startStatsIntent = new Intent(context, destActivity);
+
+                startActivity(startStatsIntent);
+
+            }
+        });
 
 //        mTfRegular = Typeface.createFromAsset(getAssets(), "OpenSans-Regular.ttf");
 //        mTfLight = Typeface.createFromAsset(getAssets(), "OpenSans-Light.ttf");
