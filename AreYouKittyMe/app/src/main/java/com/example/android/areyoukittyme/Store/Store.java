@@ -3,7 +3,10 @@ package com.example.android.areyoukittyme.Store;
 import com.example.android.areyoukittyme.Item.Asparagus;
 import com.example.android.areyoukittyme.Item.Avocado;
 import com.example.android.areyoukittyme.Item.Bacon;
+import com.example.android.areyoukittyme.Item.Candy;
+import com.example.android.areyoukittyme.Item.Corndog;
 import com.example.android.areyoukittyme.Item.Fish;
+import com.example.android.areyoukittyme.Item.Hamburger;
 import com.example.android.areyoukittyme.Item.Item;
 
 import java.util.ArrayList;
@@ -22,14 +25,9 @@ public class Store {
         this.itemList.add(new Asparagus());
         this.itemList.add(new Avocado());
         this.itemList.add(new Bacon());
-        this.itemList.add(new Fish());
-        this.itemList.add(new Asparagus());
-        this.itemList.add(new Avocado());
-        this.itemList.add(new Bacon());
-        this.itemList.add(new Fish());
-        this.itemList.add(new Asparagus());
-        this.itemList.add(new Avocado());
-        this.itemList.add(new Bacon());
+        this.itemList.add(new Hamburger());
+        this.itemList.add(new Corndog());
+        this.itemList.add(new Candy());
     }
 
     public ArrayList<Item> getItemList() {

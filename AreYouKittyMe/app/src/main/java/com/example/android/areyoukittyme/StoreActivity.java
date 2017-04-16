@@ -7,7 +7,10 @@ package com.example.android.areyoukittyme;
         import android.content.Intent;
         import android.graphics.drawable.Drawable;
         import android.os.Bundle;
+        import android.support.design.widget.BaseTransientBottomBar;
+        import android.support.design.widget.Snackbar;
         import android.support.v7.app.AppCompatActivity;
+        import android.support.v7.widget.DividerItemDecoration;
         import android.util.Log;
         import android.view.DragEvent;
         import android.view.Gravity;
@@ -37,12 +40,16 @@ package com.example.android.areyoukittyme;
 
 public class StoreActivity extends AppCompatActivity {
 
-    private User user;
+    private static User user;
     private Store theStore;
     private static int ItemDogAmount = 0;
     private static int itemFishAmount = 0;
     public static ArrayList<Integer> priceList;
     public static ArrayList<TextView> amountList;
+    public static int total = 0;
+    public static Snackbar mySnackbar;
+    public static TextView catCash;
+    public static TextView totalText;
 
     /** Called when the activity is first created. */
     @Override
@@ -54,18 +61,40 @@ public class StoreActivity extends AppCompatActivity {
         amountList = new ArrayList<>();
 
         findViewById(R.id.checkoutBtn).setOnClickListener(new MyClickListener());
+        View coordLayout = findViewById(R.id.coordinatorLayout);
+        mySnackbar = Snackbar.make(coordLayout, "Not Enough CatCash", BaseTransientBottomBar.LENGTH_SHORT);
 
         //TODO: find a way to store the model
         this.user = new User(100, new ArrayList<Item>());
         this.theStore = new Store();
         populateStore();
+
+        catCash = (TextView) findViewById(R.id.catCash);
+        catCash.setText(String.format("CatCash: %d", this.user.getCash()));
+        totalText = (TextView) findViewById(R.id.totalAmount);
     }
-    //TODO: implement alert box when not enough money
+
     //TODO: add all the items into player's inventory(hash map)
 
+
     private static void checkout() {
-        //TODO: implement checkout method.
+//        int total = 0;
+//        int price;
+//        int amount;
+        if (total > user.getCash()) {
+            mySnackbar.show();
+        }
+        else {
+            user.setCash(user.getCash() - total);
+            catCash.setText(String.format("CatCash: %d", user.getCash()));
+            total = 0;
+            totalText.setText(String.format("Total: %d", total));
+            for (int i = 0; i < StoreActivity.amountList.size(); i++) {
+                StoreActivity.amountList.get(i).setText(String.valueOf(0));
+            }
+        }
     }
+
     private void populateStore() {
         LinearLayout storeContainer = (LinearLayout) findViewById(R.id.storeContainer);
         LinearLayout hContainer = new LinearLayout(this);
@@ -82,19 +111,24 @@ public class StoreActivity extends AppCompatActivity {
             LinearLayout subContainer = new LinearLayout(this);
             subContainer.setOrientation(LinearLayout.VERTICAL);
             subContainer.setGravity(Gravity.CENTER);
+            //TODO: how to find the middle. try not to hard code the width of subcontainer
+            subContainer.setLayoutParams(new LinearLayout.LayoutParams(680,700));
             // setting image
             ImageView itemIcon = new ImageView(this);
             itemIcon.setImageResource(item.getId());
-            itemIcon.setLayoutParams(new LinearLayout.LayoutParams(700, 200));
+            itemIcon.setLayoutParams(new LinearLayout.LayoutParams(400, 400));
             subContainer.addView(itemIcon);
             // setting price tag
             TextView priceTag = new TextView(this);
+            LinearLayout.LayoutParams parms = new LinearLayout.LayoutParams(400, 170);
+            priceTag.setLayoutParams(parms);
             priceTag.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
             priceTag.setText(String.valueOf(item.getPrice()));
             this.priceList.add(item.getPrice());
             subContainer.addView(priceTag);
             // amount container
             LinearLayout amountContainer = new LinearLayout(this);
+            amountContainer.setGravity(Gravity.CENTER);
             amountContainer.setOrientation(LinearLayout.HORIZONTAL);
             Button minusBtn = new Button(this);
             minusBtn.setText("-");
@@ -108,6 +142,8 @@ public class StoreActivity extends AppCompatActivity {
             amountContainer.addView(plusBtn);
             minusBtn.setOnClickListener(new MyClickListener());
             plusBtn.setOnClickListener(new MyClickListener());
+            minusBtn.setLayoutParams(new LinearLayout.LayoutParams(200, 170));
+            plusBtn.setLayoutParams(new LinearLayout.LayoutParams(200, 170));
 
             tagPos = String.format("+%d", i);
             tagNeg = String.format("-%d", i);
@@ -139,17 +175,25 @@ public class StoreActivity extends AppCompatActivity {
                 sign = tag.charAt(0);
                 pos = Integer.parseInt(tag.substring(1));
             }
+
             if (v.getId() == R.id.checkoutBtn) {
                 StoreActivity.checkout();
             }
             else if (sign == '+') {
-                    String incremented = incrementString(StoreActivity.amountList.get(pos).getText().toString(), 1);
-                    StoreActivity.amountList.get(pos).setText(incremented);
+                String incremented = incrementString(StoreActivity.amountList.get(pos).getText().toString(), 1);
+                StoreActivity.amountList.get(pos).setText(incremented);
+                StoreActivity.total += StoreActivity.priceList.get(pos);
+                TextView t = (TextView) findViewById(R.id.totalAmount);
+                t.setText(String.format("Total: %d", StoreActivity.total));
+
             }
             else if (sign == '-') {
                 if (Integer.parseInt(StoreActivity.amountList.get(pos).getText().toString()) != 0) {
                     String incremented = incrementString(StoreActivity.amountList.get(pos).getText().toString(), -1);
                     StoreActivity.amountList.get(pos).setText(incremented);
+                    StoreActivity.total -= StoreActivity.priceList.get(pos);
+                    TextView t = (TextView) findViewById(R.id.totalAmount);
+                    t.setText(String.format("Total: %d", StoreActivity.total));
                 }
             }
 

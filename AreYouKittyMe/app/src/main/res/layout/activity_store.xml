@@ -7,6 +7,12 @@
     <!--android:layout_width="match_parent"-->
     <!--android:layout_height="match_parent"-->
     <!--tools:context="com.example.android.areyoukittyme.StoreActivity">-->
+<android.support.design.widget.CoordinatorLayout
+    android:id = "@+id/coordinatorLayout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/parent"
@@ -31,8 +37,7 @@
                 </LinearLayout>
                 <TextView
                     android:layout_height="60dp"
-                    android:layout_width="match_parent"
-                    android:background="@drawable/shape"/>
+                    android:layout_width="match_parent" />
 
 
             </LinearLayout>
@@ -54,7 +59,7 @@
             android:text="TOTAL: 0" />
 
         <TextView
-            android:id="@+id/myCash"
+            android:id="@+id/catCash"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -70,7 +75,7 @@
 
     </RelativeLayout>
 
-
+</android.support.design.widget.CoordinatorLayout>
 
 
 <!--</android.support.constraint.ConstraintLayout>-->
