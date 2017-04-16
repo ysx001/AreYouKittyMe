@@ -1,38 +1,32 @@
 package com.example.android.areyoukittyme.Item;
 
-import android.graphics.drawable.Drawable;
-
 import com.example.android.areyoukittyme.R;
 
 /**
- * Created by PrGxw on 4/11/2017.
+ * Created by PrGxw on 4/15/2017.
  */
 
-public class Fish implements Item{
-
+public class Asparagus implements Item{
     private static int price;
     private int icon;
-    private static int id;
-
-    public Fish() {
-        setPrice(80);
-        this.id = R.drawable.fish;
-        setIcon(id);
-    }
+    public static int id;
 
     @Override
     public void setPrice(int price) {
-        this.price = price;
+        setPrice(90);
+        this.id = R.drawable.asparagus;
+        setIcon(this.id);
+
     }
 
     @Override
     public void setIcon(int icon) {
-        this.icon = icon;
+
     }
 
     @Override
     public int getId() {
-        return this.id;
+        return id;
     }
 
     public int getPrice() {
