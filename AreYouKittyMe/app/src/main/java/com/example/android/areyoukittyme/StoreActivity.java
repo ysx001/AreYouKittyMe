@@ -93,6 +93,7 @@ public class StoreActivity extends AppCompatActivity {
             for (int i = 0; i < StoreActivity.amountList.size(); i++) {
                 StoreActivity.amountList.get(i).setText(String.valueOf(0));
             }
+            user.userCheckout(StoreActivity.amountList, StoreActivity.priceList);
         }
     }
 
