@@ -12,9 +12,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.android.areyoukittyme.User.User;
 import com.github.pwittchen.swipe.library.Swipe;
 import com.github.pwittchen.swipe.library.SwipeListener;
 import com.google.android.gms.common.ConnectionResult;
@@ -63,13 +65,9 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
     private AccountHeader header;
     private Drawer drawer;
 
-    private Swipe swipe;
-
     private TextView displayCatName;
-    private Button statsButton;
-    private Button vocabButton;
-    private Button storeButton;
-    private Button timerButton;
+
+    private ImageView drawerToggler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,97 +78,17 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
         context = MainActivity.this;
 
         displayCatName = (TextView) findViewById(R.id.cat_name_display);
-        /*statsButton = (Button) findViewById(R.id.stats_button);
-        vocabButton = (Button) findViewById(R.id.vocab_button);
-        storeButton = (Button) findViewById(R.id.store_button);
-        timerButton = (Button) findViewById(R.id.timer_button);*/
+
+        drawerToggler = (ImageView) findViewById(R.id.drawerToggler);
+
         findViewById(R.id.miaomiaomiao).setOnTouchListener(new MyTouchListener());
 
 
         // Use getIntent method to store the Intent that started this Activity
         Intent startingIntent = getIntent();
 
-        String catName = startingIntent.getStringExtra(Intent.EXTRA_TEXT);
+        String catName = User.getName();
         displayCatName.setText(catName);
-
-
-        /*// Setting an OnClickLister for the statsButton
-        statsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                // This is the class we want to start and open when button is clicked
-                Class destActivity = StatsActivity.class;
-
-                // create Intent that will start the activity
-                Intent startStatsIntent = new Intent(context, destActivity);
-
-                startActivity(startStatsIntent);
-
-            }
-        });
-
-        // Setting an OnClickLister for the vocabButton
-        vocabButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                // This is the class we want to start and open when button is clicked
-                Class destActivity = VocabActivity.class;
-
-                // create Intent that will start the activity
-                Intent startMainActivityIntent = new Intent(context, destActivity);
-
-                startActivity(startMainActivityIntent);
-
-            }
-        });
-
-        // Setting an OnClickLister for the storeButton
-        storeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                // This is the class we want to start and open when button is clicked
-                Class destActivity = StoreActivity.class;
-
-                // create Intent that will start the activity
-                Intent startMainActivityIntent = new Intent(context, destActivity);
-
-                startActivity(startMainActivityIntent);
-
-            }
-        });
-
-        // Setting an OnClickLister for the timerButton
-        timerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                // This is the class we want to start and open when button is clicked
-                Class destActivity = TimerActivity.class;
-
-                // create Intent that will start the activity
-                Intent startMainActivityIntent = new Intent(context, destActivity);
-
-                startMainActivityIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-
-                startActivity(startMainActivityIntent);
-
-            }
-        });
-
-        storeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                // This is the class we want to start and open when button is clicked
-                Class destActivity = StoreActivity.class;
-                // create Intent that will start the activity
-                Intent startMainActivityIntent = new Intent(context, destActivity);
-                startActivity(startMainActivityIntent);
-            }
-        });*/
 
         final IProfile profile = new ProfileDrawerItem().withName(catName).withIcon(GoogleMaterial.Icon.gmd_pets);
 
@@ -242,6 +160,15 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
                 })
                 .build();
 
+        drawerToggler.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!drawer.isDrawerOpen()) {
+                    drawer.openDrawer();
+                }
+            }
+        });
+
         // Connecting to Google Play Service
         if (savedInstanceState != null) {
             authInProgress = savedInstanceState.getBoolean(AUTH_PENDING);
@@ -277,6 +204,20 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
                         }
                     }
                 });
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (drawer.isDrawerOpen()) {
+            drawer.closeDrawer();
+        }
+        else {
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+
+            startActivity(intent);
+        }
     }
 
     /**
@@ -398,46 +339,6 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
                 }
             });
         }
-        swipe.addListener(new SwipeListener() {
-            @Override
-            public void onSwipingLeft(MotionEvent event) {
-            }
-
-            @Override
-            public void onSwipedLeft(MotionEvent event) {
-                if (drawer.isDrawerOpen()) {
-                    drawer.closeDrawer();
-                }
-            }
-
-            @Override
-            public void onSwipingRight(MotionEvent event) {
-            }
-
-            @Override
-            public void onSwipedRight(MotionEvent event) {
-                if (! drawer.isDrawerOpen()) {
-                    drawer.openDrawer();
-                }
-            }
-
-            @Override
-            public void onSwipingUp(MotionEvent event) {
-            }
-
-            @Override
-            public void onSwipedUp(MotionEvent event) {
-            }
-
-            @Override
-            public void onSwipingDown(MotionEvent event) {
-            }
-
-            @Override
-            public void onSwipedDown(MotionEvent event) {
-            }
-        });
-
     }
     private final class MyTouchListener implements View.OnTouchListener {
         public boolean onTouch(View view, MotionEvent motionEvent) {
