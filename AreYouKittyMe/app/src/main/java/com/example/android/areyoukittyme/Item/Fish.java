@@ -10,7 +10,7 @@ import com.example.android.areyoukittyme.R;
 
 public class Fish implements Item{
 
-    private static int price;
+    private int price;
     private int icon;
     private static int id;
 

@@ -11,22 +11,25 @@ public class Asparagus implements Item{
     private int icon;
     public static int id;
 
-    @Override
-    public void setPrice(int price) {
+    public Asparagus() {
         setPrice(90);
         this.id = R.drawable.asparagus;
         setIcon(this.id);
+    }
 
+    @Override
+    public void setPrice(int price) {
+        this.price = price;
     }
 
     @Override
     public void setIcon(int icon) {
-
+        this.icon = icon;
     }
 
     @Override
     public int getId() {
-        return id;
+        return this.id;
     }
 
     public int getPrice() {

@@ -15,8 +15,9 @@ public class Store {
     private ArrayList<Item> itemList;
 
     public Store() {
-        itemList.add(new Fish());
-        itemList.add(new Asparagus());
+        itemList = new ArrayList<>();
+        this.itemList.add(new Fish());
+        this.itemList.add(new Asparagus());
     }
 
     public ArrayList<Item> getItemList() {

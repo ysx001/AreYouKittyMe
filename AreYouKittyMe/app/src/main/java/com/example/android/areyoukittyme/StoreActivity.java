@@ -10,6 +10,7 @@ package com.example.android.areyoukittyme;
         import android.support.v7.app.AppCompatActivity;
         import android.util.Log;
         import android.view.DragEvent;
+        import android.view.Gravity;
         import android.view.MotionEvent;
         import android.view.View;
         import android.view.View.DragShadowBuilder;
@@ -56,75 +57,92 @@ public class StoreActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_store);
         setBtnListeners();
-
+        priceList = new ArrayList<>();
+        amountList = new ArrayList<>();
 
         //TODO: find a way to store the model
         this.user = new User(100, new ArrayList<Item>());
         this.theStore = new Store();
 
-//        LinearLayout storeContainer = (LinearLayout) findViewById(R.id.storeContainer);
-//        for (int i = 0; i < this.theStore.getItemList().size(); i++) {
-//            Item item = this.theStore.getItemList().get(i);
-//            // creating containers
-//            LinearLayout hContainer = new LinearLayout(this);
-//            hContainer.setOrientation(LinearLayout.HORIZONTAL);
-//            LinearLayout subContainer = new LinearLayout(this);
-//            subContainer.setOrientation(LinearLayout.VERTICAL);
-//            // setting image
-//            ImageView itemIcon = new ImageView(this);
-//            itemIcon.setImageResource(item.getId());
-//            subContainer.addView(itemIcon);
-//            // setting price tag
-//            TextView priceTag = new TextView(this);
-//            priceTag.setText(String.valueOf(item.getPrice()));
-//            this.priceList.add(item.getPrice());
-//            subContainer.addView(priceTag);
-//            // amount container
-//            LinearLayout amountContainer = new LinearLayout(this);
-//            amountContainer.setOrientation(LinearLayout.HORIZONTAL);
-//            Button minusBtn = new Button(this);
-//            Button plusBtn = new Button(this);
-//            TextView amount = new TextView(this);
-//            amount.setText("0");
-//            amountContainer.addView(minusBtn);
-//            amountContainer.addView(amount);
-//            amountContainer.addView(plusBtn);
-//        }
+        LinearLayout storeContainer = (LinearLayout) findViewById(R.id.storeContainer);
+        LinearLayout hContainer = new LinearLayout(this);
+        for (int i = 0; i < this.theStore.getItemList().size(); i++) {
+            Item item = this.theStore.getItemList().get(i);
+            if (i%2 == 0) {
+                // creating hcontainers
+                hContainer = new LinearLayout(this);
+                hContainer.setOrientation(LinearLayout.HORIZONTAL);
+            }
+            // create subcontainer
+            LinearLayout subContainer = new LinearLayout(this);
+            subContainer.setOrientation(LinearLayout.VERTICAL);
+            subContainer.setGravity(Gravity.CENTER);
+            // setting image
+            ImageView itemIcon = new ImageView(this);
+            itemIcon.setImageResource(item.getId());
+            itemIcon.setLayoutParams(new LinearLayout.LayoutParams(700, 200));
+            subContainer.addView(itemIcon);
+            // setting price tag
+            TextView priceTag = new TextView(this);
+            priceTag.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            priceTag.setText(String.valueOf(item.getPrice()));
+            this.priceList.add(item.getPrice());
+            subContainer.addView(priceTag);
+            // amount container
+            LinearLayout amountContainer = new LinearLayout(this);
+            amountContainer.setOrientation(LinearLayout.HORIZONTAL);
+            Button minusBtn = new Button(this);
+            minusBtn.setText("-");
+            Button plusBtn = new Button(this);
+            plusBtn.setText("+");
+            TextView amount = new TextView(this);
+            amount.setText("0");
+            amountContainer.addView(minusBtn);
+            amountContainer.addView(amount);
+            amountContainer.addView(plusBtn);
+            subContainer.addView(amountContainer);
+
+            hContainer.addView(subContainer);
+            if (i%2 == 0) {
+                storeContainer.addView(hContainer);
+            }
+        }
+
 
     }
 
     private void setBtnListeners() {
-        findViewById(R.id.itemDogPlus).setOnClickListener(new MyClickListener());
-        findViewById(R.id.itemDogMinus).setOnClickListener(new MyClickListener());
-        findViewById(R.id.itemFishPlus).setOnClickListener(new MyClickListener());
-        findViewById(R.id.itemFishMinus).setOnClickListener(new MyClickListener());
+//        findViewById(R.id.itemDogPlus).setOnClickListener(new MyClickListener());
+//        findViewById(R.id.itemDogMinus).setOnClickListener(new MyClickListener());
+//        findViewById(R.id.itemFishPlus).setOnClickListener(new MyClickListener());
+//        findViewById(R.id.itemFishMinus).setOnClickListener(new MyClickListener());
     }
 
     private final class MyClickListener implements OnClickListener {
         @Override
         public void onClick(View v) {
-            if(v.getId() == R.id.itemDogPlus) {
-                StoreActivity.setItemDogAmount(StoreActivity.getItemDogAmount()+1);
-                TextView lbl = (TextView) findViewById(R.id.itemDogAmount);
-                lbl.setText(String.valueOf(StoreActivity.getItemDogAmount()));
-            }
-            else if(v.getId() == R.id.itemDogMinus) {
-                if (StoreActivity.getItemDogAmount() != 0)
-                    StoreActivity.setItemDogAmount(StoreActivity.getItemDogAmount()-1);
-                TextView lbl = (TextView) findViewById(R.id.itemDogAmount);
-                lbl.setText(String.valueOf(StoreActivity.getItemDogAmount()));
-            }
-            else if (v.getId() == R.id.itemFishPlus) {
-                StoreActivity.setItemFishAmount(StoreActivity.getItemFishAmount()+1);
-                TextView lbl = (TextView) findViewById(R.id.itemFishAmount);
-                lbl.setText(String.valueOf(StoreActivity.getItemFishAmount()));
-            }
-            else if (v.getId() == R.id.itemFishMinus) {
-                if (StoreActivity.getItemFishAmount() != 0)
-                    StoreActivity.setItemFishAmount(StoreActivity.getItemFishAmount()-1);
-                TextView lbl = (TextView) findViewById(R.id.itemFishAmount);
-                lbl.setText(String.valueOf(StoreActivity.getItemFishAmount()));
-            }
+//            if(v.getId() == R.id.itemDogPlus) {
+//                StoreActivity.setItemDogAmount(StoreActivity.getItemDogAmount()+1);
+//                TextView lbl = (TextView) findViewById(R.id.itemDogAmount);
+//                lbl.setText(String.valueOf(StoreActivity.getItemDogAmount()));
+//            }
+//            else if(v.getId() == R.id.itemDogMinus) {
+//                if (StoreActivity.getItemDogAmount() != 0)
+//                    StoreActivity.setItemDogAmount(StoreActivity.getItemDogAmount()-1);
+//                TextView lbl = (TextView) findViewById(R.id.itemDogAmount);
+//                lbl.setText(String.valueOf(StoreActivity.getItemDogAmount()));
+//            }
+//            else if (v.getId() == R.id.itemFishPlus) {
+//                StoreActivity.setItemFishAmount(StoreActivity.getItemFishAmount()+1);
+//                TextView lbl = (TextView) findViewById(R.id.itemFishAmount);
+//                lbl.setText(String.valueOf(StoreActivity.getItemFishAmount()));
+//            }
+//            else if (v.getId() == R.id.itemFishMinus) {
+//                if (StoreActivity.getItemFishAmount() != 0)
+//                    StoreActivity.setItemFishAmount(StoreActivity.getItemFishAmount()-1);
+//                TextView lbl = (TextView) findViewById(R.id.itemFishAmount);
+//                lbl.setText(String.valueOf(StoreActivity.getItemFishAmount()));
+//            }
         }
     }
 
