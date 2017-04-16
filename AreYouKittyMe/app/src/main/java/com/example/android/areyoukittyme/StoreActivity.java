@@ -41,8 +41,8 @@ public class StoreActivity extends AppCompatActivity {
     private Store theStore;
     private static int ItemDogAmount = 0;
     private static int itemFishAmount = 0;
-    ArrayList<Integer> priceList;
-    ArrayList<TextView> amountList;
+    public static ArrayList<Integer> priceList;
+    public static ArrayList<TextView> amountList;
 
     Button itemDogPlus;
     Button itemDogMinus;
@@ -56,7 +56,6 @@ public class StoreActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_store);
-        setBtnListeners();
         priceList = new ArrayList<>();
         amountList = new ArrayList<>();
 
@@ -64,8 +63,15 @@ public class StoreActivity extends AppCompatActivity {
         this.user = new User(100, new ArrayList<Item>());
         this.theStore = new Store();
 
+        populateStore();
+
+    }
+
+    private void populateStore() {
         LinearLayout storeContainer = (LinearLayout) findViewById(R.id.storeContainer);
         LinearLayout hContainer = new LinearLayout(this);
+        String tagPos;
+        String tagNeg;
         for (int i = 0; i < this.theStore.getItemList().size(); i++) {
             Item item = this.theStore.getItemList().get(i);
             if (i%2 == 0) {
@@ -99,7 +105,16 @@ public class StoreActivity extends AppCompatActivity {
             amount.setText("0");
             amountContainer.addView(minusBtn);
             amountContainer.addView(amount);
+            this.amountList.add(amount);
             amountContainer.addView(plusBtn);
+            minusBtn.setOnClickListener(new MyClickListener());
+            plusBtn.setOnClickListener(new MyClickListener());
+
+            tagPos = String.format("+%d", i);
+            tagNeg = String.format("-%d", i);
+            minusBtn.setTag(tagNeg);
+            plusBtn.setTag(tagPos);
+
             subContainer.addView(amountContainer);
 
             hContainer.addView(subContainer);
@@ -107,20 +122,23 @@ public class StoreActivity extends AppCompatActivity {
                 storeContainer.addView(hContainer);
             }
         }
-
-
     }
 
-    private void setBtnListeners() {
-//        findViewById(R.id.itemDogPlus).setOnClickListener(new MyClickListener());
-//        findViewById(R.id.itemDogMinus).setOnClickListener(new MyClickListener());
-//        findViewById(R.id.itemFishPlus).setOnClickListener(new MyClickListener());
-//        findViewById(R.id.itemFishMinus).setOnClickListener(new MyClickListener());
+    private String incrementString(String s, int a) {
+        int intStr = Integer.parseInt(s);
+        intStr += a;
+        return String.valueOf(intStr);
     }
 
     private final class MyClickListener implements OnClickListener {
         @Override
         public void onClick(View v) {
+            String tag = (String) v.getTag();
+            if (tag.compareToIgnoreCase("+0") == 0) {
+                String incremented = incrementString(StoreActivity.amountList.get(0).getText().toString(), 1);
+                StoreActivity.amountList.get(0).setText(incremented);
+            }
+
 //            if(v.getId() == R.id.itemDogPlus) {
 //                StoreActivity.setItemDogAmount(StoreActivity.getItemDogAmount()+1);
 //                TextView lbl = (TextView) findViewById(R.id.itemDogAmount);
@@ -146,18 +164,7 @@ public class StoreActivity extends AppCompatActivity {
         }
     }
 
-    public static int getItemDogAmount() {
-        return ItemDogAmount;
-    }
-    public static int getItemFishAmount() {
-        return itemFishAmount;
-    }
-    public static void setItemFishAmount(int itemFishAmount) {
-        StoreActivity.itemFishAmount = itemFishAmount;
-    }
-    public static void setItemDogAmount(int itemDogAmount) {
-        ItemDogAmount = itemDogAmount;
-    }
+
 }
 //package com.example.android.areyoukittyme;
 //
