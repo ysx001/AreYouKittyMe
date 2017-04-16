@@ -27,7 +27,8 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:launchMode="singleInstance">
         </activity>
 
         <activity android:name=".SettingsActivity"
@@ -83,7 +84,8 @@
         </activity>
         <activity android:name=".TimerActivity"
             android:label="@string/title_timer"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".MainActivity"
+            android:launchMode="singleInstance">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.android.areyoukittyme.MainActivity"/>

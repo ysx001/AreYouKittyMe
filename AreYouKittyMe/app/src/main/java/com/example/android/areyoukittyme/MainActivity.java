@@ -4,10 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.github.pwittchen.swipe.library.Swipe;
+import com.github.pwittchen.swipe.library.SwipeListener;
 import com.mikepenz.fontawesome_typeface_library.FontAwesome;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.materialdrawer.AccountHeader;
@@ -28,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
 
     private AccountHeader header;
     private Drawer drawer;
+
+    private Swipe swipe;
 
     private TextView displayCatName;
     private Button statsButton;
@@ -54,6 +59,8 @@ public class MainActivity extends AppCompatActivity {
 
         String catName = startingIntent.getStringExtra(Intent.EXTRA_TEXT);
         displayCatName.setText(catName);
+
+        swipe = new Swipe();
 
 
         // Setting an OnClickLister for the statsButton
@@ -114,6 +121,8 @@ public class MainActivity extends AppCompatActivity {
 
                 // create Intent that will start the activity
                 Intent startMainActivityIntent = new Intent(context, destActivity);
+
+                startMainActivityIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 
                 startActivity(startMainActivityIntent);
 
@@ -200,6 +209,46 @@ public class MainActivity extends AppCompatActivity {
                     }
                 })
                 .build();
+
+        swipe.addListener(new SwipeListener() {
+            @Override
+            public void onSwipingLeft(MotionEvent event) {
+            }
+
+            @Override
+            public void onSwipedLeft(MotionEvent event) {
+                if (drawer.isDrawerOpen()) {
+                    drawer.closeDrawer();
+                }
+            }
+
+            @Override
+            public void onSwipingRight(MotionEvent event) {
+            }
+
+            @Override
+            public void onSwipedRight(MotionEvent event) {
+                if (! drawer.isDrawerOpen()) {
+                    drawer.openDrawer();
+                }
+            }
+
+            @Override
+            public void onSwipingUp(MotionEvent event) {
+            }
+
+            @Override
+            public void onSwipedUp(MotionEvent event) {
+            }
+
+            @Override
+            public void onSwipingDown(MotionEvent event) {
+            }
+
+            @Override
+            public void onSwipedDown(MotionEvent event) {
+            }
+        });
 
     }
 
