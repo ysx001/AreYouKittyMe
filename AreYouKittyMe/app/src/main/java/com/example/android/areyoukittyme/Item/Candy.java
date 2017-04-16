@@ -1,22 +1,20 @@
 package com.example.android.areyoukittyme.Item;
 
-import android.graphics.drawable.Drawable;
-
 import com.example.android.areyoukittyme.R;
 
 /**
- * Created by PrGxw on 4/11/2017.
+ * Created by PrGxw on 4/16/2017.
  */
 
-public class Fish implements Item{
+public class Candy implements Item{
 
     private int price;
     private int icon;
     private static int id;
 
-    public Fish() {
-        setPrice(80);
-        this.id = R.drawable.fish;
+    public Candy() {
+        setPrice(10);
+        this.id = R.drawable.candy;
         setIcon(id);
     }
 
@@ -39,3 +37,4 @@ public class Fish implements Item{
         return price;
     }
 }
+

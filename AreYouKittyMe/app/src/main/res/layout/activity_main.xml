@@ -2,6 +2,7 @@
 
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_content"
     android:layout_width="match_parent"
@@ -63,6 +64,14 @@
         android:text="Vocab"
         android:layout_below="@+id/timer_button"
         android:layout_alignStart="@+id/timer_button"/>
+
+    <ImageView
+        android:id="@+id/miaomiaomiao"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/store_button"
+        app:srcCompat="@drawable/broccoli" />
 
 
 </RelativeLayout>
