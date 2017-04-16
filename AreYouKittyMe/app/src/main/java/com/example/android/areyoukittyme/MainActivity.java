@@ -1,5 +1,6 @@
 package com.example.android.areyoukittyme;
 
+import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,6 +8,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -28,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
         vocabButton = (Button) findViewById(R.id.vocab_button);
         storeButton = (Button) findViewById(R.id.store_button);
         timerButton = (Button) findViewById(R.id.timer_button);
+        findViewById(R.id.miaomiaomiao).setOnTouchListener(new MyTouchListener());
+
 
         // Use getIntent method to store the Intent that started this Activity
         Intent startingIntent = getIntent();
@@ -129,5 +133,18 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+    private final class MyTouchListener implements View.OnTouchListener {
+        public boolean onTouch(View view, MotionEvent motionEvent) {
+            if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+//                ClipData data = ClipData.newPlainText("", "");
+//                Item item = view.getId();
+                ClipData data = ClipData.newPlainText("Item price", "80");
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+
 
 }

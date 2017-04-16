@@ -2,6 +2,7 @@
 
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -18,10 +19,11 @@
         android:id="@+id/stats_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Stats"
+        android:layout_marginStart="16dp"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="46dp"
-        android:text="Stats"/>
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="30dp" />
 
     <Button
         android:id="@+id/store_button"
@@ -49,6 +51,14 @@
         android:text="Vocab"
         android:layout_below="@+id/timer_button"
         android:layout_alignStart="@+id/timer_button"/>
+
+    <ImageView
+        android:id="@+id/miaomiaomiao"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/store_button"
+        app:srcCompat="@drawable/broccoli" />
 
 
 </RelativeLayout>
