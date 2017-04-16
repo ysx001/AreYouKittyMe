@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 public class Store {
 
-    private ArrayList<Item> itemList;
+    public static ArrayList<Item> itemList;
 
     public Store() {
         itemList = new ArrayList<>();

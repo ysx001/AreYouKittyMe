@@ -36,6 +36,7 @@ package com.example.android.areyoukittyme;
         import org.w3c.dom.Text;
 
         import java.util.ArrayList;
+        import java.util.HashMap;
         import java.util.List;
 
 public class StoreActivity extends AppCompatActivity {
@@ -65,7 +66,7 @@ public class StoreActivity extends AppCompatActivity {
         mySnackbar = Snackbar.make(coordLayout, "Not Enough CatCash", BaseTransientBottomBar.LENGTH_SHORT);
 
         //TODO: find a way to store the model
-        this.user = new User(100, new ArrayList<Item>());
+        this.user = new User(100, new HashMap<Integer, Object[]>());
         this.theStore = new Store();
         populateStore();
 
