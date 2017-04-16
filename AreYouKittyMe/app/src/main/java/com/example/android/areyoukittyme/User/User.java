@@ -21,6 +21,10 @@ public class User {
     public static int focusGoal;
     public static int vocabGoal;
 
+    public static int steps;
+    public static int focus;
+    public static int vocab;
+
     // 0: SAT6000
     // 1: French
     // 2: German
@@ -40,10 +44,14 @@ public class User {
         User.focusGoal = 120;
         User.vocabGoal = 30;
         User.vocabBookID = 0;
+        User.steps = 0;
+        User.focus = 0;
+        User.vocab = 0;
         User.cash = 0;
         User.inventoryList = null;
         User.health = 100;
         User.mood = 100;
+
     }
 
     public void userCheckout(ArrayList<TextView> amountList, ArrayList<Integer> priceList) {
@@ -54,6 +62,22 @@ public class User {
             array[2] = Store.itemList.get(i);
             this.inventoryList.put(i, array);
         }
+    }
+
+    public static String getName() {
+        return name;
+    }
+
+    public static void setName(String name) {
+        User.name = name;
+    }
+
+    public static int getStepsGoal() {
+        return stepsGoal;
+    }
+
+    public static void setStepsGoal(int stepsGoal) {
+        User.stepsGoal = stepsGoal;
     }
 
     public static int getFocusGoal() {
@@ -72,6 +96,30 @@ public class User {
         User.vocabGoal = vocabGoal;
     }
 
+    public static int getSteps() {
+        return steps;
+    }
+
+    public static void setSteps(int steps) {
+        User.steps = steps;
+    }
+
+    public static int getFocus() {
+        return focus;
+    }
+
+    public static void setFocus(int focus) {
+        User.focus = focus;
+    }
+
+    public static int getVocab() {
+        return vocab;
+    }
+
+    public static void setVocab(int vocab) {
+        User.vocab = vocab;
+    }
+
     public static int getVocabBookID() {
         return vocabBookID;
     }
@@ -80,43 +128,35 @@ public class User {
         User.vocabBookID = vocabBookID;
     }
 
-    public static int getStepsGoal() {
-        return stepsGoal;
-    }
-
-    public static void setStepsGoal(int stepsGoal) {
-        User.stepsGoal = stepsGoal;
-    }
-
-    public static String getName() {
-        return name;
-    }
-
-    public static void setName(String name) {
-        User.name = name;
-    }
-
-    public HashMap<Integer, Object[]> getInventoryList() {
-        return inventoryList;
-    }
-
-    public void setInventoryList(HashMap inventoryList) {
-        User.inventoryList = inventoryList;
-    }
-
-    public int getCash() {
+    public static int getCash() {
         return cash;
     }
 
-    public void setCash(int cash) {
+    public static void setCash(int cash) {
         User.cash = cash;
     }
 
-    public void incrementCash(int amount) {
-        User.cash += amount;
+    public static HashMap<Integer, Object[]> getInventoryList() {
+        return inventoryList;
     }
 
-//    public void adoptCat() {
-////        this.myCat =
-//    }
+    public static void setInventoryList(HashMap<Integer, Object[]> inventoryList) {
+        User.inventoryList = inventoryList;
+    }
+
+    public static int getHealth() {
+        return health;
+    }
+
+    public static void setHealth(int health) {
+        User.health = health;
+    }
+
+    public static int getMood() {
+        return mood;
+    }
+
+    public static void setMood(int mood) {
+        User.mood = mood;
+    }
 }
