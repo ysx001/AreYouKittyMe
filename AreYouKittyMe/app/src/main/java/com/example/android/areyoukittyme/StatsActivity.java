@@ -4,53 +4,29 @@ package com.example.android.areyoukittyme;
 import com.example.android.areyoukittyme.plot.DayAxisValueFormatter;
 import com.example.android.areyoukittyme.plot.MyAxisValueFormatter;
 import com.example.android.areyoukittyme.plot.XYMarkerView;
-import com.example.android.areyoukittyme.utilities.TabsPagerAdapter;
 
-import android.app.ActionBar;
-import android.app.ActionBar.Tab;
-import android.app.FragmentTransaction;
-import android.content.Intent;
-import android.content.IntentSender;
+import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.graphics.RectF;
-import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.android.areyoukittyme.utilities.NotificationUtils;
-
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.Scopes;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Scope;
-import com.google.android.gms.common.api.Status;
-import com.google.android.gms.fitness.Fitness;
-import com.google.android.gms.fitness.data.DataPoint;
-import com.google.android.gms.fitness.data.DataSource;
-import com.google.android.gms.fitness.data.DataType;
-import com.google.android.gms.fitness.data.Field;
-import com.google.android.gms.fitness.data.Value;
-import com.google.android.gms.fitness.request.DataSourcesRequest;
-import com.google.android.gms.fitness.request.OnDataPointListener;
-import com.google.android.gms.fitness.request.SensorRequest;
-import com.google.android.gms.fitness.result.DataSourcesResult;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.Legend.LegendForm;
-import com.github.mikephil.charting.components.Legend.LegendPosition;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.XAxis.XAxisPosition;
 import com.github.mikephil.charting.components.YAxis;
@@ -65,26 +41,36 @@ import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.interfaces.datasets.IDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
-import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.MPPointF;
 
 /**
  *@seehttps://code.tutsplus.com/tutorials/google-fit-for-android-reading-sensor-data--cms-25723
  */
-public class StatsActivity extends AppCompatActivity implements OnDataPointListener,
-        GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener, SeekBar.OnSeekBarChangeListener,
+public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeListener,
         OnChartValueSelectedListener{
 
-    private static final int REQUEST_OAUTH = 1;
-    private static final String AUTH_PENDING = "auth_state_pending";
-    private boolean authInProgress = false;
-    private GoogleApiClient mApiClient;
+    private final int day = 1;
+    // 52 weeks in a year
+    private final int week = 52;
+    // 12 month in a year
+    private final int month = 12;
+    private final int year = 365;
+
+    public final int[] STEP_COLORS = { R.color.colorAccent };
+    public final int[] FOCUS_COLORS = { R.color.colorAccentLight};
+    public final int[] VOCAB_COLORS = { R.color.colorAccentDark};
 
 
-    protected BarChart mChart;
-    private SeekBar mSeekBarX, mSeekBarY;
-    private TextView tvX, tvY;
+    private ArrayList<ArrayList<Double>> dataArray = generateData(year, 30.0);
+
+
+    protected LineChart monthChart;
+    protected BarChart weekChart;
+
+
+    private SeekBar mSeekBarMonth, mSeekBarWeek;
+    private TextView tvMonth, tvWeek;
+
 
 
 
@@ -92,396 +78,468 @@ public class StatsActivity extends AppCompatActivity implements OnDataPointListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stats);
-
-
-        // Get the ViewPager and set it's PagerAdapter so that it can display items
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
-        viewPager.setAdapter(new TabsPagerAdapter(getSupportFragmentManager(), StatsActivity.this));
-
-        // Give the TabLayout the ViewPager
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
-        tabLayout.setupWithViewPager(viewPager);
-
-
-        // Connecting to Google Play Service
-        if (savedInstanceState != null) {
-            authInProgress = savedInstanceState.getBoolean(AUTH_PENDING);
-        }
-
-        // Initialize GoogleAPIClient
-        mApiClient = new GoogleApiClient.Builder(this)
-                .addApi(Fitness.SENSORS_API)
-                .addScope(new Scope(Scopes.FITNESS_ACTIVITY_READ_WRITE))
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .build();
-
-
+        
 
 //        mTfRegular = Typeface.createFromAsset(getAssets(), "OpenSans-Regular.ttf");
 //        mTfLight = Typeface.createFromAsset(getAssets(), "OpenSans-Light.ttf");
 
-        tvX = (TextView) findViewById(R.id.tvXMax);
-        tvY = (TextView) findViewById(R.id.tvYMax);
+        tvMonth = (TextView) findViewById(R.id.tvMonthMax);
+        tvWeek = (TextView) findViewById(R.id.tvWeekMax);
 
-        mSeekBarX = (SeekBar) findViewById(R.id.seekBar1);
-        mSeekBarY = (SeekBar) findViewById(R.id.seekBar2);
+        mSeekBarMonth = (SeekBar) findViewById(R.id.monthSeekBar);
+        mSeekBarWeek = (SeekBar) findViewById(R.id.weekSeekBar);
+        
+        
+        
 
-        mChart = (BarChart) findViewById(R.id.chart1);
-        mChart.setOnChartValueSelectedListener(this);
+        monthChart = (LineChart) findViewById(R.id.monthChart);
+        monthChart.setOnChartValueSelectedListener(this);
 
-        mChart.setDrawBarShadow(false);
-        mChart.setDrawValueAboveBar(true);
+        // no description text
+        monthChart.getDescription().setEnabled(false);
 
-        mChart.getDescription().setEnabled(false);
+        // enable touch gestures
+        monthChart.setTouchEnabled(true);
 
-        // if more than 60 entries are displayed in the chart, no values will be
+        monthChart.setDragDecelerationFrictionCoef(0.9f);
+
+        // enable scaling and dragging
+        monthChart.setDragEnabled(true);
+        monthChart.setScaleEnabled(true);
+        monthChart.setDrawGridBackground(false);
+        monthChart.setHighlightPerDragEnabled(true);
+
+        // if disabled, scaling can be done on x- and y-axis separately
+        monthChart.setPinchZoom(true);
+
+        // set an alternative background color
+        monthChart.setBackgroundColor(Color.LTGRAY);
+
+        // add data
+        setLineData(this.dataArray, 0);
+
+        monthChart.animateX(2000);
+
+        // get the legend (only possible after setting data)
+        Legend lMonth = monthChart.getLegend();
+
+        // modify the legend ...
+        lMonth.setForm(LegendForm.LINE);
+//        l.setTypeface(mTfLight);
+        lMonth.setTextSize(11f);
+        lMonth.setTextColor(Color.WHITE);
+        lMonth.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
+        lMonth.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
+        lMonth.setOrientation(Legend.LegendOrientation.HORIZONTAL);
+        lMonth.setDrawInside(false);
+//        l.setYOffset(11f);
+
+        XAxis xMonthAxis = monthChart.getXAxis();
+//        xMonthAxis.setTypeface(mTfLight);
+        xMonthAxis.setTextSize(11f);
+        xMonthAxis.setTextColor(Color.WHITE);
+        xMonthAxis.setDrawGridLines(false);
+        xMonthAxis.setDrawAxisLine(false);
+
+        YAxis leftMonthAxis = monthChart.getAxisLeft();
+//        leftMonthAxis.setTypeface(mTfLight);
+        leftMonthAxis.setTextColor(ColorTemplate.getHoloBlue());
+//        leftMonthAxis.setAxisMaximum(200f);
+        //leftMonthAxis.setAxisMinimum(0f);
+        leftMonthAxis.setDrawGridLines(true);
+        leftMonthAxis.setGranularityEnabled(true);
+
+        YAxis rightMonthAxis = monthChart.getAxisRight();
+//        rightMonthAxis.setTypeface(mTfLight);
+        rightMonthAxis.setTextColor(Color.RED);
+//        rightMonthAxis.setAxisMaximum(900);
+        //rightMonthAxis.setAxisMinimum(0);
+        rightMonthAxis.setDrawGridLines(false);
+        rightMonthAxis.setDrawZeroLine(false);
+        rightMonthAxis.setGranularityEnabled(false);
+        
+        
+
+
+        weekChart = (BarChart) findViewById(R.id.weekChart);
+//        weekChart.setOnChartValueSelectedListener(this);
+
+        weekChart.setDrawBarShadow(false);
+        weekChart.setDrawValueAboveBar(true);
+
+//        weekChart.setHighlightPerTapEnabled(true);
+
+
+
+        weekChart.getDescription().setEnabled(false);
+
+        // if more than 30 entries are displayed in the chart, no values will be
         // drawn
-        mChart.setMaxVisibleValueCount(60);
+        weekChart.setMaxVisibleValueCount(30);
 
         // scaling can now only be done on x- and y-axis separately
-        mChart.setPinchZoom(false);
+        weekChart.setPinchZoom(false);
 
-        mChart.setDrawGridBackground(false);
-        // mChart.setDrawYLabels(false);
+        weekChart.setDrawGridBackground(false);
+        weekChart.animateX(2000);
+        // weekChart.setDrawYLabels(false);
 
-        IAxisValueFormatter xAxisFormatter = new DayAxisValueFormatter(mChart);
+        IAxisValueFormatter xAxisFormatter = new DayAxisValueFormatter(weekChart);
 
-        XAxis xAxis = mChart.getXAxis();
-        xAxis.setPosition(XAxisPosition.BOTTOM);
-        xAxis.setTypeface(mTfLight);
-        xAxis.setDrawGridLines(false);
-        xAxis.setGranularity(1f); // only intervals of 1 day
-        xAxis.setLabelCount(7);
-        xAxis.setValueFormatter(xAxisFormatter);
+        XAxis xWeekAxis = weekChart.getXAxis();
+        xWeekAxis.setPosition(XAxisPosition.BOTTOM);
+        //xWeekAxis.setTypeface(mTfLight);
+        xWeekAxis.setDrawGridLines(false);
+        xWeekAxis.setGranularity(1f); // only intervals of 1 day
+        xWeekAxis.setLabelCount(7);
+        xWeekAxis.setValueFormatter(xAxisFormatter);
 
-        IAxisValueFormatter custom = new MyAxisValueFormatter();
+        IAxisValueFormatter weekAxisFormat = new MyAxisValueFormatter();
 
-        YAxis leftAxis = mChart.getAxisLeft();
-        leftAxis.setTypeface(mTfLight);
-        leftAxis.setLabelCount(8, false);
-        leftAxis.setValueFormatter(custom);
-        leftAxis.setPosition(YAxisLabelPosition.OUTSIDE_CHART);
-        leftAxis.setSpaceTop(15f);
-        leftAxis.setAxisMinimum(0f); // this replaces setStartAtZero(true)
+        // Set Left Axis for step data
+        YAxis leftWeekAxis = weekChart.getAxisLeft();
+        //leftWeekAxis.setTypeface(mTfLight);
 
-        YAxis rightAxis = mChart.getAxisRight();
-        rightAxis.setDrawGridLines(false);
-        rightAxis.setTypeface(mTfLight);
-        rightAxis.setLabelCount(8, false);
-        rightAxis.setValueFormatter(custom);
-        rightAxis.setSpaceTop(15f);
-        rightAxis.setAxisMinimum(0f); // this replaces setStartAtZero(true)
 
-        Legend l = mChart.getLegend();
-        l.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
-        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
-        l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
-        l.setDrawInside(false);
-        l.setForm(LegendForm.SQUARE);
-        l.setFormSize(9f);
-        l.setTextSize(11f);
-        l.setXEntrySpace(4f);
+        leftWeekAxis.setLabelCount(8, true);
+        leftWeekAxis.setValueFormatter(weekAxisFormat);
+        leftWeekAxis.setPosition(YAxisLabelPosition.OUTSIDE_CHART);
+        leftWeekAxis.setSpaceTop(15f);
+        leftWeekAxis.setAxisMinimum(0f); // this replaces setStartAtZero(true)
+
+
+        // Set Right Axis for focus time
+        YAxis rightWeekAxis = weekChart.getAxisRight();
+
+        rightWeekAxis.setDrawGridLines(true);
+        //rightWeekAxis.setTypeface(mTfLight);
+        rightWeekAxis.setLabelCount(8, false);
+        rightWeekAxis.setValueFormatter(weekAxisFormat);
+        rightWeekAxis.setSpaceTop(15f);
+        rightWeekAxis.setAxisMinimum(0f); // this replaces setStartAtZero(true)
+
+        Legend lweek = weekChart.getLegend();
+        lweek.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
+        lweek.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
+        lweek.setOrientation(Legend.LegendOrientation.HORIZONTAL);
+        lweek.setDrawInside(false);
+        lweek.setForm(LegendForm.SQUARE);
+        lweek.setFormSize(9f);
+        lweek.setTextSize(11f);
+        lweek.setXEntrySpace(4f);
         // l.setExtra(ColorTemplate.VORDIPLOM_COLORS, new String[] { "abc",
         // "def", "ghj", "ikl", "mno" });
         // l.setCustom(ColorTemplate.VORDIPLOM_COLORS, new String[] { "abc",
         // "def", "ghj", "ikl", "mno" });
 
         XYMarkerView mv = new XYMarkerView(this, xAxisFormatter);
-        mv.setChartView(mChart); // For bounds control
-        mChart.setMarker(mv); // Set the marker to the chart
+        mv.setChartView(weekChart); // For bounds control
+        weekChart.setMarker(mv); // Set the marker to the chart
 
-        setData(12, 50);
+        setBarData(this.dataArray, 0);
+
 
         // setting data
-        mSeekBarY.setProgress(50);
-        mSeekBarX.setProgress(12);
+        mSeekBarWeek.setProgress(0);
+        mSeekBarMonth.setProgress(0);
 
-        mSeekBarY.setOnSeekBarChangeListener(this);
-        mSeekBarX.setOnSeekBarChangeListener(this);
+        mSeekBarMonth.setMax(month);
+        mSeekBarWeek.setMax(week);
+
+        mSeekBarWeek.setOnSeekBarChangeListener(this);
+        mSeekBarMonth.setOnSeekBarChangeListener(this);
+
+        // enable back button to main page
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        // Connecting to google's backend
-        mApiClient.connect();
+
+    private ArrayList<ArrayList<Double>> generateData(int count, Double range) {
+
+        ArrayList<ArrayList<Double>> data = new ArrayList<>();
+        ArrayList<Double> stepCounts = new ArrayList<>();
+
+        for (int i = 0; i < count; i++) {
+            Double mult = range ;
+            Double val = (Math.random() * mult) + 50;
+            stepCounts.add(val);
+        }
+
+        ArrayList<Double> focusTime = new ArrayList<>();
+
+        for (int i = 0; i < count; i++) {
+            Double mult = range / 2.0;
+            Double val = (Math.random() * mult) + 60;
+            focusTime.add(val);
+//            if(i == 10) {
+//                yVals2.add(new Entry(i, val + 50));
+//            }
+        }
+
+        ArrayList<Double> vocabTime = new ArrayList<>();
+
+        for (int i = 0; i < count; i++) {
+            Double mult = range / 5.0;
+            Double val = (Math.random() * mult) + 100;
+            vocabTime.add(val);
+        }
+
+        data.add(stepCounts);
+        data.add(focusTime);
+        data.add(vocabTime);
+
+        return data;
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-
-        Fitness.SensorsApi.remove( mApiClient, this )
-                .setResultCallback(new ResultCallback<Status>() {
-                    @Override
-                    public void onResult(Status status) {
-                        if (status.isSuccess()) {
-                            mApiClient.disconnect();
-                        }
-                    }
-                });
-    }
-
-    /**
-     * This helper function is called every time the data source for step counter is found,
-     * it then creates a SersorRequest object for requesting data from the step count
-     * sensor.
-     * @param dataSource
-     * @param dataType
-     */
-    private void registerFitnessDataListener(DataSource dataSource, DataType dataType) {
-
-        // SensorRequest attempts to find the step count every 3 sec
-        SensorRequest request = new SensorRequest.Builder()
-                .setDataSource( dataSource )
-                .setDataType( dataType )
-                .setSamplingRate( 3, TimeUnit.SECONDS )
-                .build();
-
-        Fitness.SensorsApi.add(mApiClient, request, this)
-                .setResultCallback(new ResultCallback<Status>() {
-                    @Override
-                    public void onResult(Status status) {
-                        if (status.isSuccess()) {
-                            Log.e("GoogleFit", "SensorApi successfully added");
-                        } else {
-                            Log.e("GoogleFit", "adding status: " + status.getStatusMessage());
-                        }
-                    }
-                });
-    }
-
-    /**
-     * Triggered when GoogleApiClient is connected to Google.
-     * @param bundle
-     */
-    @Override
-    public void onConnected(Bundle bundle) {
-        DataSourcesRequest dataSourceRequest = new DataSourcesRequest.Builder()
-                .setDataTypes( DataType.TYPE_STEP_COUNT_CUMULATIVE )
-                .setDataSourceTypes( DataSource.TYPE_RAW )
-                .build();
-
-        ResultCallback<DataSourcesResult> dataSourcesResultCallback = new ResultCallback<DataSourcesResult>() {
-            @Override
-            public void onResult(DataSourcesResult dataSourcesResult) {
-                for( DataSource dataSource : dataSourcesResult.getDataSources() ) {
-                    if( DataType.TYPE_STEP_COUNT_CUMULATIVE.equals( dataSource.getDataType() ) ) {
-                        registerFitnessDataListener(dataSource, DataType.TYPE_STEP_COUNT_CUMULATIVE);
-                    }
-                }
-            }
-        };
-
-        Fitness.SensorsApi.findDataSources(mApiClient, dataSourceRequest)
-                .setResultCallback(dataSourcesResultCallback);
-    }
+    private void setLineData(ArrayList<ArrayList<Double>> dataArray, int start) {
 
 
-    /**
-     * The first time the user runs the application, the connection to the Fitness API will fail
-     * because the usesr must authorize your app to access their fitness data.
-     * This methods handles the situation
-     * @param connectionResult
-     */
-    @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
-        if( !authInProgress ) {
-            try {
-                authInProgress = true;
-                connectionResult.startResolutionForResult( StatsActivity.this, REQUEST_OAUTH );
-            } catch(IntentSender.SendIntentException e ) {
-                Log.e( "GoogleFit", "sendingIntentException " + e.getMessage() );
-            }
+        ArrayList<Entry> stepCounts = new ArrayList<>();
+        ArrayList<Entry> focusTime = new ArrayList<>();
+        ArrayList<Entry> vocabTime = new ArrayList<>();
+
+        for (int i = start ; i < start + 30; i++) {
+            stepCounts.add(new Entry(i - start, dataArray.get(0).get(i).floatValue()));
+        }
+
+        for (int i = start; i < start + 30; i++) {
+            focusTime.add(new Entry(i - start, dataArray.get(1).get(i).floatValue()));
+        }
+
+        for (int i = start; i < start + 30; i++) {
+            vocabTime.add(new Entry(i - start, dataArray.get(2).get(i).floatValue()));
+        }
+
+
+        LineDataSet stepSet, focusSet, vocabSet;
+
+        if (monthChart.getData() != null &&
+                monthChart.getData().getDataSetCount() > 0) {
+            stepSet = (LineDataSet) monthChart.getData().getDataSetByIndex(0);
+            focusSet = (LineDataSet) monthChart.getData().getDataSetByIndex(1);
+            vocabSet = (LineDataSet) monthChart.getData().getDataSetByIndex(2);
+            stepSet.setValues(stepCounts);
+            focusSet.setValues(focusTime);
+            vocabSet.setValues(vocabTime);
+            monthChart.getData().notifyDataChanged();
+            monthChart.notifyDataSetChanged();
         } else {
-            Log.e( "GoogleFit", "authInProgress" );
+            // create a dataset and give it a type
+            stepSet = new LineDataSet(stepCounts, "Step Count");
+
+            stepSet.setAxisDependency(AxisDependency.LEFT);
+            stepSet.setColor(Color.rgb(209, 141, 178));
+            stepSet.setCircleColor(Color.WHITE);
+            stepSet.setLineWidth(2f);
+            stepSet.setCircleRadius(3f);
+            stepSet.setFillAlpha(65);
+            stepSet.setFillColor(Color.BLUE);
+            stepSet.setHighLightColor(Color.BLUE);
+            stepSet.setDrawCircleHole(false);
+            stepSet.setDrawValues(false);
+            //set1.setFillFormatter(new MyFillFormatter(0f));
+            //set1.setDrawHorizontalHighlightIndicator(false);
+            //set1.setVisible(false);
+            //set1.setCircleHoleColor(Color.WHITE);
+
+            // create a dataset and give it a type
+            focusSet = new LineDataSet(focusTime, "Focus Time");
+            focusSet.setAxisDependency(AxisDependency.RIGHT);
+            focusSet.setColor(Color.rgb(241,195,208));
+            focusSet.setCircleColor(Color.WHITE);
+            focusSet.setLineWidth(2f);
+            focusSet.setCircleRadius(3f);
+            focusSet.setFillAlpha(65);
+            focusSet.setFillColor(Color.RED);
+            focusSet.setDrawCircleHole(false);
+            focusSet.setHighLightColor(Color.rgb(244, 117, 117));
+            focusSet.setDrawValues(false);
+            //set2.setFillFormatter(new MyFillFormatter(900f));
+
+            vocabSet = new LineDataSet(vocabTime, "Vocab Time");
+            vocabSet.setAxisDependency(AxisDependency.RIGHT);
+            vocabSet.setColor(Color.rgb(201, 147, 212));
+            vocabSet.setCircleColor(Color.WHITE);
+            vocabSet.setLineWidth(2f);
+            vocabSet.setCircleRadius(3f);
+            vocabSet.setFillAlpha(65);
+            vocabSet.setFillColor(ColorTemplate.colorWithAlpha(Color.YELLOW, 200));
+            vocabSet.setDrawCircleHole(false);
+            vocabSet.setHighLightColor(Color.rgb(244, 117, 117));
+            vocabSet.setDrawValues(false);
+
+            // create a data object with the datasets
+            LineData data = new LineData(stepSet, focusSet, vocabSet);
+            data.setValueTextColor(Color.WHITE);
+            data.setValueTextSize(9f);
+
+            // set data
+            monthChart.setData(data);
         }
+
     }
 
-    /**
-     * There are two possible results:
-     * 1. The user grants our app to their data
-     * 2. He/she closes the dialog
-     * @param requestCode
-     * @param resultCode
-     * @param data
-     */
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if( requestCode == REQUEST_OAUTH ) {
-            authInProgress = false;
-            if( resultCode == RESULT_OK ) {
-                // When receive RESULT_OK, attemp to connect to the Google API client
-                if( !mApiClient.isConnecting() && !mApiClient.isConnected() ) {
-                    mApiClient.connect();
-                }
-            } else if( resultCode == RESULT_CANCELED ) {
-                Log.e( "GoogleFit", "RESULT_CANCELED" );
-            }
+
+
+
+    private void setBarData(ArrayList<ArrayList<Double>> dataArray, int start) {
+
+        //float start = 1f;
+
+
+
+        ArrayList<BarEntry> stepCounts = new ArrayList<>();
+        ArrayList<BarEntry> focusTime = new ArrayList<>();
+        ArrayList<BarEntry> vocabTime = new ArrayList<>();
+
+        for (int i = start; i < start + 7; i++) {
+            float stepVal = dataArray.get(0).get(i).floatValue();
+            float focusVal = dataArray.get(1).get(i).floatValue();
+            float vocabVal = dataArray.get(2).get(i).floatValue();
+
+            stepCounts.add(new BarEntry(i - start, new float[] {stepVal, focusVal, vocabVal}));
+        }
+//
+//        for (int i = 0; i < dataArray.get(1).size(); i++) {
+//            focusTime.add(new BarEntry(i, dataArray.get(1).get(i).floatValue()));
+//        }
+//
+//        for (int i = 0; i < dataArray.get(2).size(); i++) {
+//            vocabTime.add(new BarEntry(i, dataArray.get(2).get(i).floatValue()));
+//        }
+
+
+
+        BarDataSet step_set;
+//        BarDataSet focus_set;
+//        BarDataSet vocab_set;
+
+        if (weekChart.getData() != null &&
+                weekChart.getData().getDataSetCount() > 0) {
+
+            step_set = (BarDataSet) weekChart.getData().getDataSetByIndex(0);
+            step_set.setValues(stepCounts);
+
+//            focus_set = (BarDataSet) weekChart.getData().getDataSetByIndex(1);
+//            focus_set.setValues(focusTime);
+
+            weekChart.getData().notifyDataChanged();
+            weekChart.notifyDataSetChanged();
         } else {
-            Log.e("GoogleFit", "requestCode NOT request_oauth");
-        }
-    }
+            step_set = new BarDataSet(stepCounts, "Weekly Stats");
+//            focus_set = new BarDataSet(focusTime, "Focus Time");
+//            vocab_set = new BarDataSet(vocabTime, "Vocab Time");
+//
 
+            step_set.setDrawIcons(false);
+            step_set.setColors(getColors(), StatsActivity.this);
+            step_set.setStackLabels(new String[]{"Step Count", "Focus Time", "Vocab Time"});
+            //step_set.setAxisDependency(AxisDependency.LEFT);
 
+//            focus_set.setDrawIcons(false);
+//            focus_set.setColors(FOCUS_COLORS, StatsActivity.this);
+//
+//            vocab_set.setDrawIcons(false);
+//            vocab_set.setColors(VOCAB_COLORS, StatsActivity.this);
 
-    @Override
-    public void onConnectionSuspended(int i) {
-    }
+            ArrayList<IBarDataSet> dataSets = new ArrayList<>();
 
-    /**
-     *
-     * @param dataPoint
-     */
-    @Override
-    public void onDataPoint(DataPoint dataPoint) {
-        for( final Field field : dataPoint.getDataType().getFields() ) {
-            final Value value = dataPoint.getValue( field );
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    Toast.makeText(getApplicationContext(), "Field: " + field.getName() + " Value: " + value, Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
-    }
-
-
-    // Plotting
-
-    protected String[] mMonths = new String[] {
-            "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dec"
-    };
-
-    protected String[] mParties = new String[] {
-            "Party A", "Party B", "Party C", "Party D", "Party E", "Party F", "Party G", "Party H",
-            "Party I", "Party J", "Party K", "Party L", "Party M", "Party N", "Party O", "Party P",
-            "Party Q", "Party R", "Party S", "Party T", "Party U", "Party V", "Party W", "Party X",
-            "Party Y", "Party Z"
-    };
-
-    protected Typeface mTfRegular;
-    protected Typeface mTfLight;
-
-
-    protected float getRandom(float range, float startsfrom) {
-        return (float) (Math.random() * range) + startsfrom;
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-    }
-
-
-    private void setData(int count, float range) {
-
-        float start = 1f;
-
-        ArrayList<BarEntry> yVals1 = new ArrayList<BarEntry>();
-
-        for (int i = (int) start; i < start + count + 1; i++) {
-            float mult = (range + 1);
-            float val = (float) (Math.random() * mult);
-
-            if (Math.random() * 100 < 25) {
-                yVals1.add(new BarEntry(i, val, getResources().getDrawable(R.drawable.star)));
-            } else {
-                yVals1.add(new BarEntry(i, val));
-            }
-        }
-
-        BarDataSet set1;
-
-        if (mChart.getData() != null &&
-                mChart.getData().getDataSetCount() > 0) {
-            set1 = (BarDataSet) mChart.getData().getDataSetByIndex(0);
-            set1.setValues(yVals1);
-            mChart.getData().notifyDataChanged();
-            mChart.notifyDataSetChanged();
-        } else {
-            set1 = new BarDataSet(yVals1, "The year 2017");
-
-            set1.setDrawIcons(false);
-
-            set1.setColors(ColorTemplate.MATERIAL_COLORS);
-
-            ArrayList<IBarDataSet> dataSets = new ArrayList<IBarDataSet>();
-            dataSets.add(set1);
+            dataSets.add(step_set);
+//            dataSets.add(focus_set);
+//            dataSets.add(vocab_set);
 
             BarData data = new BarData(dataSets);
             data.setValueTextSize(10f);
-            data.setValueTypeface(mTfLight);
+            //data.setValueTypeface(mTfLight);
             data.setBarWidth(0.9f);
 
-            mChart.setData(data);
+            weekChart.setData(data);
         }
+        weekChart.setFitBars(true);
+        //weekChart.invalidate();
     }
 
+
+    private int[] getColors() {
+
+        int stacksize = 3;
+
+        // have as many colors as stack-values per entry
+        int[] colors = new int[stacksize];
+
+        colors[0] = STEP_COLORS[0];
+        colors[1] = FOCUS_COLORS[0];
+        colors[2] = VOCAB_COLORS[0];
+
+        return colors;
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
+            case android.R.id.home: {
+                onBackPressed();
+                break;
+            }
             case R.id.actionToggleValues: {
-                for (IDataSet set : mChart.getData().getDataSets())
+                for (IDataSet set : weekChart.getData().getDataSets())
                     set.setDrawValues(!set.isDrawValuesEnabled());
 
-                mChart.invalidate();
+                weekChart.invalidate();
                 break;
             }
             case R.id.actionToggleIcons: {
-                for (IDataSet set : mChart.getData().getDataSets())
+                for (IDataSet set : weekChart.getData().getDataSets())
                     set.setDrawIcons(!set.isDrawIconsEnabled());
 
-                mChart.invalidate();
+                weekChart.invalidate();
                 break;
             }
             case R.id.actionToggleHighlight: {
-                if (mChart.getData() != null) {
-                    mChart.getData().setHighlightEnabled(!mChart.getData().isHighlightEnabled());
-                    mChart.invalidate();
+                if (weekChart.getData() != null) {
+                    weekChart.getData().setHighlightEnabled(!weekChart.getData().isHighlightEnabled());
+                    weekChart.invalidate();
                 }
                 break;
             }
             case R.id.actionTogglePinch: {
-                if (mChart.isPinchZoomEnabled())
-                    mChart.setPinchZoom(false);
+                if (weekChart.isPinchZoomEnabled())
+                    weekChart.setPinchZoom(false);
                 else
-                    mChart.setPinchZoom(true);
+                    weekChart.setPinchZoom(true);
 
-                mChart.invalidate();
+                weekChart.invalidate();
                 break;
             }
             case R.id.actionToggleAutoScaleMinMax: {
-                mChart.setAutoScaleMinMaxEnabled(!mChart.isAutoScaleMinMaxEnabled());
-                mChart.notifyDataSetChanged();
+                weekChart.setAutoScaleMinMaxEnabled(!weekChart.isAutoScaleMinMaxEnabled());
+                weekChart.notifyDataSetChanged();
                 break;
             }
             case R.id.actionToggleBarBorders: {
-                for (IBarDataSet set : mChart.getData().getDataSets())
+                for (IBarDataSet set : weekChart.getData().getDataSets())
                     ((BarDataSet) set).setBarBorderWidth(set.getBarBorderWidth() == 1.f ? 0.f : 1.f);
 
-                mChart.invalidate();
+                weekChart.invalidate();
                 break;
             }
             case R.id.animateX: {
-                mChart.animateX(3000);
+                weekChart.animateX(3000);
                 break;
             }
             case R.id.animateY: {
-                mChart.animateY(3000);
+                weekChart.animateY(100);
                 break;
             }
             case R.id.animateXY: {
 
-                mChart.animateXY(3000, 3000);
+                weekChart.animateXY(3000, 3000);
                 break;
             }
             case R.id.actionSave: {
-                if (mChart.saveToGallery("title" + System.currentTimeMillis(), 50)) {
+                if (weekChart.saveToGallery("title" + System.currentTimeMillis(), 50)) {
                     Toast.makeText(getApplicationContext(), "Saving SUCCESSFUL!",
                             Toast.LENGTH_SHORT).show();
                 } else
@@ -496,11 +554,14 @@ public class StatsActivity extends AppCompatActivity implements OnDataPointListe
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 
-        tvX.setText("" + (mSeekBarX.getProgress() + 2));
-        tvY.setText("" + (mSeekBarY.getProgress()));
+        tvMonth.setText("" + (mSeekBarMonth.getProgress()));
+        tvWeek.setText("" + (mSeekBarWeek.getProgress()));
 
-        setData(mSeekBarX.getProgress() + 1 , mSeekBarY.getProgress());
-        mChart.invalidate();
+        setLineData(dataArray , mSeekBarMonth.getProgress());
+        monthChart.invalidate();
+
+        setBarData(dataArray , mSeekBarWeek.getProgress());
+        weekChart.invalidate();
     }
 
     @Override
@@ -515,24 +576,13 @@ public class StatsActivity extends AppCompatActivity implements OnDataPointListe
 
     protected RectF mOnValueSelectedRectF = new RectF();
 
+    @SuppressLint("NewApi")
     @Override
     public void onValueSelected(Entry e, Highlight h) {
-
-        if (e == null)
-            return;
-
-        RectF bounds = mOnValueSelectedRectF;
-        mChart.getBarBounds((BarEntry) e, bounds);
-        MPPointF position = mChart.getPosition(e, AxisDependency.LEFT);
-
-        Log.i("bounds", bounds.toString());
-        Log.i("position", position.toString());
-
-        Log.i("x-index",
-                "low: " + mChart.getLowestVisibleX() + ", high: "
-                        + mChart.getHighestVisibleX());
-
-        MPPointF.recycleInstance(position);
+        Log.i("Entry selected", e.toString());
+        Log.i("LOWHIGH", "low: " + monthChart.getLowestVisibleX() + ", high: " + monthChart.getHighestVisibleX
+                ());
+        Log.i("MIN MAX", "xmin: " + monthChart.getXChartMin() + ", xmax: " + monthChart.getXChartMax() + ", ymin: " + monthChart.getYChartMin() + ", ymax: " + monthChart.getYChartMax());
 
     }
 

@@ -16,6 +16,11 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        buildTypes {
+            debug {
+                debuggable true
+            }
+        }
     }
 }
 
@@ -34,6 +39,7 @@ dependencies {
     compile 'com.mikepenz:google-material-typeface:3.0.1.0.original@aar' //Google Material Icons
     compile 'com.mikepenz:fontawesome-typeface:4.7.0.0@aar'     //FontAwesome
     compile 'com.google.android.gms:play-services-fitness:8.4.0'
-    compile 'com.github.PhilJay:MPAndroidChart:v3.0.2'
+    compile 'com.github.PhilJay:MPAndroidChart:v3.0.2' // For plotting
+    // Thanks PhilJay for the awesome library!
     testCompile 'junit:junit:4.12'
 }
