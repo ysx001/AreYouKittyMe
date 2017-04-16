@@ -3,6 +3,7 @@ package com.example.android.areyoukittyme;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.RectF;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -28,12 +29,18 @@ import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.MPPointF;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class StatsDayActivity extends AppCompatActivity implements OnChartValueSelectedListener {
 
     private Button monthweekButton;
+    private TextView stepCountView;
+    private TextView vocabCountView;
+    private TextView vocabTimeView;
+    private TextView focusTimeView;
 
     private Context context;
 
@@ -65,7 +72,27 @@ public class StatsDayActivity extends AppCompatActivity implements OnChartValueS
         context = StatsDayActivity.this;
 
         monthweekButton = (Button) findViewById(R.id.monthWeekButton);
+        stepCountView = (TextView) findViewById(R.id.stepCountView);
+        vocabCountView = (TextView) findViewById(R.id.vocabCountView);
+        vocabTimeView = (TextView) findViewById(R.id.vocabTimeView);
+        focusTimeView = (TextView) findViewById(R.id.focusTimeView);
 
+        int stepSize = dataArray.get(0).size();
+        int focusSize = dataArray.get(1).size();
+        int vocabSize = dataArray.get(2).size();
+
+
+        float stepVal = dataArray.get(0).get(stepSize - 1).floatValue();
+        float focusVal = dataArray.get(1).get(focusSize - 1).floatValue();
+        float vocabVal = dataArray.get(2).get(vocabSize - 1).floatValue();
+
+        String stepStr = String.format("Steps Today: %.1f", stepVal);
+        String focusStr = String.format("Focus Time: %.1f", focusVal);
+        String vocabStr = String.format("Vocab Time: %.1f", vocabVal);
+
+        stepCountView.setText(stepStr);
+        focusTimeView.setText(focusStr);
+        vocabTimeView.setText(vocabStr);
 
         // Setting an OnClickLister for the statsButton
         monthweekButton.setOnClickListener(new View.OnClickListener() {
@@ -287,12 +314,19 @@ public class StatsDayActivity extends AppCompatActivity implements OnChartValueS
 
     private void setBarData(ArrayList<ArrayList<Double>> dataArray) {
 
-        float barWidth = 1f;
+        float groupSpace = 0.08f;
+        float barSpace = 2f; // x3 DataSet
+        float barWidth = 1f; // x3 DataSet
+//        float barWidth = 1f;
         float spaceForBar = 2f;
 
+        int groupCount = 3;
+        int start = 0;
+        int end = start + groupCount;
+
         ArrayList<BarEntry> stepCounts = new ArrayList<>();
-//        ArrayList<BarEntry> focusTime = new ArrayList<>();
-//        ArrayList<BarEntry> vocabTime = new ArrayList<>();
+        ArrayList<BarEntry> focusTime = new ArrayList<>();
+        ArrayList<BarEntry> vocabTime = new ArrayList<>();
 
         int stepSize = dataArray.get(0).size();
         int focusSize = dataArray.get(1).size();
@@ -303,8 +337,8 @@ public class StatsDayActivity extends AppCompatActivity implements OnChartValueS
         float vocabVal = dataArray.get(2).get(vocabSize - 1).floatValue();
 
         stepCounts.add(new BarEntry(0 * spaceForBar , stepVal));
-        stepCounts.add(new BarEntry(1 * spaceForBar , focusVal));
-        stepCounts.add(new BarEntry(2 * spaceForBar , vocabVal));
+        focusTime.add(new BarEntry(0 * spaceForBar , focusVal));
+        vocabTime.add(new BarEntry(0 * spaceForBar , vocabVal));
 
         BarDataSet stepSet, focusSet, vocabSet;
 
@@ -313,40 +347,45 @@ public class StatsDayActivity extends AppCompatActivity implements OnChartValueS
             stepSet = (BarDataSet) dayChart.getData().getDataSetByIndex(0);
             stepSet.setValues(stepCounts);
 
-//
-//            focusSet = (BarDataSet) dayChart.getData().getDataSetByIndex(0);
-//            focusSet.setValues(focusTime);
-//
-//            vocabSet = (BarDataSet) dayChart.getData().getDataSetByIndex(0);
-//            vocabSet.setValues(vocabTime);
+            focusSet = (BarDataSet) dayChart.getData().getDataSetByIndex(1);
+            focusSet.setValues(focusTime);
+
+            vocabSet = (BarDataSet) dayChart.getData().getDataSetByIndex(2);
+            vocabSet.setValues(vocabTime);
+
 
             dayChart.getData().notifyDataChanged();
             dayChart.notifyDataSetChanged();
         } else {
             stepSet = new BarDataSet(stepCounts, "Step Count");
             stepSet.setDrawIcons(false);
-//            stepSet.setColor(STEP_COLORS[0]);
-            stepSet.setColors(getColors(), StatsDayActivity.this);
+            stepSet.setColor(Color.rgb(209, 141, 178));
+//            stepSet.setColors(getColors(), StatsDayActivity.this);
 
-//            focusSet = new BarDataSet(focusTime, "Focus Time");
-//            focusSet.setDrawIcons(false);
-//            focusSet.setColor(FOCUS_COLORS[0]);
-//
-//            vocabSet = new BarDataSet(vocabTime, "Vocab Time");
-//            vocabSet.setDrawIcons(false);
-//            vocabSet.setColor(VOCAB_COLORS[0]);
+            focusSet = new BarDataSet(focusTime, "Focus Time");
+            focusSet.setDrawIcons(false);
+            focusSet.setColor(Color.rgb(241,195,208));
 
-            ArrayList<IBarDataSet> dataSets = new ArrayList<IBarDataSet>();
-            dataSets.add(stepSet);
+            vocabSet = new BarDataSet(vocabTime, "Vocab Time");
+            vocabSet.setDrawIcons(false);
+            vocabSet.setColor(Color.rgb(201, 147, 212));
+
+//            ArrayList<IBarDataSet> dataSets = new ArrayList<IBarDataSet>();
+//            dataSets.add(stepSet);
 //            dataSets.add(focusSet);
 //            dataSets.add(vocabSet);
 
-            BarData data = new BarData(dataSets);
+            BarData data = new BarData(stepSet, focusSet, vocabSet);
             data.setValueTextSize(10f);
 //            data.setValueTypeface(mTfLight);
-            data.setBarWidth(barWidth);
+
             dayChart.setData(data);
         }
+        dayChart.getBarData().setBarWidth(barWidth);
+
+        // barData.getGroupWith(...) is a helper that calculates the width each group needs based on the provided parameters
+        dayChart.getXAxis().setAxisMaximum(start + dayChart.getBarData().getGroupWidth(groupSpace, barSpace));
+        dayChart.groupBars(start, groupSpace, barSpace);
     }
 
 

@@ -13,23 +13,28 @@
         android:layout_margin="10sp"/>
 
     <TextView
+        android:id="@+id/stepCountView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10sp"
         android:text="Steps Today:"/>
 
     <TextView
+        android:id="@+id/vocabCountView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10sp"
         android:text="Vocab Studied:"/>
+
     <TextView
+        android:id="@+id/vocabTimeView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10sp"
         android:text="Vocab Time:"/>
 
     <TextView
+        android:id="@+id/focusTimeView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10sp"
