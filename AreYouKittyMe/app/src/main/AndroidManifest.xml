@@ -30,9 +30,19 @@
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
+        <activity android:name=".SettingsActivity"
+            android:label="Settings"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity"/>
+        </activity>
+
         <activity android:name=".StatsActivity"
                   android:label="@string/app_name"
                 android:parentActivityName=".MainActivity">
+
+
             <!-- The meta-data element is needed for versions lower than 4.1 -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -50,7 +60,7 @@
         <activity android:name=".VocabActivity"
 
             android:label="@string/app_name"
-            android:parentActivityName=".VocabActivity">
+            android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".VocabActivity"/>
@@ -58,7 +68,7 @@
         <activity android:name=".VocabReviewActivity"
 
             android:label="@string/app_name"
-            android:parentActivityName=".VocabStudyActivity">
+            android:parentActivityName=".VocabActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".VocabReviewActivity"/>
@@ -66,7 +76,7 @@
         <activity android:name=".VocabStudyActivity"
 
             android:label="@string/app_name"
-            android:parentActivityName=".VocabStudyActivity">
+            android:parentActivityName=".VocabActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".VocabStudyActivity"/>

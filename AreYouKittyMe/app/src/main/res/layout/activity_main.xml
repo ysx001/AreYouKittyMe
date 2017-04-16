@@ -19,11 +19,11 @@
         android:id="@+id/stats_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Stats"
-        android:layout_marginStart="16dp"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="30dp" />
+        android:layout_centerHorizontal="true"
+        android:background="#F1C3D0"
+        android:elevation="0dp"
+        android:text="Stats"/>
 
     <Button
         android:id="@+id/store_button"
@@ -31,6 +31,10 @@
         android:layout_height="wrap_content"
         android:layout_alignEnd="@+id/stats_button"
         android:layout_below="@+id/stats_button"
+        android:layout_centerHorizontal="true"
+        android:background="#9FA3E3"
+        android:elevation="0dp"
+        android:textAlignment="center"
         android:layout_marginTop="34dp"
         android:text="Store"/>
 
@@ -41,6 +45,9 @@
         android:layout_alignEnd="@+id/store_button"
         android:layout_below="@+id/store_button"
         android:layout_marginTop="49dp"
+        android:layout_centerHorizontal="true"
+        android:background="#F1C3D0"
+        android:elevation="0dp"
         android:text="Timer"/>
 
     <Button
@@ -48,6 +55,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="52dp"
+        android:background="#9FA3E3"
+        android:elevation="0dp"
+        android:textAlignment="center"
         android:text="Vocab"
         android:layout_below="@+id/timer_button"
         android:layout_alignStart="@+id/timer_button"/>
