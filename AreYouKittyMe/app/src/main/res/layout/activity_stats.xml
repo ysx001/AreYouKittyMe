@@ -8,69 +8,94 @@
     android:orientation="vertical"
     >
 
-    <android.support.design.widget.TabLayout
-        android:id="@+id/sliding_tabs"
+    <!--<android.support.design.widget.TabLayout-->
+        <!--android:id="@+id/sliding_tabs"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--app:tabMode="fixed" />-->
+
+    <!--<android.support.v4.view.ViewPager-->
+        <!--android:id="@+id/viewpager"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="0px"-->
+        <!--android:layout_weight="1"-->
+        <!--android:background="@android:color/white" />-->
+
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:tabMode="fixed" />
+        android:gravity="center"
+        android:textSize="20sp"
+        android:text="Monthly View (30 Days)"
+       />
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/viewpager"
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/monthChart"
         android:layout_width="match_parent"
-        android:layout_height="0px"
-        android:layout_weight="1"
-        android:background="@android:color/white" />
-
-    <com.github.mikephil.charting.charts.BarChart
-        android:id="@+id/chart1"
-        android:layout_width="match_parent"
-        android:layout_height="305dp"
-        android:layout_above="@+id/seekBar1"
-        android:layout_weight="0.10"/>
+        android:layout_height="200sp"
+        android:layout_above="@+id/monthSeekBar" />
 
     <SeekBar
-        android:id="@+id/seekBar2"
+        android:id="@+id/monthSeekBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_margin="8dp"
-        android:layout_toLeftOf="@+id/tvYMax"
+        android:layout_toLeftOf="@+id/tvMonthMax"
         android:layout_marginRight="5dp"
         android:max="200"
         android:paddingBottom="12dp" />
 
-    <SeekBar
-        android:id="@+id/seekBar1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/seekBar2"
-        android:layout_margin="8dp"
-        android:layout_marginBottom="35dp"
-        android:layout_toLeftOf="@+id/tvXMax"
-        android:layout_marginRight="5dp"
-        android:max="1500"
-        android:paddingBottom="12dp" />
-
     <TextView
-        android:id="@+id/tvXMax"
+        android:id="@+id/tvMonthMax"
         android:layout_width="60dp"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/seekBar1"
+        android:layout_alignBottom="@+id/monthChart"
         android:layout_alignParentRight="true"
-        android:text="500"
+        android:text="0"
         android:layout_marginBottom="15dp"
         android:layout_marginRight="10dp"
         android:gravity="right"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <TextView
-        android:id="@+id/tvYMax"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:text="Weekly View (7 Days)"
+        />
+
+    <com.github.mikephil.charting.charts.BarChart
+        android:id="@+id/weekChart"
+        android:layout_width="match_parent"
+        android:layout_height="200sp"
+        android:layout_above="@+id/seekBar1"
+        android:layout_weight="0.10"/>
+
+
+    <SeekBar
+        android:id="@+id/weekSeekBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/weekChart"
+        android:layout_margin="8dp"
+        android:layout_marginBottom="35dp"
+        android:layout_toLeftOf="@+id/tvWeekMax"
+        android:layout_marginRight="5dp"
+        android:max="1500"
+        android:paddingBottom="12dp" />
+
+
+
+    <TextView
+        android:id="@+id/tvWeekMax"
         android:layout_width="60dp"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/seekBar2"
         android:layout_alignParentRight="true"
-        android:text="500"
+        android:text="0"
         android:layout_marginBottom="15dp"
         android:layout_marginRight="10dp"
         android:gravity="right"
