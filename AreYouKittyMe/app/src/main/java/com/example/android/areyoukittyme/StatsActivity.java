@@ -5,6 +5,7 @@ import com.example.android.areyoukittyme.plot.DayAxisValueFormatter;
 import com.example.android.areyoukittyme.plot.MyAxisValueFormatter;
 import com.example.android.areyoukittyme.plot.XYMarkerView;
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.graphics.RectF;
 import android.os.Bundle;
@@ -161,7 +162,7 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
 
 
         weekChart = (BarChart) findViewById(R.id.weekChart);
-        weekChart.setOnChartValueSelectedListener(this);
+//        weekChart.setOnChartValueSelectedListener(this);
 
         weekChart.setDrawBarShadow(false);
         weekChart.setDrawValueAboveBar(true);
@@ -575,24 +576,13 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
 
     protected RectF mOnValueSelectedRectF = new RectF();
 
+    @SuppressLint("NewApi")
     @Override
     public void onValueSelected(Entry e, Highlight h) {
-
-        if (e == null)
-            return;
-
-        RectF bounds = mOnValueSelectedRectF;
-        weekChart.getBarBounds((BarEntry) e, bounds);
-        MPPointF position = weekChart.getPosition(e, AxisDependency.LEFT);
-
-        Log.i("bounds", bounds.toString());
-        Log.i("position", position.toString());
-
-        Log.i("x-index",
-                "low: " + weekChart.getLowestVisibleX() + ", high: "
-                        + weekChart.getHighestVisibleX());
-
-        MPPointF.recycleInstance(position);
+        Log.i("Entry selected", e.toString());
+        Log.i("LOWHIGH", "low: " + monthChart.getLowestVisibleX() + ", high: " + monthChart.getHighestVisibleX
+                ());
+        Log.i("MIN MAX", "xmin: " + monthChart.getXChartMin() + ", xmax: " + monthChart.getXChartMax() + ", ymin: " + monthChart.getYChartMin() + ", ymax: " + monthChart.getYChartMax());
 
     }
 
