@@ -215,7 +215,7 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
                         if (drawerItem != null) {
                             Intent intent = null;
                             if (drawerItem.getIdentifier() == 1) {
-                                intent = new Intent(MainActivity.this, StatsActivity.class);
+                                intent = new Intent(MainActivity.this, StatsDayActivity.class);
                             }
                             else if (drawerItem.getIdentifier() == 2) {
                                 intent = new Intent(MainActivity.this, StoreActivity.class);

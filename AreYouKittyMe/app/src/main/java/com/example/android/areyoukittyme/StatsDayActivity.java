@@ -68,6 +68,9 @@ public class StatsDayActivity extends AppCompatActivity implements OnChartValueS
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stats_day);
 
+        // enable back button to main page
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         // Store the context variable
         context = StatsDayActivity.this;
 
@@ -181,6 +184,10 @@ public class StatsDayActivity extends AppCompatActivity implements OnChartValueS
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
+            case android.R.id.home: {
+                onBackPressed();
+                break;
+            }
             case R.id.actionToggleValues: {
                 List<IBarDataSet> sets = dayChart.getData()
                         .getDataSets();
