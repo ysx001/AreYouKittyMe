@@ -1,31 +1,260 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.android.areyoukittyme.SettingsActivity">
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginStart="43dp"
-        android:layout_marginTop="45dp"
-        app:srcCompat="@mipmap/ic_launcher_round"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
-
-    <EditText
-        android:id="@+id/editText2"
+    <TextView
+        android:id="@+id/vocabBookSettingLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:paddingStart="30dp"
+        android:text="Vocab book / language:"
+        android:textSize="18sp"
+        android:layout_below="@+id/vocabSettingTitle"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:id="@+id/vocabSettingTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/focusSetting"
+        android:layout_marginTop="8dp"
+        android:padding="10dp"
+        android:paddingStart="30dp"
+        android:text="Vocab Preferences"
+        android:textColor="@color/colorPrimary"
+        android:textSize="15dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/focusSettingLabel2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/focusSettingLabel3"
+        android:layout_alignBottom="@+id/focusSettingLabel3"
+        android:layout_alignEnd="@+id/focusSettingLabel3"
+        android:layout_marginEnd="37dp"
+        android:padding="10dp"
+        android:text="min"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/focusSettingLabel3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/stepsSettingLabel2"
+        android:layout_below="@+id/stepsSettingLabel2"
+        android:padding="10dp"
+        android:text="/day"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/focusSetting"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
         android:ems="10"
+        android:inputType="number"
+        android:text="8000"
+        android:textAlignment="center"
+        android:layout_below="@+id/stepsSetting"
+        android:layout_toEndOf="@+id/nameSettingLabel" />
+
+    <TextView
+        android:id="@+id/focusSettingLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:paddingStart="30dp"
+        android:text="Focus time:"
+        android:textSize="18sp"
+        android:layout_below="@+id/stepsSettingLabel"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:id="@+id/stepsSettingLabel2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/vocabSettingLabel2"
+        android:layout_below="@+id/vocabSettingLabel"
+        android:padding="10dp"
+        android:text="/day"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/stepsSetting"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="number"
+        android:text="8000"
+        android:textAlignment="center"
+        android:layout_below="@+id/vocabSetting"
+        android:layout_alignStart="@+id/focusSetting" />
+
+    <TextView
+        android:id="@+id/stepsSettingLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:paddingStart="30dp"
+        android:text="Number of steps:"
+        android:textSize="18sp"
+        android:layout_below="@+id/vocabSettingLabel"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:id="@+id/vocabSettingLabel2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/vocabSetting"
+        android:layout_alignEnd="@+id/ageSetting"
+        android:padding="10dp"
+        android:text="/day"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/vocabSettingLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/goalsSettingTitle"
+        android:padding="10dp"
+        android:paddingStart="30dp"
+        android:text="Number of vocabs:"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/ageSettingLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/profileImage"
+        android:layout_alignStart="@+id/nameSettingLabel"
+        android:layout_marginBottom="10dp"
+        android:padding="5dp"
+        android:text="Age:"
+        android:textSize="18sp" />
+
+    <ImageView
+        android:id="@+id/profileImage"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="29dp"
+        android:layout_marginTop="30dp"
+        app:srcCompat="@mipmap/ic_launcher_round" />
+
+    <TextView
+        android:id="@+id/nameSettingLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="23dp"
+        android:padding="5dp"
+        android:text="Name:"
+        android:textSize="18sp"
+        android:layout_above="@+id/ageSetting"
+        android:layout_toEndOf="@+id/goalsSettingTitle" />
+
+    <EditText
+        android:id="@+id/nameSetting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/nameSettingLabel"
+        android:layout_alignBottom="@+id/nameSettingLabel"
+        android:layout_marginEnd="35dp"
+        android:layout_marginStart="8dp"
+        android:layout_toEndOf="@+id/nameSettingLabel"
+        android:ems="10"
+        android:hint="Kitty"
         android:inputType="textPersonName"
-        android:text="Name"
-        android:layout_alignTop="@+id/imageView"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="31dp" />
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/ageSetting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/ageSettingLabel"
+        android:layout_alignBottom="@+id/ageSettingLabel"
+        android:layout_alignStart="@+id/nameSetting"
+        android:layout_marginEnd="35dp"
+        android:ems="10"
+        android:hint="0" />
+
+    <TextView
+        android:id="@+id/goalsSettingTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/profileImage"
+        android:layout_marginTop="18dp"
+        android:padding="10dp"
+        android:paddingStart="30dp"
+        android:text="Set Your Goals"
+        android:textColor="@color/colorPrimary"
+        android:textSize="15dp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/vocabSetting"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="number"
+        android:text="30"
+        android:textAlignment="center"
+        android:layout_alignBaseline="@+id/vocabSettingLabel"
+        android:layout_alignBottom="@+id/vocabSettingLabel"
+        android:layout_alignStart="@+id/stepsSetting" />
+
+    <Spinner
+        android:id="@+id/vocabBookSetting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/vocabBookSettingLabel"
+        android:layout_alignEnd="@+id/focusSettingLabel3"
+        android:layout_marginBottom="8dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="62dp">
+
+        <Button
+            android:id="@+id/settingDiscardBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignStart="@+id/profileImage"
+            android:layout_below="@+id/vocabBookSettingLabel"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="30dp"
+            android:layout_weight="1"
+            android:background="@color/colorAccentLight"
+            android:text="DISCARD"
+            android:textColor="@color/common_google_signin_btn_text_dark_default"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/settingApplyBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/profileImage"
+            android:layout_below="@+id/vocabBookSettingLabel"
+            android:layout_marginEnd="30dp"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:background="@color/colorPrimary"
+            android:text="APPLY"
+            android:textColor="@color/common_google_signin_btn_text_dark_default"
+            android:textSize="18sp" />
+    </LinearLayout>
 
 </RelativeLayout>
