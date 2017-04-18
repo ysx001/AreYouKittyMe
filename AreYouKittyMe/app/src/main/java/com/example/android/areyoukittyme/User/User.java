@@ -15,28 +15,29 @@ import java.util.HashMap;
 
 public class User {
 
-    public static String name;
+    private static String name;
+    private static int age;
 
-    public static int stepsGoal;
-    public static int focusGoal;
-    public static int vocabGoal;
+    private static int stepsGoal;
+    private static int focusGoal;
+    private static int vocabGoal;
 
-    public static int steps;
-    public static int focus;
-    public static int vocab;
+    private static int steps;
+    private static int focus;
+    private static int vocab;
 
     // 0: SAT6000
     // 1: French
     // 2: German
     // 3: Spanish
-    public static int vocabBookID;
+    private static int vocabBookID;
 
-    public static int cash;
-    public static HashMap<Integer, Object[]> inventoryList;
+    private static int cash;
+    private static HashMap<Integer, Object[]> inventoryList;
 
     // Cat attributes
-    public static int health;
-    public static int mood;
+    private static int health;
+    private static int mood;
 
     public User(String name) {
         User.name = name;
@@ -70,6 +71,14 @@ public class User {
 
     public static void setName(String name) {
         User.name = name;
+    }
+
+    public static int getAge() {
+        return age;
+    }
+
+    public static void setAge(int age) {
+        User.age = age;
     }
 
     public static int getStepsGoal() {

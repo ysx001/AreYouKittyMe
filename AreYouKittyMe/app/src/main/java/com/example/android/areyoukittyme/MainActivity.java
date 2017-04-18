@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
     private Context context;
 
     private AccountHeader header;
+    private IProfile profile;
     private Drawer drawer;
 
     private TextView displayCatName;
@@ -90,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
         String catName = User.getName();
         displayCatName.setText(catName);
 
-        final IProfile profile = new ProfileDrawerItem().withName(catName).withIcon(GoogleMaterial.Icon.gmd_pets);
+        profile = new ProfileDrawerItem().withName(catName).withIcon(GoogleMaterial.Icon.gmd_pets);
 
         header = new AccountHeaderBuilder()
                 .withActivity(this)
@@ -182,18 +183,24 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
                 .addOnConnectionFailedListener(this)
                 .build();
 
+        mApiClient.connect();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         // Connecting to google's backend
-        mApiClient.connect();
+        // Moved to onCreate() for now
+        //mApiClient.connect();
+
+        profile.withName(User.getName());
+        displayCatName.setText(User.getName());
+        drawer.setSelection(0);
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onDestroy() {
+        super.onDestroy();
 
         Fitness.SensorsApi.remove( mApiClient, this )
                 .setResultCallback(new ResultCallback<Status>() {

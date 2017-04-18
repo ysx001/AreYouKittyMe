@@ -97,27 +97,25 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
+    @Override
     public void onClick(View v) {
+
         switch (v.getId()) {
 
             case R.id.timerStartBtn: {
 
                 startBtnClicked();
-
                 break;
-
             }
             case R.id.timerPauseBtn: {
 
                 pauseBtnClicked();
-
                 break;
             }
 
             case R.id.timerCancelBtn: {
 
                 cancelBtnClicked();
-
                 break;
             }
         }
