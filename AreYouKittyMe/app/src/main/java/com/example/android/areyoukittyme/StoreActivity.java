@@ -75,7 +75,7 @@ public class StoreActivity extends AppCompatActivity {
         totalText = (TextView) findViewById(R.id.totalAmount);
     }
 
-    //TODO: add all the items into player's inventory(hash map)
+    //TODO: fix bug: must set total to zero when back button is clicked
 
 
     private static void checkout() {

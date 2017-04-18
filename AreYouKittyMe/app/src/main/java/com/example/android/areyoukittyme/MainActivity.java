@@ -8,6 +8,11 @@ import android.content.IntentSender;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.support.v7.widget.Toolbar;
@@ -57,7 +62,7 @@ import java.util.concurrent.TimeUnit;
 public class MainActivity extends AppCompatActivity implements OnDataPointListener,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener{
-
+    private static final int NUM_PAGES = 5;
     private static final int REQUEST_OAUTH = 1;
     private static final String AUTH_PENDING = "auth_state_pending";
     private boolean authInProgress = false;
@@ -66,6 +71,8 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
     private AccountHeader header;
     private Drawer drawer;
     private TextView displayCatName;
+    private ViewPager mPager;
+    private PagerAdapter mPagerAdapter;
     Point p;
 
 
@@ -80,7 +87,6 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
         displayCatName = (TextView) findViewById(R.id.cat_name_display);
 
         findViewById(R.id.miaomiaomiao).setOnTouchListener(new MyTouchListener());
-
 
         // Use getIntent method to store the Intent that started this Activity
         Intent startingIntent = getIntent();
@@ -327,21 +333,26 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
     }
 
     private void showPopup(final Activity context, Point p) {
-        int popupWidth = 700;
-        int popupHeight = 700;
+        int popupWidth = 1000;
+        int popupHeight = 1000;
 
         // Inflate the popup_layout.xml
-        LinearLayout viewGroup = (LinearLayout) context.findViewById(R.id.popup);
-        LayoutInflater layoutInflater = (LayoutInflater) context
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View layout = layoutInflater.inflate(R.layout.popup_layout, viewGroup);
+//        ViewPager viewGroup = (ViewPager) context.findViewById(R.id.pager);
+        LinearLayout viewGroup = (LinearLayout) context.findViewById(R.id.pager_temp);
+        LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View layout = layoutInflater.inflate(R.layout.activity_screen_slide, viewGroup);
+
+
 
         // Creating the PopupWindow
         final PopupWindow popup = new PopupWindow(context);
+
+
         popup.setContentView(layout);
         popup.setWidth(popupWidth);
         popup.setHeight(popupHeight);
         popup.setFocusable(true);
+
 
         // Some offset to align the popup a bit to the right, and a bit down, relative to button's position.
         int OFFSET_X = 30;
@@ -356,7 +367,11 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
         // Getting a reference to Close button, and close the popup when clicked.
 //        Button close = (Button) layout.findViewById(R.id.close);
 
+//        mPager = (ViewPager) findViewById(R.id.pager);
+//        mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
+//        mPager.setAdapter(mPagerAdapter);
     }
+
     public void onWindowFocusChanged(boolean hasFocus) {
 
         int[] location = new int[2];
@@ -370,5 +385,33 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
         p = new Point();
         p.x = location[0];
         p.y = location[1];
+    }
+
+    private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
+        public ScreenSlidePagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return new MainPopupFragment();
+        }
+
+        @Override
+        public int getCount() {
+            return NUM_PAGES;
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mPager.getCurrentItem() == 0) {
+            // If the user is currently looking at the first step, allow the system to handle the
+            // Back button. This calls finish() on this activity and pops the back stack.
+            super.onBackPressed();
+        } else {
+            // Otherwise, select the previous step.
+            mPager.setCurrentItem(mPager.getCurrentItem() - 1);
+        }
     }
 }
