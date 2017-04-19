@@ -5,8 +5,8 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
-    <string name="reminder_notification_title">Go back to your task!</string>
-    <string name="reminder_notification_body">Do not interrupt my sleep!!!</string>
+    <string name="reminder_notification_title">Do not interrupt my sleep!!!</string>
+    <string name="reminder_notification_body">Go back to your task in </string>
     <string name="title_timer">Sleep Timer</string>
     <string name="colon_timer">:</string>
     <string name="zero_time_timer">00</string>
@@ -22,6 +22,9 @@
     <string name="title_pause_timer">Pausing</string>
     <string name="message_pause_timer">You can only stay on this page without interrupting my sleep!</string>
     <string name="ok_btn">Got it!</string>
+    <string name="title_finish_timer">Hey master, I had a great sleep!</string>
+    <string name="message_finish_timer">Focus task completed</string>
+    <string name="btn_finish_timer">Dismiss</string>
     <string name="nav_bar_list">Stats</string>
     <string name="title_adopt_name">Anonymous cat!</string>
     <string name="message_adopt_name">Give your cat a name before continuing!</string>

@@ -9,6 +9,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
+import android.os.Handler;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 
@@ -24,7 +25,6 @@ import com.example.android.areyoukittyme.TimerActivity;
 public class NotificationUtils {
     private static final int REMINDER_NOTIFICATION_ID = 1017;
     private static final int REMINDER_PENDING_INTENT_ID = 2013;
-
 
     /**
      * Create a method called remindUserBecauseCharging which takes a Context.
@@ -43,11 +43,11 @@ public class NotificationUtils {
                 .setSmallIcon(R.drawable.ic_notifications_black_24dp)
                 .setContentTitle(context.getString(R.string.reminder_notification_title))
                 .setContentText(context.getString(R.string.reminder_notification_body))
-                .setStyle(new NotificationCompat.BigTextStyle().bigText(
-                        context.getString(R.string.reminder_notification_body)))
+                //.setStyle(new NotificationCompat.BigTextStyle().bigText(
+                        //context.getString(R.string.reminder_notification_body)))
                 .setDefaults(Notification.DEFAULT_VIBRATE)
                 .setContentIntent(contentIntent(context))
-                .setAutoCancel(true);
+                .setAutoCancel(false);
 
         // If the build version is greater than JELLY_BEAN, set the notification's priority
         // to PRIORITY_HIGH.
@@ -56,7 +56,7 @@ public class NotificationUtils {
         }
 
         // Get a NotificationManager, using context.getSystemService(Context.NOTIFICATION_SERVICE);
-        NotificationManager notificationManager = (NotificationManager)
+        final NotificationManager notificationManager = (NotificationManager)
                 context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         // Trigger the notification by calling notify on the NotificationManager.
@@ -64,8 +64,19 @@ public class NotificationUtils {
         notificationManager.notify(REMINDER_NOTIFICATION_ID, notificationBuilder.build());
 
         final int[] countdown = {5};
+        final Context cont = context;
 
-
+        final Handler handler = new Handler();
+        final Runnable r = new Runnable()
+        {
+            public void run()
+            {
+                countdown[0] --;
+                notificationBuilder.setContentText(String.valueOf(countdown[0]));
+                notificationManager.notify(REMINDER_NOTIFICATION_ID, notificationBuilder.build());
+            }
+        };
+        handler.postDelayed(r, 1000);
     }
 
     /**
