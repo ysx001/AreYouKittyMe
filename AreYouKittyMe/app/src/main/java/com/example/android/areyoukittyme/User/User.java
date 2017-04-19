@@ -18,7 +18,7 @@ public class User {
     private static String name;
     private static int age;
 
-    private ArrayList<ArrayList<Double>> userData;
+    private static ArrayList<ArrayList<Double>> userData;
     private final int year = 365;
 
     private static int stepsGoal;
@@ -35,10 +35,10 @@ public class User {
     // 3: Spanish
     private static int vocabBookID;
 
-    private static int cash;
     private static HashMap<Integer, Object[]> inventoryList;
 
     // Cat attributes
+    private static int cash;
     private static int health;
     private static int mood;
 
@@ -148,6 +148,14 @@ public class User {
         User.inventoryList = inventoryList;
     }
 
+    public static int getCash() {
+        return cash;
+    }
+
+    public static void setCash(int cash) {
+        User.cash = cash;
+    }
+
     public static int getHealth() {
         return health;
     }
@@ -201,7 +209,7 @@ public class User {
         return data;
     }
 
-    public ArrayList<ArrayList<Double>> getUserData() {
+    public static ArrayList<ArrayList<Double>> getUserData() {
         return userData;
     }
 }

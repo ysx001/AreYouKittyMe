@@ -33,7 +33,7 @@ public class VocabStudyActivity extends AppCompatActivity {
         this.choiceBtn1 = (Button)findViewById(R.id.FirstOption_button);
         this.choiceBtn2 = (Button)findViewById(R.id.SecondOption_button2);
         this.choiceBtn3 = (Button)findViewById(R.id.ThirdOption_button3);
-        this.choiceBtn4 = (Button)findViewById(R.id.FourthOption_button4);
+        this.choiceBtn4 = (Button)findViewById(R.id.FourOption_button4);
         this.knownBtn = (Button)findViewById(R.id.Known_button);
         this.unknownBtn = (Button)findViewById(R.id.NotKnown_button);
         this.questionView = (TextView) findViewById(R.id.Question_textView);

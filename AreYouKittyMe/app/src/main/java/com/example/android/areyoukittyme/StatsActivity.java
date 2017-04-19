@@ -54,8 +54,6 @@ import com.github.mikephil.charting.utils.MPPointF;
 public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeListener,
         OnChartValueSelectedListener{
 
-    private User mUser = new User();
-
     private Button dayButton;
 
     private Context context;
@@ -72,7 +70,7 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
     public final int[] VOCAB_COLORS = { R.color.colorAccentDark};
 
 
-    private ArrayList<ArrayList<Double>> dataArray = mUser.getUserData();
+    private ArrayList<ArrayList<Double>> dataArray = User.getUserData();
 
 
     protected LineChart monthChart;
