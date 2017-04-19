@@ -21,9 +21,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/cat_name_display"
         android:layout_marginTop="27dp"
-        app:srcCompat="@drawable/broccoli"/>
+        android:visibility="visible"
+        app:srcCompat="@drawable/broccoli" />
 
-    <TextView
+    <Button
         android:id="@+id/toSlidePage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -36,7 +37,8 @@
     <android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/pager_temp"
         android:layout_width="300dp"
-        android:layout_height="300dp"></android.support.v4.view.ViewPager>
+        android:layout_height="300dp"
+        android:visibility="invisible"></android.support.v4.view.ViewPager>
 
 
 </RelativeLayout>

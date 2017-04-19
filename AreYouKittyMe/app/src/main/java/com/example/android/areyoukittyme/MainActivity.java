@@ -1,8 +1,10 @@
 package com.example.android.areyoukittyme;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.graphics.Point;
@@ -56,13 +58,13 @@ import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.SectionDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
-
+import android.view.View.OnClickListener;
 import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity implements OnDataPointListener,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener{
-    private static final int NUM_PAGES = 5;
+    private static int NUM_PAGES = 2;
     private static final int REQUEST_OAUTH = 1;
     private static final String AUTH_PENDING = "auth_state_pending";
     private boolean authInProgress = false;
@@ -175,6 +177,10 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .build();
+
+        mPager = (ViewPager) findViewById(R.id.pager_temp);
+        mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
+        mPager.setAdapter(mPagerAdapter);
 
     }
 
@@ -324,7 +330,16 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
     private final class MyTouchListener implements View.OnTouchListener {
         public boolean onTouch(View view, MotionEvent motionEvent) {
             if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                showPopup(MainActivity.this, p);
+
+                ViewPager v = (ViewPager) findViewById(R.id.pager_temp);
+                int visibility = v.getVisibility();
+                if (visibility == View.VISIBLE) {
+                    v.setVisibility(View.INVISIBLE);
+                }
+                else {
+                    v.setVisibility(View.VISIBLE);
+                }
+
                 return true;
             } else {
                 return false;
@@ -338,9 +353,9 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
 
         // Inflate the popup_layout.xml
 //        ViewPager viewGroup = (ViewPager) context.findViewById(R.id.pager);
-        LinearLayout viewGroup = (LinearLayout) context.findViewById(R.id.pager_temp);
+        LinearLayout viewGroup = (LinearLayout) context.findViewById(R.id.popup);
         LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View layout = layoutInflater.inflate(R.layout.activity_screen_slide, viewGroup);
+        View layout = layoutInflater.inflate(R.layout.popup_layout, viewGroup);
 
 
 
@@ -394,6 +409,7 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
 
         @Override
         public Fragment getItem(int position) {
+
             return new MainPopupFragment();
         }
 
@@ -414,4 +430,5 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
             mPager.setCurrentItem(mPager.getCurrentItem() - 1);
         }
     }
+
 }

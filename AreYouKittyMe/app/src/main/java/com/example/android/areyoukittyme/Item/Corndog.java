@@ -7,8 +7,8 @@ import com.example.android.areyoukittyme.R;
  */
 public class Corndog implements Item{
 
-    private int price;
-    private int icon;
+    private static int price;
+    private static int icon;
     private static int id;
 
     public Corndog() {
@@ -18,20 +18,23 @@ public class Corndog implements Item{
     }
 
     @Override
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
-    @Override
     public void setIcon(int icon) {
         this.icon = icon;
     }
-
+    public static int getIcon() {
+        return icon;
+    }
+    public static void setId(int id) {
+        Corndog.id = id;
+    }
     @Override
     public int getId() {
         return this.id;
     }
-
+    @Override
+    public void setPrice(int price) {
+        this.price = price;
+    }
     public int getPrice() {
         return price;
     }
