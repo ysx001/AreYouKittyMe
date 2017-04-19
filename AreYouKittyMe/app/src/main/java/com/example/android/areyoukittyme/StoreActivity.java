@@ -42,7 +42,7 @@ package com.example.android.areyoukittyme;
 public class StoreActivity extends AppCompatActivity {
 
     private static User user;
-    private Store theStore;
+    private static Store theStore;
     private static int ItemDogAmount = 0;
     private static int itemFishAmount = 0;
     public static ArrayList<Integer> priceList;
@@ -61,6 +61,8 @@ public class StoreActivity extends AppCompatActivity {
         priceList = new ArrayList<>();
         amountList = new ArrayList<>();
 
+
+        // setting up button clicks and snackbars
         findViewById(R.id.checkoutBtn).setOnClickListener(new MyClickListener());
         View coordLayout = findViewById(R.id.coordinatorLayout);
         mySnackbar = Snackbar.make(coordLayout, "Not Enough CatCash", BaseTransientBottomBar.LENGTH_SHORT);
@@ -223,10 +225,6 @@ public class StoreActivity extends AppCompatActivity {
 //            }
         }
     }
-
-
-
-
 }
 
 //package com.example.android.areyoukittyme;

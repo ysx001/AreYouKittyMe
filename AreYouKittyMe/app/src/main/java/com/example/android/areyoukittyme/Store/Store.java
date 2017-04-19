@@ -27,7 +27,6 @@ public class Store {
         this.itemList.add(new Bacon());
         this.itemList.add(new Hamburger());
         this.itemList.add(new Corndog());
-        this.itemList.add(new Candy());
     }
 
     public ArrayList<Item> getItemList() {

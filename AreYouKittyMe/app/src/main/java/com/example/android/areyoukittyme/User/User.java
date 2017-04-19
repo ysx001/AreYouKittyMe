@@ -33,6 +33,16 @@ public class User {
             this.inventoryList.put(i, array);
         }
     }
+    public void initInventoryList(ArrayList<TextView> amountList, ArrayList<Integer> priceList) {
+        Object[] array = new Object[3];
+        for (int i = 0; i < amountList.size(); i++) {
+            array[0] = Integer.parseInt(amountList.get(i).getText().toString());
+            array[1] = priceList.get(i);
+            array[2] = Store.itemList.get(i);
+            this.inventoryList.put(i, array);
+        }
+    }
+
 
     public HashMap<Integer, Object[]> getInventoryList() {
         return inventoryList;
