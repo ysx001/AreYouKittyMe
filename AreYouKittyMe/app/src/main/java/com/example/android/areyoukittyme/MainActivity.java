@@ -12,9 +12,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.android.areyoukittyme.User.User;
 import com.github.pwittchen.swipe.library.Swipe;
 import com.github.pwittchen.swipe.library.SwipeListener;
 import com.google.android.gms.common.ConnectionResult;
@@ -61,15 +63,14 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
     private Context context;
 
     private AccountHeader header;
+    private IProfile profile;
     private Drawer drawer;
 
     private Swipe swipe;
 
     private TextView displayCatName;
-    private Button statsButton;
-    private Button vocabButton;
-    private Button storeButton;
-    private Button timerButton;
+
+    private ImageView drawerToggler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,19 +81,19 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
         context = MainActivity.this;
 
         displayCatName = (TextView) findViewById(R.id.cat_name_display);
-        /*statsButton = (Button) findViewById(R.id.stats_button);
-        vocabButton = (Button) findViewById(R.id.vocab_button);
-        storeButton = (Button) findViewById(R.id.store_button);
-        timerButton = (Button) findViewById(R.id.timer_button);*/
+
+        drawerToggler = (ImageView) findViewById(R.id.drawerToggler);
+
         findViewById(R.id.miaomiaomiao).setOnTouchListener(new MyTouchListener());
 
 
         // Use getIntent method to store the Intent that started this Activity
         Intent startingIntent = getIntent();
 
-        String catName = startingIntent.getStringExtra(Intent.EXTRA_TEXT);
+        String catName = User.getName();
         displayCatName.setText(catName);
 
+        profile = new ProfileDrawerItem().withName(catName).withIcon(GoogleMaterial.Icon.gmd_pets);
 
         /*// Setting an OnClickLister for the statsButton
         statsButton.setOnClickListener(new View.OnClickListener() {
@@ -215,7 +216,7 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
                         if (drawerItem != null) {
                             Intent intent = null;
                             if (drawerItem.getIdentifier() == 1) {
-                                intent = new Intent(MainActivity.this, StatsDayActivity.class);
+                                intent = new Intent(MainActivity.this, StatsActivity.class);
                             }
                             else if (drawerItem.getIdentifier() == 2) {
                                 intent = new Intent(MainActivity.this, StoreActivity.class);
@@ -242,6 +243,15 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
                 })
                 .build();
 
+        drawerToggler.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!drawer.isDrawerOpen()) {
+                    drawer.openDrawer();
+                }
+            }
+        });
+
         // Connecting to Google Play Service
         if (savedInstanceState != null) {
             authInProgress = savedInstanceState.getBoolean(AUTH_PENDING);
@@ -255,18 +265,24 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
                 .addOnConnectionFailedListener(this)
                 .build();
 
+        mApiClient.connect();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         // Connecting to google's backend
-        mApiClient.connect();
+        // Moved to onCreate() for now
+        //mApiClient.connect();
+
+        profile.withName(User.getName());
+        displayCatName.setText(User.getName());
+        drawer.setSelection(0);
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onDestroy() {
+        super.onDestroy();
 
         Fitness.SensorsApi.remove( mApiClient, this )
                 .setResultCallback(new ResultCallback<Status>() {
@@ -277,6 +293,20 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
                         }
                     }
                 });
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (drawer.isDrawerOpen()) {
+            drawer.closeDrawer();
+        }
+        else {
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+
+            startActivity(intent);
+        }
     }
 
     /**
@@ -398,46 +428,6 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
                 }
             });
         }
-        swipe.addListener(new SwipeListener() {
-            @Override
-            public void onSwipingLeft(MotionEvent event) {
-            }
-
-            @Override
-            public void onSwipedLeft(MotionEvent event) {
-                if (drawer.isDrawerOpen()) {
-                    drawer.closeDrawer();
-                }
-            }
-
-            @Override
-            public void onSwipingRight(MotionEvent event) {
-            }
-
-            @Override
-            public void onSwipedRight(MotionEvent event) {
-                if (! drawer.isDrawerOpen()) {
-                    drawer.openDrawer();
-                }
-            }
-
-            @Override
-            public void onSwipingUp(MotionEvent event) {
-            }
-
-            @Override
-            public void onSwipedUp(MotionEvent event) {
-            }
-
-            @Override
-            public void onSwipingDown(MotionEvent event) {
-            }
-
-            @Override
-            public void onSwipedDown(MotionEvent event) {
-            }
-        });
-
     }
     private final class MyTouchListener implements View.OnTouchListener {
         public boolean onTouch(View view, MotionEvent motionEvent) {

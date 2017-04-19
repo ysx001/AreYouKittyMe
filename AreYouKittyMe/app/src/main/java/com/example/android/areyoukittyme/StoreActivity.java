@@ -67,7 +67,8 @@ public class StoreActivity extends AppCompatActivity {
         mySnackbar = Snackbar.make(coordLayout, "Not Enough CatCash", BaseTransientBottomBar.LENGTH_SHORT);
 
         //TODO: find a way to store the model
-        this.user = new User(100, new HashMap<Integer, Object[]>());
+        this.user.setCash(100);
+        this.user.setInventoryList(new HashMap<Integer, Object[]>());
         this.theStore = new Store();
         populateStore();
 

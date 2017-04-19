@@ -15,21 +15,47 @@ import java.util.HashMap;
 
 public class User {
 
-    public static int cash;
-    public static HashMap<Integer, Object[]> inventoryList;
-    private Cat myCat;
+    private static String name;
+    private static int age;
 
     private ArrayList<ArrayList<Double>> userData;
     private final int year = 365;
 
-    public User() {
-        this.userData = generateData(year, 30.0);
-    }
+    private static int stepsGoal;
+    private static int focusGoal;
+    private static int vocabGoal;
 
-    public User(int cash, HashMap<Integer, Object[]> inventoryList) {
-        this.cash = cash;
-        this.inventoryList = inventoryList;
-        this.userData = generateData(year, 30.0);
+    private static int steps;
+    private static int focus;
+    private static int vocab;
+
+    // 0: SAT6000
+    // 1: French
+    // 2: German
+    // 3: Spanish
+    private static int vocabBookID;
+
+    private static int cash;
+    private static HashMap<Integer, Object[]> inventoryList;
+
+    // Cat attributes
+    private static int health;
+    private static int mood;
+
+    public User(String name) {
+        User.name = name;
+        User.stepsGoal = 8000;
+        User.focusGoal = 120;
+        User.vocabGoal = 30;
+        User.vocabBookID = 0;
+        User.steps = 0;
+        User.focus = 0;
+        User.vocab = 0;
+        User.cash = 0;
+        User.inventoryList = null;
+        User.health = 100;
+        User.mood = 100;
+
     }
 
     public void userCheckout(ArrayList<TextView> amountList, ArrayList<Integer> priceList) {
@@ -42,24 +68,100 @@ public class User {
         }
     }
 
-    public HashMap<Integer, Object[]> getInventoryList() {
+    public static String getName() {
+        return name;
+    }
+
+    public static void setName(String name) {
+        User.name = name;
+    }
+
+    public static int getAge() {
+        return age;
+    }
+
+    public static void setAge(int age) {
+        User.age = age;
+    }
+
+    public static int getStepsGoal() {
+        return stepsGoal;
+    }
+
+    public static void setStepsGoal(int stepsGoal) {
+        User.stepsGoal = stepsGoal;
+    }
+
+    public static int getFocusGoal() {
+        return focusGoal;
+    }
+
+    public static void setFocusGoal(int focusGoal) {
+        User.focusGoal = focusGoal;
+    }
+
+    public static int getVocabGoal() {
+        return vocabGoal;
+    }
+
+    public static void setVocabGoal(int vocabGoal) {
+        User.vocabGoal = vocabGoal;
+    }
+
+    public static int getSteps() {
+        return steps;
+    }
+
+    public static void setSteps(int steps) {
+        User.steps = steps;
+    }
+
+    public static int getFocus() {
+        return focus;
+    }
+
+    public static void setFocus(int focus) {
+        User.focus = focus;
+    }
+
+    public static int getVocab() {
+        return vocab;
+    }
+
+    public static void setVocab(int vocab) {
+        User.vocab = vocab;
+    }
+
+    public static int getVocabBookID() {
+        return vocabBookID;
+    }
+
+    public static void setVocabBookID(int vocabBookID) {
+        User.vocabBookID = vocabBookID;
+    }
+
+    public static HashMap<Integer, Object[]> getInventoryList() {
         return inventoryList;
     }
 
-    public void setInventoryList(HashMap inventoryList) {
-        this.inventoryList = inventoryList;
+    public static void setInventoryList(HashMap<Integer, Object[]> inventoryList) {
+        User.inventoryList = inventoryList;
     }
 
-    public int getCash() {
-        return this.cash;
+    public static int getHealth() {
+        return health;
     }
 
-    public void setCash(int cash) {
-        this.cash = cash;
+    public static void setHealth(int health) {
+        User.health = health;
     }
 
-    public void incrementCash(int amount) {
-        this.cash += amount;
+    public static int getMood() {
+        return mood;
+    }
+
+    public static void setMood(int mood) {
+        User.mood = mood;
     }
 
     private ArrayList<ArrayList<Double>> generateData(int count, Double range) {
@@ -102,7 +204,4 @@ public class User {
     public ArrayList<ArrayList<Double>> getUserData() {
         return userData;
     }
-//    public void adoptCat() {
-////        this.myCat =
-//    }
 }
