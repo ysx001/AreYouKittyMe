@@ -192,7 +192,8 @@ public class StatsDayActivity extends AppCompatActivity implements OnChartValueS
 
         switch (item.getItemId()) {
             case android.R.id.home: {
-                NavUtils.navigateUpFromSameTask(this);
+                //NavUtils.navigateUpFromSameTask(this);
+                this.onBackPressed();
                 break;
             }
             case R.id.actionToggleValues: {
@@ -272,6 +273,16 @@ public class StatsDayActivity extends AppCompatActivity implements OnChartValueS
             }
         }
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        Class destActivity = MainActivity.class;
+        Context context = StatsDayActivity.this;
+
+        Intent intent = new Intent(context, destActivity);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivity(intent);
     }
 
 
