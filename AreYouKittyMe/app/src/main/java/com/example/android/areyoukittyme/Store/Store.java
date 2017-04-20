@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 public class Store {
 
-    public static ArrayList<Item> itemList;
+    private static ArrayList<Item> itemList;
 
     public Store() {
         itemList = new ArrayList<>();
@@ -29,12 +29,12 @@ public class Store {
         this.itemList.add(new Corndog());
     }
 
-    public ArrayList<Item> getItemList() {
+    public static ArrayList<Item> getItemList() {
         return itemList;
     }
 
-    private void setItemList(ArrayList<Item> itemList) {
-        this.itemList = itemList;
+    public static void setItemList(ArrayList<Item> list) {
+        itemList = list;
     }
 
 }

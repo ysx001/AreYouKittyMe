@@ -11,6 +11,9 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.android.areyoukittyme.Store.Store;
+import com.example.android.areyoukittyme.User.User;
+
 public class AdoptActivity extends AppCompatActivity {
 
     private EditText catNameTxt;
@@ -22,6 +25,9 @@ public class AdoptActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_adopt);
 
+
+        new Store();
+        new User();
         // find the button and the edittext from xml using findViewById
         catNameTxt = (EditText) findViewById(R.id.cat_name_txt);
         catNameButton = (Button) findViewById(R.id.cat_name_btn);

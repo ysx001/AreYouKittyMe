@@ -24,6 +24,14 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.android.areyoukittyme.ItemFragments.AsparagusFragment;
+import com.example.android.areyoukittyme.ItemFragments.AvocadoFragment;
+import com.example.android.areyoukittyme.ItemFragments.BaconFragment;
+import com.example.android.areyoukittyme.ItemFragments.CorndogFragment;
+import com.example.android.areyoukittyme.ItemFragments.FishFragment;
+import com.example.android.areyoukittyme.ItemFragments.HamburgerFragment;
+import com.example.android.areyoukittyme.Store.Store;
+import com.example.android.areyoukittyme.User.User;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -75,7 +83,9 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+//        //TODO: move new Store() to appropriate places
+//        new Store();
+//        new User();
         // Store the context variable
         context = MainActivity.this;
 
@@ -419,6 +429,10 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
         }
     }
 
+//    @Override
+//    public void onResume() {
+//
+//    }
     @Override
     public void onBackPressed() {
         if (mPager.getCurrentItem() == 0) {

@@ -1,9 +1,12 @@
 package com.example.android.areyoukittyme.User;
 
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.android.areyoukittyme.Cat.Cat;
 import com.example.android.areyoukittyme.Item.Item;
+import com.example.android.areyoukittyme.R;
 import com.example.android.areyoukittyme.Store.Store;
 
 import java.util.ArrayList;
@@ -19,28 +22,35 @@ public class User {
     public static HashMap<Integer, Object[]> inventoryList;
     private Cat myCat;
 
-    public User(int cash, HashMap<Integer, Object[]> inventoryList) {
-        this.cash = cash;
-        this.inventoryList = inventoryList;
+    public User() {
+        this.cash = 1000;
+        this.inventoryList = new HashMap<Integer, Object[]>();
+        initInventoryList();
     }
 
-    public void userCheckout(ArrayList<TextView> amountList, ArrayList<Integer> priceList) {
+    public static void userCheckout(ArrayList<TextView> amountList, ArrayList<Integer> priceList) {
         Object[] array = new Object[3];
         for (int i = 0; i < amountList.size(); i++) {
+
             array[0] = Integer.parseInt(amountList.get(i).getText().toString());
             array[1] = priceList.get(i);
-            array[2] = Store.itemList.get(i);
-            this.inventoryList.put(i, array);
+            array[2] = Store.getItemList().get(i);
+            inventoryList.put(i, array);
         }
     }
-    public void initInventoryList(ArrayList<TextView> amountList, ArrayList<Integer> priceList) {
+
+    public static void initInventoryList() {
         Object[] array = new Object[3];
-        for (int i = 0; i < amountList.size(); i++) {
-            array[0] = Integer.parseInt(amountList.get(i).getText().toString());
-            array[1] = priceList.get(i);
-            array[2] = Store.itemList.get(i);
-            this.inventoryList.put(i, array);
+        for (int i = 0; i < 6; i++) {
+            array[0] = 0;
+            array[1] = 0;
+            array[2] = null;
+            inventoryList.put(i, array);
         }
+    }
+
+    public static int getInventoryAmount(int key) {
+        return (int)inventoryList.get(key)[0];
     }
 
 
@@ -52,12 +62,12 @@ public class User {
         this.inventoryList = inventoryList;
     }
 
-    public int getCash() {
-        return this.cash;
+    public static int getCash() {
+        return cash;
     }
 
-    public void setCash(int cash) {
-        this.cash = cash;
+    public static void setCash(int c) {
+        cash = c;
     }
 
     public void incrementCash(int amount) {
