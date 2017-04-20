@@ -9,12 +9,15 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginTop="20sp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp">
 
         <ImageButton
             android:id="@+id/fishLeft"
-            android:layout_width="150sp"
-            android:layout_height="250sp"
+            android:layout_width="20sp"
+            android:layout_height="150sp"
             android:layout_weight="1"
             android:scaleType="fitCenter"
             android:background="@null"
@@ -22,8 +25,8 @@
 
         <ImageButton
             android:id="@+id/imageView"
-            android:layout_width="250sp"
-            android:layout_height="250sp"
+            android:layout_width="150sp"
+            android:layout_height="150sp"
             android:layout_weight="1"
             android:padding="10sp"
             android:scaleType="fitCenter"
@@ -32,8 +35,8 @@
 
         <ImageButton
             android:id="@+id/fishRight"
-            android:layout_width="150sp"
-            android:layout_height="250sp"
+            android:layout_width="20sp"
+            android:layout_height="150sp"
             android:layout_weight="1"
             android:elevation="1dp"
             android:scaleType="fitCenter"
