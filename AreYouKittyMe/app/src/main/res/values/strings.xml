@@ -6,7 +6,8 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="reminder_notification_title">Do not interrupt my sleep!!!</string>
-    <string name="reminder_notification_body">Go back to your task in </string>
+    <string name="reminder_notification_body">Go back to your task in</string>
+    <string name="reminder_notification_finish">Awww! Time\'s up!</string>
     <string name="title_timer">Sleep Timer</string>
     <string name="colon_timer">:</string>
     <string name="zero_time_timer">00</string>

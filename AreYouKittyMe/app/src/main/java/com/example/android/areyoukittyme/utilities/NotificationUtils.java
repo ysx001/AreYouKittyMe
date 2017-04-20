@@ -42,12 +42,12 @@ public class NotificationUtils {
                 .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
                 .setSmallIcon(R.drawable.ic_notifications_black_24dp)
                 .setContentTitle(context.getString(R.string.reminder_notification_title))
-                .setContentText(context.getString(R.string.reminder_notification_body))
+                .setContentText(context.getString(R.string.reminder_notification_body) + " 5 seconds!")
                 //.setStyle(new NotificationCompat.BigTextStyle().bigText(
                         //context.getString(R.string.reminder_notification_body)))
                 .setDefaults(Notification.DEFAULT_VIBRATE)
                 .setContentIntent(contentIntent(context))
-                .setAutoCancel(false);
+                .setAutoCancel(true);
 
         // If the build version is greater than JELLY_BEAN, set the notification's priority
         // to PRIORITY_HIGH.
@@ -67,16 +67,22 @@ public class NotificationUtils {
         final Context cont = context;
 
         final Handler handler = new Handler();
-        final Runnable r = new Runnable()
-        {
-            public void run()
-            {
-                countdown[0] --;
-                notificationBuilder.setContentText(String.valueOf(countdown[0]));
+        handler.postDelayed (new Runnable() {
+            public void run() {
+                notificationBuilder.setContentText(cont.getString(R.string.reminder_notification_body) + " " + String.valueOf(countdown[0]) + " seconds!");
                 notificationManager.notify(REMINDER_NOTIFICATION_ID, notificationBuilder.build());
+                countdown[0] --;
+
+                if (countdown[0] < 0) {
+                    notificationBuilder.setContentText(cont.getString(R.string.reminder_notification_finish));
+                    notificationManager.notify(REMINDER_NOTIFICATION_ID, notificationBuilder.build());
+                    handler.removeCallbacks(this);
+                }
+                else {
+                    handler.postDelayed(this, 1000);
+                }
             }
-        };
-        handler.postDelayed(r, 1000);
+        }, 1000);
     }
 
     /**
