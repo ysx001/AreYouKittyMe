@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
 
         displayCatName = (TextView) findViewById(R.id.cat_name_display);
 
-        findViewById(R.id.miaomiaomiao).setOnTouchListener(new MyTouchListener());
+        findViewById(R.id.miaomiaomiao).setOnLongClickListener(new MyTouchListener());
 
         // Use getIntent method to store the Intent that started this Activity
         Intent startingIntent = getIntent();
@@ -343,23 +343,40 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
         }
     }
 
-    private final class MyTouchListener implements View.OnTouchListener {
-        public boolean onTouch(View view, MotionEvent motionEvent) {
-            if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+    private final class MyTouchListener implements View.OnLongClickListener {
+//        public boolean onLongClick(View view, MotionEvent motionEvent) {
+//            if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+//                mPlayer.start();
+//                ViewPager v = (ViewPager) findViewById(R.id.pager_temp);
+//                int visibility = v.getVisibility();
+//                if (visibility == View.VISIBLE) {
+//                    v.setVisibility(View.INVISIBLE);
+//                }
+//                else {
+//                    v.setVisibility(View.VISIBLE);
+//                }
+//
+//                return true;
+//            } else {
+//                return false;
+//            }
+//        }
+
+        @Override
+        public boolean onLongClick(View v) {
+
                 mPlayer.start();
-                ViewPager v = (ViewPager) findViewById(R.id.pager_temp);
-                int visibility = v.getVisibility();
+                ViewPager vp = (ViewPager) findViewById(R.id.pager_temp);
+                int visibility = vp.getVisibility();
                 if (visibility == View.VISIBLE) {
-                    v.setVisibility(View.INVISIBLE);
+                    vp.setVisibility(View.INVISIBLE);
                 }
                 else {
-                    v.setVisibility(View.VISIBLE);
+                    vp.setVisibility(View.VISIBLE);
                 }
 
                 return true;
-            } else {
-                return false;
-            }
+
         }
     }
 
