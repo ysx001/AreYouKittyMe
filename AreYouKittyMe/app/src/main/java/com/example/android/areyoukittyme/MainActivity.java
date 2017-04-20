@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.content.IntentSender;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -78,6 +80,9 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
     private PagerAdapter mPagerAdapter;
     Point p;
 
+    MediaPlayer mPlayer;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +93,9 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
 //        new User();
         // Store the context variable
         context = MainActivity.this;
+
+        mPlayer = MediaPlayer.create(context, R.raw.animal_cat_meow);
+        mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
 
         displayCatName = (TextView) findViewById(R.id.cat_name_display);
 
@@ -160,7 +168,12 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
                             }
 
                             if (intent != null) {
-                                startActivity(intent);
+                                if (drawerItem.getIdentifier() == 2) {
+                                    startActivityForResult(intent, 1);
+                                }
+                                else {
+                                    startActivity(intent);
+                                }
                             }
                         }
                         return false;
@@ -333,7 +346,7 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
     private final class MyTouchListener implements View.OnTouchListener {
         public boolean onTouch(View view, MotionEvent motionEvent) {
             if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-
+                mPlayer.start();
                 ViewPager v = (ViewPager) findViewById(R.id.pager_temp);
                 int visibility = v.getVisibility();
                 if (visibility == View.VISIBLE) {

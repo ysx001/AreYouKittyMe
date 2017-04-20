@@ -3,6 +3,8 @@ package com.example.android.areyoukittyme;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -23,6 +25,10 @@ public class VocabActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vocab);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        MediaPlayer mPlayer = MediaPlayer.create(VocabActivity.this, R.raw.book);
+        mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        mPlayer.start();
 
         studyButton = (Button)findViewById(R.id.vocab_study_button2);
         reviewButton = (Button)findViewById(R.id.vocab_Review_button);

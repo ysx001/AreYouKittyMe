@@ -6,6 +6,8 @@ package com.example.android.areyoukittyme;
         import android.content.Context;
         import android.content.Intent;
         import android.graphics.drawable.Drawable;
+        import android.media.AudioManager;
+        import android.media.MediaPlayer;
         import android.os.Bundle;
         import android.support.design.widget.BaseTransientBottomBar;
         import android.support.design.widget.Snackbar;
@@ -48,9 +50,11 @@ public class StoreActivity extends AppCompatActivity {
     public static ArrayList<Integer> priceList;
     public static ArrayList<TextView> amountList;
     public static int total = 0;
+    private Context context;
     public static Snackbar mySnackbar;
     public static TextView catCash;
     public static TextView totalText;
+    MediaPlayer mPlayer;
 
     /** Called when the activity is first created. */
     @Override
@@ -60,8 +64,11 @@ public class StoreActivity extends AppCompatActivity {
         setContentView(R.layout.activity_store);
         priceList = new ArrayList<>();
         amountList = new ArrayList<>();
+        context = StoreActivity.this;
 
-
+        mPlayer = MediaPlayer.create(context, R.raw.bell_small_001);
+        mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        mPlayer.start();
         // setting up button clicks and snackbars
         findViewById(R.id.checkoutBtn).setOnClickListener(new MyClickListener());
         View coordLayout = findViewById(R.id.coordinatorLayout);
@@ -77,7 +84,10 @@ public class StoreActivity extends AppCompatActivity {
     //TODO: fix bug: must set total to zero when back button is clicked
 
 
-    private static void checkout() {
+    private void checkout() {
+        MediaPlayer mPlayer = MediaPlayer.create(StoreActivity.this, R.raw.cash_register);
+        mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        mPlayer.start();
         if (total > User.getCash()) {
             mySnackbar.show();
         }
@@ -177,7 +187,7 @@ public class StoreActivity extends AppCompatActivity {
             }
 
             if (v.getId() == R.id.checkoutBtn) {
-                StoreActivity.checkout();
+                checkout();
             }
             else if (sign == '+') {
                 String incremented = incrementString(StoreActivity.amountList.get(pos).getText().toString(), 1);

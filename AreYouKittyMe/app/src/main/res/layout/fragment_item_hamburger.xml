@@ -12,7 +12,7 @@
         android:orientation="horizontal">
 
         <ImageButton
-            android:id="@+id/asparagusLeft"
+            android:id="@+id/hamburgerLeft"
             android:layout_width="150sp"
             android:layout_height="250sp"
             android:layout_weight="1"
@@ -30,7 +30,7 @@
             app:srcCompat="@drawable/hamburguer" />
 
         <ImageButton
-            android:id="@+id/asparagusRight"
+            android:id="@+id/hamburgerRight"
             android:layout_width="150sp"
             android:layout_height="250sp"
             android:layout_weight="1"

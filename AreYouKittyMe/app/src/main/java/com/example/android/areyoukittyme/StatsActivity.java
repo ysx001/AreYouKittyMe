@@ -8,6 +8,8 @@ import com.example.android.areyoukittyme.plot.XYMarkerView;
 import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.graphics.RectF;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -78,7 +80,10 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stats);
-        
+
+        MediaPlayer mPlayer = MediaPlayer.create(StatsActivity.this, R.raw.stats);
+        mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        mPlayer.start();
 
 //        mTfRegular = Typeface.createFromAsset(getAssets(), "OpenSans-Regular.ttf");
 //        mTfLight = Typeface.createFromAsset(getAssets(), "OpenSans-Light.ttf");

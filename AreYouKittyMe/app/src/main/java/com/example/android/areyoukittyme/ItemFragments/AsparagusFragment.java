@@ -2,12 +2,14 @@ package com.example.android.areyoukittyme.ItemFragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.android.areyoukittyme.R;
+import com.example.android.areyoukittyme.StoreActivity;
 import com.example.android.areyoukittyme.User.User;
 
 /**
@@ -33,6 +35,8 @@ public class AsparagusFragment extends Fragment {
             text.setText("nokey");
         }
 
+        rootView.findViewById(R.id.asparagusLeft).setOnClickListener(new MyClickListener());
+        rootView.findViewById(R.id.asparagusRight).setOnClickListener(new MyClickListener());
         return rootView;
     }
 
@@ -49,6 +53,18 @@ public class AsparagusFragment extends Fragment {
         }
         else {
             text.setText("nokey");
+        }
+    }
+    private final class MyClickListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            ViewPager viewPager = (ViewPager) v.getRootView().findViewById(R.id.pager_temp);
+            if (v.getId() == R.id.asparagusLeft) {
+                viewPager.setCurrentItem(viewPager.getCurrentItem()-1, true);
+            }
+            else if (v.getId() == R.id.asparagusRight) {
+                viewPager.setCurrentItem(viewPager.getCurrentItem()+1, true);
+            }
         }
     }
 }

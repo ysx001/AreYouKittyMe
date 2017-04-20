@@ -12,7 +12,7 @@
         android:orientation="horizontal">
 
         <ImageButton
-            android:id="@+id/asparagusLeft"
+            android:id="@+id/baconLeft"
             android:layout_width="150sp"
             android:layout_height="250sp"
             android:layout_weight="1"
@@ -30,7 +30,7 @@
             app:srcCompat="@drawable/bacon" />
 
         <ImageButton
-            android:id="@+id/asparagusRight"
+            android:id="@+id/baconRight"
             android:layout_width="150sp"
             android:layout_height="250sp"
             android:layout_weight="1"

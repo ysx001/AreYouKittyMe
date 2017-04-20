@@ -2,6 +2,7 @@ package com.example.android.areyoukittyme.ItemFragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,21 @@ public class BaconFragment extends Fragment {
         else {
             text.setText("nokey");
         }
+
+        rootView.findViewById(R.id.baconLeft).setOnClickListener(new MyClickListener());
+        rootView.findViewById(R.id.baconRight).setOnClickListener(new MyClickListener());
         return rootView;
+    }
+    private final class MyClickListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            ViewPager viewPager = (ViewPager) v.getRootView().findViewById(R.id.pager_temp);
+            if (v.getId() == R.id.baconLeft) {
+                viewPager.setCurrentItem(viewPager.getCurrentItem()-1, true);
+            }
+            else if (v.getId() == R.id.baconRight) {
+                viewPager.setCurrentItem(viewPager.getCurrentItem()+1, true);
+            }
+        }
     }
 }
