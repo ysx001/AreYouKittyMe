@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.RectF;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,6 +17,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.android.areyoukittyme.User.User;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
@@ -55,8 +57,13 @@ public class StatsDayActivity extends AppCompatActivity implements OnChartValueS
     public final int[] FOCUS_COLORS = { R.color.colorAccentLight};
     public final int[] VOCAB_COLORS = { R.color.colorAccentDark};
 
+    private static User mUser = new User("Sarah");
 
-    private ArrayList<ArrayList<Double>> dataArray = generateData(year, 30.0);
+
+    private ArrayList<ArrayList<Double>> dataArray = User.getUserData();
+
+
+//    private ArrayList<ArrayList<Double>> dataArray = generateData(year, 30.0);
 
 
     protected HorizontalBarChart dayChart;
@@ -185,7 +192,8 @@ public class StatsDayActivity extends AppCompatActivity implements OnChartValueS
 
         switch (item.getItemId()) {
             case android.R.id.home: {
-                onBackPressed();
+                //NavUtils.navigateUpFromSameTask(this);
+                this.onBackPressed();
                 break;
             }
             case R.id.actionToggleValues: {
@@ -265,6 +273,16 @@ public class StatsDayActivity extends AppCompatActivity implements OnChartValueS
             }
         }
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        Class destActivity = MainActivity.class;
+        Context context = StatsDayActivity.this;
+
+        Intent intent = new Intent(context, destActivity);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivity(intent);
     }
 
 

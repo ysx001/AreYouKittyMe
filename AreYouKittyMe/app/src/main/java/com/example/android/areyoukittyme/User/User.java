@@ -55,7 +55,7 @@ public class User {
         User.inventoryList = null;
         User.health = 100;
         User.mood = 100;
-
+        User.userData = generateData(year, 30.0);
     }
 
     public void userCheckout(ArrayList<TextView> amountList, ArrayList<Integer> priceList) {
