@@ -17,7 +17,8 @@
             android:layout_height="250sp"
             android:layout_weight="1"
             android:scaleType="fitCenter"
-            app:srcCompat="@drawable/banana" />
+            android:background="@null"
+            app:srcCompat="@drawable/arrows_r" />
 
         <ImageButton
             android:id="@+id/imageView"
@@ -35,7 +36,9 @@
             android:layout_height="250sp"
             android:layout_weight="1"
             android:elevation="1dp"
-            app:srcCompat="@drawable/banana" />
+            android:scaleType="fitCenter"
+            android:background="@null"
+            app:srcCompat="@drawable/arrows" />
 
     </LinearLayout>
 

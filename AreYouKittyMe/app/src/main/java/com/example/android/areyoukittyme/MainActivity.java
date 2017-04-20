@@ -100,6 +100,8 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
         displayCatName = (TextView) findViewById(R.id.cat_name_display);
 
         findViewById(R.id.miaomiaomiao).setOnLongClickListener(new MyTouchListener());
+        findViewById(R.id.miaomiaomiao).setOnClickListener(new MyClickListener());
+        findViewById(R.id.rlayout).setOnClickListener(new MyClickListener());
 
         // Use getIntent method to store the Intent that started this Activity
         Intent startingIntent = getIntent();
@@ -326,11 +328,6 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
     public void onConnectionSuspended(int i) {
     }
 
-    /**
-     *
-     * @param dataPoint
-     */
-    @Override
     public void onDataPoint(DataPoint dataPoint) {
         for( final Field field : dataPoint.getDataType().getFields() ) {
             final Value value = dataPoint.getValue( field );
@@ -364,7 +361,6 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
 
         @Override
         public boolean onLongClick(View v) {
-
                 mPlayer.start();
                 ViewPager vp = (ViewPager) findViewById(R.id.pager_temp);
                 int visibility = vp.getVisibility();
@@ -475,4 +471,13 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
         }
     }
 
+
+    private final class MyClickListener implements View.OnClickListener {
+        public void onClick(View v) {
+            ViewPager vp = (ViewPager) findViewById(R.id.pager_temp);
+            if (vp.getVisibility() == View.VISIBLE) {
+                vp.setVisibility(View.INVISIBLE);
+            }
+        }
+    }
 }

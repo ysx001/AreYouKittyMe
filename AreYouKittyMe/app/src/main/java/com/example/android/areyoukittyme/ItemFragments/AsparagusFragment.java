@@ -41,18 +41,18 @@ public class AsparagusFragment extends Fragment {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        TextView text = (TextView)rootView.findViewById(R.id.asparagusAmount);
-
-        if (User.inventoryList.containsKey(1)) {
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (rootView != null) {
+            TextView text = (TextView) rootView.findViewById(R.id.asparagusAmount);
+            if (User.inventoryList.containsKey(1)) {
 //            text.setText("found");
 //            text.setText("");
-            text.setText(String.format("x%d", User.getInventoryAmount(1)));
-            text.invalidate();
-        }
-        else {
-            text.setText("nokey");
+                text.setText(String.format("x%d", User.getInventoryAmount(1)));
+                text.invalidate();
+            } else {
+                text.setText("nokey");
+            }
         }
     }
     private final class MyClickListener implements View.OnClickListener {

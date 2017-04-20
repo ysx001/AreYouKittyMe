@@ -22,6 +22,8 @@ package com.example.android.areyoukittyme;
         import android.view.View.OnDragListener;
         import android.view.View.OnTouchListener;
         import android.view.ViewGroup;
+        import android.view.animation.Animation;
+        import android.view.animation.AnimationUtils;
         import android.widget.BaseAdapter;
         import android.widget.Button;
         import android.widget.GridView;
@@ -55,10 +57,12 @@ public class StoreActivity extends AppCompatActivity {
     public static TextView catCash;
     public static TextView totalText;
     MediaPlayer mPlayer;
+    Animation shake;
 
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        shake = AnimationUtils.loadAnimation(this, R.anim.shake);
         super.onCreate(savedInstanceState);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_store);
@@ -178,6 +182,7 @@ public class StoreActivity extends AppCompatActivity {
     private final class MyClickListener implements OnClickListener {
         @Override
         public void onClick(View v) {
+
             String tag = (String) v.getTag();
             char sign =  '\u0000' ;
             int pos = -1;
@@ -193,19 +198,21 @@ public class StoreActivity extends AppCompatActivity {
                 String incremented = incrementString(StoreActivity.amountList.get(pos).getText().toString(), 1);
                 StoreActivity.amountList.get(pos).setText(incremented);
                 StoreActivity.total += StoreActivity.priceList.get(pos);
+                StoreActivity.amountList.get(pos).startAnimation(shake);
                 TextView t = (TextView) findViewById(R.id.totalAmount);
                 t.setText(String.format("Total: %d", StoreActivity.total));
-
             }
             else if (sign == '-') {
                 if (Integer.parseInt(StoreActivity.amountList.get(pos).getText().toString()) != 0) {
                     String incremented = incrementString(StoreActivity.amountList.get(pos).getText().toString(), -1);
                     StoreActivity.amountList.get(pos).setText(incremented);
+                    StoreActivity.amountList.get(pos).startAnimation(shake);
                     StoreActivity.total -= StoreActivity.priceList.get(pos);
                     TextView t = (TextView) findViewById(R.id.totalAmount);
                     t.setText(String.format("Total: %d", StoreActivity.total));
                 }
             }
+
         }
     }
 }
