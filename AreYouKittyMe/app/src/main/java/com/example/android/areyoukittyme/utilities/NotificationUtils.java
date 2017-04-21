@@ -24,7 +24,19 @@ import com.example.android.areyoukittyme.TimerActivity;
 
 public class NotificationUtils {
     private static final int REMINDER_NOTIFICATION_ID = 1017;
-    private static final int REMINDER_PENDING_INTENT_ID = 2013;
+    private static final int TIMER_PENDING_INTENT_ID = 2013;
+
+    private static final int NOTIFICATION_PENDING_INTENT_ID = 2048;
+
+    private static boolean timerActivityResumed = false;
+
+    public static boolean getTimerActivityResumed() {
+        return timerActivityResumed;
+    }
+
+    public static void setTimerActivityResumed() {
+        NotificationUtils.timerActivityResumed = true;
+    }
 
     /**
      * Create a method called remindUserBecauseCharging which takes a Context.
@@ -34,6 +46,8 @@ public class NotificationUtils {
      * @param context
      */
     public static void remindUserSwitchBack(Context context) {
+
+        timerActivityResumed = false;
 
         // - sets the notification defaults to vibrate
         // - uses the content intent returned by the contentIntent helper method for the contentIntent
@@ -69,17 +83,23 @@ public class NotificationUtils {
         final Handler handler = new Handler();
         handler.postDelayed (new Runnable() {
             public void run() {
-                notificationBuilder.setContentText(cont.getString(R.string.reminder_notification_body) + " " + String.valueOf(countdown[0]) + " seconds!");
-                notificationManager.notify(REMINDER_NOTIFICATION_ID, notificationBuilder.build());
-                countdown[0] --;
-
-                if (countdown[0] < 0) {
-                    notificationBuilder.setContentText(cont.getString(R.string.reminder_notification_finish));
-                    notificationManager.notify(REMINDER_NOTIFICATION_ID, notificationBuilder.build());
+                if (timerActivityResumed) {
                     handler.removeCallbacks(this);
+                    notificationManager.cancel(REMINDER_NOTIFICATION_ID);
                 }
+
                 else {
-                    handler.postDelayed(this, 1000);
+                    notificationBuilder.setContentText(cont.getString(R.string.reminder_notification_body) + " " + String.valueOf(countdown[0]) + " seconds!");
+                    notificationManager.notify(REMINDER_NOTIFICATION_ID, notificationBuilder.build());
+                    countdown[0] --;
+
+                    if (countdown[0] < 0) {
+                        notificationBuilder.setContentText(cont.getString(R.string.reminder_notification_finish));
+                        notificationManager.notify(REMINDER_NOTIFICATION_ID, notificationBuilder.build());
+                        handler.removeCallbacks(this);
+                    } else {
+                        handler.postDelayed(this, 1000);
+                    }
                 }
             }
         }, 1000);
@@ -101,7 +121,7 @@ public class NotificationUtils {
         // intent but update the data
         return PendingIntent.getActivity(
                 context,
-                REMINDER_PENDING_INTENT_ID,
+                TIMER_PENDING_INTENT_ID,
                 startActivityIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
 

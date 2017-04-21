@@ -98,6 +98,12 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        NotificationUtils.setTimerActivityResumed();
+    }
+
+    @Override
     protected void onPause() {
         super.onPause();
         if (isCountingdown || isPausing) {
@@ -232,9 +238,16 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void timerReset() {
+
+        this.t.interrupt();
+
         hour = 0;
         minute = 0;
         second = 0;
+
+        this.hourCountdown.setText(String.format("%02d", this.hour));
+        this.minCountdown.setText(String.format("%02d", this.minute));
+        this.secCountdown.setText(String.format("%02d", this.second));
 
         isCountingdown = false;
 
