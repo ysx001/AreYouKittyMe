@@ -16,6 +16,7 @@ package com.example.android.areyoukittyme;
         import android.util.Log;
         import android.view.DragEvent;
         import android.view.Gravity;
+        import android.view.MenuItem;
         import android.view.MotionEvent;
         import android.view.View;
         import android.view.View.DragShadowBuilder;
@@ -78,6 +79,10 @@ public class StoreActivity extends AppCompatActivity {
         View coordLayout = findViewById(R.id.coordinatorLayout);
         mySnackbar = Snackbar.make(coordLayout, "Not Enough CatCash", BaseTransientBottomBar.LENGTH_SHORT);
 
+        //TODO: find a way to store the model
+        this.user.setCash(100);
+        this.user.setInventoryList(new HashMap<Integer, Object[]>());
+        this.theStore = new Store();
         populateStore();
 
         catCash = (TextView) findViewById(R.id.catCash);
@@ -86,6 +91,28 @@ public class StoreActivity extends AppCompatActivity {
     }
 
     //TODO: fix bug: must set total to zero when back button is clicked
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Class destActivity = MainActivity.class;
+        Context context = StoreActivity.this;
+
+        Intent intent = new Intent(context, destActivity);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivity(intent);
+    }
+
+    //TODO: add all the items into player's inventory(hash map)
 
 
     private void checkout() {

@@ -11,12 +11,18 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 public class VocabStudyActivity extends AppCompatActivity {
 
-    private Button studyButton;
-    private Button reviewButton;
-    private ProgressBar progressBar;
+    private Button choiceBtn1;
+    private Button choiceBtn2;
+    private Button choiceBtn3;
+    private Button choiceBtn4;
+    private Button knownBtn;
+    private Button unknownBtn;
+    private TextView questionView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,8 +30,21 @@ public class VocabStudyActivity extends AppCompatActivity {
         setContentView(R.layout.activity_reviewstudy);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        this.choiceBtn1 = (Button)findViewById(R.id.FirstOption_button);
+        this.choiceBtn2 = (Button)findViewById(R.id.SecondOption_button2);
+        this.choiceBtn3 = (Button)findViewById(R.id.ThirdOption_button3);
+        this.choiceBtn4 = (Button)findViewById(R.id.FourOption_button4);
+        this.knownBtn = (Button)findViewById(R.id.Known_button);
+        this.unknownBtn = (Button)findViewById(R.id.NotKnown_button);
+        this.questionView = (TextView) findViewById(R.id.Question_textView);
 
-
-        //progressBar.set
     }
+
+    @Override
+    protected void onResume(){
+        super.onResume();;
+
+
+    }
+
 }

@@ -15,6 +15,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MotionEvent;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -23,9 +24,14 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.android.areyoukittyme.User.User;
+import com.github.pwittchen.swipe.library.Swipe;
+import com.github.pwittchen.swipe.library.SwipeListener;
 import com.example.android.areyoukittyme.ItemFragments.AsparagusFragment;
 import com.example.android.areyoukittyme.ItemFragments.AvocadoFragment;
 import com.example.android.areyoukittyme.ItemFragments.BaconFragment;
@@ -50,6 +56,7 @@ import com.google.android.gms.fitness.request.DataSourcesRequest;
 import com.google.android.gms.fitness.request.OnDataPointListener;
 import com.google.android.gms.fitness.request.SensorRequest;
 import com.google.android.gms.fitness.result.DataSourcesResult;
+import com.mikepenz.fontawesome_typeface_library.FontAwesome;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
@@ -74,7 +81,9 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
     private GoogleApiClient mApiClient;
     private Context context;
     private AccountHeader header;
+    private IProfile profile;
     private Drawer drawer;
+    private Swipe swipe;
     private TextView displayCatName;
     private ViewPager mPager;
     private PagerAdapter mPagerAdapter;
@@ -83,6 +92,8 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
     MediaPlayer mPlayer;
 
 
+
+    private ImageView drawerToggler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +110,10 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
 
         displayCatName = (TextView) findViewById(R.id.cat_name_display);
 
+        drawerToggler = (ImageView) findViewById(R.id.drawerToggler);
+
+        findViewById(R.id.miaomiaomiao).setOnTouchListener(new MyTouchListener());
+
         findViewById(R.id.miaomiaomiao).setOnLongClickListener(new MyTouchListener());
         findViewById(R.id.miaomiaomiao).setOnClickListener(new MyClickListener());
         findViewById(R.id.rlayout).setOnClickListener(new MyClickListener());
@@ -106,10 +121,10 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
         // Use getIntent method to store the Intent that started this Activity
         Intent startingIntent = getIntent();
 
-        String catName = startingIntent.getStringExtra(Intent.EXTRA_TEXT);
+        String catName = User.getName();
         displayCatName.setText(catName);
 
-        final IProfile profile = new ProfileDrawerItem().withName(catName).withIcon(GoogleMaterial.Icon.gmd_pets);
+        profile = new ProfileDrawerItem().withName(catName).withIcon(GoogleMaterial.Icon.gmd_pets);
 
         header = new AccountHeaderBuilder()
                 .withActivity(this)
@@ -152,7 +167,7 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
                         if (drawerItem != null) {
                             Intent intent = null;
                             if (drawerItem.getIdentifier() == 1) {
-                                intent = new Intent(MainActivity.this, StatsActivity.class);
+                                intent = new Intent(MainActivity.this, StatsDayActivity.class);
                             }
                             else if (drawerItem.getIdentifier() == 2) {
                                 intent = new Intent(MainActivity.this, StoreActivity.class);
@@ -174,6 +189,7 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
                                     startActivityForResult(intent, 1);
                                 }
                                 else {
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                                     startActivity(intent);
                                 }
                             }
@@ -182,6 +198,15 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
                     }
                 })
                 .build();
+
+        drawerToggler.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!drawer.isDrawerOpen()) {
+                    drawer.openDrawer();
+                }
+            }
+        });
 
         // Connecting to Google Play Service
         if (savedInstanceState != null) {
@@ -196,6 +221,7 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
                 .addOnConnectionFailedListener(this)
                 .build();
 
+        mApiClient.connect();
         mPager = (ViewPager) findViewById(R.id.pager_temp);
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
@@ -206,12 +232,18 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
     protected void onStart() {
         super.onStart();
         // Connecting to google's backend
+        // Moved to onCreate() for now
+        //mApiClient.connect();
+
+        profile.withName(User.getName());
+        displayCatName.setText(User.getName());
+        drawer.setSelection(0);
 //        mApiClient.connect();
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onDestroy() {
+        super.onDestroy();
 
         Fitness.SensorsApi.remove( mApiClient, this )
                 .setResultCallback(new ResultCallback<Status>() {
@@ -222,6 +254,20 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
                         }
                     }
                 });
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (drawer.isDrawerOpen()) {
+            drawer.closeDrawer();
+        }
+        else {
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+
+            startActivity(intent);
+        }
     }
 
     /**

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout
-    android:id="@+id/rlayout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
@@ -14,16 +14,33 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="This is default text. Hopefully it changes."
-        android:textSize="30sp" />
+        android:textSize="30sp"
+        android:layout_below="@+id/drawerToggler"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="28dp" />
 
     <ImageView
         android:id="@+id/miaomiaomiao"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:srcCompat="@drawable/catnormal0001"
+        android:layout_marginTop="32dp"
         android:layout_below="@+id/cat_name_display"
-        android:layout_marginTop="27dp"
-        android:visibility="visible"
-        app:srcCompat="@drawable/broccoli" />
+        android:layout_centerHorizontal="true"
+        android:visibility="visible" />/>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/drawerToggler"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="19dp"
+        android:layout_marginTop="17dp"
+        app:backgroundTint="@color/colorPrimary"
+        app:srcCompat="@drawable/ic_menu_white" />
+
+
 
     <android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/pager_temp"

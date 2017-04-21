@@ -10,8 +10,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-
 import com.example.android.areyoukittyme.Store.Store;
+import com.example.android.areyoukittyme.User.User;
 import com.example.android.areyoukittyme.User.User;
 
 public class AdoptActivity extends AppCompatActivity {
@@ -41,13 +41,15 @@ public class AdoptActivity extends AppCompatActivity {
                 String textEntered = catNameTxt.getText().toString();
 
                 if (textEntered.length() > 0) {
+                    // Initialize User object
+                    User user = new User(textEntered);
+
                     // Store the context variable
                     Context context = AdoptActivity.this;
                     // This is the class we want to start and open when button is clicked
                     Class destActivity = MainActivity.class;
                     // create Intent that will start the activity
                     Intent startMainActivityIntent = new Intent(context, destActivity);
-                    startMainActivityIntent.putExtra(Intent.EXTRA_TEXT, textEntered);
                     startActivity(startMainActivityIntent);
                 }
                 else {

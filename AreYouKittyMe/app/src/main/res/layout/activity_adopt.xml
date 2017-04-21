@@ -12,7 +12,13 @@
     android:layout_height="match_parent"
     tools:context="com.example.android.areyoukittyme.AdoptActivity">
 
-
+    <ImageView
+        android:id="@+id/miaomiaomiao"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/catnormal0001"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"/>
 
 
     <EditText

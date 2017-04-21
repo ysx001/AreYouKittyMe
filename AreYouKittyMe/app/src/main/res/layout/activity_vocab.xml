@@ -18,20 +18,10 @@
         tools:layout_editor_absoluteX="47dp"
         tools:layout_editor_absoluteY="296dp"
         tools:layout_editorabsoluteX="30dp"
-        android:layout_alignTop="@+id/vocab_progressBar2"
+        android:layout_marginStart="49dp"
+        android:layout_above="@+id/Vocab_textView2"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="48dp" />
-
-    <ProgressBar
-        android:id="@+id/vocab_progressBar2"
-        style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Large"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:layout_editor_absoluteX="217dp"
-        tools:layout_editor_absoluteY="296dp"
-        android:layout_marginBottom="65dp"
-        android:layout_above="@+id/vocab_Review_button"
-        android:layout_alignStart="@+id/vocab_Review_button" />
+        android:layout_marginBottom="28dp" />
 
     <Button
         android:id="@+id/vocab_Review_button"
@@ -56,10 +46,10 @@
         tools:layout_editor_absoluteY="425dp"
         android:layout_marginBottom="14dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignEnd="@+id/textView2" />
+        android:layout_alignEnd="@+id/Vocab_textView2" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/Vocab_textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/vocab_study_button2"
@@ -67,4 +57,24 @@
         android:layout_marginBottom="13dp"
         android:text="Today"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+
+    <ProgressBar
+        android:id="@+id/vocab_progressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/vocab_textView"
+        android:layout_alignStart="@+id/vocab_Review_button"
+        android:layout_alignTop="@+id/vocab_textView" />
+
+    <Button
+        android:id="@+id/vocabulary_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/vocab_progressBar"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="19dp"
+        android:text="Vocabulary"
+        android:textSize="10sp" />
+
 </RelativeLayout>

@@ -1,11 +1,14 @@
 package com.example.android.areyoukittyme;
 
 
+import com.example.android.areyoukittyme.User.User;
 import com.example.android.areyoukittyme.plot.DayAxisValueFormatter;
 import com.example.android.areyoukittyme.plot.MyAxisValueFormatter;
 import com.example.android.areyoukittyme.plot.XYMarkerView;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.RectF;
 import android.media.AudioManager;
@@ -14,6 +17,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
@@ -46,24 +51,29 @@ import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.MPPointF;
 
 /**
- *@seehttps://code.tutsplus.com/tutorials/google-fit-for-android-reading-sensor-data--cms-25723
+ *
  */
 public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeListener,
         OnChartValueSelectedListener{
+
+    private Button dayButton;
+
+    private Context context;
 
     private final int day = 1;
     // 52 weeks in a year
     private final int week = 52;
     // 12 month in a year
     private final int month = 12;
-    private final int year = 365;
 
     public final int[] STEP_COLORS = { R.color.colorAccent };
     public final int[] FOCUS_COLORS = { R.color.colorAccentLight};
     public final int[] VOCAB_COLORS = { R.color.colorAccentDark};
 
+    private static User mUser = new User("Sarah");
 
-    private ArrayList<ArrayList<Double>> dataArray = generateData(year, 30.0);
+
+    private ArrayList<ArrayList<Double>> dataArray = User.getUserData();
 
 
     protected LineChart monthChart;
@@ -84,6 +94,29 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
         MediaPlayer mPlayer = MediaPlayer.create(StatsActivity.this, R.raw.stats);
         mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         mPlayer.start();
+
+
+        dayButton = (Button) findViewById(R.id.dayButton);
+
+        // Store the context variable
+        context = StatsActivity.this;
+
+
+        // Setting an OnClickLister for the statsButton
+        dayButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                // This is the class we want to start and open when button is clicked
+                Class destActivity = StatsDayActivity.class;
+
+                // create Intent that will start the activity
+                Intent startStatsIntent = new Intent(context, destActivity);
+
+                startActivity(startStatsIntent);
+
+            }
+        });
 
 //        mTfRegular = Typeface.createFromAsset(getAssets(), "OpenSans-Regular.ttf");
 //        mTfLight = Typeface.createFromAsset(getAssets(), "OpenSans-Light.ttf");
@@ -260,42 +293,42 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
     }
 
 
-    private ArrayList<ArrayList<Double>> generateData(int count, Double range) {
-
-        ArrayList<ArrayList<Double>> data = new ArrayList<>();
-        ArrayList<Double> stepCounts = new ArrayList<>();
-
-        for (int i = 0; i < count; i++) {
-            Double mult = range ;
-            Double val = (Math.random() * mult) + 50;
-            stepCounts.add(val);
-        }
-
-        ArrayList<Double> focusTime = new ArrayList<>();
-
-        for (int i = 0; i < count; i++) {
-            Double mult = range / 2.0;
-            Double val = (Math.random() * mult) + 60;
-            focusTime.add(val);
-//            if(i == 10) {
-//                yVals2.add(new Entry(i, val + 50));
-//            }
-        }
-
-        ArrayList<Double> vocabTime = new ArrayList<>();
-
-        for (int i = 0; i < count; i++) {
-            Double mult = range / 5.0;
-            Double val = (Math.random() * mult) + 100;
-            vocabTime.add(val);
-        }
-
-        data.add(stepCounts);
-        data.add(focusTime);
-        data.add(vocabTime);
-
-        return data;
-    }
+//    private ArrayList<ArrayList<Double>> generateData(int count, Double range) {
+//
+//        ArrayList<ArrayList<Double>> data = new ArrayList<>();
+//        ArrayList<Double> stepCounts = new ArrayList<>();
+//
+//        for (int i = 0; i < count; i++) {
+//            Double mult = range ;
+//            Double val = (Math.random() * mult) + 50;
+//            stepCounts.add(val);
+//        }
+//
+//        ArrayList<Double> focusTime = new ArrayList<>();
+//
+//        for (int i = 0; i < count; i++) {
+//            Double mult = range / 2.0;
+//            Double val = (Math.random() * mult) + 60;
+//            focusTime.add(val);
+////            if(i == 10) {
+////                yVals2.add(new Entry(i, val + 50));
+////            }
+//        }
+//
+//        ArrayList<Double> vocabTime = new ArrayList<>();
+//
+//        for (int i = 0; i < count; i++) {
+//            Double mult = range / 5.0;
+//            Double val = (Math.random() * mult) + 100;
+//            vocabTime.add(val);
+//        }
+//
+//        data.add(stepCounts);
+//        data.add(focusTime);
+//        data.add(vocabTime);
+//
+//        return data;
+//    }
 
     private void setLineData(ArrayList<ArrayList<Double>> dataArray, int start) {
 
@@ -554,6 +587,16 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
             }
         }
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        Class destActivity = MainActivity.class;
+        Context context = StatsActivity.this;
+
+        Intent intent = new Intent(context, destActivity);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivity(intent);
     }
 
     @Override

@@ -9,11 +9,13 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
+import android.os.Handler;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 
 import com.example.android.areyoukittyme.MainActivity;
 import com.example.android.areyoukittyme.R;
+import com.example.android.areyoukittyme.TimerActivity;
 
 /**
  * Created by sarah on 4/9/17.
@@ -23,7 +25,6 @@ import com.example.android.areyoukittyme.R;
 public class NotificationUtils {
     private static final int REMINDER_NOTIFICATION_ID = 1017;
     private static final int REMINDER_PENDING_INTENT_ID = 2013;
-
 
     /**
      * Create a method called remindUserBecauseCharging which takes a Context.
@@ -37,16 +38,16 @@ public class NotificationUtils {
         // - sets the notification defaults to vibrate
         // - uses the content intent returned by the contentIntent helper method for the contentIntent
         // - automatically cancels the notification when the notification is clicked
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context)
+        final NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context)
                 .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
                 .setSmallIcon(R.drawable.ic_notifications_black_24dp)
                 .setContentTitle(context.getString(R.string.reminder_notification_title))
                 .setContentText(context.getString(R.string.reminder_notification_body))
-                .setStyle(new NotificationCompat.BigTextStyle().bigText(
-                        context.getString(R.string.reminder_notification_body)))
+                //.setStyle(new NotificationCompat.BigTextStyle().bigText(
+                        //context.getString(R.string.reminder_notification_body)))
                 .setDefaults(Notification.DEFAULT_VIBRATE)
                 .setContentIntent(contentIntent(context))
-                .setAutoCancel(true);
+                .setAutoCancel(false);
 
         // If the build version is greater than JELLY_BEAN, set the notification's priority
         // to PRIORITY_HIGH.
@@ -55,12 +56,27 @@ public class NotificationUtils {
         }
 
         // Get a NotificationManager, using context.getSystemService(Context.NOTIFICATION_SERVICE);
-        NotificationManager notificationManager = (NotificationManager)
+        final NotificationManager notificationManager = (NotificationManager)
                 context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         // Trigger the notification by calling notify on the NotificationManager.
         // Pass in a unique ID of your choosing for the notification and notificationBuilder.build()
         notificationManager.notify(REMINDER_NOTIFICATION_ID, notificationBuilder.build());
+
+        final int[] countdown = {5};
+        final Context cont = context;
+
+        final Handler handler = new Handler();
+        final Runnable r = new Runnable()
+        {
+            public void run()
+            {
+                countdown[0] --;
+                notificationBuilder.setContentText(String.valueOf(countdown[0]));
+                notificationManager.notify(REMINDER_NOTIFICATION_ID, notificationBuilder.build());
+            }
+        };
+        handler.postDelayed(r, 1000);
     }
 
     /**
@@ -73,7 +89,7 @@ public class NotificationUtils {
      */
     private static PendingIntent contentIntent(Context context) {
         // Create an intent that opens up the MainActivity
-        Intent startActivityIntent = new Intent(context, MainActivity.class);
+        Intent startActivityIntent = new Intent(context, TimerActivity.class);
 
         // Has the flag FLAG_UPDATE_CURRENT, so that if the intent is created again, keep the
         // intent but update the data
