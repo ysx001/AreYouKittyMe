@@ -43,6 +43,9 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
 
     private int focusTime;
 
+    private Thread onPauseThread;
+    private long pauseTime = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,6 +111,27 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
         super.onPause();
         if (isCountingdown || isPausing) {
             NotificationUtils.remindUserSwitchBack(this);
+            this.pauseTime = System.currentTimeMillis();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (isCountingdown || isPausing) {
+            if ((System.currentTimeMillis() - this.pauseTime) / 1000.0 > 6.0) {
+                this.timerReset();
+                new AlertDialog.Builder(this)
+                        .setTitle(getResources().getString(R.string.title_interrupt_timer))
+                        .setMessage(getResources().getString(R.string.message_interrupt_timer))
+                        .setNeutralButton(getResources().getString(R.string.dismiss_btn), new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }).show();
+            }
         }
     }
 
@@ -262,7 +286,7 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
         new AlertDialog.Builder(this)
                 .setTitle(getResources().getString(R.string.title_finish_timer))
                 .setMessage(getResources().getString(R.string.message_finish_timer))
-                .setNeutralButton(getResources().getString(R.string.btn_finish_timer), new DialogInterface.OnClickListener() {
+                .setNeutralButton(getResources().getString(R.string.dismiss_btn), new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -270,6 +294,31 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
                         timerReset();
                     }
                 }).show();
+    }
+
+    private void onPauseThreadSetup() {
+        // Set up thread for stopping focus task after away for more than 5 seconds
+
+        this.onPauseThread = new Thread() {
+
+            @Override
+            public void run() {
+
+                try {
+                    while (!isInterrupted()) {
+                        Thread.sleep(5000);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                timerReset();
+                                onPauseThread.interrupt();
+                            }
+                        });
+                    }
+                } catch (InterruptedException e) {
+                }
+            }
+        };
     }
 
     private void countdownThreadSetup() {

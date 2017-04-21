@@ -25,7 +25,9 @@
     <string name="ok_btn">Got it!</string>
     <string name="title_finish_timer">Hey master, I had a great sleep!</string>
     <string name="message_finish_timer">Focus task completed</string>
-    <string name="btn_finish_timer">Dismiss</string>
+    <string name="dismiss_btn">Dismiss</string>
+    <string name="title_interrupt_timer">You interrupted my sleep!</string>
+    <string name="message_interrupt_timer">Focus task failed</string>
     <string name="nav_bar_list">Stats</string>
     <string name="title_adopt_name">Anonymous cat!</string>
     <string name="message_adopt_name">Give your cat a name before continuing!</string>
