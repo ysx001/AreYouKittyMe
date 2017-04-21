@@ -27,7 +27,7 @@ public class AdoptActivity extends AppCompatActivity {
 
 
         new Store();
-        new User();
+        new User("Sarah");
         // find the button and the edittext from xml using findViewById
         catNameTxt = (EditText) findViewById(R.id.cat_name_txt);
         catNameButton = (Button) findViewById(R.id.cat_name_btn);

@@ -22,7 +22,7 @@ public class AvocadoFragment extends Fragment {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_item_avocado, container, false);
         TextView text = (TextView)rootView.findViewById(R.id.avocadoAmount);
 
-        if (User.inventoryList.containsKey(2)) {
+        if (User.getInventoryList().containsKey(2)) {
 //            text.setText("found");
 //            text.setText("");
             text.setText(String.format("x%d", User.getInventoryAmount(2)));

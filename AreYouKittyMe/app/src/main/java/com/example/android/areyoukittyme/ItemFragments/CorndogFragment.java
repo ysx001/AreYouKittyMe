@@ -23,7 +23,7 @@ public class CorndogFragment extends Fragment {
 
         TextView text = (TextView)rootView.findViewById(R.id.corndogAmount);
 
-        if (User.inventoryList.containsKey(5)) {
+        if (User.getInventoryList().containsKey(5)) {
 //            text.setText("found");
 //            text.setText("");
             text.setText(String.format("x%d", User.getInventoryAmount(5)));

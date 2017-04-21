@@ -41,12 +41,14 @@
         app:srcCompat="@drawable/ic_menu_white" />
 
 
-
     <android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/pager_temp"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:visibility="invisible"></android.support.v4.view.ViewPager>
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:visibility="invisible"
+        android:layout_marginTop="14dp"
+        android:layout_below="@+id/drawerToggler"
+        android:layout_alignParentEnd="true"></android.support.v4.view.ViewPager>
 
 
 </RelativeLayout>

@@ -24,7 +24,7 @@ public class HamburgerFragment extends Fragment {
 
         TextView text = (TextView)rootView.findViewById(R.id.hamburgerAmount);
 
-        if (User.inventoryList.containsKey(4)) {
+        if (User.getInventoryList().containsKey(4)) {
 //            text.setText("found");
 //            text.setText("");
             text.setText(String.format("x%d", User.getInventoryAmount(4)));

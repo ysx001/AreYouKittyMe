@@ -26,7 +26,7 @@ public class AsparagusFragment extends Fragment {
 
         TextView text = (TextView)rootView.findViewById(R.id.asparagusAmount);
 
-        if (User.inventoryList.containsKey(1)) {
+        if (User.getInventoryList().containsKey(1)) {
 //            text.setText("found");
 //            text.setText("");
             text.setText(String.format("x%d", User.getInventoryAmount(1)));
@@ -45,7 +45,7 @@ public class AsparagusFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (rootView != null) {
             TextView text = (TextView) rootView.findViewById(R.id.asparagusAmount);
-            if (User.inventoryList.containsKey(1)) {
+            if (User.getInventoryList().containsKey(1)) {
 //            text.setText("found");
 //            text.setText("");
                 text.setText(String.format("x%d", User.getInventoryAmount(1)));

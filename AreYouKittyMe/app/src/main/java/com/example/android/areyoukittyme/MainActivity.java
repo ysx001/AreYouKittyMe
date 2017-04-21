@@ -112,11 +112,11 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
 
         drawerToggler = (ImageView) findViewById(R.id.drawerToggler);
 
-        findViewById(R.id.miaomiaomiao).setOnTouchListener(new MyTouchListener());
+//        findViewById(R.id.miaomiaomiao).setOnTouchListener(new MyTouchListener());
 
         findViewById(R.id.miaomiaomiao).setOnLongClickListener(new MyTouchListener());
         findViewById(R.id.miaomiaomiao).setOnClickListener(new MyClickListener());
-        findViewById(R.id.rlayout).setOnClickListener(new MyClickListener());
+        findViewById(R.id.main_content).setOnClickListener(new MyClickListener());
 
         // Use getIntent method to store the Intent that started this Activity
         Intent startingIntent = getIntent();
@@ -268,7 +268,16 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
 
             startActivity(intent);
         }
+        if (mPager.getCurrentItem() == 0) {
+            // If the user is currently looking at the first step, allow the system to handle the
+            // Back button. This calls finish() on this activity and pops the back stack.
+            super.onBackPressed();
+        } else {
+            // Otherwise, select the previous step.
+            mPager.setCurrentItem(mPager.getCurrentItem() - 1);
+        }
     }
+
 
     /**
      * This helper function is called every time the data source for step counter is found,
@@ -422,46 +431,6 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
         }
     }
 
-    private void showPopup(final Activity context, Point p) {
-        int popupWidth = 1000;
-        int popupHeight = 1000;
-
-        // Inflate the popup_layout.xml
-//        ViewPager viewGroup = (ViewPager) context.findViewById(R.id.pager);
-        LinearLayout viewGroup = (LinearLayout) context.findViewById(R.id.popup);
-        LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View layout = layoutInflater.inflate(R.layout.popup_layout, viewGroup);
-
-
-
-        // Creating the PopupWindow
-        final PopupWindow popup = new PopupWindow(context);
-
-
-        popup.setContentView(layout);
-        popup.setWidth(popupWidth);
-        popup.setHeight(popupHeight);
-        popup.setFocusable(true);
-
-
-        // Some offset to align the popup a bit to the right, and a bit down, relative to button's position.
-        int OFFSET_X = 30;
-        int OFFSET_Y = 30;
-
-        // Clear the default translucent background
-        popup.setBackgroundDrawable(new BitmapDrawable());
-
-        // Displaying the popup at the specified location, + offsets.
-        popup.showAtLocation(layout, Gravity.NO_GRAVITY, p.x + OFFSET_X, p.y + OFFSET_Y);
-
-        // Getting a reference to Close button, and close the popup when clicked.
-//        Button close = (Button) layout.findViewById(R.id.close);
-
-//        mPager = (ViewPager) findViewById(R.id.pager);
-//        mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
-//        mPager.setAdapter(mPagerAdapter);
-    }
-
     public void onWindowFocusChanged(boolean hasFocus) {
 
         int[] location = new int[2];
@@ -500,23 +469,6 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
             return NUM_PAGES;
         }
     }
-
-//    @Override
-//    public void onResume() {
-//
-//    }
-    @Override
-    public void onBackPressed() {
-        if (mPager.getCurrentItem() == 0) {
-            // If the user is currently looking at the first step, allow the system to handle the
-            // Back button. This calls finish() on this activity and pops the back stack.
-            super.onBackPressed();
-        } else {
-            // Otherwise, select the previous step.
-            mPager.setCurrentItem(mPager.getCurrentItem() - 1);
-        }
-    }
-
 
     private final class MyClickListener implements View.OnClickListener {
         public void onClick(View v) {

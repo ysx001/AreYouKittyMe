@@ -23,7 +23,7 @@ public class BaconFragment extends Fragment {
 
         TextView text = (TextView)rootView.findViewById(R.id.baconAmount);
 
-        if (User.inventoryList.containsKey(3)) {
+        if (User.getInventoryList().containsKey(3)) {
 //            text.setText("found");
 //            text.setText("");
             text.setText(String.format("x%d", User.getInventoryAmount(3)));

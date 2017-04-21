@@ -23,7 +23,7 @@ public class FishFragment extends Fragment {
 
         TextView text = (TextView)rootView.findViewById(R.id.fishAmount);
 
-        if (User.inventoryList.containsKey(0)) {
+        if (User.getInventoryList().containsKey(0)) {
 //            text.setText("found");
 //            text.setText("");
             text.setText(String.format("x%d", User.getInventoryAmount(0)));
