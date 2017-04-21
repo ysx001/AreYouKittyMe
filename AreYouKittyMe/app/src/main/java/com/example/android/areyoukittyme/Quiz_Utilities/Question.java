@@ -18,6 +18,7 @@ public class Question {
 
 
 
+
     public Question(VocabList vocab) {
 
 
@@ -39,7 +40,9 @@ public class Question {
     }
 
 
-
+    public boolean checkAnswer(int chosenAnswer){
+        return chosenAnswer == this.indexOfRightAnswer;
+    }
 
     public int getIndexOfRightAnswer() {
         return indexOfRightAnswer;

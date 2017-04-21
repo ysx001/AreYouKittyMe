@@ -4,6 +4,8 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.example.android.areyoukittyme.Quiz_Utilities.Question;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -70,7 +72,7 @@ public class Vocab_Repo {
 
         // Inserting Row
         vocabId = (int) db.insert(Vocab.TABLE, null, values);
-        Vocab_DatabaseManager.getInstance().closeDatabase();
+        db.close();
 
         return vocabId;
     }
@@ -79,7 +81,7 @@ public class Vocab_Repo {
     public static void delete() {
         SQLiteDatabase db = Vocab_DatabaseManager.getInstance().openDatabase();
         db.delete(Vocab.TABLE, null, null);
-        Vocab_DatabaseManager.getInstance().closeDatabase();
+        db.close();
     }
 
     public static ArrayList<VocabList> getAllVocabList() {
@@ -102,7 +104,7 @@ public class Vocab_Repo {
 
         }
         cursor.close();
-        Vocab_DatabaseManager.getInstance().closeDatabase();
+        db.close();
         return vocabLists;
     }
 
@@ -126,7 +128,7 @@ public class Vocab_Repo {
 
         }
         cursor.close();
-        Vocab_DatabaseManager.getInstance().closeDatabase();
+        db.close();
         return vocabLists;
     }
 
@@ -159,8 +161,7 @@ public class Vocab_Repo {
                 cursor.getString(cursor.getColumnIndex(Vocab.KEY_DATE)));
 
         cursor.close();
-        Vocab_DatabaseManager.getInstance().closeDatabase();
-
+        db.close();
 
 
         return vocabWanted;
@@ -214,8 +215,8 @@ public class Vocab_Repo {
             db.update(Vocab.TABLE,values, Vocab.KEY_VOCAB_ID+"=?",new String[]{String.format("%d",id)});
         }catch(Exception whatever){
 
-        }
-        db.close();
+        }finally{
+        db.close();}
 
     }
 
@@ -263,14 +264,58 @@ public class Vocab_Repo {
                     vocabList.setWord(cursor.getString(1));
                     vocabList.setDefinition(cursor.getString(2));
                     vocabList.setProgress(cursor.getInt(3));
-                vocabLists.add(vocabList);}
-
+                vocabLists.add(vocabList);
+                }
+                if(vocabLists.size()>= getDailyGoal()){
+                    break;
+                }
 
             }while(cursor.moveToNext());
 
         }
         cursor.close();
-        Vocab_DatabaseManager.getInstance().closeDatabase();
+        db.close();
+        return vocabLists;
+
+    }
+
+    public static ArrayList<VocabList> getVocabsToStudy() throws ParseException {
+
+        ArrayList<VocabList>vocabLists = new ArrayList<VocabList>();
+        SQLiteDatabase db = Vocab_DatabaseManager.getInstance().openDatabase();
+        String selectQuery = "SELECT  * FROM " + Vocab.TABLE + " WHERE Vocab.progress=0";
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        Date currentDate = new Date();
+        int num = cursor.getCount();
+        if(num>= getDailyGoal()){
+            int increment = num/getDailyGoal();
+            int prevNum = 0;
+
+            if(cursor.moveToFirst()){
+                do{
+                        vocabList = new VocabList();
+                        vocabList.setVocab_Id(cursor.getInt(0));
+                        vocabList.setWord(cursor.getString(1));
+                        vocabList.setDefinition(cursor.getString(2));
+                        vocabList.setProgress(cursor.getInt(3));
+                        vocabLists.add(vocabList);
+                        prevNum += increment;
+                }while(cursor.moveToPosition(prevNum));
+            }
+        }else{
+            if(cursor.moveToFirst()){
+                do{
+                    vocabList = new VocabList();
+                    vocabList.setVocab_Id(cursor.getInt(0));
+                    vocabList.setWord(cursor.getString(1));
+                    vocabList.setDefinition(cursor.getString(2));
+                    vocabList.setProgress(cursor.getInt(3));
+                    vocabLists.add(vocabList);
+                }while(cursor.moveToNext());
+            }
+        }
+        cursor.close();
+        db.close();
         return vocabLists;
 
     }
@@ -311,4 +356,14 @@ public class Vocab_Repo {
         return randomDefinitionsList;
 
     }
+
+    public static ArrayList<Question> convertVocabListsToQuestions(ArrayList<VocabList> vocabs){
+
+        ArrayList<Question> questions = new ArrayList<Question>();
+        for(VocabList vocab: vocabs){
+            questions.add(new Question(vocab));
+        }
+        return questions;
+    }
+
 }

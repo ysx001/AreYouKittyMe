@@ -19,7 +19,7 @@ public class Vocab_Database extends SQLiteOpenHelper {
 
 
     public Vocab_Database() {
-        super(App.getContext(), this.DATABASE_NAME, null, this.DATABASE_VERSION);
+        super(App.getContext(), DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override
