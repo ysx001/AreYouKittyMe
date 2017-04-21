@@ -95,86 +95,6 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
 
         profile = new ProfileDrawerItem().withName(catName).withIcon(GoogleMaterial.Icon.gmd_pets);
 
-        /*// Setting an OnClickLister for the statsButton
-        statsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                // This is the class we want to start and open when button is clicked
-                Class destActivity = StatsDayActivity.class;
-
-                // create Intent that will start the activity
-                Intent startStatsIntent = new Intent(context, destActivity);
-
-                startActivity(startStatsIntent);
-
-            }
-        });
-
-        // Setting an OnClickLister for the vocabButton
-        vocabButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                // This is the class we want to start and open when button is clicked
-                Class destActivity = VocabActivity.class;
-
-                // create Intent that will start the activity
-                Intent startMainActivityIntent = new Intent(context, destActivity);
-
-                startActivity(startMainActivityIntent);
-
-            }
-        });
-
-        // Setting an OnClickLister for the storeButton
-        storeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                // This is the class we want to start and open when button is clicked
-                Class destActivity = StoreActivity.class;
-
-                // create Intent that will start the activity
-                Intent startMainActivityIntent = new Intent(context, destActivity);
-
-                startActivity(startMainActivityIntent);
-
-            }
-        });
-
-        // Setting an OnClickLister for the timerButton
-        timerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                // This is the class we want to start and open when button is clicked
-                Class destActivity = TimerActivity.class;
-
-                // create Intent that will start the activity
-                Intent startMainActivityIntent = new Intent(context, destActivity);
-
-                startMainActivityIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-
-                startActivity(startMainActivityIntent);
-
-            }
-        });
-
-        storeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                // This is the class we want to start and open when button is clicked
-                Class destActivity = StoreActivity.class;
-                // create Intent that will start the activity
-                Intent startMainActivityIntent = new Intent(context, destActivity);
-                startActivity(startMainActivityIntent);
-            }
-        });*/
-
-        final IProfile profile = new ProfileDrawerItem().withName(catName).withIcon(GoogleMaterial.Icon.gmd_pets);
-
         header = new AccountHeaderBuilder()
                 .withActivity(this)
                 .withTranslucentStatusBar(true)
@@ -216,7 +136,7 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
                         if (drawerItem != null) {
                             Intent intent = null;
                             if (drawerItem.getIdentifier() == 1) {
-                                intent = new Intent(MainActivity.this, StatsActivity.class);
+                                intent = new Intent(MainActivity.this, StatsDayActivity.class);
                             }
                             else if (drawerItem.getIdentifier() == 2) {
                                 intent = new Intent(MainActivity.this, StoreActivity.class);

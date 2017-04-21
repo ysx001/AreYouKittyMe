@@ -49,7 +49,7 @@ import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.MPPointF;
 
 /**
- *@seehttps://code.tutsplus.com/tutorials/google-fit-for-android-reading-sensor-data--cms-25723
+ *
  */
 public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeListener,
         OnChartValueSelectedListener{
@@ -63,11 +63,12 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
     private final int week = 52;
     // 12 month in a year
     private final int month = 12;
-    private final int year = 365;
 
     public final int[] STEP_COLORS = { R.color.colorAccent };
     public final int[] FOCUS_COLORS = { R.color.colorAccentLight};
     public final int[] VOCAB_COLORS = { R.color.colorAccentDark};
+
+    private static User mUser = new User("Sarah");
 
 
     private ArrayList<ArrayList<Double>> dataArray = User.getUserData();
