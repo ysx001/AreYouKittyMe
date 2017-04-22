@@ -3,49 +3,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:background="@drawable/shape">
+    android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <ImageButton
-            android:id="@+id/baconLeft"
-            android:layout_width="150sp"
-            android:layout_height="250sp"
-            android:layout_weight="1"
-            android:scaleType="fitCenter"
-            app:srcCompat="@drawable/banana" />
-
-        <ImageButton
-            android:id="@+id/imageView"
-            android:layout_width="250sp"
-            android:layout_height="250sp"
-            android:layout_weight="1"
-            android:padding="10sp"
-            android:scaleType="fitCenter"
-            android:background="@null"
-            app:srcCompat="@drawable/bacon" />
-
-        <ImageButton
-            android:id="@+id/baconRight"
-            android:layout_width="150sp"
-            android:layout_height="250sp"
-            android:layout_weight="1"
-            android:elevation="1dp"
-            app:srcCompat="@drawable/banana" />
-
-    </LinearLayout>
+    <ImageButton
+        android:id="@+id/imageView"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_weight="1"
+        android:background="@null"
+        android:padding="10sp"
+        android:scaleType="fitCenter"
+        app:srcCompat="@drawable/bacon" />
 
     <TextView
         android:id="@+id/baconAmount"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="20dp"
         android:layout_weight="1"
-        android:text="X2"
         android:textAlignment="center"
-        android:textSize="20sp" />
+        android:text="TextView" />
 
 </LinearLayout>

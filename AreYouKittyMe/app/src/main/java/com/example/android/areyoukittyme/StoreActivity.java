@@ -80,7 +80,6 @@ public class StoreActivity extends AppCompatActivity {
         mySnackbar = Snackbar.make(coordLayout, "Not Enough CatCash", BaseTransientBottomBar.LENGTH_SHORT);
 
         //TODO: find a way to store the model
-        User.setCash(100);
         User.setInventoryList(new HashMap<Integer, Object[]>());
         new Store();
         populateStore();

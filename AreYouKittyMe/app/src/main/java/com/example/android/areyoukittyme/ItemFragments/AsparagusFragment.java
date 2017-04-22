@@ -27,44 +27,13 @@ public class AsparagusFragment extends Fragment {
         TextView text = (TextView)rootView.findViewById(R.id.asparagusAmount);
 
         if (User.getInventoryList().containsKey(1)) {
-//            text.setText("found");
-//            text.setText("");
+
             text.setText(String.format("x%d", User.getInventoryAmount(1)));
         }
         else {
             text.setText("nokey");
         }
 
-        rootView.findViewById(R.id.asparagusLeft).setOnClickListener(new MyClickListener());
-        rootView.findViewById(R.id.asparagusRight).setOnClickListener(new MyClickListener());
         return rootView;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (rootView != null) {
-            TextView text = (TextView) rootView.findViewById(R.id.asparagusAmount);
-            if (User.getInventoryList().containsKey(1)) {
-//            text.setText("found");
-//            text.setText("");
-                text.setText(String.format("x%d", User.getInventoryAmount(1)));
-                text.invalidate();
-            } else {
-                text.setText("nokey");
-            }
-        }
-    }
-    private final class MyClickListener implements View.OnClickListener {
-        @Override
-        public void onClick(View v) {
-            ViewPager viewPager = (ViewPager) v.getRootView().findViewById(R.id.pager_temp);
-            if (v.getId() == R.id.asparagusLeft) {
-                viewPager.setCurrentItem(viewPager.getCurrentItem()-1, true);
-            }
-            else if (v.getId() == R.id.asparagusRight) {
-                viewPager.setCurrentItem(viewPager.getCurrentItem()+1, true);
-            }
-        }
     }
 }

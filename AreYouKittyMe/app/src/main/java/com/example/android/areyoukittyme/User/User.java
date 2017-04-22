@@ -61,6 +61,7 @@ public class User {
         User.userData = generateData(year, 30.0);
         User.cash = 1000;
         User.inventoryList = new HashMap<Integer, Object[]>();
+        initInventoryList();
     }
 
     public static void userCheckout(ArrayList<TextView> amountList, ArrayList<Integer> priceList) {

@@ -31,18 +31,6 @@ public class CorndogFragment extends Fragment {
         else {
             text.setText("nokey");
         }
-        rootView.findViewById(R.id.corndogLeft).setOnClickListener(new MyClickListener());
-//        rootView.findViewById(R.id.asparagusRight).setOnClickListener(new MyClickListener());
         return rootView;
-    }
-
-    private final class MyClickListener implements View.OnClickListener {
-        @Override
-        public void onClick(View v) {
-            ViewPager viewPager = (ViewPager) v.getRootView().findViewById(R.id.pager_temp);
-            if (v.getId() == R.id.corndogLeft) {
-                viewPager.setCurrentItem(viewPager.getCurrentItem() - 1, true);
-            }
-        }
     }
 }

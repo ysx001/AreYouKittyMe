@@ -20,14 +20,14 @@
         android:layout_marginTop="28dp" />
 
     <ImageView
-        android:id="@+id/miaomiaomiao"
+        android:id="@+id/miaomiaomiao_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/catnormal0001"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="31dp"
+        android:visibility="visible"
         android:layout_below="@+id/cat_name_display"
-        android:layout_centerHorizontal="true"
-        android:visibility="visible" />/>
+        android:layout_alignParentStart="true" />/>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/drawerToggler"
@@ -41,14 +41,52 @@
         app:srcCompat="@drawable/ic_menu_white" />
 
 
-    <android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/pager_temp"
+    <RelativeLayout
+        android:id="@+id/popup_container"
+        android:visibility="invisible"
         android:layout_width="200dp"
         android:layout_height="200dp"
-        android:visibility="invisible"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/cat_name_display"
         android:layout_marginTop="14dp"
-        android:layout_below="@+id/drawerToggler"
-        android:layout_alignParentEnd="true"></android.support.v4.view.ViewPager>
+        android:layout_weight="0.50"
+        android:background="@drawable/speech_bubblea_revised_r">
+
+        <ImageButton
+            android:id="@+id/rightArrow"
+            android:layout_width="20dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="12dp"
+            android:layout_weight="1"
+            android:background="@null"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/arrows_slim"
+            android:layout_alignTop="@+id/leftArrow"
+            android:layout_toEndOf="@+id/pager_temp" />
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/pager_temp"
+            android:layout_width="100dp"
+            android:layout_height="120dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp" />
+
+        <!--</android.support.v4.view.ViewPager>-->
+
+        <ImageButton
+            android:id="@+id/leftArrow"
+            android:layout_width="20dp"
+            android:layout_height="100dp"
+            android:layout_marginEnd="9dp"
+            android:layout_weight="0.50"
+            android:background="@null"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/arrows_slim_r"
+            android:layout_alignBottom="@+id/pager_temp"
+            android:layout_toStartOf="@+id/pager_temp"
+            android:layout_marginBottom="8dp" />
+    </RelativeLayout>
 
 
 </RelativeLayout>

@@ -13,7 +13,7 @@
     tools:context="com.example.android.areyoukittyme.AdoptActivity">
 
     <ImageView
-        android:id="@+id/miaomiaomiao"
+        android:id="@+id/miaomiaomiao_adopt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/catnormal0001"

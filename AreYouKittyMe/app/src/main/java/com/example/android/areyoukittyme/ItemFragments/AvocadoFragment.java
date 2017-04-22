@@ -31,20 +31,8 @@ public class AvocadoFragment extends Fragment {
             text.setText("nokey");
         }
 
-        rootView.findViewById(R.id.avocadoLeft).setOnClickListener(new MyClickListener());
-        rootView.findViewById(R.id.avocadoRight).setOnClickListener(new MyClickListener());
+
         return rootView;
     }
-    private final class MyClickListener implements View.OnClickListener {
-        @Override
-        public void onClick(View v) {
-            ViewPager viewPager = (ViewPager) v.getRootView().findViewById(R.id.pager_temp);
-            if (v.getId() == R.id.avocadoLeft) {
-                viewPager.setCurrentItem(viewPager.getCurrentItem()-1, true);
-            }
-            else if (v.getId() == R.id.avocadoRight) {
-                viewPager.setCurrentItem(viewPager.getCurrentItem()+1, true);
-            }
-        }
-    }
+
 }

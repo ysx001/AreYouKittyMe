@@ -19,30 +19,18 @@ public class FishFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_item_fish, container, false);
 
+        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_item_fish, container, false);
         TextView text = (TextView)rootView.findViewById(R.id.fishAmount);
 
         if (User.getInventoryList().containsKey(0)) {
-//            text.setText("found");
-//            text.setText("");
-            text.setText(String.format("x%d", User.getInventoryAmount(0)));
+
+            text.setText(String.format("x%d", User.getInventoryAmount(3)));
         }
         else {
             text.setText("nokey");
         }
-
-//        rootView.findViewById(R.id.asparagusLeft).setOnClickListener(new MyClickListener());
-        rootView.findViewById(R.id.fishRight).setOnClickListener(new MyClickListener());
         return rootView;
     }
-    private final class MyClickListener implements View.OnClickListener {
-        @Override
-        public void onClick(View v) {
-            ViewPager viewPager = (ViewPager) v.getRootView().findViewById(R.id.pager_temp);
-            if (v.getId() == R.id.fishRight) {
-                viewPager.setCurrentItem(viewPager.getCurrentItem()+1, true);
-            }
-        }
-    }
+
 }

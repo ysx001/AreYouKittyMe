@@ -1,11 +1,9 @@
 package com.example.android.areyoukittyme;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.graphics.Point;
-import android.graphics.drawable.BitmapDrawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -15,31 +13,22 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.view.MotionEvent;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
-import android.widget.Button;
-import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.areyoukittyme.User.User;
 import com.github.pwittchen.swipe.library.Swipe;
-import com.github.pwittchen.swipe.library.SwipeListener;
 import com.example.android.areyoukittyme.ItemFragments.AsparagusFragment;
 import com.example.android.areyoukittyme.ItemFragments.AvocadoFragment;
 import com.example.android.areyoukittyme.ItemFragments.BaconFragment;
 import com.example.android.areyoukittyme.ItemFragments.CorndogFragment;
 import com.example.android.areyoukittyme.ItemFragments.FishFragment;
 import com.example.android.areyoukittyme.ItemFragments.HamburgerFragment;
-import com.example.android.areyoukittyme.Store.Store;
-import com.example.android.areyoukittyme.User.User;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -56,7 +45,6 @@ import com.google.android.gms.fitness.request.DataSourcesRequest;
 import com.google.android.gms.fitness.request.OnDataPointListener;
 import com.google.android.gms.fitness.request.SensorRequest;
 import com.google.android.gms.fitness.result.DataSourcesResult;
-import com.mikepenz.fontawesome_typeface_library.FontAwesome;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
@@ -109,14 +97,15 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
         mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
 
         displayCatName = (TextView) findViewById(R.id.cat_name_display);
-
         drawerToggler = (ImageView) findViewById(R.id.drawerToggler);
 
-//        findViewById(R.id.miaomiaomiao).setOnTouchListener(new MyTouchListener());
+//        findViewById(R.id.miaomiaomiao).setOnTouchListener(new MyLongClickListener());
 
-        findViewById(R.id.miaomiaomiao).setOnLongClickListener(new MyTouchListener());
-        findViewById(R.id.miaomiaomiao).setOnClickListener(new MyClickListener());
+        findViewById(R.id.miaomiaomiao_main).setOnLongClickListener(new MyLongClickListener());
+        findViewById(R.id.miaomiaomiao_main).setOnClickListener(new MyClickListener());
         findViewById(R.id.main_content).setOnClickListener(new MyClickListener());
+        findViewById(R.id.leftArrow).setOnClickListener(new MyClickListener());
+        findViewById(R.id.rightArrow).setOnClickListener(new MyClickListener());
 
         // Use getIntent method to store the Intent that started this Activity
         Intent startingIntent = getIntent();
@@ -395,7 +384,7 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
         }
     }
 
-    private final class MyTouchListener implements View.OnLongClickListener {
+    private final class MyLongClickListener implements View.OnLongClickListener {
 //        public boolean onLongClick(View view, MotionEvent motionEvent) {
 //            if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
 //                mPlayer.start();
@@ -417,7 +406,7 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
         @Override
         public boolean onLongClick(View v) {
                 mPlayer.start();
-                ViewPager vp = (ViewPager) findViewById(R.id.pager_temp);
+                RelativeLayout vp = (RelativeLayout) findViewById(R.id.popup_container);
                 int visibility = vp.getVisibility();
                 if (visibility == View.VISIBLE) {
                     vp.setVisibility(View.INVISIBLE);
@@ -434,7 +423,7 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
     public void onWindowFocusChanged(boolean hasFocus) {
 
         int[] location = new int[2];
-        ImageView button = (ImageView) findViewById(R.id.miaomiaomiao);
+        ImageView button = (ImageView) findViewById(R.id.miaomiaomiao_main);
 
         // Get the x, y location and store it in the location[] array
         // location[0] = x, location[1] = y.
@@ -472,9 +461,19 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
 
     private final class MyClickListener implements View.OnClickListener {
         public void onClick(View v) {
+
+            RelativeLayout popup = (RelativeLayout) findViewById(R.id.popup_container);
             ViewPager vp = (ViewPager) findViewById(R.id.pager_temp);
-            if (vp.getVisibility() == View.VISIBLE) {
-                vp.setVisibility(View.INVISIBLE);
+            if (v.getId() == R.id.leftArrow) {
+                vp.setCurrentItem(vp.getCurrentItem()-1, true);
+            }
+            else if (v.getId() == R.id.rightArrow) {
+                vp.setCurrentItem(vp.getCurrentItem()+1, true);
+            }
+            else {
+                if (popup.getVisibility() == View.VISIBLE) {
+                    popup.setVisibility(View.INVISIBLE);
+                }
             }
         }
     }
