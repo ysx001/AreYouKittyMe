@@ -11,11 +11,13 @@ public class Hamburger implements Item{
     private static int price;
     private static int icon;
     private static int id;
+    private static int index;
 
-    public Hamburger() {
+    public Hamburger(int index) {
         setPrice(220);
         this.id = R.drawable.hamburguer;
         setIcon(id);
+        this.index = index;
     }
 
     @Override
@@ -38,5 +40,11 @@ public class Hamburger implements Item{
     }
     public int getPrice() {
         return price;
+    }
+    public static int getIndex() {
+        return index;
+    }
+    public static void setIndex(int index) {
+        Hamburger.index = index;
     }
 }

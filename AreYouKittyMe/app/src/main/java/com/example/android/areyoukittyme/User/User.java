@@ -1,5 +1,6 @@
 package com.example.android.areyoukittyme.User;
 
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -45,6 +46,9 @@ public class User {
     private static int health;
     private static int mood;
 
+    private static int HEALTH_MAX = 100;
+    private static int MOOD_MAX = 100;
+
     public User(String name) {
         User.name = name;
         User.stepsGoal = 8000;
@@ -55,7 +59,6 @@ public class User {
         User.focus = 0;
         User.vocab = 0;
         User.cash = 0;
-        User.inventoryList = null;
         User.health = 100;
         User.mood = 100;
         User.userData = generateData(year, 30.0);
@@ -64,21 +67,24 @@ public class User {
         initInventoryList();
     }
 
-    public static void userCheckout(ArrayList<TextView> amountList, ArrayList<Integer> priceList) {
+    public static void userCheckout(ArrayList<Integer> amountList, ArrayList<Integer> priceList) {
+
+
         Object[] array = new Object[3];
         for (int i = 0; i < amountList.size(); i++) {
-
-            array[0] = Integer.parseInt(amountList.get(i).getText().toString());
-            array[1] = priceList.get(i);
-            array[2] = Store.getItemList().get(i);
+            int prevAmount = (int)inventoryList.get(i)[0];
+            array[0] = amountList.get(i) + prevAmount; // the amount of the item
+            array[1] = priceList.get(i); // priece of the item
+            array[2] = Store.getItemList().get(i); // name of the item(textView)
             inventoryList.put(i, array);
+
         }
     }
 
     public static void initInventoryList() {
         Object[] array = new Object[3];
         for (int i = 0; i < 6; i++) {
-            array[0] = 0;
+            array[0] = 1;
             array[1] = 0;
             array[2] = null;
             inventoryList.put(i, array);
@@ -233,5 +239,19 @@ public class User {
 
     public static ArrayList<ArrayList<Double>> getUserData() {
         return userData;
+    }
+
+    public static void incrementHealth(int amount) {
+        User.health += amount;
+        if (User.health > HEALTH_MAX) {
+            User.health = 100;
+        }
+    }
+
+    public static void incrementMood(int amount) {
+        User.mood += amount;
+        if (User.mood > MOOD_MAX) {
+            User.mood = 100;
+        }
     }
 }

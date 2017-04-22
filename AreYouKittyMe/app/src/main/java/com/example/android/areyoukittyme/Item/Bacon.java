@@ -10,11 +10,13 @@ public class Bacon implements Item{
     private static int price;
     private static int icon;
     private static int id;
+    private static int index;
 
-    public Bacon() {
+    public Bacon(int index) {
         setPrice(45);
         this.id = R.drawable.bacon;
         setIcon(id);
+        this.index = index;
     }
 
     @Override
@@ -37,5 +39,11 @@ public class Bacon implements Item{
     }
     public int getPrice() {
         return price;
+    }
+    public static int getIndex() {
+        return index;
+    }
+    public static void setIndex(int index) {
+        Bacon.index = index;
     }
 }

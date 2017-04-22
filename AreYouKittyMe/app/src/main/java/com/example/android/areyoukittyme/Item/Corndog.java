@@ -10,11 +10,13 @@ public class Corndog implements Item{
     private static int price;
     private static int icon;
     private static int id;
+    private static int index;
 
-    public Corndog() {
+    public Corndog(int index) {
         setPrice(4000);
         this.id = R.drawable.corndog;
         setIcon(id);
+        this.index = index;
     }
 
     @Override
@@ -37,5 +39,11 @@ public class Corndog implements Item{
     }
     public int getPrice() {
         return price;
+    }
+    public static int getIndex() {
+        return index;
+    }
+    public static void setIndex(int index) {
+        Corndog.index = index;
     }
 }

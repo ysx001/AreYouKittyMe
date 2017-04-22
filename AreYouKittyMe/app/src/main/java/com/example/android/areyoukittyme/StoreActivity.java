@@ -1,48 +1,32 @@
 package com.example.android.areyoukittyme;
 
 
-        import android.app.Activity;
-        import android.content.ClipData;
         import android.content.Context;
         import android.content.Intent;
-        import android.graphics.drawable.Drawable;
         import android.media.AudioManager;
         import android.media.MediaPlayer;
         import android.os.Bundle;
         import android.support.design.widget.BaseTransientBottomBar;
         import android.support.design.widget.Snackbar;
         import android.support.v7.app.AppCompatActivity;
-        import android.support.v7.widget.DividerItemDecoration;
         import android.util.Log;
-        import android.view.DragEvent;
         import android.view.Gravity;
         import android.view.MenuItem;
-        import android.view.MotionEvent;
         import android.view.View;
-        import android.view.View.DragShadowBuilder;
-        import android.view.View.OnDragListener;
-        import android.view.View.OnTouchListener;
-        import android.view.ViewGroup;
         import android.view.animation.Animation;
         import android.view.animation.AnimationUtils;
-        import android.widget.BaseAdapter;
         import android.widget.Button;
-        import android.widget.GridView;
         import android.widget.ImageView;
         import android.widget.LinearLayout;
         import android.view.View.OnClickListener;
         import android.widget.TextView;
+        import android.widget.Toast;
 
-        import com.example.android.areyoukittyme.Item.Fish;
         import com.example.android.areyoukittyme.Item.Item;
         import com.example.android.areyoukittyme.Store.Store;
         import com.example.android.areyoukittyme.User.User;
 
-        import org.w3c.dom.Text;
-
         import java.util.ArrayList;
-        import java.util.HashMap;
-        import java.util.List;
 
 public class StoreActivity extends AppCompatActivity {
 
@@ -51,7 +35,8 @@ public class StoreActivity extends AppCompatActivity {
     private static int ItemDogAmount = 0;
     private static int itemFishAmount = 0;
     public static ArrayList<Integer> priceList;
-    public static ArrayList<TextView> amountList;
+    public static ArrayList<TextView> amountListTextView;
+    public static ArrayList<Integer> amountListInt;
     public static int total = 0;
     private Context context;
     public static Snackbar mySnackbar;
@@ -68,7 +53,9 @@ public class StoreActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_store);
         priceList = new ArrayList<>();
-        amountList = new ArrayList<>();
+        amountListTextView = new ArrayList<>();
+        amountListInt = new ArrayList<>();
+        total = 0;
         context = StoreActivity.this;
 
         mPlayer = MediaPlayer.create(context, R.raw.bell_small_001);
@@ -79,9 +66,8 @@ public class StoreActivity extends AppCompatActivity {
         View coordLayout = findViewById(R.id.coordinatorLayout);
         mySnackbar = Snackbar.make(coordLayout, "Not Enough CatCash", BaseTransientBottomBar.LENGTH_SHORT);
 
-        //TODO: find a way to store the model
-        User.setInventoryList(new HashMap<Integer, Object[]>());
-        new Store();
+//        User.setInventoryList(new HashMap<Integer, Object[]>());
+//        new Store();
         populateStore();
 
         catCash = (TextView) findViewById(R.id.catCash);
@@ -111,25 +97,23 @@ public class StoreActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    //TODO: add all the items into player's inventory(hash map)
-
 
     private void checkout() {
         MediaPlayer mPlayer = MediaPlayer.create(StoreActivity.this, R.raw.cash_register);
         mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         mPlayer.start();
         if (total > User.getCash()) {
-            mySnackbar.show();
+            Toast.makeText(getApplicationContext(), "Not Enough CatCash", Toast.LENGTH_SHORT).show();
         }
         else {
             User.setCash(User.getCash() - total);
             catCash.setText(String.format("CatCash: %d", User.getCash()));
             total = 0;
             totalText.setText(String.format("Total: %d", total));
-            for (int i = 0; i < StoreActivity.amountList.size(); i++) {
-                StoreActivity.amountList.get(i).setText(String.valueOf(0));
+            for (int i = 0; i < StoreActivity.amountListTextView.size(); i++) {
+                StoreActivity.amountListTextView.get(i).setText(String.valueOf(0));
             }
-            User.userCheckout(StoreActivity.amountList, StoreActivity.priceList);
+            User.userCheckout(StoreActivity.amountListInt, StoreActivity.priceList);
         }
     }
 
@@ -177,7 +161,11 @@ public class StoreActivity extends AppCompatActivity {
             amount.setText("0");
             amountContainer.addView(minusBtn);
             amountContainer.addView(amount);
-            this.amountList.add(amount);
+            this.amountListTextView.add(amount);
+
+            //TODO: this is what causes the crash. resolve it
+            Integer.parseInt(amount.getText().toString());
+            this.amountListInt.add(Integer.parseInt(amount.getText().toString()));
             amountContainer.addView(plusBtn);
             minusBtn.setOnClickListener(new MyClickListener());
             plusBtn.setOnClickListener(new MyClickListener());
@@ -221,18 +209,20 @@ public class StoreActivity extends AppCompatActivity {
                 checkout();
             }
             else if (sign == '+') {
-                String incremented = incrementString(StoreActivity.amountList.get(pos).getText().toString(), 1);
-                StoreActivity.amountList.get(pos).setText(incremented);
+                String incremented = incrementString(StoreActivity.amountListTextView.get(pos).getText().toString(), 1);
+                StoreActivity.amountListTextView.get(pos).setText(incremented);
+                StoreActivity.amountListInt.set(pos, StoreActivity.amountListInt.get(pos)+1);
                 StoreActivity.total += StoreActivity.priceList.get(pos);
-                StoreActivity.amountList.get(pos).startAnimation(shake);
+                StoreActivity.amountListTextView.get(pos).startAnimation(shake);
                 TextView t = (TextView) findViewById(R.id.totalAmount);
                 t.setText(String.format("Total: %d", StoreActivity.total));
             }
             else if (sign == '-') {
-                if (Integer.parseInt(StoreActivity.amountList.get(pos).getText().toString()) != 0) {
-                    String incremented = incrementString(StoreActivity.amountList.get(pos).getText().toString(), -1);
-                    StoreActivity.amountList.get(pos).setText(incremented);
-                    StoreActivity.amountList.get(pos).startAnimation(shake);
+                if (Integer.parseInt(StoreActivity.amountListTextView.get(pos).getText().toString()) != 0) {
+                    String incremented = incrementString(StoreActivity.amountListTextView.get(pos).getText().toString(), -1);
+                    StoreActivity.amountListTextView.get(pos).setText(incremented);
+                    StoreActivity.amountListInt.set(pos, StoreActivity.amountListInt.get(pos)-1);
+                    StoreActivity.amountListTextView.get(pos).startAnimation(shake);
                     StoreActivity.total -= StoreActivity.priceList.get(pos);
                     TextView t = (TextView) findViewById(R.id.totalAmount);
                     t.setText(String.format("Total: %d", StoreActivity.total));

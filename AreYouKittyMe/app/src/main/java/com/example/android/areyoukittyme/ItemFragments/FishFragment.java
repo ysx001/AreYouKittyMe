@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.android.areyoukittyme.Item.Fish;
 import com.example.android.areyoukittyme.R;
 import com.example.android.areyoukittyme.User.User;
 
@@ -16,21 +17,24 @@ import com.example.android.areyoukittyme.User.User;
  */
 
 public class FishFragment extends Fragment {
+    private static ViewGroup rootView;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        rootView = (ViewGroup) inflater.inflate(R.layout.fragment_item_fish, container, false);
+        updateAmount();
+        return rootView;
+    }
 
-        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.fragment_item_fish, container, false);
+    public static void updateAmount() {
         TextView text = (TextView)rootView.findViewById(R.id.fishAmount);
 
-        if (User.getInventoryList().containsKey(0)) {
-
-            text.setText(String.format("x%d", User.getInventoryAmount(3)));
+        if (User.getInventoryList().containsKey(Fish.getIndex())) {
+            text.setText(String.format("x%d", User.getInventoryAmount(Fish.getIndex())));
         }
         else {
             text.setText("nokey");
         }
-        return rootView;
     }
-
 }

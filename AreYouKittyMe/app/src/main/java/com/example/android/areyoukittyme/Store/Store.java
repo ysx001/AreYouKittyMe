@@ -21,12 +21,12 @@ public class Store {
 
     public Store() {
         itemList = new ArrayList<>();
-        this.itemList.add(new Fish());
-        this.itemList.add(new Asparagus());
-        this.itemList.add(new Avocado());
-        this.itemList.add(new Bacon());
-        this.itemList.add(new Hamburger());
-        this.itemList.add(new Corndog());
+        this.itemList.add(new Fish(0));
+        this.itemList.add(new Asparagus(1));
+        this.itemList.add(new Avocado(2));
+        this.itemList.add(new Bacon(3));
+        this.itemList.add(new Hamburger(4));
+        this.itemList.add(new Corndog(5));
     }
 
     public static ArrayList<Item> getItemList() {

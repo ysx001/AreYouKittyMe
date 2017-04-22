@@ -13,11 +13,13 @@ public class Fish implements Item{
     private static int price;
     private static int icon;
     private static int id;
+    private static int index;
 
-    public Fish() {
+    public Fish(int index) {
         setPrice(80);
         this.id = R.drawable.fish;
         setIcon(id);
+        this.index = index;
     }
 
     @Override
@@ -40,5 +42,11 @@ public class Fish implements Item{
     }
     public int getPrice() {
         return price;
+    }
+    public static int getIndex() {
+        return index;
+    }
+    public static void setIndex(int index) {
+        Fish.index = index;
     }
 }

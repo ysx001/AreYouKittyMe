@@ -46,11 +46,10 @@
         android:visibility="invisible"
         android:layout_width="200dp"
         android:layout_height="200dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignTop="@+id/cat_name_display"
-        android:layout_marginTop="14dp"
         android:layout_weight="0.50"
-        android:background="@drawable/speech_bubblea_revised_r">
+        android:background="@drawable/speech_bubblea_revised_r"
+        android:layout_below="@+id/drawerToggler"
+        android:layout_alignParentEnd="true">
 
         <ImageButton
             android:id="@+id/rightArrow"

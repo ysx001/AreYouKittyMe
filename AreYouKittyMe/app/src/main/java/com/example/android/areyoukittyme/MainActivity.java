@@ -21,6 +21,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.android.areyoukittyme.Item.Avocado;
+import com.example.android.areyoukittyme.Item.Corndog;
 import com.example.android.areyoukittyme.User.User;
 import com.github.pwittchen.swipe.library.Swipe;
 import com.example.android.areyoukittyme.ItemFragments.AsparagusFragment;
@@ -87,9 +89,7 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        //TODO: move new Store() to appropriate places
-//        new Store();
-//        new User();
+
         // Store the context variable
         context = MainActivity.this;
 
@@ -210,7 +210,7 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
                 .addOnConnectionFailedListener(this)
                 .build();
 
-        mApiClient.connect();
+//        mApiClient.connect();
         mPager = (ViewPager) findViewById(R.id.pager_temp);
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
@@ -420,20 +420,20 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
         }
     }
 
-    public void onWindowFocusChanged(boolean hasFocus) {
-
-        int[] location = new int[2];
-        ImageView button = (ImageView) findViewById(R.id.miaomiaomiao_main);
-
-        // Get the x, y location and store it in the location[] array
-        // location[0] = x, location[1] = y.
-        button.getLocationOnScreen(location);
-
-        //Initialize the Point with x, and y positions
-        p = new Point();
-        p.x = location[0];
-        p.y = location[1];
-    }
+//    public void onWindowFocusChanged(boolean hasFocus) {
+//
+//        int[] location = new int[2];
+//        ImageView button = (ImageView) findViewById(R.id.miaomiaomiao_main);
+//
+//        // Get the x, y location and store it in the location[] array
+//        // location[0] = x, location[1] = y.
+//        button.getLocationOnScreen(location);
+//
+//        //Initialize the Point with x, and y positions
+//        p = new Point();
+//        p.x = location[0];
+//        p.y = location[1];
+//    }
 
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
         public ScreenSlidePagerAdapter(FragmentManager fm) {
@@ -476,5 +476,20 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
                 }
             }
         }
+    }
+
+    public void onWindowFocusChanged(boolean hasFocus) {
+
+        super.onWindowFocusChanged(hasFocus);
+
+        if(hasFocus) {
+//            FishFragment.updateAmount();
+//            AsparagusFragment.updateAmount();
+//            AvocadoFragment.updateAmount();
+//            BaconFragment.updateAmount();
+//            HamburgerFragment.updateAmount();
+//            CorndogFragment.updateAmount();
+        }
+
     }
 }

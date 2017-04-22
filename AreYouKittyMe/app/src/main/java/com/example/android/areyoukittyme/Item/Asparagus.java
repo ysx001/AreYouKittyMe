@@ -10,11 +10,13 @@ public class Asparagus implements Item{
     private static int price;
     private static int icon;
     private static int id;
+    private static int index;
 
-    public Asparagus() {
+    public Asparagus(int index) {
         setPrice(90);
         this.id = R.drawable.asparagus;
         setIcon(this.id);
+        this.index = index;
     }
 
     @Override
@@ -37,5 +39,11 @@ public class Asparagus implements Item{
     }
     public int getPrice() {
         return price;
+    }
+    public static int getIndex() {
+        return index;
+    }
+    public static void setIndex(int index) {
+        Asparagus.index = index;
     }
 }
