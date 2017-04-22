@@ -30,7 +30,8 @@ public class Quiz {
 
         questions = Vocab_Repo.convertVocabListsToQuestions(Vocab_Repo.getVocabsToStudy());
         if (mode){
-        questions.addAll(Vocab_Repo.convertVocabListsToQuestions(Vocab_Repo.getVocabsReviewableVocab()));}
+            questions.addAll(Vocab_Repo.convertVocabListsToQuestions(Vocab_Repo.getVocabsReviewableVocab()));
+        }
         this.answeredQuestions = new ArrayList<Question>();
         currentQuestion = this.questions.get(0);
 
@@ -53,6 +54,8 @@ public class Quiz {
 
     }
 
+
+
     public boolean checkCurrentAnswer(int chosenIndex) {
 
         boolean correct = currentQuestion.checkAnswer(chosenIndex);
@@ -74,7 +77,10 @@ public class Quiz {
         }else if(question.getVocab().getProgress()==1){
             Vocab_Repo.updateAWordOnItsReviewPeriod(question.getVocab().getVocab_Id());
         }
+    }
 
+    public void processKnownVocab(Question question){
+        Vocab_Repo.updateAWordOnItsProgress(2,question.getVocab().getVocab_Id(),0);
     }
 
     public void toNextQuestion(){
@@ -103,10 +109,12 @@ public class Quiz {
     }
 
     public int getRecord() {
+
         return record;
     }
 
     public void setRecord(int record) {
+
         this.record = record;
     }
 

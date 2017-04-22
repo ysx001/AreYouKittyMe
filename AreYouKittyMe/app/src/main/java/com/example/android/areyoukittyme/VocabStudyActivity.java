@@ -20,7 +20,7 @@ import com.example.android.areyoukittyme.Quiz_Utilities.Quiz;
 
 import java.text.ParseException;
 
-public class VocabStudyActivity extends AppCompatActivity {
+public class VocabStudyActivity extends AppCompatActivity implements View.OnClickListener/*, View.OnTouchListener*/ {
 
     private Button choiceBtn1;
     private Button choiceBtn2;
@@ -28,11 +28,13 @@ public class VocabStudyActivity extends AppCompatActivity {
     private Button choiceBtn4;
     private Button knownBtn;
     private Button unknownBtn;
+    private Button nextBtn;
     private TextView questionView;
     private Quiz quiz;
     public static final int Khaiki_Color = Color.rgb(240,230,140);
     public static final int Light_Goldenrod_Color = Color.rgb(238,221,130);
-
+    private Button[] btns;
+    private boolean answered;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,11 +47,21 @@ public class VocabStudyActivity extends AppCompatActivity {
         this.choiceBtn3 = (Button)findViewById(R.id.ThirdOption_button3);
         this.choiceBtn4 = (Button)findViewById(R.id.FourthOption_button4);
         this.knownBtn = (Button)findViewById(R.id.Known_button);
+        btns = new Button[]{this.choiceBtn1,this.choiceBtn2,this.choiceBtn3,this.choiceBtn4};
         this.unknownBtn = (Button)findViewById(R.id.NotKnown_button);
         this.questionView = (TextView) findViewById(R.id.Question_textView);
+        this.nextBtn = (Button)findViewById(R.id.Next_button);
 
 
 
+
+
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         try {
             quiz = new Quiz(VocabActivity.mode);
         } catch (ParseException e) {
@@ -59,89 +71,20 @@ public class VocabStudyActivity extends AppCompatActivity {
         if(quiz.getIfThereIsAnyVocab()){
             updateQuizInterface();
         }
-
-
-        this.choiceBtn1.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View v) {
-                if(quiz.checkCurrentAnswer(0)){
-                    try {
-                        quiz.processCorrectAnswer(quiz.getCurrentQuestion());
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                    quiz.toNextQuestion();
-                    updateQuizInterface();
-                }else{
-                    hightlightTheCorrectAnswer();
-                }
-            }
-        });
-
-        this.choiceBtn2.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View v) {
-                if(quiz.checkCurrentAnswer(1)){
-                    try {
-                        quiz.processCorrectAnswer(quiz.getCurrentQuestion());
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                    quiz.toNextQuestion();
-                    updateQuizInterface();
-                }else{
-                    hightlightTheCorrectAnswer();
-                }
-            }
-        });
-
-        this.choiceBtn3.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View v) {
-                if(quiz.checkCurrentAnswer(2)){
-                    try {
-                        quiz.processCorrectAnswer(quiz.getCurrentQuestion());
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                    quiz.toNextQuestion();
-                    updateQuizInterface();
-                }else{
-                    hightlightTheCorrectAnswer();
-                }
-            }
-        });
-
-        this.choiceBtn4.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View v) {
-                if(quiz.checkCurrentAnswer(3)){
-                    try {
-                        quiz.processCorrectAnswer(quiz.getCurrentQuestion());
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                    quiz.toNextQuestion();
-                    updateQuizInterface();
-                }else{
-                    hightlightTheCorrectAnswer();
-                }
-            }
-        });
-
-
     }
+
+
 
     public void updateQuizInterface(){
         this.questionView.setText(quiz.getCurrentQuestion().getVocab().getWord());
         this.choiceBtn1.setText(quiz.getCurrentQuestion().getAnswers()[0]);
+        this.choiceBtn1.setBackgroundColor(Khaiki_Color);
         this.choiceBtn2.setText(quiz.getCurrentQuestion().getAnswers()[1]);
+        this.choiceBtn2.setBackgroundColor(Khaiki_Color);
         this.choiceBtn3.setText(quiz.getCurrentQuestion().getAnswers()[2]);
+        this.choiceBtn3.setBackgroundColor(Khaiki_Color);
         this.choiceBtn4.setText(quiz.getCurrentQuestion().getAnswers()[3]);
+        this.choiceBtn4.setBackgroundColor(Khaiki_Color);
     }
 
     public void hightlightTheCorrectAnswer(){
@@ -150,14 +93,135 @@ public class VocabStudyActivity extends AppCompatActivity {
 
     }
 
-    /*
+
     @Override
-    protected void onResume(){
-        super.onResume();;
+    public void onClick(View v) {
+        switch (v.getId()) {
+
+            case R.id.FirstOption_button: {
+                choiceBtnClicked(0);
+                break;
+            }
+            case R.id.SecondOption_button2: {
+                choiceBtnClicked(1);
+                break;
+            }
+
+            case R.id.ThirdOption_button3: {
+                choiceBtnClicked(2);
+                break;
+            }
+            case R.id.FourthOption_button4:{
+                choiceBtnClicked(3);
+                break;
+            }
+            case R.id.Known_button:{
+                knownBtnClicked();
+                break;
+            }
+            case R.id.NotKnown_button:{
+
+                notKnownClicked();
+                break;
+            }
+            case R.id.Next_button:{
+                nextBtnClicked();
+                break;
+            }
+        }
+    }
+
+    private void nextBtnClicked() {
+        if(quiz.getIfThereIsAnyVocab()) {
+            if (answered == true) {
+                quiz.toNextQuestion();
+                updateQuizInterface();
+            }
+        }else{
+            goBackToVocabPage();
+        }
+    }
+
+    private void goBackToVocabPage() {
+        Class destActivity = VocabActivity.class;
+        Context context = VocabStudyActivity.this;
+
+        Intent intent = new Intent(context, destActivity);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivity(intent);
+    }
 
 
-    }*/
+
+    private void notKnownClicked() {
+        answered = true;
+        hightlightTheCorrectAnswer();
+    }
+
+    private void knownBtnClicked() {
+        quiz.processKnownVocab(quiz.getCurrentQuestion());
+        if(quiz.getIfThereIsAnyVocab()){
+            quiz.toNextQuestion();
+            updateQuizInterface();
+        }else{
+            goBackToVocabPage();
+        }
+
+    }
+
+    public void choiceBtnClicked(int index){
+        if (this.answered == false) {
+
+            if (quiz.checkCurrentAnswer(index)) {
+                try {
+                    quiz.processCorrectAnswer(quiz.getCurrentQuestion());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                quiz.toNextQuestion();
+                updateQuizInterface();
+            } else {
+                hightlightTheCorrectAnswer();
+            }
+        }
+        answered = true;
+    }
 
 
+
+    /*
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        switch (v.getId()) {
+
+            case R.id.FirstOption_button: {
+                choiceBtnTouched(0);
+                break;
+            }
+            case R.id.SecondOption_button2: {
+                choiceBtnTouched(1);
+                break;
+            }
+
+            case R.id.ThirdOption_button3: {
+                choiceBtnTouched(2);
+                break;
+            }
+            case R.id.FourthOption_button4:{
+                choiceBtnTouched(3);
+                break;
+            }
+            case R.id.Known_button:{
+                choiceBtnTouched(4);
+                break;
+            }
+            case R.id.NotKnown_button:{
+                choiceBtnTouched(5);
+                break;
+            }
+        }
+    }
+    */
 
 }

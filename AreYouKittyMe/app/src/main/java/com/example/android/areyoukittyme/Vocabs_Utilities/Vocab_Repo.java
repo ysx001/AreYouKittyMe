@@ -39,6 +39,9 @@ public class Vocab_Repo {
     private static int dailyGoal;
     private static int numOfRow;
     public final static Random random = new Random();
+    private static int numOfVocab;
+    private static int numOfStudied;
+    private static int numOfStudying;
 
 
 
@@ -177,10 +180,13 @@ public class Vocab_Repo {
             db.rawQuery(selectQuery,new String[]{id+""});
             if(currentState==0 && newState == 1){
                 Vocab_DatabaseManager.getInstance().getVocabGeneralProgress().studyOne();
+                numOfStudying+=1;
                 selectQuery = "UPDATE "+ Vocab.TABLE +
                         " SET " + Vocab.KEY_DAY + " = " + 1 + " WHERE " + Vocab.KEY_VOCAB_ID + "=?";
                 db.rawQuery(selectQuery,new String[]{id+""});
             }else if(currentState==1 && newState==2){
+                numOfStudied+=1;
+                numOfStudying-=1;
                 Vocab_DatabaseManager.getInstance().getVocabGeneralProgress().finishStudyOne();
             }
 
@@ -207,7 +213,13 @@ public class Vocab_Repo {
         values.put(Vocab.KEY_VOCAB_ID, vocab.getVocab_Id());
         values.put(Vocab.KEY_WORD, vocab.getWord());
         values.put(Vocab.KEY_DEFINITION, vocab.getDefinition());
-        values.put(Vocab.KEY_PROGRESS, vocab.getProgress());
+        if(Integer.parseInt(vocab.getDate())>=7){
+            values.put(Vocab.KEY_PROGRESS, 2);
+            numOfStudied += 1;
+            numOfStudying-=1;
+        }else{
+            values.put(Vocab.KEY_PROGRESS, vocab.getProgress());
+        }
         values.put(Vocab.KEY_DAY, String.format("%d",Integer.parseInt(vocab.getDate()))+1);
         values.put(Vocab.KEY_DATE,newDate);
 
@@ -216,7 +228,8 @@ public class Vocab_Repo {
         }catch(Exception whatever){
 
         }finally{
-        db.close();}
+        db.close();
+        }
 
     }
 
@@ -339,8 +352,6 @@ public class Vocab_Repo {
 
 
         if(cursor.moveToFirst()){
-
-
             do{
 
                 if(cursor.getInt(0)!= notThisOneID &&prevNum!= cursor.getPosition()){
@@ -348,7 +359,6 @@ public class Vocab_Repo {
                 }
                 prevNum = cursor.getPosition();
             }while((cursor.moveToNext())&&(randomDefinitionsList.size()<3));
-
         }
 
         db.close();

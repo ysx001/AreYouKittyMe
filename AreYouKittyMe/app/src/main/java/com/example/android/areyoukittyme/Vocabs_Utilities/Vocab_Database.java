@@ -24,7 +24,8 @@ public class Vocab_Database extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-       db.execSQL(Vocab_Repo.createTable());
+
+        db.execSQL(Vocab_Repo.createTable());
     }
 
     @Override

@@ -20,12 +20,10 @@ public class App extends Application{
         this.context = this.getApplicationContext();
         vocab_database = new Vocab_Database();
         Vocab_DatabaseManager.initializeInstance(vocab_database);
-
-
     }
 
     public static Context getContext(){
         return context;
-
     }
+
 }
