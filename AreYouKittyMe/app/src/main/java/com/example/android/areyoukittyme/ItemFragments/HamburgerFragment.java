@@ -37,4 +37,10 @@ public class HamburgerFragment extends Fragment {
             text.setText("nokey");
         }
     }
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        TextView t = (TextView)rootView.findViewById(R.id.fishAmount);
+//        t.setText(String.format("x%d", User.getInventoryAmount(Hamburger.getIndex())));
+//    }
 }

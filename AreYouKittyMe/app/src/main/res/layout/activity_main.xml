@@ -43,33 +43,35 @@
 
     <RelativeLayout
         android:id="@+id/popup_container"
-        android:visibility="invisible"
         android:layout_width="200dp"
         android:layout_height="200dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/drawerToggler"
+        android:layout_marginTop="31dp"
         android:layout_weight="0.50"
-        android:background="@drawable/speech_bubblea_revised_r"
-        android:layout_below="@+id/drawerToggler"
-        android:layout_alignParentEnd="true">
+        android:background="@drawable/thought_bubble"
+        android:visibility="invisible">
 
         <ImageButton
             android:id="@+id/rightArrow"
             android:layout_width="20dp"
             android:layout_height="100dp"
-            android:layout_marginStart="12dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/leftArrow"
+            android:layout_marginEnd="11dp"
             android:layout_weight="1"
             android:background="@null"
             android:scaleType="fitCenter"
-            app:srcCompat="@drawable/arrows_slim"
-            android:layout_alignTop="@+id/leftArrow"
-            android:layout_toEndOf="@+id/pager_temp" />
+            app:srcCompat="@drawable/arrows_slim" />
 
         <android.support.v4.view.ViewPager
             android:id="@+id/pager_temp"
             android:layout_width="100dp"
             android:layout_height="120dp"
+            android:layout_alignEnd="@+id/rightArrow"
             android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="16dp" />
+            android:layout_marginEnd="25dp"
+            android:layout_marginTop="17dp" />
 
         <!--</android.support.v4.view.ViewPager>-->
 
@@ -77,14 +79,14 @@
             android:id="@+id/leftArrow"
             android:layout_width="20dp"
             android:layout_height="100dp"
+            android:layout_alignBottom="@+id/pager_temp"
+            android:layout_marginBottom="8dp"
             android:layout_marginEnd="9dp"
+            android:layout_toStartOf="@+id/pager_temp"
             android:layout_weight="0.50"
             android:background="@null"
             android:scaleType="fitCenter"
-            app:srcCompat="@drawable/arrows_slim_r"
-            android:layout_alignBottom="@+id/pager_temp"
-            android:layout_toStartOf="@+id/pager_temp"
-            android:layout_marginBottom="8dp" />
+            app:srcCompat="@drawable/arrows_slim_r" />
     </RelativeLayout>
 
 

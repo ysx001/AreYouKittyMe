@@ -59,6 +59,8 @@ import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 
+import org.w3c.dom.Text;
+
 import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity implements OnDataPointListener,
@@ -89,7 +91,6 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         // Store the context variable
         context = MainActivity.this;
 
@@ -98,7 +99,6 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
 
         displayCatName = (TextView) findViewById(R.id.cat_name_display);
         drawerToggler = (ImageView) findViewById(R.id.drawerToggler);
-
 //        findViewById(R.id.miaomiaomiao).setOnTouchListener(new MyLongClickListener());
 
         findViewById(R.id.miaomiaomiao_main).setOnLongClickListener(new MyLongClickListener());
@@ -420,21 +420,6 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
         }
     }
 
-//    public void onWindowFocusChanged(boolean hasFocus) {
-//
-//        int[] location = new int[2];
-//        ImageView button = (ImageView) findViewById(R.id.miaomiaomiao_main);
-//
-//        // Get the x, y location and store it in the location[] array
-//        // location[0] = x, location[1] = y.
-//        button.getLocationOnScreen(location);
-//
-//        //Initialize the Point with x, and y positions
-//        p = new Point();
-//        p.x = location[0];
-//        p.y = location[1];
-//    }
-
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
         public ScreenSlidePagerAdapter(FragmentManager fm) {
             super(fm);
@@ -470,6 +455,19 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
             else if (v.getId() == R.id.rightArrow) {
                 vp.setCurrentItem(vp.getCurrentItem()+1, true);
             }
+            else if (v.getId() == R.id.asparagusImage) {
+                // TODO: decrease amount
+//                mPagerAdapter.notifyDataSetChanged();
+                //  close window
+//                popup.setVisibility(View.INVISIBLE);
+                //  increase mood and health
+//                User.incrementHealth(User.foodToHealthConversion(vp.getCurrentItem()));
+//                User.incrementMood(User.foodToMoodConversion(vp.getCurrentItem()));
+
+                eatAnimation();
+            }
+            else if (v.getId() == R.id.fishImage) {}
+
             else {
                 if (popup.getVisibility() == View.VISIBLE) {
                     popup.setVisibility(View.INVISIBLE);
@@ -478,18 +476,9 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
         }
     }
 
-    public void onWindowFocusChanged(boolean hasFocus) {
-
-        super.onWindowFocusChanged(hasFocus);
-
-        if(hasFocus) {
-//            FishFragment.updateAmount();
-//            AsparagusFragment.updateAmount();
-//            AvocadoFragment.updateAmount();
-//            BaconFragment.updateAmount();
-//            HamburgerFragment.updateAmount();
-//            CorndogFragment.updateAmount();
-        }
+    private static void eatAnimation() {
 
     }
+
+
 }

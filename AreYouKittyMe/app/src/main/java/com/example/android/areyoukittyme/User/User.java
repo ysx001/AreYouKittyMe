@@ -254,4 +254,17 @@ public class User {
             User.mood = 100;
         }
     }
+
+    public static int foodToHealthConversion(int index) {
+        // Food: food value / 1000 * 5 (+5 for every $1000 food consumed)
+        int price = Store.getItemList().get(index).getPrice();
+
+        return (int) (price * 5) / 1000;
+    }
+    public static int foodToMoodConversion(int index) {
+        //TODO: complete this method
+        // Food: if value > 1000, then + 3~5, random
+
+        return 0;
+    }
 }
