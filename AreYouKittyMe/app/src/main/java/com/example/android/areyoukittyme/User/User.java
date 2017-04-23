@@ -39,7 +39,7 @@ public class User {
     // 3: Spanish
     private static int vocabBookID;
 
-    private static HashMap<Integer, Object[]> inventoryList;
+    private static HashMap<Integer, int[]> inventoryList;
 
     // Cat attributes
     private static int cash;
@@ -63,36 +63,34 @@ public class User {
         User.mood = 100;
         User.userData = generateData(year, 30.0);
         User.cash = 1000;
-        User.inventoryList = new HashMap<Integer, Object[]>();
+        User.inventoryList = new HashMap<Integer, int[]>();
         initInventoryList();
     }
 
     public static void userCheckout(ArrayList<Integer> amountList, ArrayList<Integer> priceList) {
 
 
-        Object[] array = new Object[3];
+        int[] array = new int[2];
         for (int i = 0; i < amountList.size(); i++) {
             int prevAmount = (int)inventoryList.get(i)[0];
             array[0] = amountList.get(i) + prevAmount; // the amount of the item
             array[1] = priceList.get(i); // priece of the item
-            array[2] = Store.getItemList().get(i); // name of the item(textView)
             inventoryList.put(i, array);
 
         }
     }
 
     public static void initInventoryList() {
-        Object[] array = new Object[3];
+        int[] array = new int[2];
         for (int i = 0; i < 6; i++) {
             array[0] = 1;
             array[1] = 0;
-            array[2] = null;
             inventoryList.put(i, array);
         }
     }
 
     public static int getInventoryAmount(int key) {
-        return (int)inventoryList.get(key)[0];
+        return inventoryList.get(key)[0];
     }
 
 
@@ -168,11 +166,11 @@ public class User {
         User.vocabBookID = vocabBookID;
     }
 
-    public static HashMap<Integer, Object[]> getInventoryList() {
+    public static HashMap<Integer, int[]> getInventoryList() {
         return inventoryList;
     }
 
-    public static void setInventoryList(HashMap<Integer, Object[]> inventoryList) {
+    public static void setInventoryList(HashMap<Integer, int[]> inventoryList) {
         User.inventoryList = inventoryList;
     }
 

@@ -120,7 +120,11 @@ public class StoreActivity extends AppCompatActivity {
     private void populateStore() {
         // TODO: change the layout to gridview
         LinearLayout storeContainer = (LinearLayout) findViewById(R.id.storeContainer);
+        storeContainer.setPadding(20, 200, 20, 0);
+
+
         LinearLayout hContainer = new LinearLayout(this);
+
         String tagPos;
         String tagNeg;
         for (int i = 0; i < Store.getItemList().size(); i++) {
@@ -143,8 +147,8 @@ public class StoreActivity extends AppCompatActivity {
             subContainer.addView(itemIcon);
             // setting price tag
             TextView priceTag = new TextView(this);
-            LinearLayout.LayoutParams parms = new LinearLayout.LayoutParams(400, 170);
-            priceTag.setLayoutParams(parms);
+//            LinearLayout.LayoutParams parms = new LinearLayout.LayoutParams(400, 170);
+//            priceTag.setLayoutParams(parms);
             priceTag.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
             priceTag.setText(String.valueOf(item.getPrice()));
             this.priceList.add(item.getPrice());
@@ -154,11 +158,15 @@ public class StoreActivity extends AppCompatActivity {
             amountContainer.setGravity(Gravity.CENTER);
             amountContainer.setOrientation(LinearLayout.HORIZONTAL);
             Button minusBtn = new Button(this);
+            minusBtn.setWidth(150);
             minusBtn.setText("-");
             Button plusBtn = new Button(this);
+            plusBtn.setWidth(150);
             plusBtn.setText("+");
             TextView amount = new TextView(this);
             amount.setText("0");
+            amount.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            amount.setWidth(100);
             amountContainer.addView(minusBtn);
             amountContainer.addView(amount);
             this.amountListTextView.add(amount);
@@ -183,6 +191,11 @@ public class StoreActivity extends AppCompatActivity {
             hContainer.addView(subContainer);
             if (i%2 == 0) {
                 storeContainer.addView(hContainer);
+                TextView temp = new TextView(this);
+                temp.setText("");
+                temp.setHeight(200);
+                storeContainer.addView(temp);
+
             }
         }
     }
