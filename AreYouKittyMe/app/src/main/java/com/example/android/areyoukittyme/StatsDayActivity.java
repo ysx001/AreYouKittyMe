@@ -137,10 +137,10 @@ public class StatsDayActivity extends AppCompatActivity implements OnChartValueS
         dayChart.setMaxVisibleValueCount(60);
 
         // scaling can now only be done on x- and y-axis separately
-        dayChart.setPinchZoom(false);
+        //dayChart.setPinchZoom(false);
 
         // draw shadows for each bar that show the maximum value
-//         dayChart.setDrawBarShadow(true);
+        dayChart.setDrawBarShadow(true);
 
         dayChart.setDrawGridBackground(false);
 
@@ -156,6 +156,7 @@ public class StatsDayActivity extends AppCompatActivity implements OnChartValueS
         yl.setDrawAxisLine(true);
         yl.setDrawGridLines(true);
         yl.setAxisMinimum(0f); // this replaces setStartAtZero(true)
+        yl.setAxisMaximum(100f);
 //        yl.setInverted(true);
 
         YAxis yr = dayChart.getAxisRight();
@@ -163,6 +164,7 @@ public class StatsDayActivity extends AppCompatActivity implements OnChartValueS
         yr.setDrawAxisLine(true);
         yr.setDrawGridLines(false);
         yr.setAxisMinimum(0f); // this replaces setStartAtZero(true)
+        yr.setAxisMaximum(100f);
 //        yr.setInverted(true);
 
         // add data
@@ -275,42 +277,6 @@ public class StatsDayActivity extends AppCompatActivity implements OnChartValueS
     }
 
 
-    private ArrayList<ArrayList<Double>> generateData(int count, Double range) {
-
-        ArrayList<ArrayList<Double>> data = new ArrayList<>();
-        ArrayList<Double> stepCounts = new ArrayList<>();
-
-        for (int i = 0; i < count; i++) {
-            Double mult = range ;
-            Double val = (Math.random() * mult) + 50;
-            stepCounts.add(val);
-        }
-
-        ArrayList<Double> focusTime = new ArrayList<>();
-
-        for (int i = 0; i < count; i++) {
-            Double mult = range / 2.0;
-            Double val = (Math.random() * mult) + 60;
-            focusTime.add(val);
-//            if(i == 10) {
-//                yVals2.add(new Entry(i, val + 50));
-//            }
-        }
-
-        ArrayList<Double> vocabTime = new ArrayList<>();
-
-        for (int i = 0; i < count; i++) {
-            Double mult = range / 5.0;
-            Double val = (Math.random() * mult) + 100;
-            vocabTime.add(val);
-        }
-
-        data.add(stepCounts);
-        data.add(focusTime);
-        data.add(vocabTime);
-
-        return data;
-    }
 
     private int[] getColors() {
 
@@ -346,13 +312,13 @@ public class StatsDayActivity extends AppCompatActivity implements OnChartValueS
         int focusSize = dataArray.get(1).size();
         int vocabSize = dataArray.get(2).size();
 
-        float stepVal = dataArray.get(0).get(stepSize - 1).floatValue();
-        float focusVal = dataArray.get(1).get(focusSize - 1).floatValue();
-        float vocabVal = dataArray.get(2).get(vocabSize - 1).floatValue();
+        float stepVal = dataArray.get(0).get(stepSize - 1).floatValue() / (float) User.getStepsGoal();
+        float focusVal = dataArray.get(1).get(focusSize - 1).floatValue() / (float) User.getFocusGoal();
+        float vocabVal = dataArray.get(2).get(vocabSize - 1).floatValue() / (float) User.getVocabGoal();
 
-        stepCounts.add(new BarEntry(0 * spaceForBar , stepVal));
-        focusTime.add(new BarEntry(0 * spaceForBar , focusVal));
-        vocabTime.add(new BarEntry(0 * spaceForBar , vocabVal));
+        stepCounts.add(new BarEntry(0 * spaceForBar , stepVal * 100));
+        focusTime.add(new BarEntry(0 * spaceForBar , focusVal * 100));
+        vocabTime.add(new BarEntry(0 * spaceForBar , vocabVal * 100));
 
         BarDataSet stepSet, focusSet, vocabSet;
 
@@ -405,6 +371,7 @@ public class StatsDayActivity extends AppCompatActivity implements OnChartValueS
 
 
     protected RectF mOnValueSelectedRectF = new RectF();
+
     @SuppressLint("NewApi")
     @Override
     public void onValueSelected(Entry e, Highlight h) {
@@ -414,12 +381,14 @@ public class StatsDayActivity extends AppCompatActivity implements OnChartValueS
 
         RectF bounds = mOnValueSelectedRectF;
         dayChart.getBarBounds((BarEntry) e, bounds);
-
-        MPPointF position = dayChart.getPosition(e, dayChart.getData().getDataSetByIndex(h.getDataSetIndex())
-                .getAxisDependency());
+        MPPointF position = dayChart.getPosition(e, YAxis.AxisDependency.LEFT);
 
         Log.i("bounds", bounds.toString());
         Log.i("position", position.toString());
+
+        Log.i("x-index",
+                "low: " + dayChart.getLowestVisibleX() + ", high: "
+                        + dayChart.getHighestVisibleX());
 
         MPPointF.recycleInstance(position);
     }

@@ -29,19 +29,23 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.android.support:design:25.3.1'
     compile('com.mikepenz:materialdrawer:5.9.0@aar') {  //MaterialDrawer
         transitive = true
     }
-    compile 'com.github.pwittchen:swipe:0.0.1'  //Swipe detector
-    compile 'com.mikepenz:google-material-typeface:3.0.1.0.original@aar' //Google Material Icons
-    compile 'com.mikepenz:fontawesome-typeface:4.7.0.0@aar'     //FontAwesome
+    //Swipe detector
+    //Google Material Icons
+    //FontAwesome
+    compile 'com.mikepenz:google-material-typeface:3.0.1.0.original@aar'
+    compile 'com.mikepenz:fontawesome-typeface:4.7.0.0@aar'
+    // For plotting
+    // Thanks PhilJay for the awesome library!
+    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.android.support:design:25.3.1'
+    compile 'com.github.pwittchen:swipe:0.0.1'
     compile 'com.mikepenz:google-material-typeface:3.0.1.0.original@aar'
     compile 'com.mikepenz:fontawesome-typeface:4.7.0.0@aar'
     compile 'com.google.android.gms:play-services-fitness:8.4.0'
-    compile 'com.github.PhilJay:MPAndroidChart:v3.0.2' // For plotting
-    // Thanks PhilJay for the awesome library!
+    compile 'com.github.PhilJay:MPAndroidChart:v3.0.2'
     testCompile 'junit:junit:4.12'
 }

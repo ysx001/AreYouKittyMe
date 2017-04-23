@@ -6,6 +6,7 @@ import com.example.android.areyoukittyme.Cat.Cat;
 import com.example.android.areyoukittyme.Item.Item;
 import com.example.android.areyoukittyme.Store.Store;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -13,7 +14,7 @@ import java.util.HashMap;
  * Created by PrGxw on 4/10/2017.
  */
 
-public class User {
+public class User implements Serializable {
 
     private static String name;
     private static int age;
