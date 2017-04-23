@@ -19,6 +19,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.util.Random;
+
 import static android.app.PendingIntent.getActivity;
 
 public class TimerActivity extends AppCompatActivity implements View.OnClickListener {
@@ -43,7 +45,6 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
 
     private int focusTime;
 
-    private Thread onPauseThread;
     private long pauseTime = 0;
 
     @Override
@@ -120,17 +121,8 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
         super.onResume();
         if (isCountingdown || isPausing) {
             if ((System.currentTimeMillis() - this.pauseTime) / 1000.0 > 6.0) {
-                this.timerReset();
-                new AlertDialog.Builder(this)
-                        .setTitle(getResources().getString(R.string.title_interrupt_timer))
-                        .setMessage(getResources().getString(R.string.message_interrupt_timer))
-                        .setNeutralButton(getResources().getString(R.string.dismiss_btn), new DialogInterface.OnClickListener() {
-
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        }).show();
+                timerReset();
+                timerCancelled();
             }
         }
     }
@@ -249,6 +241,7 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
                         public void onClick(DialogInterface dialog, int which) {
                             // Confirmed to cancel timer, reset time and enable EditText
                             timerReset();
+                            timerCancelled();
                         }
                     })
                     .setNegativeButton(getResources().getString(R.string.no_btn), new DialogInterface.OnClickListener() {
@@ -262,6 +255,7 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void timerReset() {
+        this.focusTime -= hour * 60 + minute;
 
         this.t.interrupt();
 
@@ -283,6 +277,14 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void timerFinished() {
+        User.setFocus(focusTime);
+        User.setHealth(8 * focusTime / User.getFocusGoal());
+
+        int[] moodBonus = {6, 7, 8};
+        Random randomGen = new Random();
+        int randomIndex = randomGen.nextInt(3);
+        User.setMood(moodBonus[randomIndex]);
+
         new AlertDialog.Builder(this)
                 .setTitle(getResources().getString(R.string.title_finish_timer))
                 .setMessage(getResources().getString(R.string.message_finish_timer))
@@ -291,34 +293,25 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                        timerReset();
                     }
                 }).show();
     }
 
-    private void onPauseThreadSetup() {
-        // Set up thread for stopping focus task after away for more than 5 seconds
+    private void timerCancelled() {
+        User.setFocus(focusTime);
+        User.setHealth(8 * focusTime / User.getFocusGoal());
+        User.setMood(-5);
 
-        this.onPauseThread = new Thread() {
+        new AlertDialog.Builder(this)
+                .setTitle(getResources().getString(R.string.title_interrupt_timer))
+                .setMessage(getResources().getString(R.string.message_interrupt_timer))
+                .setNeutralButton(getResources().getString(R.string.dismiss_btn), new DialogInterface.OnClickListener() {
 
-            @Override
-            public void run() {
-
-                try {
-                    while (!isInterrupted()) {
-                        Thread.sleep(5000);
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                timerReset();
-                                onPauseThread.interrupt();
-                            }
-                        });
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
                     }
-                } catch (InterruptedException e) {
-                }
-            }
-        };
+                }).show();
     }
 
     private void countdownThreadSetup() {
@@ -367,7 +360,7 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
                 }
                 else {
                     this.t.interrupt();
-                    User.setFocus(User.getFocus() + this.focusTime);
+                    timerReset();
                     timerFinished();
                 }
             }

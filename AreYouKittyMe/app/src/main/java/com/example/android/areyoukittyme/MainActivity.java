@@ -8,17 +8,13 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.util.Log;
-import android.support.v7.widget.Toolbar;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.areyoukittyme.User.User;
-import com.github.pwittchen.swipe.library.Swipe;
-import com.github.pwittchen.swipe.library.SwipeListener;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -35,7 +31,6 @@ import com.google.android.gms.fitness.request.DataSourcesRequest;
 import com.google.android.gms.fitness.request.OnDataPointListener;
 import com.google.android.gms.fitness.request.SensorRequest;
 import com.google.android.gms.fitness.result.DataSourcesResult;
-import com.mikepenz.fontawesome_typeface_library.FontAwesome;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
@@ -45,9 +40,11 @@ import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
-import com.mikepenz.materialdrawer.model.SectionDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
+import com.mikhaellopez.circularprogressbar.CircularProgressBar;
+
+import org.w3c.dom.Text;
 
 import java.util.concurrent.TimeUnit;
 
@@ -66,7 +63,9 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
     private IProfile profile;
     private Drawer drawer;
 
-    private Swipe swipe;
+    private TextView moneyDisplay;
+    private CircularProgressBar healthProgress;
+    private CircularProgressBar moodProgress;
 
     private TextView displayCatName;
 
@@ -79,6 +78,10 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
 
         // Store the context variable
         context = MainActivity.this;
+
+        moneyDisplay = (TextView) findViewById(R.id.moneyDisplay);
+        healthProgress = (CircularProgressBar) findViewById(R.id.healthProgress);
+        moodProgress = (CircularProgressBar) findViewById(R.id.moodProgress);
 
         displayCatName = (TextView) findViewById(R.id.cat_name_display);
 
@@ -100,6 +103,7 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
                 .withTranslucentStatusBar(true)
                 .withHeaderBackground(R.drawable.profile_background)
                 .addProfiles(profile)
+                .withSelectionListEnabledForSingleProfile(false)
                 .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
 
                     @Override
@@ -196,8 +200,18 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
         //mApiClient.connect();
 
         profile.withName(User.getName());
+        header.updateProfile(profile);
         displayCatName.setText(User.getName());
         drawer.setSelection(0);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        moneyDisplay.setText(String.valueOf(User.getCash()));
+        healthProgress.setProgressWithAnimation(User.getHealth());
+        moodProgress.setProgressWithAnimation(User.getMood());
     }
 
     @Override

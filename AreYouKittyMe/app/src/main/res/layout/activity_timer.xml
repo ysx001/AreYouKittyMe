@@ -12,15 +12,15 @@
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="300dp"
         android:layout_height="38dp"
-        android:layout_alignStart="@+id/timerPauseBtn"
-        android:layout_below="@+id/timerPauseBtn"
-        android:layout_marginTop="29dp"
         android:background="@color/colorAccentDark"
         android:elevation="0dp"
         android:text="@string/cancel_button_timer"
         android:textAlignment="center"
         tools:layout_editor_absoluteX="44dp"
-        tools:layout_editor_absoluteY="426dp" />
+        tools:layout_editor_absoluteY="426dp"
+        android:layout_marginBottom="59dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/hourCountdown" />
 
     <TextView
         android:id="@+id/dotTextView"
@@ -39,15 +39,15 @@
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="300dp"
         android:layout_height="38dp"
-        android:layout_marginTop="28dp"
         android:background="@color/colorAccent"
         android:elevation="0dp"
         android:text="@string/pause_button_timer"
         android:textAlignment="center"
         tools:layout_editor_absoluteX="44dp"
         tools:layout_editor_absoluteY="426dp"
-        android:layout_below="@+id/timerStartBtn"
-        android:layout_alignStart="@+id/timerStartBtn" />
+        android:layout_above="@+id/timerCancelBtn"
+        android:layout_alignStart="@+id/timerCancelBtn"
+        android:layout_marginBottom="26dp" />
 
     <EditText
         android:id="@+id/hourEditText"
@@ -65,15 +65,15 @@
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="300dp"
         android:layout_height="38dp"
-        android:layout_marginTop="74dp"
         android:background="@color/colorPrimary"
         android:elevation="0dp"
         android:text="@string/start_button_timer"
         android:textAlignment="center"
         tools:layout_editor_absoluteX="44dp"
         tools:layout_editor_absoluteY="426dp"
-        android:layout_below="@+id/hourEditText"
-        android:layout_centerHorizontal="true" />
+        android:layout_above="@+id/timerPauseBtn"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="29dp" />
 
     <Spinner
         android:id="@+id/minSpinner"

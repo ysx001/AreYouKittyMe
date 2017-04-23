@@ -9,6 +9,26 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <ImageView
+        android:id="@+id/moodIcon"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        app:srcCompat="@drawable/mood"
+        android:layout_marginBottom="12.5dp"
+        android:layout_marginEnd="12.5dp"
+        android:layout_alignBottom="@+id/moodProgress"
+        android:layout_alignEnd="@+id/moodProgress" />
+
+    <ImageView
+        android:id="@+id/healthIcon"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        app:srcCompat="@drawable/health"
+        android:layout_marginBottom="12.5dp"
+        android:layout_marginEnd="12.5dp"
+        android:layout_alignBottom="@+id/healthProgress"
+        android:layout_alignEnd="@+id/healthProgress" />
+
     <TextView
         android:id="@+id/cat_name_display"
         android:layout_width="wrap_content"
@@ -30,12 +50,58 @@
         android:id="@+id/drawerToggler"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="27dp"
+        android:layout_marginEnd="29dp"
+        app:backgroundTint="@color/colorPrimary"
+        app:fabSize="normal"
+        app:srcCompat="@drawable/ic_menu_white"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true" />
+
+    <ImageView
+        android:id="@+id/moneyIcon"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="80dp"
+        android:layout_marginTop="30dp"
+        app:srcCompat="@drawable/coin" />
+
+    <com.mikhaellopez.circularprogressbar.CircularProgressBar
+        android:id="@+id/healthProgress"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="19dp"
-        android:layout_marginTop="17dp"
-        app:backgroundTint="@color/colorPrimary"
-        app:srcCompat="@drawable/ic_menu_white" />
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        app:cpb_background_progressbar_color="@color/material_drawer_divider"
+        app:cpb_background_progressbar_width="5dp"
+        app:cpb_progressbar_color="@color/colorAccentLight"
+        app:cpb_progressbar_width="5dp" />
+
+    <com.mikhaellopez.circularprogressbar.CircularProgressBar
+        android:id="@+id/moodProgress"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_alignTop="@+id/healthProgress"
+        android:layout_toEndOf="@+id/healthProgress"
+        android:layout_marginStart="7dp"
+        app:cpb_background_progressbar_color="@color/material_drawer_divider"
+        app:cpb_background_progressbar_width="5dp"
+        app:cpb_progressbar_color="#F9F17C"
+        app:cpb_progressbar_width="5dp"/>
+
+    <TextView
+        android:id="@+id/moneyDisplay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/moneyIcon"
+        android:layout_alignTop="@+id/moneyIcon"
+        android:layout_marginStart="30dp"
+        android:text="####"
+        android:textSize="18sp" />
 
 
 </RelativeLayout>
