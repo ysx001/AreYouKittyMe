@@ -4,6 +4,7 @@ package com.example.android.areyoukittyme;
 import com.example.android.areyoukittyme.User.User;
 import com.example.android.areyoukittyme.plot.DayAxisValueFormatter;
 import com.example.android.areyoukittyme.plot.MyAxisValueFormatter;
+import com.example.android.areyoukittyme.plot.MyMarkerView;
 import com.example.android.areyoukittyme.plot.XYMarkerView;
 
 import android.annotation.SuppressLint;
@@ -151,6 +152,7 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
         setLineData(this.dataArray, 0);
 
         monthChart.animateX(2000);
+
 
         // get the legend (only possible after setting data)
         Legend lMonth = monthChart.getLegend();

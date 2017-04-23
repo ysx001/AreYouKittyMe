@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.areyoukittyme.User.User;
+import com.example.android.areyoukittyme.plot.MyMarkerView;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
@@ -126,7 +127,7 @@ public class StatsDayActivity extends AppCompatActivity implements OnChartValueS
         dayChart.setOnChartValueSelectedListener(this);
         // dayChart.setHighlightEnabled(false);
 
-        dayChart.setDrawBarShadow(false);
+        //dayChart.setDrawBarShadow(false);
 
         dayChart.setDrawValueAboveBar(true);
 
@@ -144,6 +145,12 @@ public class StatsDayActivity extends AppCompatActivity implements OnChartValueS
 
         dayChart.setDrawGridBackground(false);
 
+        // Set marker....
+
+        MyMarkerView mv = new MyMarkerView(context, R.layout.marker_view);
+
+        dayChart.setMarkerView(mv);
+
         XAxis xl = dayChart.getXAxis();
         xl.setPosition(XAxis.XAxisPosition.BOTTOM);
 //        xl.setTypeface(mTfLight);
@@ -156,7 +163,7 @@ public class StatsDayActivity extends AppCompatActivity implements OnChartValueS
         yl.setDrawAxisLine(true);
         yl.setDrawGridLines(true);
         yl.setAxisMinimum(0f); // this replaces setStartAtZero(true)
-        yl.setAxisMaximum(100f);
+       // yl.setAxisMaximum(100f);
 //        yl.setInverted(true);
 
         YAxis yr = dayChart.getAxisRight();
@@ -164,7 +171,7 @@ public class StatsDayActivity extends AppCompatActivity implements OnChartValueS
         yr.setDrawAxisLine(true);
         yr.setDrawGridLines(false);
         yr.setAxisMinimum(0f); // this replaces setStartAtZero(true)
-        yr.setAxisMaximum(100f);
+       // yr.setAxisMaximum(100f);
 //        yr.setInverted(true);
 
         // add data
@@ -181,6 +188,9 @@ public class StatsDayActivity extends AppCompatActivity implements OnChartValueS
         l.setDrawInside(false);
         l.setFormSize(8f);
         l.setXEntrySpace(4f);
+
+
+
     }
 
     @Override
@@ -360,8 +370,11 @@ public class StatsDayActivity extends AppCompatActivity implements OnChartValueS
 //            data.setValueTypeface(mTfLight);
 
             dayChart.setData(data);
+
         }
         dayChart.getBarData().setBarWidth(barWidth);
+
+
 
         // barData.getGroupWith(...) is a helper that calculates the width each group needs based on the provided parameters
         dayChart.getXAxis().setAxisMaximum(start + dayChart.getBarData().getGroupWidth(groupSpace, barSpace));
