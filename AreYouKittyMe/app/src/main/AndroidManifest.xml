@@ -10,7 +10,10 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:hardwareAccelerated="false"
+        android:largeHeap="true"
+        >
 
         <!-- Add the launch mode "single top" attribute to the MainActivity so that when you open -->
         <!-- MainActivity using a notification, it will take you back to the already opened activity, not -->
@@ -19,15 +22,17 @@
         <activity
             android:name=".AdoptActivity"
             android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
             android:launchMode="singleInstance"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".SettingsActivity"
             android:label="Settings"
@@ -53,11 +58,6 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.android.areyoukittyme.MainActivity" />
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".StoreActivity"
@@ -99,6 +99,11 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.android.areyoukittyme.MainActivity" />
+        </activity>
+        <activity
+            android:name=".AniTestActivity"
+            android:label="@string/title_activity_ani_test"
+            android:theme="@style/AppTheme.NoActionBar">
         </activity>
     </application>
 
