@@ -9,9 +9,9 @@ public class Vocab {
     public static final String TAG = Vocab.class.getSimpleName();
     public static final String TABLE = "Vocab";
     // Labels Table Columns names
-    public static final String KEY_VOCAB_ID = "Vocab_Id";
+    public static final String _ID = "_id";
     public static final String KEY_WORD = "Word";
-    public static final String KEY_DEFINITION = "Name";
+    public static final String KEY_DEFINITION = "Definition";
     public static final String KEY_DAY = "Days";
     public static final String KEY_PROGRESS = "Progress";
     public static final String KEY_DATE = "Date";

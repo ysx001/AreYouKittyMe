@@ -80,6 +80,11 @@ public class Quiz {
     }
 
     public void processKnownVocab(Question question){
+        if(!answeredQuestions.contains(currentQuestion)){
+            answeredQuestions.add(currentQuestion);
+            questions.remove(currentQuestion);
+        }
+
         Vocab_Repo.updateAWordOnItsProgress(2,question.getVocab().getVocab_Id(),0);
     }
 

@@ -35,7 +35,7 @@ public class Question {
             answers[i] = j;
             i += 1;
         }
-        incorrectAnswers = null;
+
 
     }
 
