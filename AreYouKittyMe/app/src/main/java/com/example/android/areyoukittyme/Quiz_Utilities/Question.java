@@ -18,6 +18,7 @@ public class Question {
 
 
 
+
     public Question(VocabList vocab) {
 
 
@@ -34,12 +35,14 @@ public class Question {
             answers[i] = j;
             i += 1;
         }
-        incorrectAnswers = null;
+
 
     }
 
 
-
+    public boolean checkAnswer(int chosenAnswer){
+        return chosenAnswer == this.indexOfRightAnswer;
+    }
 
     public int getIndexOfRightAnswer() {
         return indexOfRightAnswer;

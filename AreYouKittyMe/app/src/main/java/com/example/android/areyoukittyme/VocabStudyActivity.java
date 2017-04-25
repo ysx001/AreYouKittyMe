@@ -3,17 +3,18 @@ package com.example.android.areyoukittyme;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
-public class VocabStudyActivity extends AppCompatActivity {
+import com.example.android.areyoukittyme.Quiz_Utilities.Quiz;
+
+import java.text.ParseException;
+
+public class VocabStudyActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Button choiceBtn1;
     private Button choiceBtn2;
@@ -21,8 +22,12 @@ public class VocabStudyActivity extends AppCompatActivity {
     private Button choiceBtn4;
     private Button knownBtn;
     private Button unknownBtn;
+    private Button nextBtn;
     private TextView questionView;
-
+    private Quiz quiz;
+    public static final int Khaiki_Color = Color.rgb(240,230,140);
+    public static final int Light_Goldenrod_Color = Color.rgb(238,221,130);
+    private Button[] btns;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,20 +36,220 @@ public class VocabStudyActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         this.choiceBtn1 = (Button)findViewById(R.id.FirstOption_button);
+        this.choiceBtn1.setOnClickListener(this);
         this.choiceBtn2 = (Button)findViewById(R.id.SecondOption_button2);
+        this.choiceBtn2.setOnClickListener(this);
         this.choiceBtn3 = (Button)findViewById(R.id.ThirdOption_button3);
-        this.choiceBtn4 = (Button)findViewById(R.id.FourOption_button4);
+        this.choiceBtn3.setOnClickListener(this);
+        this.choiceBtn4 = (Button)findViewById(R.id.FourthOption_button4);
+        this.choiceBtn4.setOnClickListener(this);
         this.knownBtn = (Button)findViewById(R.id.Known_button);
+        this.knownBtn.setOnClickListener(this);
+        btns = new Button[]{this.choiceBtn1,this.choiceBtn2,this.choiceBtn3,this.choiceBtn4};
         this.unknownBtn = (Button)findViewById(R.id.NotKnown_button);
+        this.unknownBtn.setOnClickListener(this);
         this.questionView = (TextView) findViewById(R.id.Question_textView);
+        this.nextBtn = (Button)findViewById(R.id.Next_button);
+        this.nextBtn.setOnClickListener(this);
+
+
+        System.out.println("Yo");
+        /*
+        choiceBtn1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                questionView.setText("Processed");
+                if (answered == false) {
+
+                    if (quiz.checkCurrentAnswer(0)) {
+                        try {
+                            quiz.processCorrectAnswer(quiz.getCurrentQuestion());
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        quiz.toNextQuestion();
+                        updateQuizInterface();
+                    } else {
+                        highlightTheCorrectAnswer();
+                    }
+                }
+                answered = true;
+            }
+        });
+        */
+
 
     }
 
     @Override
-    protected void onResume(){
-        super.onResume();;
+    protected void onStart() {
+        super.onStart();
+        try {
+            quiz = new Quiz(VocabActivity.mode);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
+        if(quiz.getIfThereIsAnyVocab()){
+            updateQuizInterface();
+        }else{
+            goBackToVocabPage();
+        }
+    }
+
+
+    public void updateQuizInterface(){
+        this.questionView.setText(quiz.getCurrentQuestion().getVocab().getWord());
+        this.choiceBtn1.setText(quiz.getCurrentQuestion().getAnswers()[0]);
+        this.choiceBtn1.setBackgroundColor(Khaiki_Color);
+        this.choiceBtn2.setText(quiz.getCurrentQuestion().getAnswers()[1]);
+        this.choiceBtn2.setBackgroundColor(Khaiki_Color);
+        this.choiceBtn3.setText(quiz.getCurrentQuestion().getAnswers()[2]);
+        this.choiceBtn3.setBackgroundColor(Khaiki_Color);
+        this.choiceBtn4.setText(quiz.getCurrentQuestion().getAnswers()[3]);
+        this.choiceBtn4.setBackgroundColor(Khaiki_Color);
+    }
+
+    public void highlightTheCorrectAnswer(){
+        Button[] btns = new Button[]{choiceBtn1,choiceBtn2,choiceBtn3,choiceBtn4};
+        btns[quiz.getCurrentQuestion().getIndexOfRightAnswer()].setBackgroundColor(Color.RED);
 
     }
+
+
+
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+
+            case R.id.FirstOption_button: {
+                choiceBtnClicked(0);
+                System.out.println("adfkladj");
+                break;
+            }
+            case R.id.SecondOption_button2: {
+                choiceBtnClicked(1);
+                break;
+            }
+
+            case R.id.ThirdOption_button3: {
+                choiceBtnClicked(2);
+                break;
+            }
+            case R.id.FourthOption_button4:{
+                choiceBtnClicked(3);
+                break;
+            }
+            case R.id.Known_button:{
+                knownBtnClicked();
+                break;
+            }
+            case R.id.NotKnown_button:{
+
+                notKnownClicked();
+                break;
+            }
+            case R.id.Next_button:{
+                nextBtnClicked();
+                break;
+            }
+        }
+    }
+
+    private void nextBtnClicked() {
+        if(quiz.getIfThereIsAnyVocab()) {
+
+            quiz.toNextQuestion();
+            updateQuizInterface();
+
+        }else{
+            goBackToVocabPage();
+        }
+
+    }
+
+    private void goBackToVocabPage() {
+        Class destActivity = VocabActivity.class;
+        Context context = VocabStudyActivity.this;
+
+        Intent intent = new Intent(context, destActivity);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivity(intent);
+    }
+
+
+
+    private void notKnownClicked() {
+        quiz.checkCurrentAnswer(0);
+        highlightTheCorrectAnswer();
+    }
+
+    private void knownBtnClicked() {
+        System.out.println("I know");
+        quiz.processKnownVocab(quiz.getCurrentQuestion());
+        if(quiz.getIfThereIsAnyVocab()){
+            quiz.toNextQuestion();
+            updateQuizInterface();
+        }else{
+            goBackToVocabPage();
+        }
+
+    }
+
+    public void choiceBtnClicked(int index){
+
+
+
+        if (quiz.checkCurrentAnswer(index)) {
+            try {
+                quiz.processCorrectAnswer(quiz.getCurrentQuestion());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                quiz.toNextQuestion();
+                updateQuizInterface();
+            } else {
+                highlightTheCorrectAnswer();
+            }
+
+    }
+
+
+
+    /*
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        switch (v.getId()) {
+
+            case R.id.FirstOption_button: {
+                choiceBtnTouched(0);
+                break;
+            }
+            case R.id.SecondOption_button2: {
+                choiceBtnTouched(1);
+                break;
+            }
+
+            case R.id.ThirdOption_button3: {
+                choiceBtnTouched(2);
+                break;
+            }
+            case R.id.FourthOption_button4:{
+                choiceBtnTouched(3);
+                break;
+            }
+            case R.id.Known_button:{
+                choiceBtnTouched(4);
+                break;
+            }
+            case R.id.NotKnown_button:{
+                choiceBtnTouched(5);
+                break;
+            }
+        }
+    }
+    */
 
 }

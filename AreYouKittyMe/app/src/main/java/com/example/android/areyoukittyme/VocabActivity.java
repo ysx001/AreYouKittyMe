@@ -22,6 +22,7 @@ public class VocabActivity extends AppCompatActivity {
     private int mProgressStatus = 0;
 
     private Handler mHandler = new Handler();
+    public static boolean mode = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +46,7 @@ public class VocabActivity extends AppCompatActivity {
                 Intent startVocabActivityIntent = new Intent(context, destActivity);
 
                 startActivity(startVocabActivityIntent);
+                mode = false;
 
             }
 
@@ -60,6 +62,7 @@ public class VocabActivity extends AppCompatActivity {
                 Intent startVocabActivityIntent = new Intent(context, destActivity);
 
                 startActivity(startVocabActivityIntent);
+                mode = true;
 
             }
 

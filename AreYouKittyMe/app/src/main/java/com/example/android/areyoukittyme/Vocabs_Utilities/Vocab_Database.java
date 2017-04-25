@@ -2,7 +2,7 @@ package com.example.android.areyoukittyme.Vocabs_Utilities;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import com.example.android.areyoukittyme.app.App;
+import com.example.android.areyoukittyme.mApplication;
 
 /**
  * Created by haoyuxiong on 4/13/17.
@@ -19,12 +19,15 @@ public class Vocab_Database extends SQLiteOpenHelper {
 
 
     public Vocab_Database() {
-        super(App.getContext(), DATABASE_NAME, null, DATABASE_VERSION);
+        super(mApplication.getContext(), DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-       db.execSQL(Vocab_Repo.createTable());
+
+        db.execSQL(Vocab_Repo.createTable());
+
+
     }
 
     @Override
