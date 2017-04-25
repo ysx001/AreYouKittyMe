@@ -1,5 +1,7 @@
 package com.example.android.areyoukittyme;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +16,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.android.areyoukittyme.Service.newDayAlarmReceiver;
 import com.example.android.areyoukittyme.User.User;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.Scopes;
@@ -46,6 +49,8 @@ import com.mikhaellopez.circularprogressbar.CircularProgressBar;
 
 import org.w3c.dom.Text;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity implements OnDataPointListener,
@@ -190,6 +195,7 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
                 .build();
 
         mApiClient.connect();
+        scheduleAlarm();
     }
 
     @Override
@@ -241,6 +247,26 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
 
             startActivity(intent);
         }
+    }
+
+    private void scheduleAlarm() {
+
+        Intent intent = new Intent(getApplicationContext(), newDayAlarmReceiver.class);
+        final PendingIntent pIntent = PendingIntent.getBroadcast(this, newDayAlarmReceiver.REQUEST_CODE,
+                intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        int date = calendar.get(Calendar.DAY_OF_YEAR) + 1;
+        calendar.set(Calendar.DAY_OF_YEAR, date);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        long firstMillis = calendar.getTimeInMillis();
+
+        AlarmManager alarm = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+        alarm.setInexactRepeating(AlarmManager.RTC_WAKEUP, firstMillis,
+                AlarmManager.INTERVAL_DAY, pIntent);
     }
 
     /**

@@ -222,4 +222,19 @@ public class User {
     public static ArrayList<ArrayList<Double>> getUserData() {
         return userData;
     }
+
+    public static void newDay() {
+        User.steps = 0;
+        User.focus = 0;
+        User.vocab = 0;
+
+        if (User.mood >= 60) {
+            User.health -= 20;
+        }
+        else {
+            User.health -= 30;
+        }
+
+        User.mood -= 10;
+    }
 }
