@@ -58,10 +58,9 @@ public class StatsDayActivity extends AppCompatActivity implements OnChartValueS
     public final int[] FOCUS_COLORS = { R.color.colorAccentLight};
     public final int[] VOCAB_COLORS = { R.color.colorAccentDark};
 
-    private static User mUser = new User("Sarah");
+    private User mUser;
 
-
-    private ArrayList<ArrayList<Double>> dataArray = User.getUserData();
+    private ArrayList<ArrayList<Double>> dataArray;
 
 
 //    private ArrayList<ArrayList<Double>> dataArray = generateData(year, 30.0);
@@ -75,6 +74,12 @@ public class StatsDayActivity extends AppCompatActivity implements OnChartValueS
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stats_day);
+
+        // Use getIntent method to store the Intent that started this Activity
+        Intent startingIntent = getIntent();
+
+        mUser = startingIntent.getExtras().getParcelable("User");
+        dataArray = mUser.getUserData();
 
         // enable back button to main page
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -322,9 +327,9 @@ public class StatsDayActivity extends AppCompatActivity implements OnChartValueS
         int focusSize = dataArray.get(1).size();
         int vocabSize = dataArray.get(2).size();
 
-        float stepVal = dataArray.get(0).get(stepSize - 1).floatValue() / (float) User.getStepsGoal();
-        float focusVal = dataArray.get(1).get(focusSize - 1).floatValue() / (float) User.getFocusGoal();
-        float vocabVal = dataArray.get(2).get(vocabSize - 1).floatValue() / (float) User.getVocabGoal();
+        float stepVal = dataArray.get(0).get(stepSize - 1).floatValue() / (float) mUser.getStepsGoal();
+        float focusVal = dataArray.get(1).get(focusSize - 1).floatValue() / (float) mUser.getFocusGoal();
+        float vocabVal = dataArray.get(2).get(vocabSize - 1).floatValue() / (float) mUser.getVocabGoal();
 
         stepCounts.add(new BarEntry(0 * spaceForBar , stepVal * 100));
         focusTime.add(new BarEntry(0 * spaceForBar , focusVal * 100));

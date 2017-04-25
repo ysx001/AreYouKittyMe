@@ -23,6 +23,7 @@ import static android.app.PendingIntent.getActivity;
 
 public class TimerActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private User mUser;
 
     private TextView hourCountdown;
     private TextView minCountdown;
@@ -47,6 +48,10 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timer);
+
+        // Use getIntent method to store the Intent that started this Activity
+        Intent startingIntent = getIntent();
+        mUser = startingIntent.getExtras().getParcelable("User");
 
         this.hourCountdown = (TextView) findViewById(R.id.hourCountdown);
         this.minCountdown = (TextView) findViewById(R.id.minCountdown);
@@ -305,7 +310,7 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
                 }
                 else {
                     this.t.interrupt();
-                    User.setFocus(User.getFocus() + this.focusTime);
+                    mUser.setFocus(mUser.getFocus() + this.focusTime);
                     timerFinished();
                 }
             }

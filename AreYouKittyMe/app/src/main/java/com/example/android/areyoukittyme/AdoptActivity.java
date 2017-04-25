@@ -17,6 +17,7 @@ public class AdoptActivity extends AppCompatActivity {
 
     private EditText catNameTxt;
     private Button catNameButton;
+    private User mUser;
 
 
     @Override
@@ -38,7 +39,7 @@ public class AdoptActivity extends AppCompatActivity {
 
                 if (textEntered.length() > 0) {
                     // Initialize User object
-                    User user = new User(textEntered);
+                    mUser = new User(textEntered);
 
                     // Store the context variable
                     Context context = AdoptActivity.this;
@@ -46,6 +47,7 @@ public class AdoptActivity extends AppCompatActivity {
                     Class destActivity = MainActivity.class;
                     // create Intent that will start the activity
                     Intent startMainActivityIntent = new Intent(context, destActivity);
+                    startMainActivityIntent.putExtra("User", mUser);
                     startActivity(startMainActivityIntent);
                 }
                 else {

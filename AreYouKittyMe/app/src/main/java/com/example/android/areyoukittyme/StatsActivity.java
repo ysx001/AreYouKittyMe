@@ -55,6 +55,8 @@ import com.github.mikephil.charting.utils.MPPointF;
 public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeListener,
         OnChartValueSelectedListener{
 
+
+
     private Button dayButton;
 
     private Context context;
@@ -69,10 +71,10 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
     public final int[] FOCUS_COLORS = { R.color.colorAccentLight};
     public final int[] VOCAB_COLORS = { R.color.colorAccentDark};
 
-    private static User mUser = new User("Sarah");
+    private static User mUser;
 
 
-    private ArrayList<ArrayList<Double>> dataArray = User.getUserData();
+    private ArrayList<ArrayList<Double>> dataArray = mUser.getUserData();
 
 
     protected LineChart monthChart;
@@ -90,6 +92,10 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stats);
 
+        // Use getIntent method to store the Intent that started this Activity
+        Intent startingIntent = getIntent();
+
+        mUser = startingIntent.getExtras().getParcelable("User");
 
         dayButton = (Button) findViewById(R.id.dayButton);
 
@@ -289,42 +295,6 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
     }
 
 
-//    private ArrayList<ArrayList<Double>> generateData(int count, Double range) {
-//
-//        ArrayList<ArrayList<Double>> data = new ArrayList<>();
-//        ArrayList<Double> stepCounts = new ArrayList<>();
-//
-//        for (int i = 0; i < count; i++) {
-//            Double mult = range ;
-//            Double val = (Math.random() * mult) + 50;
-//            stepCounts.add(val);
-//        }
-//
-//        ArrayList<Double> focusTime = new ArrayList<>();
-//
-//        for (int i = 0; i < count; i++) {
-//            Double mult = range / 2.0;
-//            Double val = (Math.random() * mult) + 60;
-//            focusTime.add(val);
-////            if(i == 10) {
-////                yVals2.add(new Entry(i, val + 50));
-////            }
-//        }
-//
-//        ArrayList<Double> vocabTime = new ArrayList<>();
-//
-//        for (int i = 0; i < count; i++) {
-//            Double mult = range / 5.0;
-//            Double val = (Math.random() * mult) + 100;
-//            vocabTime.add(val);
-//        }
-//
-//        data.add(stepCounts);
-//        data.add(focusTime);
-//        data.add(vocabTime);
-//
-//        return data;
-//    }
 
     private void setLineData(ArrayList<ArrayList<Double>> dataArray, int start) {
 
