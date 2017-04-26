@@ -32,7 +32,8 @@ public class Vocab_Database extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        db.execSQL("DROP TABLE IF EXISTS Vocab");
+        onCreate(db);
     }
 
 

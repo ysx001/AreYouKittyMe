@@ -8,6 +8,7 @@ import android.util.Log;
 import com.example.android.areyoukittyme.Quiz_Utilities.Question;
 
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -283,7 +284,7 @@ public class Vocab_Repo {
 
     }
 
-    public static void addAnEntireVocabListToTheDataBase(InputStream in){
+    public static void addAnEntireVocabListToTheDataBase(InputStream in) throws UnsupportedEncodingException {
 
         deleteAllRows();
         String currentDate = simpleDateFormat.format(new Date());
@@ -291,13 +292,16 @@ public class Vocab_Repo {
 
         ArrayList<ArrayList<String>> vocabArrays = Vocab_Data_Csv_Process.processInData(
                                         Vocab_Data_Csv_Process.ReadInVocabData(in));
-        Vocab_DatabaseManager.setVocabGeneralProgress(new Vocab_Progress_General(vocabArrays.size(),"SAT6000.csv", currentDate, dailyGoal));
+
+        //Vocab_DatabaseManager.setVocabGeneralProgress(new Vocab_Progress_General(vocabArrays.size(),"SAT6000.csv", currentDate, dailyGoal));
         int j = 0;
         for(ArrayList<String> i: vocabArrays){
-
+            System.out.println(i.size());
             vocab = new Vocab(j, i.get(0), i.get(1),0, "0", currentDate );
             insert(vocab);
+            System.out.println(j);
             j+= 1;
+
 
         }
         numOfRow = vocabArrays.size();

@@ -22,15 +22,19 @@ public class mApplication extends Application {
     public void onCreate(){
         System.out.println("Called1");
         super.onCreate();
+
         System.out.println("Called");
         this.context = this.getApplicationContext();
         vocab_database = new Vocab_Database();
         Vocab_DatabaseManager.initializeInstance(vocab_database);
+        /*
+        vocab_database = new Vocab_Database();
+        Vocab_DatabaseManager.initializeInstance(vocab_database);
         try {
-            Vocab_Repo.addAnEntireVocabListToTheDataBase(getAssets().open("SAT6000.csv"));
+            Vocab_Repo.addAnEntireVocabListToTheDataBase(getAssets().open("French.txt"));
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     public static Context getContext(){

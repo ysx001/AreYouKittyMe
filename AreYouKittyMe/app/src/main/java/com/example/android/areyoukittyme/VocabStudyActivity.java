@@ -28,6 +28,7 @@ public class VocabStudyActivity extends AppCompatActivity implements View.OnClic
     public static final int Khaiki_Color = Color.rgb(240,230,140);
     public static final int Light_Goldenrod_Color = Color.rgb(238,221,130);
     private Button[] btns;
+    private boolean answered;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,11 +96,13 @@ public class VocabStudyActivity extends AppCompatActivity implements View.OnClic
         }else{
             goBackToVocabPage();
         }
+        answered = false;
     }
 
 
     public void updateQuizInterface(){
         this.questionView.setText(quiz.getCurrentQuestion().getVocab().getWord());
+        System.out.println(quiz.getCurrentQuestion().getVocab().getWord());
         this.choiceBtn1.setText(quiz.getCurrentQuestion().getAnswers()[0]);
         this.choiceBtn1.setBackgroundColor(Khaiki_Color);
         this.choiceBtn2.setText(quiz.getCurrentQuestion().getAnswers()[1]);
@@ -158,15 +161,17 @@ public class VocabStudyActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void nextBtnClicked() {
-        if(quiz.getIfThereIsAnyVocab()) {
+        if (answered == true) {
+            if (quiz.getIfThereIsAnyVocab()) {
 
-            quiz.toNextQuestion();
-            updateQuizInterface();
+                quiz.toNextQuestion();
+                updateQuizInterface();
 
-        }else{
-            goBackToVocabPage();
+            } else {
+                goBackToVocabPage();
+            }
+            answered = false;
         }
-
     }
 
     private void goBackToVocabPage() {
@@ -181,11 +186,15 @@ public class VocabStudyActivity extends AppCompatActivity implements View.OnClic
 
 
     private void notKnownClicked() {
-        quiz.checkCurrentAnswer(0);
-        highlightTheCorrectAnswer();
+        if (answered == false){
+            quiz.checkCurrentAnswer(0);
+            highlightTheCorrectAnswer();
+            answered = true;
+        }
     }
 
     private void knownBtnClicked() {
+        if (answered == false){
         System.out.println("I know");
         quiz.processKnownVocab(quiz.getCurrentQuestion());
         if(quiz.getIfThereIsAnyVocab()){
@@ -193,25 +202,27 @@ public class VocabStudyActivity extends AppCompatActivity implements View.OnClic
             updateQuizInterface();
         }else{
             goBackToVocabPage();
-        }
+        }}
 
     }
 
     public void choiceBtnClicked(int index){
+        if (answered==false) {
 
-
-
-        if (quiz.checkCurrentAnswer(index)) {
-            try {
-                quiz.processCorrectAnswer(quiz.getCurrentQuestion());
+            answered = true;
+            if (quiz.checkCurrentAnswer(index)) {
+                try {
+                    quiz.processCorrectAnswer(quiz.getCurrentQuestion());
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
                 quiz.toNextQuestion();
                 updateQuizInterface();
+                answered = false;
             } else {
                 highlightTheCorrectAnswer();
             }
+        }
 
     }
 

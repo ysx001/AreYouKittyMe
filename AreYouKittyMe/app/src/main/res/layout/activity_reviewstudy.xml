@@ -17,6 +17,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginTop="40dp"
         android:text="TextView"
+
         android:textAlignment="center"
         android:textSize="30sp" />
 

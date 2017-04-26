@@ -28,9 +28,12 @@ public class Quiz {
 
     public Quiz(boolean mode) throws ParseException {
 
-        questions = Vocab_Repo.convertVocabListsToQuestions(Vocab_Repo.getVocabsToStudy());
-        if (mode){
+
+        if (!mode){
+            questions = Vocab_Repo.convertVocabListsToQuestions(Vocab_Repo.getVocabsToStudy());
             questions.addAll(Vocab_Repo.convertVocabListsToQuestions(Vocab_Repo.getVocabsReviewableVocab()));
+        }else{
+            questions = Vocab_Repo.convertVocabListsToQuestions(Vocab_Repo.getVocabsReviewableVocab());
         }
         this.answeredQuestions = new ArrayList<Question>();
         currentQuestion = this.questions.get(0);
