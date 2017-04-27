@@ -91,6 +91,8 @@ public class MainActivity extends AppCompatActivity {
 
     private ImageView drawerToggler;
 
+    private Button testDead;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,18 +127,38 @@ public class MainActivity extends AppCompatActivity {
 
         drawerToggler = (ImageView) findViewById(R.id.drawerToggler);
 
+        testDead = (Button) findViewById(R.id.test_dead);
+
+        // Setting an OnClickLister for the testing dead activity
+        testDead.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mUser.newDay();
+                //mUser.setHealth(-20);
+                System.out.println("Health now is" + mUser.getHealth());
+                if (mUser.getHealth() <= 0) {
+                    switchDie();
+                }
+
+            }
+        });
+
         // Setting up animation
         ImageView catAnimation = (ImageView) findViewById(R.id.miaomiaomiao);
         //catAnimation.setBackgroundResource(R.drawable.thin_cat_animation);
-
         ((AnimationDrawable) catAnimation.getBackground()).start();
-
 
         catAnimation.setOnTouchListener(new MyTouchListener());
 
 
         String catName = mUser.getName();
         displayCatName.setText(catName);
+
+        // If health is zero, the cat dies.
+
+        if (mUser.getHealth() == 0) {
+            switchDie();
+        }
 
         System.out.println("In main dataArray is Empty? " + mUser.getUserData().isEmpty());
 
@@ -226,6 +248,13 @@ public class MainActivity extends AppCompatActivity {
 
         scheduleAlarm();
     }
+
+    private void switchDie() {
+        Intent intent = new Intent(this, DeadActivity.class);
+        intent.putExtra("User", mUser);
+        startActivity(intent);
+    }
+
 
     @Override
     protected void onStart() {

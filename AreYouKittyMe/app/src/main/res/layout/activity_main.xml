@@ -115,6 +115,13 @@
         android:text="####"
         android:textSize="18sp" />
 
+    <Button
+        android:id="@+id/test_dead"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Day"
+        android:layout_alignBottom="@+id/moodProgress"
+        android:layout_centerHorizontal="true" />
     <!--<TextView-->
         <!--android:id="@+id/title_text_view"-->
         <!--android:layout_width="match_parent"-->

@@ -55,8 +55,8 @@ public class User implements Parcelable {
         this.vocab = 0;
         this.cash = 1000;
         this.inventoryList = null;
-        this.health = 50;
-        this.mood = 90;
+        this.health = 80;
+        this.mood = 50;
         this.userData = generateData(year, 30.0);
     }
 
