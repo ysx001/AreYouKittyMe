@@ -10,6 +10,8 @@ import com.example.android.areyoukittyme.Vocabs_Utilities.Vocab_Repo;
 
 import java.io.IOException;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+
 /**
  * Created by haoyuxiong on 4/16/17.
  */
@@ -31,6 +33,12 @@ public class mApplication extends Application {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                .setDefaultFontPath("Roboto/Roboto-Regular.ttf")
+                .setFontAttrId(R.attr.fontPath)
+                .build()
+        );
     }
 
     public static Context getContext(){

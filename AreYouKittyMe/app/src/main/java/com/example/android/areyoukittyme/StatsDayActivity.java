@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.areyoukittyme.User.User;
+import com.example.android.areyoukittyme.plot.MyMarkerView;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
@@ -57,10 +58,9 @@ public class StatsDayActivity extends AppCompatActivity implements OnChartValueS
     public final int[] FOCUS_COLORS = { R.color.colorAccentLight};
     public final int[] VOCAB_COLORS = { R.color.colorAccentDark};
 
-    private static User mUser = new User("Sarah");
+    private User mUser;
 
-
-    private ArrayList<ArrayList<Double>> dataArray = User.getUserData();
+    private ArrayList<ArrayList<Double>> dataArray;
 
 
 //    private ArrayList<ArrayList<Double>> dataArray = generateData(year, 30.0);
@@ -74,6 +74,12 @@ public class StatsDayActivity extends AppCompatActivity implements OnChartValueS
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stats_day);
+
+        // Use getIntent method to store the Intent that started this Activity
+        Intent startingIntent = getIntent();
+
+        mUser = startingIntent.getExtras().getParcelable("User");
+        dataArray = mUser.getUserData();
 
         // enable back button to main page
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -126,7 +132,7 @@ public class StatsDayActivity extends AppCompatActivity implements OnChartValueS
         dayChart.setOnChartValueSelectedListener(this);
         // dayChart.setHighlightEnabled(false);
 
-        dayChart.setDrawBarShadow(false);
+        //dayChart.setDrawBarShadow(false);
 
         dayChart.setDrawValueAboveBar(true);
 
@@ -137,12 +143,18 @@ public class StatsDayActivity extends AppCompatActivity implements OnChartValueS
         dayChart.setMaxVisibleValueCount(60);
 
         // scaling can now only be done on x- and y-axis separately
-        dayChart.setPinchZoom(false);
+        //dayChart.setPinchZoom(false);
 
         // draw shadows for each bar that show the maximum value
-//         dayChart.setDrawBarShadow(true);
+        dayChart.setDrawBarShadow(true);
 
         dayChart.setDrawGridBackground(false);
+
+        // Set marker....
+
+        MyMarkerView mv = new MyMarkerView(context, R.layout.marker_view);
+
+        dayChart.setMarkerView(mv);
 
         XAxis xl = dayChart.getXAxis();
         xl.setPosition(XAxis.XAxisPosition.BOTTOM);
@@ -156,6 +168,7 @@ public class StatsDayActivity extends AppCompatActivity implements OnChartValueS
         yl.setDrawAxisLine(true);
         yl.setDrawGridLines(true);
         yl.setAxisMinimum(0f); // this replaces setStartAtZero(true)
+       // yl.setAxisMaximum(100f);
 //        yl.setInverted(true);
 
         YAxis yr = dayChart.getAxisRight();
@@ -163,6 +176,7 @@ public class StatsDayActivity extends AppCompatActivity implements OnChartValueS
         yr.setDrawAxisLine(true);
         yr.setDrawGridLines(false);
         yr.setAxisMinimum(0f); // this replaces setStartAtZero(true)
+       // yr.setAxisMaximum(100f);
 //        yr.setInverted(true);
 
         // add data
@@ -179,6 +193,9 @@ public class StatsDayActivity extends AppCompatActivity implements OnChartValueS
         l.setDrawInside(false);
         l.setFormSize(8f);
         l.setXEntrySpace(4f);
+
+
+
     }
 
     @Override
@@ -286,42 +303,6 @@ public class StatsDayActivity extends AppCompatActivity implements OnChartValueS
     }
 
 
-    private ArrayList<ArrayList<Double>> generateData(int count, Double range) {
-
-        ArrayList<ArrayList<Double>> data = new ArrayList<>();
-        ArrayList<Double> stepCounts = new ArrayList<>();
-
-        for (int i = 0; i < count; i++) {
-            Double mult = range ;
-            Double val = (Math.random() * mult) + 50;
-            stepCounts.add(val);
-        }
-
-        ArrayList<Double> focusTime = new ArrayList<>();
-
-        for (int i = 0; i < count; i++) {
-            Double mult = range / 2.0;
-            Double val = (Math.random() * mult) + 60;
-            focusTime.add(val);
-//            if(i == 10) {
-//                yVals2.add(new Entry(i, val + 50));
-//            }
-        }
-
-        ArrayList<Double> vocabTime = new ArrayList<>();
-
-        for (int i = 0; i < count; i++) {
-            Double mult = range / 5.0;
-            Double val = (Math.random() * mult) + 100;
-            vocabTime.add(val);
-        }
-
-        data.add(stepCounts);
-        data.add(focusTime);
-        data.add(vocabTime);
-
-        return data;
-    }
 
     private int[] getColors() {
 
@@ -357,13 +338,13 @@ public class StatsDayActivity extends AppCompatActivity implements OnChartValueS
         int focusSize = dataArray.get(1).size();
         int vocabSize = dataArray.get(2).size();
 
-        float stepVal = dataArray.get(0).get(stepSize - 1).floatValue();
-        float focusVal = dataArray.get(1).get(focusSize - 1).floatValue();
-        float vocabVal = dataArray.get(2).get(vocabSize - 1).floatValue();
+        float stepVal = dataArray.get(0).get(stepSize - 1).floatValue() / (float) mUser.getStepsGoal();
+        float focusVal = dataArray.get(1).get(focusSize - 1).floatValue() / (float) mUser.getFocusGoal();
+        float vocabVal = dataArray.get(2).get(vocabSize - 1).floatValue() / (float) mUser.getVocabGoal();
 
-        stepCounts.add(new BarEntry(0 * spaceForBar , stepVal));
-        focusTime.add(new BarEntry(0 * spaceForBar , focusVal));
-        vocabTime.add(new BarEntry(0 * spaceForBar , vocabVal));
+        stepCounts.add(new BarEntry(0 * spaceForBar , stepVal * 100));
+        focusTime.add(new BarEntry(0 * spaceForBar , focusVal * 100));
+        vocabTime.add(new BarEntry(0 * spaceForBar , vocabVal * 100));
 
         BarDataSet stepSet, focusSet, vocabSet;
 
@@ -405,8 +386,11 @@ public class StatsDayActivity extends AppCompatActivity implements OnChartValueS
 //            data.setValueTypeface(mTfLight);
 
             dayChart.setData(data);
+
         }
         dayChart.getBarData().setBarWidth(barWidth);
+
+
 
         // barData.getGroupWith(...) is a helper that calculates the width each group needs based on the provided parameters
         dayChart.getXAxis().setAxisMaximum(start + dayChart.getBarData().getGroupWidth(groupSpace, barSpace));
@@ -416,6 +400,7 @@ public class StatsDayActivity extends AppCompatActivity implements OnChartValueS
 
 
     protected RectF mOnValueSelectedRectF = new RectF();
+
     @SuppressLint("NewApi")
     @Override
     public void onValueSelected(Entry e, Highlight h) {
@@ -425,12 +410,14 @@ public class StatsDayActivity extends AppCompatActivity implements OnChartValueS
 
         RectF bounds = mOnValueSelectedRectF;
         dayChart.getBarBounds((BarEntry) e, bounds);
-
-        MPPointF position = dayChart.getPosition(e, dayChart.getData().getDataSetByIndex(h.getDataSetIndex())
-                .getAxisDependency());
+        MPPointF position = dayChart.getPosition(e, YAxis.AxisDependency.LEFT);
 
         Log.i("bounds", bounds.toString());
         Log.i("position", position.toString());
+
+        Log.i("x-index",
+                "low: " + dayChart.getLowestVisibleX() + ", high: "
+                        + dayChart.getHighestVisibleX());
 
         MPPointF.recycleInstance(position);
     }

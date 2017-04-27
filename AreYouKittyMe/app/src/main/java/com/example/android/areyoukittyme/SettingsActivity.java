@@ -21,6 +21,8 @@ import com.example.android.areyoukittyme.User.User;
 
 public class SettingsActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private User mUser;
+
     private ImageView profileImage;
     private EditText nameSetting;
     private EditText ageSetting;
@@ -38,6 +40,11 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+
+        // Use getIntent method to store the Intent that started this Activity
+        Intent startingIntent = getIntent();
+        mUser = startingIntent.getExtras().getParcelable("User");
+
 
         profileImage = (ImageView) findViewById(R.id.profileImage);
         nameSetting = (EditText) findViewById(R.id.nameSetting);
@@ -64,25 +71,25 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void loadCurrentSettings() {
-        nameSetting.setText(User.getName());
-        ageSetting.setText(String.valueOf(User.getAge()));
+        nameSetting.setText(mUser.getName());
+        ageSetting.setText(String.valueOf(mUser.getAge()));
 
-        vocabSetting.setText(String.valueOf(User.getVocabGoal()));
-        stepsSetting.setText(String.valueOf(User.getStepsGoal()));
-        focusSetting.setText(String.valueOf(User.getFocusGoal()));
+        vocabSetting.setText(String.valueOf(mUser.getVocabGoal()));
+        stepsSetting.setText(String.valueOf(mUser.getStepsGoal()));
+        focusSetting.setText(String.valueOf(mUser.getFocusGoal()));
 
-        vocabBookSetting.setSelection(User.getVocabBookID());
+        vocabBookSetting.setSelection(mUser.getVocabBookID());
     }
 
     private void applySettings() {
-        User.setName(nameSetting.getText().toString());
-        User.setAge(Integer.parseInt(ageSetting.getText().toString()));
+        mUser.setName(nameSetting.getText().toString());
+        mUser.setAge(Integer.parseInt(ageSetting.getText().toString()));
 
-        User.setVocabGoal(Integer.parseInt(vocabSetting.getText().toString()));
-        User.setStepsGoal(Integer.parseInt(stepsSetting.getText().toString()));
-        User.setFocusGoal(Integer.parseInt(focusSetting.getText().toString()));
+        mUser.setVocabGoal(Integer.parseInt(vocabSetting.getText().toString()));
+        mUser.setStepsGoal(Integer.parseInt(stepsSetting.getText().toString()));
+        mUser.setFocusGoal(Integer.parseInt(focusSetting.getText().toString()));
 
-        User.setVocabBookID(vocabBookSetting.getSelectedItemPosition());
+        mUser.setVocabBookID(vocabBookSetting.getSelectedItemPosition());
     }
 
     @Override
