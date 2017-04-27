@@ -33,7 +33,8 @@ package com.example.android.areyoukittyme;
 public class StoreActivity extends AppCompatActivity {
 
     private User mUser;
-//    private static Store theStore;
+
+    private Store theStore;
     private static int ItemDogAmount = 0;
     private static int itemFishAmount = 0;
     public static ArrayList<Integer> priceList;

@@ -293,7 +293,6 @@ public class User implements Parcelable {
         dest.writeString(this.name);
         dest.writeInt(this.age);
         dest.writeTypedList(this.userData);
-        dest.writeInt(this.year);
         dest.writeInt(this.stepsGoal);
         dest.writeInt(this.focusGoal);
         dest.writeInt(this.vocabGoal);
@@ -301,7 +300,7 @@ public class User implements Parcelable {
         dest.writeInt(this.focus);
         dest.writeInt(this.vocab);
         dest.writeInt(this.vocabBookID);
-        dest.writeSerializable(this.inventoryList);
+        //dest.writeSerializable(this.inventoryList);
         dest.writeInt(this.cash);
         dest.writeInt(this.health);
         dest.writeInt(this.mood);

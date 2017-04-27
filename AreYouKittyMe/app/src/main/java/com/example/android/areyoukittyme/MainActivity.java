@@ -127,6 +127,10 @@ public class MainActivity extends AppCompatActivity {
         Intent startingIntent = getIntent();
         mUser = startingIntent.getExtras().getParcelable("User");
 
+        System.out.println("Health now is " + mUser.getHealth());
+        System.out.println("mood now is " + mUser.getMood());
+        System.out.println("cash now is " + mUser.getCash());
+
         // This method sets up our custom logger, which will print all log messages to the device
         // screen, as well as to adb logcat.
         initializeLogging();
