@@ -44,4 +44,8 @@ dependencies {
     compile 'com.github.PhilJay:MPAndroidChart:v3.0.2' // For plotting
     // Thanks PhilJay for the awesome library!
     testCompile 'junit:junit:4.12'
+//    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
+    configurations.all {
+        resolutionStrategy.force 'com.android.support.test.espresso:espresso-core:2.2.2'
+    }
 }

@@ -12,6 +12,7 @@ import com.example.android.areyoukittyme.Store.Store;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
 /**
  * Created by PrGxw on 4/10/2017.
@@ -262,7 +263,17 @@ public class User {
     public static int foodToMoodConversion(int index) {
         //TODO: complete this method
         // Food: if value > 1000, then + 3~5, random
-
+        int price = Store.getItemList().get(index).getPrice();
+        Random rnd = new Random();
+        int r = rnd.nextInt(3);
+        if (price > 1000) {
+            switch (r) {
+                case 0: return 3;
+                case 1: return 4;
+                default: return 5;
+            }
+        }
         return 0;
+
     }
 }

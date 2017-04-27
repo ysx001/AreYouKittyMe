@@ -47,7 +47,7 @@
         android:layout_height="200dp"
         android:layout_alignParentEnd="true"
         android:layout_alignTop="@+id/drawerToggler"
-        android:layout_marginTop="31dp"
+        android:layout_marginTop="32dp"
         android:layout_weight="0.50"
         android:background="@drawable/thought_bubble"
         android:visibility="invisible">
@@ -68,10 +68,10 @@
             android:id="@+id/pager_temp"
             android:layout_width="100dp"
             android:layout_height="120dp"
-            android:layout_alignEnd="@+id/rightArrow"
             android:layout_alignParentTop="true"
-            android:layout_marginEnd="25dp"
-            android:layout_marginTop="17dp" />
+            android:layout_marginEnd="12dp"
+            android:layout_marginTop="27dp"
+            android:layout_toStartOf="@+id/rightArrow" />
 
         <!--</android.support.v4.view.ViewPager>-->
 
