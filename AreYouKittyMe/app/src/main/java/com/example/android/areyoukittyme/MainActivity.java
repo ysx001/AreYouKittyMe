@@ -6,10 +6,18 @@ import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.graphics.Point;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -20,16 +28,26 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.android.areyoukittyme.Item.Avocado;
+import com.example.android.areyoukittyme.Item.Corndog;
 import com.example.android.areyoukittyme.Service.newDayAlarmReceiver;
 import com.example.android.areyoukittyme.User.User;
 import com.example.android.areyoukittyme.logger.LogView;
 import com.example.android.areyoukittyme.logger.LogWrapper;
 import com.example.android.areyoukittyme.logger.MessageOnlyLogFilter;
 import com.example.android.areyoukittyme.stepcounter.GoogleFitActivity;
+import com.example.android.areyoukittyme.ItemFragments.AsparagusFragment;
+import com.example.android.areyoukittyme.ItemFragments.AvocadoFragment;
+import com.example.android.areyoukittyme.ItemFragments.BaconFragment;
+import com.example.android.areyoukittyme.ItemFragments.CorndogFragment;
+import com.example.android.areyoukittyme.ItemFragments.FishFragment;
+import com.example.android.areyoukittyme.ItemFragments.HamburgerFragment;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -77,6 +95,8 @@ public class MainActivity extends AppCompatActivity {
     // key for parcable
     private User mUser;
 
+    private static int NUM_PAGES = 6;
+
     private Context context;
 
     private AccountHeader header;
@@ -88,9 +108,15 @@ public class MainActivity extends AppCompatActivity {
     private CircularProgressBar moodProgress;
 
     private TextView displayCatName;
+    private ViewPager mPager;
+    private PagerAdapter mPagerAdapter;
+    Point p;
+
+    MediaPlayer mPlayer;
+
+
 
     private ImageView drawerToggler;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,6 +139,9 @@ public class MainActivity extends AppCompatActivity {
         // Store the context variable
         context = MainActivity.this;
 
+        mPlayer = MediaPlayer.create(context, R.raw.animal_cat_meow);
+        mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+
         moneyDisplay = (TextView) findViewById(R.id.moneyDisplay);
         healthProgress = (CircularProgressBar) findViewById(R.id.healthProgress);
         moodProgress = (CircularProgressBar) findViewById(R.id.moodProgress);
@@ -126,6 +155,11 @@ public class MainActivity extends AppCompatActivity {
         //catAnimation.setBackgroundResource(R.drawable.thin_cat_animation);
 
         ((AnimationDrawable) catAnimation.getBackground()).start();
+        catAnimation.setOnLongClickListener(new MyLongClickListener());
+        catAnimation.setOnClickListener(new MyClickListener());
+        findViewById(R.id.main_content).setOnClickListener(new MyClickListener());
+        findViewById(R.id.leftArrow).setOnClickListener(new MyClickListener());
+        findViewById(R.id.rightArrow).setOnClickListener(new MyClickListener());
 
 
         catAnimation.setOnTouchListener(new MyTouchListener());
@@ -133,8 +167,6 @@ public class MainActivity extends AppCompatActivity {
 
         String catName = mUser.getName();
         displayCatName.setText(catName);
-
-        System.out.println("In main dataArray is Empty? " + mUser.getUserData().isEmpty());
 
         profile = new ProfileDrawerItem().withName(catName).withIcon(GoogleMaterial.Icon.gmd_pets);
 
@@ -268,6 +300,14 @@ public class MainActivity extends AppCompatActivity {
             intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 
             startActivity(intent);
+        }
+        if (mPager.getCurrentItem() == 0) {
+            // If the user is currently looking at the first step, allow the system to handle the
+            // Back button. This calls finish() on this activity and pops the back stack.
+            super.onBackPressed();
+        } else {
+            // Otherwise, select the previous step.
+            mPager.setCurrentItem(mPager.getCurrentItem() - 1);
         }
     }
 
@@ -441,6 +481,11 @@ public class MainActivity extends AppCompatActivity {
         com.example.android.areyoukittyme.logger.Log.i(TAG, "Ready");
     }
 
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
     /**
      * Read the current daily step total, computed from midnight of the current day
      * on the device's current timezone.
@@ -471,9 +516,100 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    private final class MyLongClickListener implements View.OnLongClickListener {
+//        public boolean onLongClick(View view, MotionEvent motionEvent) {
+//            if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+//                mPlayer.start();
+//                ViewPager v = (ViewPager) findViewById(R.id.pager_temp);
+//                int visibility = v.getVisibility();
+//                if (visibility == View.VISIBLE) {
+//                    v.setVisibility(View.INVISIBLE);
+//                }
+//                else {
+//                    v.setVisibility(View.VISIBLE);
+//                }
+//
+//                return true;
+//            } else {
+//                return false;
+//            }
+//        }
+
+        @Override
+        public boolean onLongClick(View v) {
+                mPlayer.start();
+                RelativeLayout vp = (RelativeLayout) findViewById(R.id.popup_container);
+                int visibility = vp.getVisibility();
+                if (visibility == View.VISIBLE) {
+                    vp.setVisibility(View.INVISIBLE);
+                }
+                else {
+                    vp.setVisibility(View.VISIBLE);
+                }
+
+                return true;
+
+        }
+    }
+
+    private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
+        public ScreenSlidePagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            switch (position) {
+                case 0: return new FishFragment();
+                case 1: return new AsparagusFragment();
+                case 2: return new AvocadoFragment();
+                case 3: return new BaconFragment();
+                case 4: return new HamburgerFragment();
+                case 5: return new CorndogFragment();
+                default: return new MainPopupFragment();
+            }
+        }
+
+        @Override
+        public int getCount() {
+            return NUM_PAGES;
+        }
+    }
+
+    private final class MyClickListener implements View.OnClickListener {
+        public void onClick(View v) {
+
+            RelativeLayout popup = (RelativeLayout) findViewById(R.id.popup_container);
+            ViewPager vp = (ViewPager) findViewById(R.id.pager_temp);
+            if (v.getId() == R.id.leftArrow) {
+                vp.setCurrentItem(vp.getCurrentItem()-1, true);
+            }
+            else if (v.getId() == R.id.rightArrow) {
+                vp.setCurrentItem(vp.getCurrentItem()+1, true);
+            }
+            else if (v.getId() == R.id.asparagusImage) {
+                // TODO: decrease amount
+//                mPagerAdapter.notifyDataSetChanged();
+                //  close window
+//                popup.setVisibility(View.INVISIBLE);
+                //  increase mood and health
+//                User.incrementHealth(User.foodToHealthConversion(vp.getCurrentItem()));
+//                User.incrementMood(User.foodToMoodConversion(vp.getCurrentItem()));
+
+                eatAnimation();
+            }
+            else if (v.getId() == R.id.fishImage) {}
+
+            else {
+                if (popup.getVisibility() == View.VISIBLE) {
+                    popup.setVisibility(View.INVISIBLE);
+                }
+            }
+        }
+    }
+
+    private void eatAnimation() {
+
     }
 
 }

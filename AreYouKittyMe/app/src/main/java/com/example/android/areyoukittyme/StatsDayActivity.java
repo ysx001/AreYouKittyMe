@@ -84,7 +84,7 @@ public class StatsDayActivity extends AppCompatActivity implements OnChartValueS
 
 
         // enable back button to main page
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Store the context variable
         context = StatsDayActivity.this;

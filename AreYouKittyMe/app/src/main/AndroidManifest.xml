@@ -25,16 +25,16 @@
         <!-- GoogleFitActivity using a notification, it will take you back to the already opened activity, not -->
         <!-- generate a new one -->
 
-        <activity
-            android:name=".AdoptActivity"
-            android:launchMode="singleTop">
+        <activity android:name=".AdoptActivity"
+                  android:launchMode="singleTop">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
         </activity>
+
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"

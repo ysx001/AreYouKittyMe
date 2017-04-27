@@ -10,32 +10,43 @@ import com.example.android.areyoukittyme.R;
 
 public class Fish implements Item{
 
-    private int price;
-    private int icon;
+    private static int price;
+    private static int icon;
     private static int id;
+    private static int index;
 
-    public Fish() {
+    public Fish(int index) {
         setPrice(80);
         this.id = R.drawable.fish;
         setIcon(id);
-    }
-
-    @Override
-    public void setPrice(int price) {
-        this.price = price;
+        this.index = index;
     }
 
     @Override
     public void setIcon(int icon) {
         this.icon = icon;
     }
-
+    public static int getIcon() {
+        return icon;
+    }
+    public static void setId(int id) {
+        Fish.id = id;
+    }
     @Override
     public int getId() {
         return this.id;
     }
-
+    @Override
+    public void setPrice(int price) {
+        this.price = price;
+    }
     public int getPrice() {
         return price;
+    }
+    public static int getIndex() {
+        return index;
+    }
+    public static void setIndex(int index) {
+        Fish.index = index;
     }
 }

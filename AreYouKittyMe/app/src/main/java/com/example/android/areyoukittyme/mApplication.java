@@ -40,7 +40,7 @@ public class mApplication extends Application {
         }*/
 
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                .setDefaultFontPath("fonts/Roboto-RobotoRegular.ttf")
+                .setDefaultFontPath("Quicksand/Quicksand-Regular.ttf")
                 .setFontAttrId(R.attr.fontPath)
                 .build()
         );

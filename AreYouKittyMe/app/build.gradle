@@ -50,4 +50,8 @@ dependencies {
     compile 'com.github.PhilJay:MPAndroidChart:v3.0.2'
     testCompile 'junit:junit:4.12'
     compile fileTree(dir: 'libs', include: ['*.jar'])
+//    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
+    configurations.all {
+        resolutionStrategy.force 'com.android.support.test.espresso:espresso-core:2.2.2'
+    }
 }

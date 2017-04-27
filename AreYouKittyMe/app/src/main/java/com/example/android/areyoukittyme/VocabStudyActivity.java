@@ -36,7 +36,7 @@ public class VocabStudyActivity extends AppCompatActivity implements View.OnClic
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reviewstudy);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         this.choiceBtn1 = (Button)findViewById(R.id.FirstOption_button);
         this.choiceBtn1.setOnClickListener(this);

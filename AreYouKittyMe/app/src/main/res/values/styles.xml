@@ -20,7 +20,7 @@
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="AppTheme.Widget.TextView" parent="android:Widget.Holo.Light.TextView">
-        <item name="fontPath">Roboto/Roboto-Light.ttf</item>
+        <item name="fontPath">Quicksand/Quicksand-Regular.ttf</item>
     </style>
 
 <!--For Step Counter-->
