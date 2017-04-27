@@ -20,6 +20,8 @@ import com.example.android.areyoukittyme.Vocabs_Utilities.Vocab_Repo;
 
 import java.io.IOException;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 public class VocabActivity extends AppCompatActivity {
 
     private Button studyButton;
@@ -112,4 +114,10 @@ public class VocabActivity extends AppCompatActivity {
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent);
     }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
 }

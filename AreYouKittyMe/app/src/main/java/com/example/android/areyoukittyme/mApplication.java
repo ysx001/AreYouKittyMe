@@ -10,6 +10,9 @@ import com.example.android.areyoukittyme.Vocabs_Utilities.Vocab_Repo;
 
 import java.io.IOException;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 /**
  * Created by haoyuxiong on 4/16/17.
  */
@@ -35,10 +38,21 @@ public class mApplication extends Application {
         } catch (IOException e) {
             e.printStackTrace();
         }*/
+
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                .setDefaultFontPath("fonts/Roboto-RobotoRegular.ttf")
+                .setFontAttrId(R.attr.fontPath)
+                .build()
+        );
     }
 
     public static Context getContext(){
         return context;
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
 }

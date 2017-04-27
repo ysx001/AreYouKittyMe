@@ -21,6 +21,8 @@ import android.widget.TextView;
 
 import java.util.Random;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 import static android.app.PendingIntent.getActivity;
 
 public class TimerActivity extends AppCompatActivity implements View.OnClickListener {
@@ -376,5 +378,9 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
         this.secCountdown.setText(String.format("%02d", this.second));
     }
 
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
 
 }

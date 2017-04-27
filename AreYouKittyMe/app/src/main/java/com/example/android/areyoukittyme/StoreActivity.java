@@ -40,6 +40,8 @@ package com.example.android.areyoukittyme;
         import java.util.HashMap;
         import java.util.List;
 
+        import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 public class StoreActivity extends AppCompatActivity {
 
     private static User user;
@@ -247,7 +249,10 @@ public class StoreActivity extends AppCompatActivity {
         }
     }
 
-
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
 
 
 }

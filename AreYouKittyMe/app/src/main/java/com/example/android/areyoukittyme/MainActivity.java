@@ -143,6 +143,8 @@ public class MainActivity extends AppCompatActivity {
 
                         Class destActivity = SettingsActivity.class;
                         Intent settingsIntent = new Intent(context, destActivity);
+                        settingsIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                        settingsIntent.putExtra("User", mUser);
                         startActivity(settingsIntent);
 
                         return false;

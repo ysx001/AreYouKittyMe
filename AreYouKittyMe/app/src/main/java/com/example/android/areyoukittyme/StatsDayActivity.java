@@ -37,6 +37,8 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 import java.util.List;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 public class StatsDayActivity extends AppCompatActivity implements OnChartValueSelectedListener {
 
     private Button monthweekButton;
@@ -424,6 +426,11 @@ public class StatsDayActivity extends AppCompatActivity implements OnChartValueS
 
     @Override
     public void onNothingSelected() {
-    };
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
 
 }
