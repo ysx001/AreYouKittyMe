@@ -1,5 +1,8 @@
 package com.example.android.areyoukittyme;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
@@ -16,11 +19,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.android.areyoukittyme.Service.newDayAlarmReceiver;
 import com.example.android.areyoukittyme.Item.Avocado;
 import com.example.android.areyoukittyme.Item.Corndog;
 import com.example.android.areyoukittyme.User.User;
@@ -47,6 +50,7 @@ import com.google.android.gms.fitness.request.DataSourcesRequest;
 import com.google.android.gms.fitness.request.OnDataPointListener;
 import com.google.android.gms.fitness.request.SensorRequest;
 import com.google.android.gms.fitness.result.DataSourcesResult;
+import com.mikepenz.fontawesome_typeface_library.FontAwesome;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
@@ -56,11 +60,17 @@ import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
+import com.mikepenz.materialdrawer.model.SectionDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
+import com.mikhaellopez.circularprogressbar.CircularProgressBar;
 
 import org.w3c.dom.Text;
 
+import org.w3c.dom.Text;
+
+import java.util.Calendar;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity implements OnDataPointListener,
@@ -76,6 +86,11 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
     private IProfile profile;
     private Drawer drawer;
     private Swipe swipe;
+
+    private TextView moneyDisplay;
+    private CircularProgressBar healthProgress;
+    private CircularProgressBar moodProgress;
+
     private TextView displayCatName;
     private ViewPager mPager;
     private PagerAdapter mPagerAdapter;
@@ -96,6 +111,10 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
 
         mPlayer = MediaPlayer.create(context, R.raw.animal_cat_meow);
         mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+
+        moneyDisplay = (TextView) findViewById(R.id.moneyDisplay);
+        healthProgress = (CircularProgressBar) findViewById(R.id.healthProgress);
+        moodProgress = (CircularProgressBar) findViewById(R.id.moodProgress);
 
         displayCatName = (TextView) findViewById(R.id.cat_name_display);
         drawerToggler = (ImageView) findViewById(R.id.drawerToggler);
@@ -120,6 +139,7 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
                 .withTranslucentStatusBar(true)
                 .withHeaderBackground(R.drawable.profile_background)
                 .addProfiles(profile)
+                .withSelectionListEnabledForSingleProfile(false)
                 .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
 
                     @Override
@@ -210,6 +230,8 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
                 .addOnConnectionFailedListener(this)
                 .build();
 
+        mApiClient.connect();
+        scheduleAlarm();
 //        mApiClient.connect();
         mPager = (ViewPager) findViewById(R.id.pager_temp);
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
@@ -225,9 +247,19 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
         //mApiClient.connect();
 
         profile.withName(User.getName());
+        header.updateProfile(profile);
         displayCatName.setText(User.getName());
         drawer.setSelection(0);
 //        mApiClient.connect();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        moneyDisplay.setText(String.valueOf(User.getCash()));
+        healthProgress.setProgressWithAnimation(User.getHealth());
+        moodProgress.setProgressWithAnimation(User.getMood());
     }
 
     @Override
@@ -267,6 +299,26 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
         }
     }
 
+
+    private void scheduleAlarm() {
+
+        Intent intent = new Intent(getApplicationContext(), newDayAlarmReceiver.class);
+        final PendingIntent pIntent = PendingIntent.getBroadcast(this, newDayAlarmReceiver.REQUEST_CODE,
+                intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        int date = calendar.get(Calendar.DAY_OF_YEAR) + 1;
+        calendar.set(Calendar.DAY_OF_YEAR, date);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        long firstMillis = calendar.getTimeInMillis();
+
+        AlarmManager alarm = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+        alarm.setInexactRepeating(AlarmManager.RTC_WAKEUP, firstMillis,
+                AlarmManager.INTERVAL_DAY, pIntent);
+    }
 
     /**
      * This helper function is called every time the data source for step counter is found,
@@ -372,6 +424,11 @@ public class MainActivity extends AppCompatActivity implements OnDataPointListen
     public void onConnectionSuspended(int i) {
     }
 
+    /**
+     *
+     * @param dataPoint
+     */
+    @Override
     public void onDataPoint(DataPoint dataPoint) {
         for( final Field field : dataPoint.getDataType().getFields() ) {
             final Value value = dataPoint.getValue( field );

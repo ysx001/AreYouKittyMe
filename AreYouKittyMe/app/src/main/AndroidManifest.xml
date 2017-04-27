@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.example.android.areyoukittyme">
+    package="com.example.android.areyoukittyme">
 
-    <uses-permission android:name="android.permission.VIBRATE"/>
-    >
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <receiver
+        android:name=".Alarm"
+        android:process=":remote" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -23,40 +28,38 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
 
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:launchMode="singleInstance">
-        </activity>
+            android:launchMode="singleInstance"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".SettingsActivity"
             android:label="Settings"
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity"/>
+                android:value=".MainActivity" />
         </activity>
         <activity
             android:name=".StatsActivity"
             android:label="@string/app_name"
             android:parentActivityName=".MainActivity">
+
             <!-- The meta-data element is needed for versions lower than 4.1 -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity"/>
+                android:value=".MainActivity" />
         </activity>
-        <activity android:name=".StatsDayActivity"
+        <activity
+            android:name=".StatsDayActivity"
             android:label="@string/app_name"
             android:parentActivityName=".MainActivity">
-
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity"/>
-
+                android:value=".MainActivity" />
         </activity>
         <activity
             android:name=".StoreActivity"
@@ -64,7 +67,7 @@
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity"/>
+                android:value=".MainActivity" />
         </activity>
         <activity
             android:name=".VocabActivity"
@@ -72,7 +75,7 @@
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".VocabActivity"/>
+                android:value=".VocabActivity" />
         </activity>
         <activity
             android:name=".VocabReviewActivity"
@@ -80,7 +83,7 @@
             android:parentActivityName=".VocabActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".VocabReviewActivity"/>
+                android:value=".VocabReviewActivity" />
         </activity>
         <activity
             android:name=".VocabStudyActivity"
@@ -88,17 +91,27 @@
             android:parentActivityName=".VocabActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".VocabStudyActivity"/>
+                android:value=".VocabStudyActivity" />
         </activity>
         <activity
             android:name=".TimerActivity"
             android:label="@string/title_timer"
-            android:parentActivityName=".MainActivity"
-            android:launchMode="singleInstance">
+            android:launchMode="singleInstance"
+            android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.android.areyoukittyme.MainActivity"/>
+                android:value="com.example.android.areyoukittyme.MainActivity" />
         </activity>
+
+        <service
+            android:name=".Service.newDayService"
+            android:exported="false" />
+
+        <receiver
+            android:name=".Service.newDayAlarmReceiver"
+            android:process=":remote">
+
+        </receiver>
 
     </application>
 
