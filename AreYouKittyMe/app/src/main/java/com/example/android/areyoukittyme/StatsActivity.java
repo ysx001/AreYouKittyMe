@@ -74,7 +74,7 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
     private static User mUser;
 
 
-    private ArrayList<ArrayList<Double>> dataArray = mUser.getUserData();
+    private ArrayList<UserData> dataArray = mUser.getUserData();
 
 
     protected LineChart monthChart;
@@ -296,7 +296,7 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
 
 
 
-    private void setLineData(ArrayList<ArrayList<Double>> dataArray, int start) {
+    private void setLineData(ArrayList<UserData> dataArray, int start) {
 
 
         ArrayList<Entry> stepCounts = new ArrayList<>();
@@ -304,15 +304,15 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
         ArrayList<Entry> vocabTime = new ArrayList<>();
 
         for (int i = start ; i < start + 30; i++) {
-            stepCounts.add(new Entry(i - start, dataArray.get(0).get(i).floatValue()));
+            stepCounts.add(new Entry(i - start, dataArray.get(0).getData().get(i).floatValue()));
         }
 
         for (int i = start; i < start + 30; i++) {
-            focusTime.add(new Entry(i - start, dataArray.get(1).get(i).floatValue()));
+            focusTime.add(new Entry(i - start, dataArray.get(1).getData().get(i).floatValue()));
         }
 
         for (int i = start; i < start + 30; i++) {
-            vocabTime.add(new Entry(i - start, dataArray.get(2).get(i).floatValue()));
+            vocabTime.add(new Entry(i - start, dataArray.get(2).getData().get(i).floatValue()));
         }
 
 
@@ -387,7 +387,7 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
 
 
 
-    private void setBarData(ArrayList<ArrayList<Double>> dataArray, int start) {
+    private void setBarData(ArrayList<UserData> dataArray, int start) {
 
         //float start = 1f;
 
@@ -398,9 +398,9 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
         ArrayList<BarEntry> vocabTime = new ArrayList<>();
 
         for (int i = start; i < start + 7; i++) {
-            float stepVal = dataArray.get(0).get(i).floatValue();
-            float focusVal = dataArray.get(1).get(i).floatValue();
-            float vocabVal = dataArray.get(2).get(i).floatValue();
+            float stepVal = dataArray.get(0).getData().get(i).floatValue();
+            float focusVal = dataArray.get(1).getData().get(i).floatValue();
+            float vocabVal = dataArray.get(2).getData().get(i).floatValue();
 
             stepCounts.add(new BarEntry(i - start, new float[] {stepVal, focusVal, vocabVal}));
         }

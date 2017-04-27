@@ -7,6 +7,7 @@ import android.widget.TextView;
 import com.example.android.areyoukittyme.Cat.Cat;
 import com.example.android.areyoukittyme.Item.Item;
 import com.example.android.areyoukittyme.Store.Store;
+import com.example.android.areyoukittyme.UserData;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -23,7 +24,7 @@ public class User implements Parcelable {
     private  String name;
     private  int age;
 
-    private  ArrayList<ArrayList<Double>> userData;
+    private  ArrayList<UserData> userData = new ArrayList<>();
     private final int year = 365;
 
     private  int stepsGoal;
@@ -89,8 +90,12 @@ public class User implements Parcelable {
         this.age = age;
     }
 
-    public void setUserData(ArrayList<ArrayList<Double>> userData) {
+    public void setUserData(ArrayList<UserData> userData) {
         this.userData = userData;
+    }
+
+    public ArrayList<UserData> getUserData() {
+        return userData;
     }
 
     public int getYear() {
@@ -185,45 +190,47 @@ public class User implements Parcelable {
         this.mood = mood;
     }
 
-    private ArrayList<ArrayList<Double>> generateData(int count, Double range) {
+    private ArrayList<UserData> generateData(int count, Double range) {
 
-        ArrayList<ArrayList<Double>> data = new ArrayList<>();
-        ArrayList<Double> stepCounts = new ArrayList<>();
+        ArrayList<UserData> data = new ArrayList<>();
+
+
+        ArrayList<Double> stepCountslist = new ArrayList<>();
 
         for (int i = 0; i < count; i++) {
             Double mult = range ;
             Double val = (Math.random() * mult) + 50;
-            stepCounts.add(val);
+            stepCountslist.add(val);
         }
 
-        ArrayList<Double> focusTime = new ArrayList<>();
+        ArrayList<Double> focusTimelist = new ArrayList<>();
 
         for (int i = 0; i < count; i++) {
             Double mult = range / 2.0;
             Double val = (Math.random() * mult) + 60;
-            focusTime.add(val);
+            focusTimelist.add(val);
 //            if(i == 10) {
 //                yVals2.add(new Entry(i, val + 50));
 //            }
         }
 
-        ArrayList<Double> vocabTime = new ArrayList<>();
+        ArrayList<Double> vocabTimelist = new ArrayList<>();
 
         for (int i = 0; i < count; i++) {
             Double mult = range / 5.0;
             Double val = (Math.random() * mult) + 100;
-            vocabTime.add(val);
+            vocabTimelist.add(val);
         }
+
+        UserData stepCounts = new UserData(stepCountslist);
+        UserData focusTime = new UserData(focusTimelist);
+        UserData vocabTime = new UserData(vocabTimelist);
 
         data.add(stepCounts);
         data.add(focusTime);
         data.add(vocabTime);
 
         return data;
-    }
-
-    public ArrayList<ArrayList<Double>> getUserData() {
-        return userData;
     }
 
     @Override
@@ -235,7 +242,7 @@ public class User implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.name);
         dest.writeInt(this.age);
-        dest.writeList(this.userData);
+        dest.writeTypedList(this.userData);
         dest.writeInt(this.year);
         dest.writeInt(this.stepsGoal);
         dest.writeInt(this.focusGoal);
@@ -253,6 +260,7 @@ public class User implements Parcelable {
     protected User(Parcel in) {
         this.name = in.readString();
         this.age = in.readInt();
+        this.userData = in.createTypedArrayList(UserData.CREATOR);
         this.stepsGoal = in.readInt();
         this.focusGoal = in.readInt();
         this.vocabGoal = in.readInt();
@@ -260,7 +268,7 @@ public class User implements Parcelable {
         this.focus = in.readInt();
         this.vocab = in.readInt();
         this.vocabBookID = in.readInt();
-        this.inventoryList = (HashMap<Integer, Object[]>) in.readSerializable();
+//        this.inventoryList = (HashMap<Integer, Object[]>) in.readSerializable();
         this.cash = in.readInt();
         this.health = in.readInt();
         this.mood = in.readInt();
