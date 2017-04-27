@@ -166,7 +166,7 @@ public class User implements Parcelable {
     }
 
     public int getCash() {
-        return cash;
+        return this.cash;
     }
 
     public void setCash(int cash) {
@@ -174,7 +174,7 @@ public class User implements Parcelable {
     }
 
     public int getHealth() {
-        return health;
+        return this.health;
     }
 
     public void setHealth(int health) {
@@ -185,7 +185,7 @@ public class User implements Parcelable {
     }
 
     public int getMood() {
-        return mood;
+        return this.mood;
     }
 
     public void setMood(int mood) {
