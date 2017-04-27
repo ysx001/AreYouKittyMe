@@ -122,7 +122,7 @@ public class StatsDayActivity extends AppCompatActivity implements OnChartValueS
 
                 // create Intent that will start the activity
                 Intent startStatsIntent = new Intent(context, destActivity);
-
+                startStatsIntent.putExtra("User", mUser);
                 startActivity(startStatsIntent);
 
             }

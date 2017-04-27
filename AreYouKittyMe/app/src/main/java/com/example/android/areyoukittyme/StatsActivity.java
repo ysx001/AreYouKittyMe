@@ -74,7 +74,7 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
     private static User mUser;
 
 
-    private ArrayList<UserData> dataArray = mUser.getUserData();
+    private ArrayList<UserData> dataArray;
 
 
     protected LineChart monthChart;
@@ -96,6 +96,7 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
         Intent startingIntent = getIntent();
 
         mUser = startingIntent.getExtras().getParcelable("User");
+        dataArray = mUser.getUserData();
 
         dayButton = (Button) findViewById(R.id.dayButton);
 
@@ -113,7 +114,7 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
 
                 // create Intent that will start the activity
                 Intent startStatsIntent = new Intent(context, destActivity);
-
+                startStatsIntent.putExtra("User", mUser);
                 startActivity(startStatsIntent);
 
             }
