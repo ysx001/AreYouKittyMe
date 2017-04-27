@@ -123,10 +123,12 @@ public class MainActivity extends AppCompatActivity {
 
         // Use getIntent method to store the Intent that started this Activity
         Intent startingIntent = getIntent();
-
         mUser = startingIntent.getExtras().getParcelable("User");
+
         String catName = mUser.getName();
         displayCatName.setText(catName);
+
+        System.out.println("In main dataArray is Empty? " + mUser.getUserData().isEmpty());
 
         profile = new ProfileDrawerItem().withName(catName).withIcon(GoogleMaterial.Icon.gmd_pets);
 
@@ -194,7 +196,7 @@ public class MainActivity extends AppCompatActivity {
                             if (intent != null) {
                                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                                 intent.putExtra("User", mUser);
-                                startActivity(intent);
+                                startActivityForResult(intent, 1);
                             }
                         }
                         return false;
@@ -237,6 +239,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
 
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if(resultCode == RESULT_OK) {
+                mUser = data.getExtras().getParcelable("User");
+                System.out.println("In Main User Name is " + mUser.getName());
+            }
+        }
     }
 
     @Override

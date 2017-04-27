@@ -4,14 +4,20 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.android.areyoukittyme.User.User;
 
@@ -47,7 +53,6 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         Intent startingIntent = getIntent();
         mUser = startingIntent.getExtras().getParcelable("User");
 
-
         profileImage = (ImageView) findViewById(R.id.profileImage);
         nameSetting = (EditText) findViewById(R.id.nameSetting);
         ageSetting = (EditText) findViewById(R.id.ageSetting);
@@ -65,9 +70,9 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
 
         ageSetting.setEnabled(false);
 
-        String[] items = new String[]{"SAT 6000", "French", "German", "Spanish"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, items);
-        vocabBookSetting.setAdapter(adapter);
+//       String[] items = new String[]{"SAT 6000", "French", "German", "Spanish"};
+//       ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, items);
+//       vocabBookSetting.setAdapter(adapter);
 
         loadCurrentSettings();
     }
@@ -104,7 +109,16 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
             }
 
             case R.id.settingApplyBtn: {
+
+
+                Context context = getApplicationContext();
+                CharSequence text = "Changes applied";
+                int duration = Toast.LENGTH_SHORT;
+
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
                 applySettings();
+                System.out.println("User name now is " + mUser.getName());
                 break;
             }
         }
@@ -126,9 +140,15 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         Class destActivity = MainActivity.class;
         Context context = SettingsActivity.this;
 
-        Intent intent = new Intent(context, destActivity);
+        System.out.println("Back Pressed User name now is " + mUser.getName());
+        //Intent intent = new Intent(context, destActivity);
+        Intent intent = new Intent();
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-        startActivity(intent);
+        applySettings();
+        intent.putExtra("User", mUser);
+        setResult(RESULT_OK, intent);
+        finish();
+        //startActivity(intent);
     }
 
     @Override

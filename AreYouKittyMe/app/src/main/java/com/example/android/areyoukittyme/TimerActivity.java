@@ -82,7 +82,7 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
         this.isPausing = false;
 
         // enable back button to main page
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
     }

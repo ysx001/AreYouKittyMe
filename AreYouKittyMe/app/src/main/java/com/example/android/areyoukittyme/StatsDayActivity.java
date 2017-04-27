@@ -62,7 +62,7 @@ public class StatsDayActivity extends AppCompatActivity implements OnChartValueS
 
     private User mUser;
 
-    private ArrayList<ArrayList<Double>> dataArray;
+    private ArrayList<UserData> dataArray  = new ArrayList<>();
 
 
 //    private ArrayList<ArrayList<Double>> dataArray = generateData(year, 30.0);
@@ -81,7 +81,9 @@ public class StatsDayActivity extends AppCompatActivity implements OnChartValueS
         Intent startingIntent = getIntent();
 
         mUser = startingIntent.getExtras().getParcelable("User");
+        System.out.println("dataArray is empty " +  mUser.getUserData().isEmpty());
         dataArray = mUser.getUserData();
+
 
         // enable back button to main page
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -95,14 +97,14 @@ public class StatsDayActivity extends AppCompatActivity implements OnChartValueS
         vocabTimeView = (TextView) findViewById(R.id.vocabTimeView);
         focusTimeView = (TextView) findViewById(R.id.focusTimeView);
 
-        int stepSize = dataArray.get(0).size();
-        int focusSize = dataArray.get(1).size();
-        int vocabSize = dataArray.get(2).size();
+        int stepSize = dataArray.get(0).getData().size();
+        int focusSize = dataArray.get(1).getData().size();
+        int vocabSize = dataArray.get(2).getData().size();
 
 
-        float stepVal = dataArray.get(0).get(stepSize - 1).floatValue();
-        float focusVal = dataArray.get(1).get(focusSize - 1).floatValue();
-        float vocabVal = dataArray.get(2).get(vocabSize - 1).floatValue();
+        float stepVal = dataArray.get(0).getData().get(stepSize - 1).floatValue();
+        float focusVal = dataArray.get(1).getData().get(focusSize - 1).floatValue();
+        float vocabVal = dataArray.get(2).getData().get(vocabSize - 1).floatValue();
 
         String stepStr = String.format("Steps Today: %.1f", stepVal);
         String focusStr = String.format("Focus Time: %.1f", focusVal);
@@ -122,7 +124,7 @@ public class StatsDayActivity extends AppCompatActivity implements OnChartValueS
 
                 // create Intent that will start the activity
                 Intent startStatsIntent = new Intent(context, destActivity);
-
+                startStatsIntent.putExtra("User", mUser);
                 startActivity(startStatsIntent);
 
             }
@@ -320,7 +322,7 @@ public class StatsDayActivity extends AppCompatActivity implements OnChartValueS
         return colors;
     }
 
-    private void setBarData(ArrayList<ArrayList<Double>> dataArray) {
+    private void setBarData(ArrayList<UserData> dataArray) {
 
         float groupSpace = 0.08f;
         float barSpace = 2f; // x3 DataSet
@@ -336,13 +338,13 @@ public class StatsDayActivity extends AppCompatActivity implements OnChartValueS
         ArrayList<BarEntry> focusTime = new ArrayList<>();
         ArrayList<BarEntry> vocabTime = new ArrayList<>();
 
-        int stepSize = dataArray.get(0).size();
-        int focusSize = dataArray.get(1).size();
-        int vocabSize = dataArray.get(2).size();
+        int stepSize = dataArray.get(0).getData().size();
+        int focusSize = dataArray.get(1).getData().size();
+        int vocabSize = dataArray.get(2).getData().size();
 
-        float stepVal = dataArray.get(0).get(stepSize - 1).floatValue() / (float) mUser.getStepsGoal();
-        float focusVal = dataArray.get(1).get(focusSize - 1).floatValue() / (float) mUser.getFocusGoal();
-        float vocabVal = dataArray.get(2).get(vocabSize - 1).floatValue() / (float) mUser.getVocabGoal();
+        float stepVal = dataArray.get(0).getData().get(stepSize - 1).floatValue() / (float) mUser.getStepsGoal();
+        float focusVal = dataArray.get(1).getData().get(focusSize - 1).floatValue() / (float) mUser.getFocusGoal();
+        float vocabVal = dataArray.get(2).getData().get(vocabSize - 1).floatValue() / (float) mUser.getVocabGoal();
 
         stepCounts.add(new BarEntry(0 * spaceForBar , stepVal * 100));
         focusTime.add(new BarEntry(0 * spaceForBar , focusVal * 100));
