@@ -29,16 +29,18 @@
             android:name=".AdoptActivity"
             android:launchMode="singleTop">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+
         </activity>
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
-            android:launchMode="singleInstance"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar"
+            android:launchMode="singleInstance">
+        </activity>
         <activity
             android:name=".SettingsActivity"
             android:label="Settings"
@@ -51,7 +53,6 @@
             android:name=".StatsActivity"
             android:label="@string/app_name"
             android:parentActivityName=".MainActivity">
-
             <!-- The meta-data element is needed for versions lower than 4.1 -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -73,7 +74,7 @@
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value=".MainActivity"/>
         </activity>
         <activity
             android:name=".VocabActivity"
@@ -81,7 +82,7 @@
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".VocabActivity" />
+                android:value=".VocabActivity"/>
         </activity>
         <activity
             android:name=".VocabReviewActivity"
@@ -89,7 +90,7 @@
             android:parentActivityName=".VocabActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".VocabReviewActivity" />
+                android:value=".VocabReviewActivity"/>
         </activity>
         <activity
             android:name=".VocabStudyActivity"
@@ -97,16 +98,16 @@
             android:parentActivityName=".VocabActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".VocabStudyActivity" />
+                android:value=".VocabStudyActivity"/>
         </activity>
         <activity
             android:name=".TimerActivity"
             android:label="@string/title_timer"
-            android:launchMode="singleInstance"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".MainActivity"
+            android:launchMode="singleInstance">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.android.areyoukittyme.MainActivity" />
+                android:value="com.example.android.areyoukittyme.MainActivity"/>
         </activity>
 
         <activity android:name=".stepcounter.GoogleFitActivity"
