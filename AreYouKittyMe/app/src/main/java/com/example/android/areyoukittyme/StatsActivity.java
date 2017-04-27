@@ -70,7 +70,7 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
     public final int[] FOCUS_COLORS = { R.color.colorAccentLight};
     public final int[] VOCAB_COLORS = { R.color.colorAccentDark};
 
-    private static User mUser;
+    private User mUser;
 
 
     private ArrayList<UserData> dataArray;

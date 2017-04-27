@@ -42,7 +42,8 @@ package com.example.android.areyoukittyme;
 
 public class StoreActivity extends AppCompatActivity {
 
-    private static User user;
+    private User mUser;
+
     private Store theStore;
     private static int ItemDogAmount = 0;
     private static int itemFishAmount = 0;
@@ -59,6 +60,14 @@ public class StoreActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_store);
+
+        // Use getIntent method to store the Intent that started this Activity
+        Intent startingIntent = getIntent();
+        mUser = startingIntent.getExtras().getParcelable("User");
+
+
+
+
         priceList = new ArrayList<>();
         amountList = new ArrayList<>();
 
@@ -67,13 +76,13 @@ public class StoreActivity extends AppCompatActivity {
         mySnackbar = Snackbar.make(coordLayout, "Not Enough CatCash", BaseTransientBottomBar.LENGTH_SHORT);
 
         //TODO: find a way to store the model
-        this.user.setCash(100);
-        this.user.setInventoryList(new HashMap<Integer, Object[]>());
+        mUser.setCash(100);
+        mUser.setInventoryList(new HashMap<Integer, Object[]>());
         this.theStore = new Store();
         populateStore();
 
         catCash = (TextView) findViewById(R.id.catCash);
-        catCash.setText(String.format("CatCash: %d", this.user.getCash()));
+        catCash.setText(String.format("CatCash: %d", mUser.getCash()));
         totalText = (TextView) findViewById(R.id.totalAmount);
     }
 
@@ -101,22 +110,22 @@ public class StoreActivity extends AppCompatActivity {
     //TODO: add all the items into player's inventory(hash map)
 
 
-    private static void checkout() {
+    private void checkout() {
 //        int total = 0;
 //        int price;
 //        int amount;
-        if (total > user.getCash()) {
+        if (total > mUser.getCash()) {
             mySnackbar.show();
         }
         else {
-            user.setCash(user.getCash() - total);
-            catCash.setText(String.format("CatCash: %d", user.getCash()));
+            mUser.setCash(mUser.getCash() - total);
+            catCash.setText(String.format("CatCash: %d", mUser.getCash()));
             total = 0;
             totalText.setText(String.format("Total: %d", total));
             for (int i = 0; i < StoreActivity.amountList.size(); i++) {
                 StoreActivity.amountList.get(i).setText(String.valueOf(0));
             }
-            user.userCheckout(StoreActivity.amountList, StoreActivity.priceList);
+            mUser.userCheckout(StoreActivity.amountList, StoreActivity.priceList);
         }
     }
 
@@ -202,7 +211,7 @@ public class StoreActivity extends AppCompatActivity {
             }
 
             if (v.getId() == R.id.checkoutBtn) {
-                StoreActivity.checkout();
+                checkout();
             }
             else if (sign == '+') {
                 String incremented = incrementString(StoreActivity.amountList.get(pos).getText().toString(), 1);

@@ -264,7 +264,6 @@ public class User implements Parcelable {
         dest.writeString(this.name);
         dest.writeInt(this.age);
         dest.writeTypedList(this.userData);
-        dest.writeInt(this.year);
         dest.writeInt(this.stepsGoal);
         dest.writeInt(this.focusGoal);
         dest.writeInt(this.vocabGoal);

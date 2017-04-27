@@ -41,6 +41,9 @@ public class AdoptActivity extends AppCompatActivity {
                 if (textEntered.length() > 0) {
                     // Initialize User object
                     mUser = new User(textEntered);
+                    System.out.println("New health is " + mUser.getHealth());
+                    System.out.println("New mood is " + mUser.getMood());
+                    System.out.println("New cash is " + mUser.getCash());
 
                     // Store the context variable
                     Context context = AdoptActivity.this;
