@@ -4,10 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.widget.TextView;
 
-import com.example.android.areyoukittyme.Cat.Cat;
-import com.example.android.areyoukittyme.Item.Item;
 import com.example.android.areyoukittyme.Store.Store;
-import com.example.android.areyoukittyme.UserData;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -240,6 +237,7 @@ public class User implements Parcelable {
 
         return data;
     }
+
 
     public void newDay() {
         this.steps = 0;

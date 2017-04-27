@@ -2,9 +2,9 @@ package com.example.android.areyoukittyme;
 
 
 import com.example.android.areyoukittyme.User.User;
+import com.example.android.areyoukittyme.User.UserData;
 import com.example.android.areyoukittyme.plot.DayAxisValueFormatter;
 import com.example.android.areyoukittyme.plot.MyAxisValueFormatter;
-import com.example.android.areyoukittyme.plot.MyMarkerView;
 import com.example.android.areyoukittyme.plot.XYMarkerView;
 
 import android.annotation.SuppressLint;
@@ -47,7 +47,6 @@ import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.interfaces.datasets.IDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
-import com.github.mikephil.charting.utils.MPPointF;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -162,6 +161,7 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
 
         monthChart.animateX(2000);
 
+        IAxisValueFormatter xmonthAxisFormatter = new DayAxisValueFormatter(monthChart);
 
         // get the legend (only possible after setting data)
         Legend lMonth = monthChart.getLegend();
@@ -182,7 +182,8 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
         xMonthAxis.setTextSize(11f);
         xMonthAxis.setTextColor(Color.WHITE);
         xMonthAxis.setDrawGridLines(false);
-        xMonthAxis.setDrawAxisLine(false);
+        //xMonthAxis.setDrawAxisLine(false);
+        xMonthAxis.setValueFormatter(xmonthAxisFormatter);
 
         YAxis leftMonthAxis = monthChart.getAxisLeft();
 //        leftMonthAxis.setTypeface(mTfLight);

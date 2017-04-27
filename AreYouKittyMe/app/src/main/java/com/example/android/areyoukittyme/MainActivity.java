@@ -91,10 +91,15 @@ public class MainActivity extends AppCompatActivity {
 
     private ImageView drawerToggler;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Use getIntent method to store the Intent that started this Activity
+        Intent startingIntent = getIntent();
+        mUser = startingIntent.getExtras().getParcelable("User");
 
         // This method sets up our custom logger, which will print all log messages to the device
         // screen, as well as to adb logcat.
@@ -103,9 +108,7 @@ public class MainActivity extends AppCompatActivity {
         buildFitnessClient();
 
 
-        // Setting up animation
-        ImageView catAnimation = (ImageView) findViewById(R.id.miaomiaomiao);
-        ((AnimationDrawable) catAnimation.getBackground()).start();
+
 
         // Store the context variable
         context = MainActivity.this;
@@ -118,12 +121,15 @@ public class MainActivity extends AppCompatActivity {
 
         drawerToggler = (ImageView) findViewById(R.id.drawerToggler);
 
-        findViewById(R.id.miaomiaomiao).setOnTouchListener(new MyTouchListener());
+        // Setting up animation
+        ImageView catAnimation = (ImageView) findViewById(R.id.miaomiaomiao);
+        //catAnimation.setBackgroundResource(R.drawable.thin_cat_animation);
+
+        ((AnimationDrawable) catAnimation.getBackground()).start();
 
 
-        // Use getIntent method to store the Intent that started this Activity
-        Intent startingIntent = getIntent();
-        mUser = startingIntent.getExtras().getParcelable("User");
+        catAnimation.setOnTouchListener(new MyTouchListener());
+
 
         String catName = mUser.getName();
         displayCatName.setText(catName);
@@ -423,15 +429,15 @@ public class MainActivity extends AppCompatActivity {
         // Filter strips out everything except the message text.
         MessageOnlyLogFilter msgFilter = new MessageOnlyLogFilter();
         logWrapper.setNext(msgFilter);
-        // On screen logging via a customized TextView.
-        LogView logView = (LogView) findViewById(R.id.sample_logview);
-
-        // Fixing this lint error adds logic without benefit.
-        //noinspection AndroidLintDeprecation
-        logView.setTextAppearance(this, R.style.Log);
-
-        logView.setBackgroundColor(Color.WHITE);
-        msgFilter.setNext(logView);
+//        // On screen logging via a customized TextView.
+//        LogView logView = (LogView) findViewById(R.id.sample_logview);
+//
+//        // Fixing this lint error adds logic without benefit.
+//        //noinspection AndroidLintDeprecation
+//        logView.setTextAppearance(this, R.style.Log);
+//
+//        logView.setBackgroundColor(Color.WHITE);
+//        msgFilter.setNext(logView);
         com.example.android.areyoukittyme.logger.Log.i(TAG, "Ready");
     }
 
