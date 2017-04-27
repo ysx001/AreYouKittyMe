@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.android.areyoukittyme.User.User;
+import com.example.android.areyoukittyme.Vocabs_Utilities.Vocab_Repo;
 
 public class AdoptActivity extends AppCompatActivity {
 
@@ -28,7 +29,7 @@ public class AdoptActivity extends AppCompatActivity {
         // find the button and the edittext from xml using findViewById
         catNameTxt = (EditText) findViewById(R.id.cat_name_txt);
         catNameButton = (Button) findViewById(R.id.cat_name_btn);
-
+        System.out.println("Yo");
 
         // Setting an OnClickLister for the catNameButton
         catNameButton.setOnClickListener(new OnClickListener() {

@@ -19,6 +19,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.util.Random;
+
 import static android.app.PendingIntent.getActivity;
 
 public class TimerActivity extends AppCompatActivity implements View.OnClickListener {
@@ -43,6 +45,8 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
     private int second;
 
     private int focusTime;
+
+    private long pauseTime = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,10 +107,28 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        NotificationUtils.setTimerActivityResumed();
+    }
+
+    @Override
     protected void onPause() {
         super.onPause();
         if (isCountingdown || isPausing) {
             NotificationUtils.remindUserSwitchBack(this);
+            this.pauseTime = System.currentTimeMillis();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (isCountingdown || isPausing) {
+            if ((System.currentTimeMillis() - this.pauseTime) / 1000.0 > 6.0) {
+                timerReset();
+                timerCancelled();
+            }
         }
     }
 
@@ -224,6 +246,7 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
                         public void onClick(DialogInterface dialog, int which) {
                             // Confirmed to cancel timer, reset time and enable EditText
                             timerReset();
+                            timerCancelled();
                         }
                     })
                     .setNegativeButton(getResources().getString(R.string.no_btn), new DialogInterface.OnClickListener() {
@@ -237,9 +260,17 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void timerReset() {
+        this.focusTime -= hour * 60 + minute;
+
+        this.t.interrupt();
+
         hour = 0;
         minute = 0;
         second = 0;
+
+        this.hourCountdown.setText(String.format("%02d", this.hour));
+        this.minCountdown.setText(String.format("%02d", this.minute));
+        this.secCountdown.setText(String.format("%02d", this.second));
 
         isCountingdown = false;
 
@@ -251,15 +282,39 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void timerFinished() {
+        mUser.setFocus(focusTime);
+        mUser.setHealth(8 * focusTime / mUser.getFocusGoal());
+
+        int[] moodBonus = {6, 7, 8};
+        Random randomGen = new Random();
+        int randomIndex = randomGen.nextInt(3);
+        mUser.setMood(moodBonus[randomIndex]);
+
         new AlertDialog.Builder(this)
                 .setTitle(getResources().getString(R.string.title_finish_timer))
                 .setMessage(getResources().getString(R.string.message_finish_timer))
-                .setNeutralButton(getResources().getString(R.string.btn_finish_timer), new DialogInterface.OnClickListener() {
+                .setNeutralButton(getResources().getString(R.string.dismiss_btn), new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                        timerReset();
+                    }
+                }).show();
+    }
+
+    private void timerCancelled() {
+        mUser.setFocus(focusTime);
+        mUser.setHealth(8 * focusTime / mUser.getFocusGoal());
+        mUser.setMood(-5);
+
+        new AlertDialog.Builder(this)
+                .setTitle(getResources().getString(R.string.title_interrupt_timer))
+                .setMessage(getResources().getString(R.string.message_interrupt_timer))
+                .setNeutralButton(getResources().getString(R.string.dismiss_btn), new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
                     }
                 }).show();
     }
@@ -310,7 +365,7 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
                 }
                 else {
                     this.t.interrupt();
-                    mUser.setFocus(mUser.getFocus() + this.focusTime);
+                    timerReset();
                     timerFinished();
                 }
             }

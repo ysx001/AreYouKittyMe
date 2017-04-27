@@ -1,4 +1,4 @@
-package com.example.android.areyoukittyme;
+package com.example.android.areyoukittyme.User;
 
 import android.os.Parcel;
 import android.os.Parcelable;

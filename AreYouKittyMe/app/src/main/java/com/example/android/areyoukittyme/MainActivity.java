@@ -1,5 +1,7 @@
 package com.example.android.areyoukittyme;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
@@ -14,22 +16,20 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.util.Log;
-import android.support.v7.widget.Toolbar;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.android.areyoukittyme.Service.newDayAlarmReceiver;
 import com.example.android.areyoukittyme.User.User;
 import com.example.android.areyoukittyme.logger.LogView;
 import com.example.android.areyoukittyme.logger.LogWrapper;
 import com.example.android.areyoukittyme.logger.MessageOnlyLogFilter;
 import com.example.android.areyoukittyme.stepcounter.GoogleFitActivity;
-import com.github.pwittchen.swipe.library.Swipe;
-import com.github.pwittchen.swipe.library.SwipeListener;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -50,7 +50,6 @@ import com.google.android.gms.fitness.request.OnDataPointListener;
 import com.google.android.gms.fitness.request.SensorRequest;
 import com.google.android.gms.fitness.result.DailyTotalResult;
 import com.google.android.gms.fitness.result.DataSourcesResult;
-import com.mikepenz.fontawesome_typeface_library.FontAwesome;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
@@ -60,11 +59,17 @@ import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
-import com.mikepenz.materialdrawer.model.SectionDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
+import com.mikhaellopez.circularprogressbar.CircularProgressBar;
 
+import org.w3c.dom.Text;
+
+import java.util.Calendar;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -78,16 +83,23 @@ public class MainActivity extends AppCompatActivity {
     private IProfile profile;
     private Drawer drawer;
 
-    private Swipe swipe;
+    private TextView moneyDisplay;
+    private CircularProgressBar healthProgress;
+    private CircularProgressBar moodProgress;
 
     private TextView displayCatName;
 
     private ImageView drawerToggler;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Use getIntent method to store the Intent that started this Activity
+        Intent startingIntent = getIntent();
+        mUser = startingIntent.getExtras().getParcelable("User");
 
         // This method sets up our custom logger, which will print all log messages to the device
         // screen, as well as to adb logcat.
@@ -96,23 +108,28 @@ public class MainActivity extends AppCompatActivity {
         buildFitnessClient();
 
 
-        // Setting up animation
-        ImageView catAnimation = (ImageView) findViewById(R.id.miaomiaomiao);
-        ((AnimationDrawable) catAnimation.getBackground()).start();
+
 
         // Store the context variable
         context = MainActivity.this;
+
+        moneyDisplay = (TextView) findViewById(R.id.moneyDisplay);
+        healthProgress = (CircularProgressBar) findViewById(R.id.healthProgress);
+        moodProgress = (CircularProgressBar) findViewById(R.id.moodProgress);
 
         displayCatName = (TextView) findViewById(R.id.cat_name_display);
 
         drawerToggler = (ImageView) findViewById(R.id.drawerToggler);
 
-        findViewById(R.id.miaomiaomiao).setOnTouchListener(new MyTouchListener());
+        // Setting up animation
+        ImageView catAnimation = (ImageView) findViewById(R.id.miaomiaomiao);
+        //catAnimation.setBackgroundResource(R.drawable.thin_cat_animation);
+
+        ((AnimationDrawable) catAnimation.getBackground()).start();
 
 
-        // Use getIntent method to store the Intent that started this Activity
-        Intent startingIntent = getIntent();
-        mUser = startingIntent.getExtras().getParcelable("User");
+        catAnimation.setOnTouchListener(new MyTouchListener());
+
 
         String catName = mUser.getName();
         displayCatName.setText(catName);
@@ -126,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
                 .withTranslucentStatusBar(true)
                 .withHeaderBackground(R.drawable.profile_background)
                 .addProfiles(profile)
+                .withSelectionListEnabledForSingleProfile(false)
                 .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
 
                     @Override
@@ -202,7 +220,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
+        scheduleAlarm();
     }
 
     @Override
@@ -211,7 +229,17 @@ public class MainActivity extends AppCompatActivity {
 
         profile.withName(mUser.getName());
         displayCatName.setText(mUser.getName());
+        header.updateProfile(profile);
         drawer.setSelection(0);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        moneyDisplay.setText(String.valueOf(mUser.getCash()));
+        healthProgress.setProgressWithAnimation(mUser.getHealth());
+        moodProgress.setProgressWithAnimation(mUser.getMood());
     }
 
     @Override
@@ -243,6 +271,27 @@ public class MainActivity extends AppCompatActivity {
 
             startActivity(intent);
         }
+    }
+
+    private void scheduleAlarm() {
+
+        Intent intent = new Intent(getApplicationContext(), newDayAlarmReceiver.class);
+        intent.putExtra("User", mUser);
+        final PendingIntent pIntent = PendingIntent.getBroadcast(this, newDayAlarmReceiver.REQUEST_CODE,
+                intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        int date = calendar.get(Calendar.DAY_OF_YEAR) + 1;
+        calendar.set(Calendar.DAY_OF_YEAR, date);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        long firstMillis = calendar.getTimeInMillis();
+
+        AlarmManager alarm = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+        alarm.setInexactRepeating(AlarmManager.RTC_WAKEUP, firstMillis,
+                AlarmManager.INTERVAL_DAY, pIntent);
     }
 
 
@@ -382,15 +431,15 @@ public class MainActivity extends AppCompatActivity {
         // Filter strips out everything except the message text.
         MessageOnlyLogFilter msgFilter = new MessageOnlyLogFilter();
         logWrapper.setNext(msgFilter);
-        // On screen logging via a customized TextView.
-        LogView logView = (LogView) findViewById(R.id.sample_logview);
-
-        // Fixing this lint error adds logic without benefit.
-        //noinspection AndroidLintDeprecation
-        logView.setTextAppearance(this, R.style.Log);
-
-        logView.setBackgroundColor(Color.WHITE);
-        msgFilter.setNext(logView);
+//        // On screen logging via a customized TextView.
+//        LogView logView = (LogView) findViewById(R.id.sample_logview);
+//
+//        // Fixing this lint error adds logic without benefit.
+//        //noinspection AndroidLintDeprecation
+//        logView.setTextAppearance(this, R.style.Log);
+//
+//        logView.setBackgroundColor(Color.WHITE);
+//        msgFilter.setNext(logView);
         com.example.android.areyoukittyme.logger.Log.i(TAG, "Ready");
     }
 
@@ -422,6 +471,11 @@ public class MainActivity extends AppCompatActivity {
 
             return null;
         }
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
 }

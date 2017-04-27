@@ -38,8 +38,8 @@ dependencies {
     // For plotting
     // Thanks PhilJay for the awesome library!
    // compile "com.google.android.gms:play-services-fitness:${google_play_services_library}"
-    compile 'com.mikepenz:google-material-typeface:3.0.1.0.original@aar'
-    compile 'com.mikepenz:fontawesome-typeface:4.7.0.0@aar'
+    compile 'uk.co.chrisjenx:calligraphy:2.2.0' //Custom font
+    compile 'com.mikhaellopez:circularprogressbar:1.1.1' //Circular progress bar
     compile 'com.mikepenz:google-material-typeface:3.0.1.0.original@aar'
     compile 'com.mikepenz:fontawesome-typeface:4.7.0.0@aar'
     compile 'com.android.support:appcompat-v7:25.3.1'

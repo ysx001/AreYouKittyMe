@@ -2,6 +2,9 @@ package com.example.android.areyoukittyme.Vocabs_Utilities;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -11,53 +14,50 @@ import java.util.Scanner;
 
 public class Vocab_Data_Csv_Process {
 
-    public static Scanner ReadInVocabData(String filename){
+    public static Scanner ReadInVocabData(InputStream file){
 
 
-        Scanner fScanner;
+        Scanner fScanner=null;
 
-        do {
 
-            try {
-                File f = new File(filename);
-                fScanner = new Scanner(f);
-                break;
 
-            } catch (FileNotFoundException e) {
-                System.out.println("File not found, please try again!");
-                System.out.print("Filename: ");
-            }
-        } while (true);
+
+
+            //try {
+                //File f = new File(file);
+                fScanner = new Scanner(file, String.valueOf(Charset.forName("ISO-8859-1")));
+
+
+            //} catch (FileNotFoundException e) {
+                //System.out.println("File not found, please try again!");
+                //return null;
+            //}
+
 
         return fScanner;
     }
 
-    public static ArrayList<ArrayList<String>> processInData(Scanner data){
+    public static ArrayList<ArrayList<String>> processInData(Scanner data) throws UnsupportedEncodingException {
+        System.out.println(data.nextLine());
 
-
-
-
-            data.nextLine();
-        
 
         ArrayList<ArrayList<String>> processedData = new ArrayList<ArrayList<String>>();
 
         while (data.hasNextLine()) {
-            String line = data.nextLine();
-            String[] parts = line.split(",");
+            String line = new String(data.nextLine().getBytes("ISO-8859-1"), "ISO-8859-15");
+            String[] parts = line.split("\",\"");
+            ArrayList<String> row = new ArrayList<String>();
 
             for (int i = 0; i < parts.length; i++) {
-                processedData.get(i).add(parts[i]);
 
+                row.add(parts[i]);
+                System.out.println(row.size());
             }
-
+            processedData.add(row);
+            System.out.println(row.size());
         }
-
-
         return processedData;
     }
-
-
 }
 
 

@@ -24,7 +24,19 @@ import com.example.android.areyoukittyme.TimerActivity;
 
 public class NotificationUtils {
     private static final int REMINDER_NOTIFICATION_ID = 1017;
-    private static final int REMINDER_PENDING_INTENT_ID = 2013;
+    private static final int TIMER_PENDING_INTENT_ID = 2013;
+
+    private static final int NOTIFICATION_PENDING_INTENT_ID = 2048;
+
+    private static boolean timerActivityResumed = false;
+
+    public static boolean getTimerActivityResumed() {
+        return timerActivityResumed;
+    }
+
+    public static void setTimerActivityResumed() {
+        NotificationUtils.timerActivityResumed = true;
+    }
 
     /**
      * Create a method called remindUserBecauseCharging which takes a Context.
@@ -35,6 +47,8 @@ public class NotificationUtils {
      */
     public static void remindUserSwitchBack(Context context) {
 
+        timerActivityResumed = false;
+
         // - sets the notification defaults to vibrate
         // - uses the content intent returned by the contentIntent helper method for the contentIntent
         // - automatically cancels the notification when the notification is clicked
@@ -42,12 +56,12 @@ public class NotificationUtils {
                 .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
                 .setSmallIcon(R.drawable.ic_notifications_black_24dp)
                 .setContentTitle(context.getString(R.string.reminder_notification_title))
-                .setContentText(context.getString(R.string.reminder_notification_body))
+                .setContentText(context.getString(R.string.reminder_notification_body) + " 5 seconds!")
                 //.setStyle(new NotificationCompat.BigTextStyle().bigText(
                         //context.getString(R.string.reminder_notification_body)))
                 .setDefaults(Notification.DEFAULT_VIBRATE)
                 .setContentIntent(contentIntent(context))
-                .setAutoCancel(false);
+                .setAutoCancel(true);
 
         // If the build version is greater than JELLY_BEAN, set the notification's priority
         // to PRIORITY_HIGH.
@@ -67,16 +81,28 @@ public class NotificationUtils {
         final Context cont = context;
 
         final Handler handler = new Handler();
-        final Runnable r = new Runnable()
-        {
-            public void run()
-            {
-                countdown[0] --;
-                notificationBuilder.setContentText(String.valueOf(countdown[0]));
-                notificationManager.notify(REMINDER_NOTIFICATION_ID, notificationBuilder.build());
+        handler.postDelayed (new Runnable() {
+            public void run() {
+                if (timerActivityResumed) {
+                    handler.removeCallbacks(this);
+                    notificationManager.cancel(REMINDER_NOTIFICATION_ID);
+                }
+
+                else {
+                    notificationBuilder.setContentText(cont.getString(R.string.reminder_notification_body) + " " + String.valueOf(countdown[0]) + " seconds!");
+                    notificationManager.notify(REMINDER_NOTIFICATION_ID, notificationBuilder.build());
+                    countdown[0] --;
+
+                    if (countdown[0] < 0) {
+                        notificationBuilder.setContentText(cont.getString(R.string.reminder_notification_finish));
+                        notificationManager.notify(REMINDER_NOTIFICATION_ID, notificationBuilder.build());
+                        handler.removeCallbacks(this);
+                    } else {
+                        handler.postDelayed(this, 1000);
+                    }
+                }
             }
-        };
-        handler.postDelayed(r, 1000);
+        }, 1000);
     }
 
     /**
@@ -95,7 +121,7 @@ public class NotificationUtils {
         // intent but update the data
         return PendingIntent.getActivity(
                 context,
-                REMINDER_PENDING_INTENT_ID,
+                TIMER_PENDING_INTENT_ID,
                 startActivityIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
 

@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.RectF;
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.areyoukittyme.User.User;
+import com.example.android.areyoukittyme.User.UserData;
 import com.example.android.areyoukittyme.plot.MyMarkerView;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.components.Legend;
@@ -31,8 +31,6 @@ import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.MPPointF;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -211,7 +209,8 @@ public class StatsDayActivity extends AppCompatActivity implements OnChartValueS
 
         switch (item.getItemId()) {
             case android.R.id.home: {
-                NavUtils.navigateUpFromSameTask(this);
+                //NavUtils.navigateUpFromSameTask(this);
+                this.onBackPressed();
                 break;
             }
             case R.id.actionToggleValues: {
@@ -291,6 +290,16 @@ public class StatsDayActivity extends AppCompatActivity implements OnChartValueS
             }
         }
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        Class destActivity = MainActivity.class;
+        Context context = StatsDayActivity.this;
+
+        Intent intent = new Intent(context, destActivity);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivity(intent);
     }
 
 

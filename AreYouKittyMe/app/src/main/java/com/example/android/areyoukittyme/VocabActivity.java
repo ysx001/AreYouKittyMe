@@ -14,14 +14,24 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 
+import com.example.android.areyoukittyme.Vocabs_Utilities.Vocab_Database;
+import com.example.android.areyoukittyme.Vocabs_Utilities.Vocab_DatabaseManager;
+import com.example.android.areyoukittyme.Vocabs_Utilities.Vocab_Repo;
+
+import java.io.IOException;
+
 public class VocabActivity extends AppCompatActivity {
 
     private Button studyButton;
     private Button reviewButton;
+    private Button vocabButton;
     private ProgressBar progressBar;
     private int mProgressStatus = 0;
 
+    //private static Vocab_Database vocab_database;
+
     private Handler mHandler = new Handler();
+    public static boolean mode = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +42,7 @@ public class VocabActivity extends AppCompatActivity {
         studyButton = (Button)findViewById(R.id.vocab_study_button2);
         reviewButton = (Button)findViewById(R.id.vocab_Review_button);
         progressBar = (ProgressBar)findViewById(R.id.vocab_progressBar);
+        vocabButton = (Button)findViewById(R.id.vocabulary_button);
 
         Intent vocabIntent = getIntent();
 
@@ -45,6 +56,7 @@ public class VocabActivity extends AppCompatActivity {
                 Intent startVocabActivityIntent = new Intent(context, destActivity);
 
                 startActivity(startVocabActivityIntent);
+                mode = false;
 
             }
 
@@ -60,9 +72,22 @@ public class VocabActivity extends AppCompatActivity {
                 Intent startVocabActivityIntent = new Intent(context, destActivity);
 
                 startActivity(startVocabActivityIntent);
+                mode = true;
 
             }
 
+        });
+
+        vocabButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                try {
+                    Vocab_Repo.addAnEntireVocabListToTheDataBase(getAssets().open("French.txt"));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         });
 
     }

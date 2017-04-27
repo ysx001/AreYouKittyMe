@@ -4,12 +4,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.widget.TextView;
 
-import com.example.android.areyoukittyme.Cat.Cat;
-import com.example.android.areyoukittyme.Item.Item;
 import com.example.android.areyoukittyme.Store.Store;
-import com.example.android.areyoukittyme.UserData;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -57,10 +53,10 @@ public class User implements Parcelable {
         this.steps = 0;
         this.focus = 0;
         this.vocab = 0;
-        this.cash = 0;
+        this.cash = 1000;
         this.inventoryList = null;
-        this.health = 100;
-        this.mood = 100;
+        this.health = 50;
+        this.mood = 90;
         this.userData = generateData(year, 30.0);
     }
 
@@ -139,7 +135,10 @@ public class User implements Parcelable {
     }
 
     public void setFocus(int focus) {
-        this.focus = focus;
+        this.focus += focus;
+        if (this.focus >= this.focusGoal) {
+            this.cash += 500;
+        }
     }
 
     public int getVocab() {
@@ -179,7 +178,10 @@ public class User implements Parcelable {
     }
 
     public void setHealth(int health) {
-        this.health = health;
+        this.health += health;
+        if (this.health > 100) {
+            this.health = 100;
+        }
     }
 
     public int getMood() {
@@ -187,7 +189,10 @@ public class User implements Parcelable {
     }
 
     public void setMood(int mood) {
-        this.mood = mood;
+        this.mood += mood;
+        if (this.mood > 100) {
+            this.mood = 100;
+        }
     }
 
     private ArrayList<UserData> generateData(int count, Double range) {
@@ -231,6 +236,22 @@ public class User implements Parcelable {
         data.add(vocabTime);
 
         return data;
+    }
+
+
+    public void newDay() {
+        this.steps = 0;
+        this.focus = 0;
+        this.vocab = 0;
+
+        if (this.mood >= 60) {
+            this.health -= 20;
+        }
+        else {
+            this.health -= 30;
+        }
+
+        this.mood -= 10;
     }
 
     @Override
