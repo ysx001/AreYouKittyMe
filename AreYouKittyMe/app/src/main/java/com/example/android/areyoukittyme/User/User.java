@@ -271,7 +271,7 @@ public class User implements Parcelable {
         dest.writeInt(this.focus);
         dest.writeInt(this.vocab);
         dest.writeInt(this.vocabBookID);
-        dest.writeSerializable(this.inventoryList);
+        //dest.writeSerializable(this.inventoryList);
         dest.writeInt(this.cash);
         dest.writeInt(this.health);
         dest.writeInt(this.mood);
