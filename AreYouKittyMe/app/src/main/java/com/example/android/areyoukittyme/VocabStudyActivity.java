@@ -108,9 +108,13 @@ public class VocabStudyActivity extends AppCompatActivity implements View.OnClic
         this.questionView.setText(quiz.getCurrentQuestion().getVocab().getWord());
         System.out.println(quiz.getCurrentQuestion().getVocab().getWord());
         this.choiceBtn1.setText(quiz.getCurrentQuestion().getAnswers()[0]);
+        this.choiceBtn1.setBackgroundColor(getColor(R.color.primary_light));
         this.choiceBtn2.setText(quiz.getCurrentQuestion().getAnswers()[1]);
+        this.choiceBtn2.setBackgroundColor(getColor(R.color.primary_light));
         this.choiceBtn3.setText(quiz.getCurrentQuestion().getAnswers()[2]);
+        this.choiceBtn3.setBackgroundColor(getColor(R.color.primary_light));
         this.choiceBtn4.setText(quiz.getCurrentQuestion().getAnswers()[3]);
+        this.choiceBtn4.setBackgroundColor(getColor(R.color.primary_light));
     }
 
     public void highlightTheCorrectAnswer(){

@@ -23,12 +23,12 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="300dp"
-        android:layout_above="@+id/linearLayout"
-        android:layout_alignParentEnd="true"
-        android:layout_marginBottom="12dp"
+        android:layout_marginBottom="9dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_above="@+id/linearLayout"
+        android:layout_alignStart="@+id/linearLayout">
 
         <Button
             android:id="@+id/FirstOption_button"
