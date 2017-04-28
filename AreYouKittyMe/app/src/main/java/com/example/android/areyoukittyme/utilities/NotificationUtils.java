@@ -111,10 +111,10 @@ public class NotificationUtils {
      *
      * @param context
      * @return PendingIntent will trigger when the notification is pressed
-     * This pending intent should open up the MainActivity.
+     * This pending intent should open up the GoogleFitActivity.
      */
     private static PendingIntent contentIntent(Context context) {
-        // Create an intent that opens up the MainActivity
+        // Create an intent that opens up the GoogleFitActivity
         Intent startActivityIntent = new Intent(context, TimerActivity.class);
 
         // Has the flag FLAG_UPDATE_CURRENT, so that if the intent is created again, keep the

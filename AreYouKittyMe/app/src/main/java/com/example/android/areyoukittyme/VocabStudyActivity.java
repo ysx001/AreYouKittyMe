@@ -14,6 +14,8 @@ import com.example.android.areyoukittyme.Quiz_Utilities.Quiz;
 
 import java.text.ParseException;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 public class VocabStudyActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Button choiceBtn1;
@@ -34,7 +36,7 @@ public class VocabStudyActivity extends AppCompatActivity implements View.OnClic
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reviewstudy);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         this.choiceBtn1 = (Button)findViewById(R.id.FirstOption_button);
         this.choiceBtn1.setOnClickListener(this);
@@ -262,5 +264,10 @@ public class VocabStudyActivity extends AppCompatActivity implements View.OnClic
         }
     }
     */
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
 
 }

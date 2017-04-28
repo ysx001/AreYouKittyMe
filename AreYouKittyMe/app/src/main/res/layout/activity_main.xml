@@ -7,6 +7,9 @@
     android:id="@+id/main_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginBottom="25dp"
+    android:background="@drawable/main"
+    android:fitsSystemWindows="true"
     tools:context=".MainActivity">
 
     <ImageView
@@ -35,16 +38,28 @@
         android:layout_height="wrap_content"
         android:text="This is default text. Hopefully it changes."
         android:textSize="30sp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true" />
+        android:layout_below="@+id/drawerToggler"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="28dp" />
 
     <ImageView
         android:id="@+id/miaomiaomiao"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/catnormal0001"
+        android:layout_marginTop="32dp"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/normal_cat_animation"
+        />
+
+    <!--<ImageView-->
+        <!--android:id="@+id/miaomiaomiao"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--app:srcCompat="@drawable/catnormal0001"-->
+        <!--android:layout_marginTop="32dp"-->
+        <!--android:layout_below="@+id/cat_name_display"-->
+        <!--android:layout_centerHorizontal="true" />-->
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/drawerToggler"
@@ -102,6 +117,71 @@
         android:layout_marginStart="30dp"
         android:text="####"
         android:textSize="18sp" />
+
+    <!--<TextView-->
+        <!--android:id="@+id/title_text_view"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="@string/intro_text" />-->
+    <!--<ScrollView-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="fill_parent"-->
+        <!--android:layout_below="@id/title_text_view">-->
+        <!--<com.example.android.areyoukittyme.logger.LogView-->
+            <!--android:id="@+id/sample_logview"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:scrollbars="vertical" />-->
+    <!--</ScrollView>-->
+
+
+    <RelativeLayout
+        android:id="@+id/popup_container"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/drawerToggler"
+        android:layout_marginTop="32dp"
+        android:layout_weight="0.50"
+        android:background="@drawable/thought_bubble"
+        android:visibility="invisible">
+
+        <ImageButton
+            android:id="@+id/rightArrow"
+            android:layout_width="20dp"
+            android:layout_height="100dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/leftArrow"
+            android:layout_marginEnd="11dp"
+            android:layout_weight="1"
+            android:background="@null"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/arrows_slim" />
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/pager_temp"
+            android:layout_width="100dp"
+            android:layout_height="120dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginEnd="12dp"
+            android:layout_marginTop="27dp"
+            android:layout_toStartOf="@+id/rightArrow" />
+
+        <!--</android.support.v4.view.ViewPager>-->
+
+        <ImageButton
+            android:id="@+id/leftArrow"
+            android:layout_width="20dp"
+            android:layout_height="100dp"
+            android:layout_alignBottom="@+id/pager_temp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="9dp"
+            android:layout_toStartOf="@+id/pager_temp"
+            android:layout_weight="0.50"
+            android:background="@null"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/arrows_slim_r" />
+    </RelativeLayout>
 
 
 </RelativeLayout>

@@ -21,10 +21,13 @@ import android.widget.TextView;
 
 import java.util.Random;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 import static android.app.PendingIntent.getActivity;
 
 public class TimerActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private User mUser;
 
     private TextView hourCountdown;
     private TextView minCountdown;
@@ -52,6 +55,10 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timer);
 
+        // Use getIntent method to store the Intent that started this Activity
+        Intent startingIntent = getIntent();
+        mUser = startingIntent.getExtras().getParcelable("User");
+
         this.hourCountdown = (TextView) findViewById(R.id.hourCountdown);
         this.minCountdown = (TextView) findViewById(R.id.minCountdown);
         this.secCountdown = (TextView) findViewById(R.id.secCountdown);
@@ -75,7 +82,7 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
         this.isPausing = false;
 
         // enable back button to main page
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
     }
@@ -98,13 +105,13 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
 
         Intent intent = new Intent(context, destActivity);
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        intent.putExtra("User", mUser);
         startActivity(intent);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        NotificationUtils.setTimerActivityResumed();
     }
 
     @Override
@@ -119,6 +126,7 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onResume() {
         super.onResume();
+        NotificationUtils.setTimerActivityResumed();
         if (isCountingdown || isPausing) {
             if ((System.currentTimeMillis() - this.pauseTime) / 1000.0 > 6.0) {
                 timerReset();
@@ -277,13 +285,13 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void timerFinished() {
-        User.setFocus(focusTime);
-        User.setHealth(8 * focusTime / User.getFocusGoal());
+        mUser.setFocus(focusTime);
+        mUser.setHealth(8 * focusTime / mUser.getFocusGoal());
 
         int[] moodBonus = {6, 7, 8};
         Random randomGen = new Random();
         int randomIndex = randomGen.nextInt(3);
-        User.setMood(moodBonus[randomIndex]);
+        mUser.setMood(moodBonus[randomIndex]);
 
         new AlertDialog.Builder(this)
                 .setTitle(getResources().getString(R.string.title_finish_timer))
@@ -298,9 +306,9 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void timerCancelled() {
-        User.setFocus(focusTime);
-        User.setHealth(8 * focusTime / User.getFocusGoal());
-        User.setMood(-5);
+        mUser.setFocus(focusTime);
+        mUser.setHealth(8 * focusTime / mUser.getFocusGoal());
+        mUser.setMood(-5);
 
         new AlertDialog.Builder(this)
                 .setTitle(getResources().getString(R.string.title_interrupt_timer))
@@ -371,5 +379,9 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
         this.secCountdown.setText(String.format("%02d", this.second));
     }
 
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
 
 }

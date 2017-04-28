@@ -21,6 +21,8 @@ public class Vocab_Data_Csv_Process {
 
 
 
+
+
             //try {
                 //File f = new File(file);
                 fScanner = new Scanner(file, String.valueOf(Charset.forName("ISO-8859-1")));
@@ -36,8 +38,8 @@ public class Vocab_Data_Csv_Process {
     }
 
     public static ArrayList<ArrayList<String>> processInData(Scanner data) throws UnsupportedEncodingException {
-        System.out.println(data.nextLine());
-        
+        //System.out.println(data.nextLine());
+
 
         ArrayList<ArrayList<String>> processedData = new ArrayList<ArrayList<String>>();
 
@@ -49,10 +51,10 @@ public class Vocab_Data_Csv_Process {
             for (int i = 0; i < parts.length; i++) {
 
                 row.add(parts[i]);
-                System.out.println(row.size());
+                //System.out.println(row.size());
             }
             processedData.add(row);
-            System.out.println(row.size());
+            //System.out.println(row.size());
         }
         return processedData;
     }
