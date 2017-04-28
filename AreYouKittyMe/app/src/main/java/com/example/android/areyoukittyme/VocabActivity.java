@@ -1,6 +1,7 @@
 package com.example.android.areyoukittyme;
 
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
@@ -13,8 +14,10 @@ import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 
 import com.example.android.areyoukittyme.Vocabs_Utilities.Vocab_Database;
 import com.example.android.areyoukittyme.Vocabs_Utilities.Vocab_DatabaseManager;
@@ -29,8 +32,11 @@ public class VocabActivity extends AppCompatActivity {
     private Button studyButton;
     private Button reviewButton;
     private Button vocabButton;
+    private Button input;
+    private Dialog dialog;
     private ProgressBar progressBar;
     private int mProgressStatus = 0;
+    public final static String[] books = new String[]{"French", "Spanish", "German", "SAT6000"};
 
     //private static Vocab_Database vocab_database;
 
@@ -52,6 +58,18 @@ public class VocabActivity extends AppCompatActivity {
         progressBar = (ProgressBar)findViewById(R.id.vocab_progressBar);
         vocabButton = (Button)findViewById(R.id.vocabulary_button);
 
+        try{Vocab_Repo.getCurrentVocabCount();}
+        catch(Exception e){
+            final Dialog dialog = new Dialog(this);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setContentView(R.layout.simple_spinner);
+            Spinner spinner =  new Spinner(this, books, 0);
+            //Button dialogButton = (Button) dialog.findViewById(R.id.btncross)
+
+
+        }
+        input = (Button)findViewById(R.id.input);
+
         Intent vocabIntent = getIntent();
 
         studyButton.setOnClickListener(new View.OnClickListener(){
@@ -68,6 +86,18 @@ public class VocabActivity extends AppCompatActivity {
 
             }
 
+        });
+
+        input.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                try {
+                    Vocab_Repo.addAnEntireVocabListToTheDataBase(getAssets().open("French.txt"));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         });
 
         reviewButton.setOnClickListener(new View.OnClickListener(){

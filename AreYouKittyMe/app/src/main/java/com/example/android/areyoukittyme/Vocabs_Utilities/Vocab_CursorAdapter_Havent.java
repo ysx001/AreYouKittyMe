@@ -22,7 +22,7 @@ public class Vocab_CursorAdapter_Havent extends CursorAdapter {
 
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
-        return LayoutInflater.from(context).inflate(R.layout.activity_vocabulary_list, parent, false);
+        return LayoutInflater.from(context).inflate(R.layout.activity_display_database, parent, false);
 
     }
 

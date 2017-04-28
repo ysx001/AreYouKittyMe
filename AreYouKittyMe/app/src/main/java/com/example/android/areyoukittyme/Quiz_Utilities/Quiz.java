@@ -89,6 +89,12 @@ public class Quiz {
         }
     }
 
+    public void processYoAnswer(Question question) throws ParseException {
+        if(question.getVocab().getProgress() == 0){
+            Vocab_Repo.updateAWordOnItsProgress(1,question.getVocab().getVocab_Id(),0);
+        }
+    }
+
     public void processKnownVocab(Question question){
         if(!answeredQuestions.contains(currentQuestion)){
             answeredQuestions.add(currentQuestion);

@@ -222,6 +222,11 @@ public class VocabStudyActivity extends AppCompatActivity implements View.OnClic
                 updateQuizInterface();
                 answered = false;
             } else {
+                try {
+                    quiz.processYoAnswer(quiz.getCurrentQuestion());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
                 highlightTheCorrectAnswer();
             }
         }

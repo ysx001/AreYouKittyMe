@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ScrollingView;
+import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ListView;
 import android.widget.ScrollView;
@@ -19,7 +20,7 @@ import com.example.android.areyoukittyme.Vocabs_Utilities.Vocab_DatabaseManager;
 
 public class Studying_Activity extends AppCompatActivity{
 
-
+    private SimpleCursorAdapter adapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -27,16 +28,32 @@ public class Studying_Activity extends AppCompatActivity{
         setContentView(R.layout.activity_display_database);
 
         SQLiteDatabase db = Vocab_DatabaseManager.getInstance().openDatabase();
-        Cursor todoCursor = db.rawQuery("SELECT  * FROM " + Vocab.TABLE + " WHERE Vocab.progress=1",null);
+        Cursor todoCursor = db.rawQuery("SELECT  * FROM " + Vocab.TABLE+ " WHERE Vocab.progress=1",null);
+        String[] columns = new String[] {
+                Vocab.KEY_WORD,Vocab.KEY_DEFINITION
+        };
+
+        int[] TO = new int[] {
+                R.id.word_yo,R.id.def_yo
+        };
+
+        adapter = new SimpleCursorAdapter(this,R.layout.activity_row_template, todoCursor,  columns, TO,0 );
+        ListView listView = (ListView) findViewById(R.id.list);
+        //Vocab_CursorAdapter_Studying adapter = new Vocab_CursorAdapter_Studying(this,todoCursor);
+        listView.setAdapter(adapter);
+
+        /*
+        SQLiteDatabase db = Vocab_DatabaseManager.getInstance().openDatabase();
+        Cursor todoCursor = db.rawQuery("SELECT  * FROM " + Vocab.TABLE,null);// + " WHERE Vocab.progress=1",null);
+        System.out.println(todoCursor.getString(0));
+
+        todoCursor.moveToFirst();
 
         ListView listView = (ListView) findViewById(R.id.list);
         Vocab_CursorAdapter_Studying adapter = new Vocab_CursorAdapter_Studying(this,todoCursor);
-        listView.setAdapter(adapter);
+        listView.setAdapter(adapter);*/
 
 
 
     }
-
-
-
 }
