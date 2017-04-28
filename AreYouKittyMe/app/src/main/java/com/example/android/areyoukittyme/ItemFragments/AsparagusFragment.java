@@ -34,7 +34,7 @@ public class AsparagusFragment extends Fragment {
         return rootView;
     }
 
-    public static void updateAmount() {
+    public void updateAmount() {
         TextView text = (TextView)rootView.findViewById(R.id.asparagusAmount);
 
         if (User.getInventoryList().containsKey(Asparagus.getIndex())) {

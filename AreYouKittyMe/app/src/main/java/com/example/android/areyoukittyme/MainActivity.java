@@ -29,6 +29,7 @@ import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -94,7 +95,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class MainActivity extends AppCompatActivity {
 
-
+    private final int NUM_PAGES = 6;
     // key for parcable
     private User mUser;
 
@@ -562,26 +563,26 @@ public class MainActivity extends AppCompatActivity {
 
             return null;
         }
-    public void onConnectionSuspended(int i) {
-    }
 
-    /**
-     *
-     * @param dataPoint
-     */
-    @Override
-    public void onDataPoint(DataPoint dataPoint) {
-        for( final Field field : dataPoint.getDataType().getFields() ) {
-            final Value value = dataPoint.getValue( field );
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    Toast.makeText(getApplicationContext(), "Field: " + field.getName() + " Value: " + value, Toast.LENGTH_SHORT).show();
-                }
-            });
+        public void onConnectionSuspended(int i) {
+        }
+
+        /**
+         * @param dataPoint
+         */
+        @Override
+        public void onDataPoint(DataPoint dataPoint) {
+            for (final Field field : dataPoint.getDataType().getFields()) {
+                final Value value = dataPoint.getValue(field);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getApplicationContext(), "Field: " + field.getName() + " Value: " + value, Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
         }
     }
-
     private final class MyLongClickListener implements View.OnLongClickListener {
 //        public boolean onLongClick(View view, MotionEvent motionEvent) {
 //            if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
@@ -662,7 +663,7 @@ public class MainActivity extends AppCompatActivity {
 //                User.incrementHealth(User.foodToHealthConversion(vp.getCurrentItem()));
 //                User.incrementMood(User.foodToMoodConversion(vp.getCurrentItem()));
 
-                eatAnimation();
+//                eatAnimation();
             }
             else if (v.getId() == R.id.fishImage) {}
 
@@ -674,9 +675,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private static void eatAnimation() {
-
-    }
+//    private static void eatAnimation() {
+//
+//    }
 
     @Override
     protected void attachBaseContext(Context newBase) {

@@ -72,30 +72,30 @@ public class User implements Parcelable {
         initInventoryList();
     }
 
-    public static void userCheckout(ArrayList<Integer> amountList, ArrayList<Integer> priceList) {
+    public void userCheckout(ArrayList<Integer> amountList, ArrayList<Integer> priceList) {
 
 
         int[] array = new int[2];
         for (int i = 0; i < amountList.size(); i++) {
-            int prevAmount = (int)inventoryList.get(i)[0];
+            int prevAmount = (int)this.inventoryList.get(i)[0];
             array[0] = amountList.get(i) + prevAmount; // the amount of the item
             array[1] = priceList.get(i); // priece of the item
-            inventoryList.put(i, array);
+            this.inventoryList.put(i, array);
 
         }
     }
 
-    public static void initInventoryList() {
+    public void initInventoryList() {
         int[] array = new int[2];
         for (int i = 0; i < 6; i++) {
             array[0] = 1;
             array[1] = 0;
-            inventoryList.put(i, array);
+            this.inventoryList.put(i, array);
         }
     }
 
-    public static int getInventoryAmount(int key) {
-        return inventoryList.get(key)[0];
+    public int getInventoryAmount(int key) {
+        return this.inventoryList.get(key)[0];
     }
 
 
@@ -186,12 +186,12 @@ public class User implements Parcelable {
         this.vocabBookID = vocabBookID;
     }
 
-    public static HashMap<Integer, int[]> getInventoryList() {
-        return inventoryList;
+    public HashMap<Integer, int[]> getInventoryList() {
+        return this.inventoryList;
     }
 
-    public static void setInventoryList(HashMap<Integer, int[]> inventoryList) {
-        User.inventoryList = inventoryList;
+    public void setInventoryList(HashMap<Integer, int[]> inventoryList) {
+        this.inventoryList = inventoryList;
     }
 
     public int getCash() {
@@ -335,17 +335,17 @@ public class User implements Parcelable {
         }
     };
 
-    public static void incrementHealth(int amount) {
-        User.health += amount;
-        if (User.health > HEALTH_MAX) {
-            User.health = 100;
+    public void incrementHealth(int amount) {
+        this.health += amount;
+        if (this.health > HEALTH_MAX) {
+            this.health = 100;
         }
     }
 
-    public static void incrementMood(int amount) {
-        User.mood += amount;
-        if (User.mood > MOOD_MAX) {
-            User.mood = 100;
+    public void incrementMood(int amount) {
+        this.mood += amount;
+        if (this.mood > MOOD_MAX) {
+            this.mood = 100;
         }
     }
 

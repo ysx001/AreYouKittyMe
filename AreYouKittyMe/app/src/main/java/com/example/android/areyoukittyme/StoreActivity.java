@@ -27,6 +27,7 @@ package com.example.android.areyoukittyme;
         import com.example.android.areyoukittyme.User.User;
 
         import java.util.ArrayList;
+        import java.util.HashMap;
 
 public class StoreActivity extends AppCompatActivity {
 
