@@ -40,7 +40,6 @@ public class StatsDayActivity extends AppCompatActivity implements OnChartValueS
     private Button monthweekButton;
     private TextView stepCountView;
     private TextView vocabCountView;
-    private TextView vocabTimeView;
     private TextView focusTimeView;
 
     private Context context;
@@ -90,7 +89,6 @@ public class StatsDayActivity extends AppCompatActivity implements OnChartValueS
         monthweekButton = (Button) findViewById(R.id.monthWeekButton);
         stepCountView = (TextView) findViewById(R.id.stepCountView);
         vocabCountView = (TextView) findViewById(R.id.vocabCountView);
-        vocabTimeView = (TextView) findViewById(R.id.vocabTimeView);
         focusTimeView = (TextView) findViewById(R.id.focusTimeView);
 
         int stepSize = dataArray.get(0).getData().size();
@@ -98,7 +96,8 @@ public class StatsDayActivity extends AppCompatActivity implements OnChartValueS
         int vocabSize = dataArray.get(2).getData().size();
 
 
-        float stepVal = dataArray.get(0).getData().get(stepSize - 1).floatValue();
+        //float stepVal = dataArray.get(0).getData().get(stepSize - 1).floatValue();
+        float stepVal = mUser.getSteps();
         float focusVal = dataArray.get(1).getData().get(focusSize - 1).floatValue();
         float vocabVal = dataArray.get(2).getData().get(vocabSize - 1).floatValue();
 
@@ -108,7 +107,7 @@ public class StatsDayActivity extends AppCompatActivity implements OnChartValueS
 
         stepCountView.setText(stepStr);
         focusTimeView.setText(focusStr);
-        vocabTimeView.setText(vocabStr);
+        vocabCountView.setText(vocabStr);
 
         // Setting an OnClickLister for the statsButton
         monthweekButton.setOnClickListener(new View.OnClickListener() {
@@ -338,7 +337,8 @@ public class StatsDayActivity extends AppCompatActivity implements OnChartValueS
         int focusSize = dataArray.get(1).getData().size();
         int vocabSize = dataArray.get(2).getData().size();
 
-        float stepVal = dataArray.get(0).getData().get(stepSize - 1).floatValue() / (float) mUser.getStepsGoal();
+        float stepVal = mUser.getSteps() / (float) mUser.getStepsGoal();
+        //float stepVal = dataArray.get(0).getData().get(stepSize - 1).floatValue() / (float) mUser.getStepsGoal();
         float focusVal = dataArray.get(1).getData().get(focusSize - 1).floatValue() / (float) mUser.getFocusGoal();
         float vocabVal = dataArray.get(2).getData().get(vocabSize - 1).floatValue() / (float) mUser.getVocabGoal();
 
@@ -372,7 +372,7 @@ public class StatsDayActivity extends AppCompatActivity implements OnChartValueS
             focusSet.setDrawIcons(false);
             focusSet.setColor(Color.rgb(241,195,208));
 
-            vocabSet = new BarDataSet(vocabTime, "Vocab Time");
+            vocabSet = new BarDataSet(vocabTime, "Vocab Count");
             vocabSet.setDrawIcons(false);
             vocabSet.setColor(Color.rgb(201, 147, 212));
 

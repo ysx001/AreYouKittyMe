@@ -11,38 +11,38 @@ import java.util.HashMap;
 
 /**
  * Created by PrGxw on 4/10/2017.
- *
+ * <p>
  * Modifed by ysx001 on 4/25/2017. Added Parcelable
  */
 
 public class User implements Parcelable {
 
-    private  String name;
-    private  int age;
+    private String name;
+    private int age;
 
-    private  ArrayList<UserData> userData = new ArrayList<>();
+    private ArrayList<UserData> userData = new ArrayList<>();
     private final int year = 365;
 
-    private  int stepsGoal;
-    private  int focusGoal;
-    private  int vocabGoal;
+    private int stepsGoal;
+    private int focusGoal;
+    private int vocabGoal;
 
-    private  int steps;
-    private  int focus;
-    private  int vocab;
+    private int steps;
+    private int focus;
+    private int vocab;
 
     // 0: SAT6000
     // 1: French
     // 2: German
     // 3: Spanish
-    private  int vocabBookID;
+    private int vocabBookID;
 
-    private  HashMap<Integer, Object[]> inventoryList;
+    private HashMap<Integer, Object[]> inventoryList;
 
     // Cat attributes
-    private  int cash;
-    private  int health;
-    private  int mood;
+    private int cash;
+    private int health;
+    private int mood;
 
     public User(String name) {
         this.name = name;
@@ -203,8 +203,8 @@ public class User implements Parcelable {
         ArrayList<Double> stepCountslist = new ArrayList<>();
 
         for (int i = 0; i < count; i++) {
-            Double mult = range ;
-            Double val = (Math.random() * mult) + 50;
+            Double mult = range;
+            Double val = (Math.random() * mult) + 1000;
             stepCountslist.add(val);
         }
 
@@ -223,7 +223,7 @@ public class User implements Parcelable {
 
         for (int i = 0; i < count; i++) {
             Double mult = range / 5.0;
-            Double val = (Math.random() * mult) + 100;
+            Double val = (Math.random() * mult) + 20;
             vocabTimelist.add(val);
         }
 
@@ -246,8 +246,7 @@ public class User implements Parcelable {
 
         if (this.mood >= 60) {
             this.health -= 20;
-        }
-        else {
+        } else {
             this.health -= 30;
         }
 

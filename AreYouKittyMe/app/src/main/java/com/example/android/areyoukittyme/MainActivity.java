@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
 
         buildFitnessClient();
 
-
+        readData();
 
 
         // Store the context variable
@@ -136,6 +136,9 @@ public class MainActivity extends AppCompatActivity {
                 mUser.newDay();
                 //mUser.setHealth(-20);
                 System.out.println("Health now is" + mUser.getHealth());
+                moneyDisplay.setText(String.valueOf(mUser.getCash()));
+                healthProgress.setProgressWithAnimation(mUser.getHealth());
+                moodProgress.setProgressWithAnimation(mUser.getMood());
                 if (mUser.getHealth() <= 0) {
                     switchDie();
                 }
@@ -208,6 +211,7 @@ public class MainActivity extends AppCompatActivity {
                             Intent intent = null;
                             if (drawerItem.getIdentifier() == 1) {
                                 intent = new Intent(MainActivity.this, StatsDayActivity.class);
+                                readData();
                             }
                             else if (drawerItem.getIdentifier() == 2) {
                                 intent = new Intent(MainActivity.this, StoreActivity.class);
