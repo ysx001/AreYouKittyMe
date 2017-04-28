@@ -16,6 +16,8 @@ import java.text.ParseException;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
+import static com.example.android.areyoukittyme.R.color.colorPrimaryLight;
+
 public class VocabStudyActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Button choiceBtn1;
@@ -106,18 +108,14 @@ public class VocabStudyActivity extends AppCompatActivity implements View.OnClic
         this.questionView.setText(quiz.getCurrentQuestion().getVocab().getWord());
         System.out.println(quiz.getCurrentQuestion().getVocab().getWord());
         this.choiceBtn1.setText(quiz.getCurrentQuestion().getAnswers()[0]);
-        this.choiceBtn1.setBackgroundColor(Khaiki_Color);
         this.choiceBtn2.setText(quiz.getCurrentQuestion().getAnswers()[1]);
-        this.choiceBtn2.setBackgroundColor(Khaiki_Color);
         this.choiceBtn3.setText(quiz.getCurrentQuestion().getAnswers()[2]);
-        this.choiceBtn3.setBackgroundColor(Khaiki_Color);
         this.choiceBtn4.setText(quiz.getCurrentQuestion().getAnswers()[3]);
-        this.choiceBtn4.setBackgroundColor(Khaiki_Color);
     }
 
     public void highlightTheCorrectAnswer(){
         Button[] btns = new Button[]{choiceBtn1,choiceBtn2,choiceBtn3,choiceBtn4};
-        btns[quiz.getCurrentQuestion().getIndexOfRightAnswer()].setBackgroundColor(Light_Goldenrod_Color);
+        btns[quiz.getCurrentQuestion().getIndexOfRightAnswer()].setBackgroundColor(getColor(R.color.colorAccentLight));
 
     }
 

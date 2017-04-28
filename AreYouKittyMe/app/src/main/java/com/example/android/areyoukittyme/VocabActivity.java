@@ -63,7 +63,7 @@ public class VocabActivity extends AppCompatActivity {
             final Dialog dialog = new Dialog(this);
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             dialog.setContentView(R.layout.simple_spinner);
-            Spinner spinner =  new Spinner(this, books, 0);
+            //Spinner spinner =  new Spinner(this, books, 0);
             //Button dialogButton = (Button) dialog.findViewById(R.id.btncross)
 
 
