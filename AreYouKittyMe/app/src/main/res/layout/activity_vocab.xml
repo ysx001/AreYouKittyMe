@@ -18,35 +18,33 @@
         tools:layout_editor_absoluteX="47dp"
         tools:layout_editor_absoluteY="296dp"
         tools:layout_editorabsoluteX="30dp"
-        android:layout_marginStart="49dp"
+        android:layout_marginEnd="34dp"
         android:layout_above="@+id/Vocab_textView2"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="28dp" />
+        android:layout_toStartOf="@+id/vocab_progressBar" />
 
     <Button
         android:id="@+id/vocab_Review_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/Vocab_textView2"
+        android:layout_centerHorizontal="true"
         android:text="Review"
-        android:textSize="18sp"
+        android:textSize="12sp"
         tools:layout_editor_absoluteX="217dp"
-        tools:layout_editor_absoluteY="425dp"
-        android:layout_alignBaseline="@+id/vocab_study_button2"
-        android:layout_alignBottom="@+id/vocab_study_button2"
-        android:layout_alignEnd="@+id/vocabulary_button"
-        android:layout_marginEnd="16dp" />
+        tools:layout_editor_absoluteY="425dp" />
 
     <Button
         android:id="@+id/vocab_study_button2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Study"
-        android:textSize="18sp"
-        tools:layout_editor_absoluteX="47dp"
-        tools:layout_editor_absoluteY="425dp"
-        android:layout_marginBottom="14dp"
+        android:layout_alignEnd="@+id/Vocab_textView2"
         android:layout_alignParentBottom="true"
-        android:layout_alignEnd="@+id/Vocab_textView2" />
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="22dp"
+        android:text="Study"
+        android:textSize="12sp"
+        tools:layout_editor_absoluteX="47dp"
+        tools:layout_editor_absoluteY="425dp" />
 
     <TextView
         android:id="@+id/Vocab_textView2"
@@ -63,37 +61,25 @@
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/vocab_textView"
-        android:layout_alignStart="@+id/vocab_Review_button"
-        android:layout_alignTop="@+id/vocab_textView" />
+        android:layout_alignBottom="@+id/imageView2"
+        android:layout_alignEnd="@+id/vocabulary_button" />
 
     <Button
         android:id="@+id/vocabulary_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/vocab_Review_button"
+        android:layout_marginStart="12dp"
+        android:layout_toEndOf="@+id/vocab_Review_button"
         android:text="Vocabulary"
-        android:textSize="10sp"
-        android:layout_above="@+id/imageView"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="46dp" />
+        android:textSize="12sp" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/imageView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/catfat0019"
-        android:layout_alignBottom="@+id/vocab_textView"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="21dp" />
-
-    <Button
-        android:id="@+id/input"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@+id/vocabulary_button"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="32dp"
-        android:text="Button" />
+        app:srcCompat="@drawable/catnormal0011"
+        android:layout_above="@+id/Vocab_textView2"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>

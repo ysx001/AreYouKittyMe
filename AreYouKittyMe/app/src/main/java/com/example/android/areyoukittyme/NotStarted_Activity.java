@@ -11,7 +11,6 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.example.android.areyoukittyme.Vocabs_Utilities.Vocab;
-import com.example.android.areyoukittyme.Vocabs_Utilities.Vocab_CursorAdapter_Studying;
 import com.example.android.areyoukittyme.Vocabs_Utilities.Vocab_DatabaseManager;
 
 /**
