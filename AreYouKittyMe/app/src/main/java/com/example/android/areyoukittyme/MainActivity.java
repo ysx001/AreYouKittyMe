@@ -172,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
         String catName = mUser.getName();
         displayCatName.setText(catName);
 
-        profile = new ProfileDrawerItem().withName(catName).withIcon(GoogleMaterial.Icon.gmd_pets);
+        profile = new ProfileDrawerItem().withName(catName).withIcon(R.drawable.pawprint);
 
         header = new AccountHeaderBuilder()
                 .withActivity(this)

@@ -20,6 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10sp"
+        android:paddingStart="10dp"
         android:text="Steps Today:" />
 
     <TextView
@@ -27,6 +28,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10sp"
+        android:paddingStart="10dp"
         android:text="Vocab Studied:" />
 
     <TextView
@@ -34,6 +36,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10sp"
+        android:paddingStart="10dp"
         android:text="Vocab Time:" />
 
     <TextView
@@ -41,6 +44,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10sp"
+        android:paddingStart="10dp"
         android:text="Focus Time: " />
 
 
@@ -57,7 +61,7 @@
         android:id="@+id/monthWeekButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="19dp"
+        android:layout_marginTop="10dp"
         android:background="@color/colorAccentLight"
         android:text="Month/Week" />
 

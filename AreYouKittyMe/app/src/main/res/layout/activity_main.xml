@@ -8,7 +8,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginBottom="25dp"
-    android:background="@drawable/main"
+    android:background="@drawable/bg3"
     android:fitsSystemWindows="true"
     tools:context=".MainActivity">
 
@@ -46,11 +46,10 @@
         android:id="@+id/miaomiaomiao"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
         android:background="@drawable/normal_cat_animation"
-        />
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp" />
 
     <!--<ImageView-->
         <!--android:id="@+id/miaomiaomiao"-->

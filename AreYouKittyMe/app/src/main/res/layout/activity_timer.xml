@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -12,15 +11,15 @@
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="300dp"
         android:layout_height="38dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/hourCountdown"
+        android:layout_marginBottom="59dp"
         android:background="@color/colorAccentDark"
         android:elevation="0dp"
         android:text="@string/cancel_button_timer"
         android:textAlignment="center"
         tools:layout_editor_absoluteX="44dp"
-        tools:layout_editor_absoluteY="426dp"
-        android:layout_marginBottom="59dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/hourCountdown" />
+        tools:layout_editor_absoluteY="426dp" />
 
     <TextView
         android:id="@+id/dotTextView"
@@ -39,59 +38,59 @@
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="300dp"
         android:layout_height="38dp"
+        android:layout_above="@+id/timerCancelBtn"
+        android:layout_alignStart="@+id/timerCancelBtn"
+        android:layout_marginBottom="26dp"
         android:background="@color/colorAccent"
         android:elevation="0dp"
         android:text="@string/pause_button_timer"
         android:textAlignment="center"
         tools:layout_editor_absoluteX="44dp"
-        tools:layout_editor_absoluteY="426dp"
-        android:layout_above="@+id/timerCancelBtn"
-        android:layout_alignStart="@+id/timerCancelBtn"
-        android:layout_marginBottom="26dp" />
+        tools:layout_editor_absoluteY="426dp" />
 
     <EditText
         android:id="@+id/hourEditText"
         android:layout_width="120dp"
         android:layout_height="40dp"
+        android:layout_alignStart="@+id/hourCountdown"
+        android:layout_below="@+id/dotTextView"
+        android:layout_marginTop="64dp"
         android:hint="@string/hour_hint_timer"
         android:inputType="phone"
-        android:maxLength="2"
-        android:layout_marginTop="48dp"
-        android:layout_below="@+id/dotTextView"
-        android:layout_alignStart="@+id/timerStartBtn" />
+        android:maxLength="2" />
 
     <Button
         android:id="@+id/timerStartBtn"
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="300dp"
         android:layout_height="38dp"
+        android:layout_above="@+id/timerPauseBtn"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="29dp"
         android:background="@color/colorPrimary"
         android:elevation="0dp"
         android:text="@string/start_button_timer"
         android:textAlignment="center"
         tools:layout_editor_absoluteX="44dp"
-        tools:layout_editor_absoluteY="426dp"
-        android:layout_above="@+id/timerPauseBtn"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="29dp" />
+        tools:layout_editor_absoluteY="426dp" />
 
     <Spinner
         android:id="@+id/minSpinner"
         android:layout_width="150dp"
         android:layout_height="40dp"
-        android:layout_alignTop="@+id/hourEditText"
-        android:layout_alignEnd="@+id/timerStartBtn" />
+        android:layout_alignEnd="@+id/timerStartBtn"
+        android:layout_alignTop="@+id/hourEditText" />
 
     <TextView
         android:id="@+id/hourCountdown"
         android:layout_width="95dp"
         android:layout_height="100dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="109dp"
+        android:layout_toStartOf="@+id/colonTextView"
         android:text="@string/zero_time_timer"
         android:textAlignment="center"
-        android:textSize="72sp"
-        android:layout_marginTop="87dp"
-        android:layout_alignParentTop="true"
-        android:layout_toStartOf="@+id/colonTextView" />
+        android:textSize="72sp" />
 
     <TextView
         android:id="@+id/minCountdown"
@@ -108,12 +107,12 @@
         android:id="@+id/colonTextView"
         android:layout_width="30dp"
         android:layout_height="100dp"
-        android:text=":"
-        android:textAlignment="center"
-        android:textSize="72sp"
         android:layout_alignBaseline="@+id/hourCountdown"
         android:layout_alignBottom="@+id/hourCountdown"
-        android:layout_toStartOf="@+id/minCountdown" />
+        android:layout_toStartOf="@+id/minCountdown"
+        android:text=":"
+        android:textAlignment="center"
+        android:textSize="72sp" />
 
     <TextView
         android:id="@+id/secCountdown"
