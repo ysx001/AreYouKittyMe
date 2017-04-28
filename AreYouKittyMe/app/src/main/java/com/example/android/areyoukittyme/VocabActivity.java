@@ -3,6 +3,8 @@ package com.example.android.areyoukittyme;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.design.widget.FloatingActionButton;
@@ -19,6 +21,8 @@ import com.example.android.areyoukittyme.Vocabs_Utilities.Vocab_DatabaseManager;
 import com.example.android.areyoukittyme.Vocabs_Utilities.Vocab_Repo;
 
 import java.io.IOException;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class VocabActivity extends AppCompatActivity {
 
@@ -37,7 +41,11 @@ public class VocabActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vocab);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        MediaPlayer mPlayer = MediaPlayer.create(VocabActivity.this, R.raw.book);
+        mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        mPlayer.start();
 
         studyButton = (Button)findViewById(R.id.vocab_study_button2);
         reviewButton = (Button)findViewById(R.id.vocab_Review_button);
@@ -112,4 +120,10 @@ public class VocabActivity extends AppCompatActivity {
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent);
     }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
 }

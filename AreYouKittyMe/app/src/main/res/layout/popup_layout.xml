@@ -1,31 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- fragment_screen_slide_page.xml -->
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:id="@+id/popup"
-    android:orientation="vertical"
-    >
-     
-<TextView
-    android:id="@+id/textView1"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Popup"
-    android:textAppearance="?android:attr/textAppearanceLarge" />
-     
-<TextView
-    android:id="@+id/textView2"
-    android:layout_marginTop="5dp"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="This is a simple popup" />
-     
-<Button
-    android:id="@+id/close"
-    android:layout_marginTop="10dp"
-    android:layout_gravity="center_horizontal"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Close" />
-     
-    </LinearLayout>
+    android:background="@drawable/shape"
+    android:orientation="vertical">
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/lll"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/imageButton3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/common_google_signin_btn_icon_dark_focused" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:textAlignment="center"
+                android:text="BBBBB" />
+        </LinearLayout>
+    </HorizontalScrollView>
+</LinearLayout>

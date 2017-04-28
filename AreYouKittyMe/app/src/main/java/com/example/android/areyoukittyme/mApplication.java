@@ -8,7 +8,12 @@ import com.example.android.areyoukittyme.Vocabs_Utilities.Vocab_DatabaseManager;
 import com.example.android.areyoukittyme.Vocabs_Utilities.Vocab_Database;
 import com.example.android.areyoukittyme.Vocabs_Utilities.Vocab_Repo;
 
+import org.polaric.colorful.Colorful;
+
 import java.io.IOException;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
  * Created by haoyuxiong on 4/16/17.
@@ -35,10 +40,29 @@ public class mApplication extends Application {
         } catch (IOException e) {
             e.printStackTrace();
         }*/
+
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                .setDefaultFontPath("Quicksand/Quicksand-Regular.ttf")
+                .setFontAttrId(R.attr.fontPath)
+                .build()
+        );
+
+        Colorful.defaults()
+                .primaryColor(Colorful.ThemeColor.RED)
+                .accentColor(Colorful.ThemeColor.BLUE)
+                .translucent(false)
+                .dark(true);
+
+        Colorful.init(this);
     }
 
     public static Context getContext(){
         return context;
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
 }

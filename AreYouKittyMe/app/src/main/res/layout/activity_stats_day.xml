@@ -49,8 +49,9 @@
         android:id="@+id/monthWeekButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="Month/Week"
         android:background="@color/colorAccentLight"
-        android:text="Month/Week" />
+        />
 
 
 </LinearLayout>

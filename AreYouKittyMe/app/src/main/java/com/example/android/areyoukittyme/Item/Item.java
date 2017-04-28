@@ -8,7 +8,7 @@ import android.graphics.drawable.Drawable;
 
 public interface Item {
 
-    abstract  void setPrice(int price);
+    abstract void setPrice(int price);
 
     abstract void setIcon(int icon);
 

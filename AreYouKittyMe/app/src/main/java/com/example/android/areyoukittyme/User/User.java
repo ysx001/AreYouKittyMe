@@ -2,12 +2,19 @@ package com.example.android.areyoukittyme.User;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.android.areyoukittyme.Cat.Cat;
+import com.example.android.areyoukittyme.Item.Item;
+import com.example.android.areyoukittyme.R;
 import com.example.android.areyoukittyme.Store.Store;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
 /**
  * Created by PrGxw on 4/10/2017.
@@ -37,12 +44,15 @@ public class User implements Parcelable {
     // 3: Spanish
     private int vocabBookID;
 
-    private HashMap<Integer, Object[]> inventoryList;
+    private static HashMap<Integer, int[]> inventoryList;
 
     // Cat attributes
     private int cash;
     private int health;
     private int mood;
+
+    private static int HEALTH_MAX = 100;
+    private static int MOOD_MAX = 100;
 
     public User(String name) {
         this.name = name;
@@ -57,18 +67,39 @@ public class User implements Parcelable {
         this.inventoryList = null;
         this.health = 80;
         this.mood = 50;
+        this.health = 80;
+        this.mood = 90;
         this.userData = generateData(year, 30.0);
+        this.inventoryList = new HashMap<Integer, int[]>();
+        initInventoryList();
     }
 
-    public void userCheckout(ArrayList<TextView> amountList, ArrayList<Integer> priceList) {
-        Object[] array = new Object[3];
+    public void userCheckout(ArrayList<Integer> amountList, ArrayList<Integer> priceList) {
+
+
+        int[] array = new int[2];
         for (int i = 0; i < amountList.size(); i++) {
-            array[0] = Integer.parseInt(amountList.get(i).getText().toString());
-            array[1] = priceList.get(i);
-            array[2] = Store.itemList.get(i);
+            int prevAmount = (int)this.inventoryList.get(i)[0];
+            array[0] = amountList.get(i) + prevAmount; // the amount of the item
+            array[1] = priceList.get(i); // priece of the item
+            this.inventoryList.put(i, array);
+
+        }
+    }
+
+    public void initInventoryList() {
+        int[] array = new int[2];
+        for (int i = 0; i < 6; i++) {
+            array[0] = 1;
+            array[1] = 0;
             this.inventoryList.put(i, array);
         }
     }
+
+    public static int getInventoryAmount(int key) {
+        return inventoryList.get(key)[0];
+    }
+
 
     public String getName() {
         return name;
@@ -157,16 +188,16 @@ public class User implements Parcelable {
         this.vocabBookID = vocabBookID;
     }
 
-    public HashMap<Integer, Object[]> getInventoryList() {
+    public static HashMap<Integer, int[]> getInventoryList() {
         return inventoryList;
     }
 
-    public void setInventoryList(HashMap<Integer, Object[]> inventoryList) {
+    public void setInventoryList(HashMap<Integer, int[]> inventoryList) {
         this.inventoryList = inventoryList;
     }
 
     public int getCash() {
-        return cash;
+        return this.cash;
     }
 
     public void setCash(int cash) {
@@ -304,4 +335,27 @@ public class User implements Parcelable {
             return new User[size];
         }
     };
+
+    public static int foodToHealthConversion(int index) {
+        // Food: food value / 1000 * 5 (+5 for every $1000 food consumed)
+        int price = Store.getItemList().get(index).getPrice();
+
+        return (int) (price * 5) / 1000;
+    }
+    public static int foodToMoodConversion(int index) {
+        //TODO: complete this method
+        // Food: if value > 1000, then + 3~5, random
+        int price = Store.getItemList().get(index).getPrice();
+        Random rnd = new Random();
+        int r = rnd.nextInt(3);
+        if (price > 1000) {
+            switch (r) {
+                case 0: return 3;
+                case 1: return 4;
+                default: return 5;
+            }
+        }
+        return 0;
+
+    }
 }

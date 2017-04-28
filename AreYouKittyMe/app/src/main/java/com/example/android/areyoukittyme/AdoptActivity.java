@@ -10,9 +10,12 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-
+import com.example.android.areyoukittyme.Store.Store;
+import com.example.android.areyoukittyme.User.User;
 import com.example.android.areyoukittyme.User.User;
 import com.example.android.areyoukittyme.Vocabs_Utilities.Vocab_Repo;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class AdoptActivity extends AppCompatActivity {
 
@@ -26,6 +29,9 @@ public class AdoptActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_adopt);
 
+
+        new Store();
+        new User("Sarah");
         // find the button and the edittext from xml using findViewById
         catNameTxt = (EditText) findViewById(R.id.cat_name_txt);
         catNameButton = (Button) findViewById(R.id.cat_name_btn);
@@ -71,8 +77,9 @@ public class AdoptActivity extends AppCompatActivity {
 
     }
 
-
-    public void onClickNameCatButton(View v) {
-
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
+
 }
