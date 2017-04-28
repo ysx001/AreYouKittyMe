@@ -76,6 +76,7 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
         String[] items = new String[]{"Minutes", "00", "10", "20", "30", "40", "50"};
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, items);
         this.minSpinner.setAdapter(adapter);
+        this.minSpinner.setSelection(4);
 
         this.second = 0;
         this.focusTime = 0;
