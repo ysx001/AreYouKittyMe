@@ -13,7 +13,7 @@ public class Corndog implements Item{
     private static int index;
 
     public Corndog(int index) {
-        setPrice(4000);
+        setPrice(1200);
         this.id = R.drawable.corndog;
         setIcon(id);
         this.index = index;

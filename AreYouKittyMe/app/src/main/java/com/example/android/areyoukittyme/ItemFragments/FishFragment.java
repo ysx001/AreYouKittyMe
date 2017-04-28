@@ -49,7 +49,9 @@ public class FishFragment extends Fragment {
         public void onClick(View v) {
             RelativeLayout p = (RelativeLayout) rootView.getParent().getParent();
             ViewPager vp = (ViewPager) rootView.getParent();
-            p.setVisibility(View.INVISIBLE);
+//            p.setVisibility(View.INVISIBLE);
+            TextView text = (TextView)rootView.findViewById(R.id.fishAmount);
+            text.setText(String.format("x%d", 0));
             // TODO: decrease in amount;
             // TODO: animation:
             // increase health and mood
@@ -58,16 +60,16 @@ public class FishFragment extends Fragment {
         }
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        TextView text = (TextView)rootView.findViewById(R.id.fishAmount);
-        if (User.getInventoryList().containsKey(Fish.getIndex())) {
-            text.setText(String.format("x%d", User.getInventoryAmount(Fish.getIndex())));
-//            text.setText("Resume");
-        }
-        else {
-            text.setText("nokey");
-        }
-    }
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        TextView text = (TextView)rootView.findViewById(R.id.fishAmount);
+//        if (User.getInventoryList().containsKey(Fish.getIndex())) {
+//            text.setText(String.format("x%d", User.getInventoryAmount(Fish.getIndex())));
+////            text.setText("Resume");
+//        }
+//        else {
+//            text.setText("nokey");
+//        }
+//    }
 }

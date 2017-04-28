@@ -13,7 +13,7 @@ public class Candy implements Item{
     private static int id;
 
     public Candy() {
-        setPrice(10);
+        setPrice(600);
         this.id = R.drawable.candy;
         setIcon(id);
     }

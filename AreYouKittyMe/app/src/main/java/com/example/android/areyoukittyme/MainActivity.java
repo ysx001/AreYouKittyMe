@@ -5,16 +5,11 @@ import android.app.PendingIntent;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentSender;
-import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.AsyncTask;
 import android.graphics.Point;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.graphics.Color;
-import android.graphics.drawable.AnimationDrawable;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -22,40 +17,20 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
-import android.util.Log;
 import android.view.View;
-import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.android.areyoukittyme.Item.Avocado;
-import com.example.android.areyoukittyme.Item.Corndog;
 import com.example.android.areyoukittyme.Service.newDayAlarmReceiver;
-import com.example.android.areyoukittyme.Item.Avocado;
-import com.example.android.areyoukittyme.Item.Corndog;
 import com.example.android.areyoukittyme.User.User;
-import com.example.android.areyoukittyme.logger.LogView;
 import com.example.android.areyoukittyme.logger.LogWrapper;
 import com.example.android.areyoukittyme.logger.MessageOnlyLogFilter;
-import com.example.android.areyoukittyme.stepcounter.GoogleFitActivity;
-import com.example.android.areyoukittyme.ItemFragments.AsparagusFragment;
-import com.example.android.areyoukittyme.ItemFragments.AvocadoFragment;
-import com.example.android.areyoukittyme.ItemFragments.BaconFragment;
-import com.example.android.areyoukittyme.ItemFragments.CorndogFragment;
-import com.example.android.areyoukittyme.ItemFragments.FishFragment;
-import com.example.android.areyoukittyme.ItemFragments.HamburgerFragment;
-import com.github.pwittchen.swipe.library.Swipe;
 import com.example.android.areyoukittyme.ItemFragments.AsparagusFragment;
 import com.example.android.areyoukittyme.ItemFragments.AvocadoFragment;
 import com.example.android.areyoukittyme.ItemFragments.BaconFragment;
@@ -71,18 +46,10 @@ import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.fitness.Fitness;
 import com.google.android.gms.fitness.FitnessStatusCodes;
-import com.google.android.gms.fitness.data.DataPoint;
 import com.google.android.gms.fitness.data.DataSet;
-import com.google.android.gms.fitness.data.DataSource;
 import com.google.android.gms.fitness.data.DataType;
 import com.google.android.gms.fitness.data.Field;
-import com.google.android.gms.fitness.data.Value;
-import com.google.android.gms.fitness.request.DataSourcesRequest;
-import com.google.android.gms.fitness.request.OnDataPointListener;
-import com.google.android.gms.fitness.request.SensorRequest;
 import com.google.android.gms.fitness.result.DailyTotalResult;
-import com.google.android.gms.fitness.result.DataSourcesResult;
-import com.mikepenz.fontawesome_typeface_library.FontAwesome;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
@@ -92,17 +59,11 @@ import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
-import com.mikepenz.materialdrawer.model.SectionDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.mikhaellopez.circularprogressbar.CircularProgressBar;
 
-import org.w3c.dom.Text;
-
-import org.w3c.dom.Text;
-
 import java.util.Calendar;
-import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -119,11 +80,19 @@ public class MainActivity extends AppCompatActivity {
     private AccountHeader header;
     private IProfile profile;
     private Drawer drawer;
-    private Swipe swipe;
 
     private TextView moneyDisplay;
     private CircularProgressBar healthProgress;
     private CircularProgressBar moodProgress;
+
+    private TextView fishA;
+    private TextView avocadoA;
+    private TextView baconA;
+    private TextView corndogA;
+    private TextView hamburgerA;
+    private TextView asparagusA;
+
+
 
     private TextView displayCatName;
     private ViewPager mPager;
@@ -171,6 +140,8 @@ public class MainActivity extends AppCompatActivity {
         healthProgress = (CircularProgressBar) findViewById(R.id.healthProgress);
         moodProgress = (CircularProgressBar) findViewById(R.id.moodProgress);
 
+
+
         displayCatName = (TextView) findViewById(R.id.cat_name_display);
 
 //        displayCatName = (TextView) findViewById(R.id.cat_name_display);
@@ -186,22 +157,23 @@ public class MainActivity extends AppCompatActivity {
                 //mUser.setHealth(-20);
                 System.out.println("Health now is" + mUser.getHealth());
                 if (mUser.getHealth() <= 0) {
-                    switchDie();
+                    gouDie();
                 }
-        findViewById(R.id.miaomiaomiao_main).setOnLongClickListener(new MyLongClickListener());
-        findViewById(R.id.miaomiaomiao_main).setOnClickListener(new MyClickListener());
-        findViewById(R.id.main_content).setOnClickListener(new MyClickListener());
-        findViewById(R.id.leftArrow).setOnClickListener(new MyClickListener());
-        findViewById(R.id.rightArrow).setOnClickListener(new MyClickListener());
-
             }
         });
 
+        findViewById(R.id.click_assist).setOnLongClickListener(new MyLongClickListener());
+        findViewById(R.id.click_assist).setOnClickListener(new MyClickListener());
+
+//        findViewById(R.id.miaomiaomiao).setOnClickListener(new MyClickListener());
+        findViewById(R.id.main_content).setOnClickListener(new MyClickListener());
+        findViewById(R.id.leftArrow).setOnClickListener(new MyClickListener());
+        findViewById(R.id.rightArrow).setOnClickListener(new MyClickListener());
         // Setting up animation
         ImageView catAnimation = (ImageView) findViewById(R.id.miaomiaomiao);
         //catAnimation.setBackgroundResource(R.drawable.thin_cat_animation);
         ((AnimationDrawable) catAnimation.getBackground()).start();
-        catAnimation.setOnLongClickListener(new MyLongClickListener());
+//        catAnimation.setOnLongClickListener(new MyLongClickListener());
         catAnimation.setOnClickListener(new MyClickListener());
         findViewById(R.id.main_content).setOnClickListener(new MyClickListener());
         findViewById(R.id.leftArrow).setOnClickListener(new MyClickListener());
@@ -216,7 +188,7 @@ public class MainActivity extends AppCompatActivity {
         // If health is zero, the cat dies.
 
         if (mUser.getHealth() == 0) {
-            switchDie();
+            gouDie();
         }
 
         System.out.println("In main dataArray is Empty? " + mUser.getUserData().isEmpty());
@@ -331,10 +303,12 @@ public class MainActivity extends AppCompatActivity {
         mPager = (ViewPager) findViewById(R.id.pager_temp);
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
+//        Bundle bundle = new BUndle()
+//        findViewById(R.id.test_dead).setOnClickListener(new MyClickListener());
 
     }
 
-    private void switchDie() {
+    private void gouDie() {
         Intent intent = new Intent(this, DeadActivity.class);
         intent.putExtra("User", mUser);
         startActivity(intent);
@@ -571,39 +545,12 @@ public class MainActivity extends AppCompatActivity {
 //        msgFilter.setNext(logView);
         com.example.android.areyoukittyme.logger.Log.i(TAG, "Ready");
     }
+//
+//    @Override
+//    protected void attachBaseContext(Context newBase) {
+//        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+//    }
 
-    @Override
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
-    }
-
-    /**
-     * Read the current daily step total, computed from midnight of the current day
-     * on the device's current timezone.
-     */
-    private class VerifyDataTask extends AsyncTask<Void, Void, Void> {
-        protected Void doInBackground(Void... params) {
-
-            long total = 0;
-
-            PendingResult<DailyTotalResult> result = Fitness.HistoryApi.readDailyTotal(mClient, DataType.TYPE_STEP_COUNT_DELTA);
-            DailyTotalResult totalResult = result.await(30, TimeUnit.SECONDS);
-            if (totalResult.getStatus().isSuccess()) {
-                DataSet totalSet = totalResult.getTotal();
-                total = totalSet.isEmpty()
-                        ? 0
-                        : totalSet.getDataPoints().get(0).getValue(Field.FIELD_STEPS).asInt();
-
-                stepCount = total;
-                System.out.println("Step count +" + stepCount);
-                mUser.setSteps((int) total);
-            } else {
-                com.example.android.areyoukittyme.logger.Log.w(TAG, "There was a problem getting the step count.");
-            }
-
-            com.example.android.areyoukittyme.logger.Log.i(TAG, "Total steps: " + total);
-
-            return null;
     /**
      * Read the current daily step total, computed from midnight of the current day
      * on the device's current timezone.
@@ -635,24 +582,9 @@ public class MainActivity extends AppCompatActivity {
 
         public void onConnectionSuspended(int i) {
         }
-
-        /**
-         * @param dataPoint
-         */
-        @Override
-        public void onDataPoint(DataPoint dataPoint) {
-            for (final Field field : dataPoint.getDataType().getFields()) {
-                final Value value = dataPoint.getValue(field);
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(getApplicationContext(), "Field: " + field.getName() + " Value: " + value, Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-        }
     }
     private final class MyLongClickListener implements View.OnLongClickListener {
+
 //        public boolean onLongClick(View view, MotionEvent motionEvent) {
 //            if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
 //                mPlayer.start();
@@ -714,13 +646,15 @@ public class MainActivity extends AppCompatActivity {
 
     private final class MyClickListener implements View.OnClickListener {
         public void onClick(View v) {
-
+            System.out.println("now is: " + "start");
             RelativeLayout popup = (RelativeLayout) findViewById(R.id.popup_container);
             ViewPager vp = (ViewPager) findViewById(R.id.pager_temp);
             if (v.getId() == R.id.leftArrow) {
+
                 vp.setCurrentItem(vp.getCurrentItem()-1, true);
             }
             else if (v.getId() == R.id.rightArrow) {
+                System.out.println("now is: " + "arrow");
                 vp.setCurrentItem(vp.getCurrentItem()+1, true);
             }
             else if (v.getId() == R.id.asparagusImage) {
@@ -734,10 +668,21 @@ public class MainActivity extends AppCompatActivity {
 
 //                eatAnimation();
             }
-            else if (v.getId() == R.id.fishImage) {}
-
+            else if (v.getId() == R.id.fishImage) {
+                mUser.incrementMood(mUser.foodToMoodConversion(vp.getCurrentItem()));
+                System.out.println("now is: " + mUser.getHealth());
+                mUser.incrementHealth(mUser.foodToHealthConversion(vp.getCurrentItem()));
+                healthProgress.setProgressWithAnimation(mUser.getHealth());
+                moodProgress.setProgressWithAnimation(mUser.getMood());
+            }
             else {
+//                mUser.incrementMood(mUser.foodToMoodConversion(vp.getCurrentItem()));
+//                System.out.println("now is: " + mUser.getHealth());
+//                mUser.incrementHealth(mUser.foodToHealthConversion(vp.getCurrentItem()));
+//                healthProgress.setProgressWithAnimation(mUser.getHealth());
+//                moodProgress.setProgressWithAnimation(mUser.getMood());
                 if (popup.getVisibility() == View.VISIBLE) {
+                    System.out.println("now is " + "visible");
                     popup.setVisibility(View.INVISIBLE);
                 }
             }

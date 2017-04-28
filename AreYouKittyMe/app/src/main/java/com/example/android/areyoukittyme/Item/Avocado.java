@@ -13,7 +13,7 @@ public class Avocado implements Item{
     private static int index;
 
     public Avocado(int index) {
-        setPrice(25);
+        setPrice(400);
         this.id = R.drawable.avocado;
         setIcon(id);
     }

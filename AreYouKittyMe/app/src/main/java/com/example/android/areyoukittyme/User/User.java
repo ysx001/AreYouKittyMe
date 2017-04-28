@@ -26,32 +26,32 @@ import java.util.Random;
 
 public class User implements Parcelable {
 
-    private  String name;
-    private  int age;
+    private String name;
+    private int age;
 
-    private  ArrayList<UserData> userData = new ArrayList<>();
+    private ArrayList<UserData> userData = new ArrayList<>();
     private final int year = 365;
 
-    private  int stepsGoal;
-    private  int focusGoal;
-    private  int vocabGoal;
+    private int stepsGoal;
+    private int focusGoal;
+    private int vocabGoal;
 
-    private  int steps;
-    private  int focus;
-    private  int vocab;
+    private int steps;
+    private int focus;
+    private int vocab;
 
     // 0: SAT6000
     // 1: French
     // 2: German
     // 3: Spanish
-    private  int vocabBookID;
+    private int vocabBookID;
 
     private static HashMap<Integer, int[]> inventoryList;
 
     // Cat attributes
-    private  int cash;
-    private  int health;
-    private  int mood;
+    private int cash;
+    private int health;
+    private int mood;
 
     private static int HEALTH_MAX = 100;
     private static int MOOD_MAX = 100;
@@ -79,7 +79,7 @@ public class User implements Parcelable {
 
         int[] array = new int[2];
         for (int i = 0; i < amountList.size(); i++) {
-            int prevAmount = (int)this.inventoryList.get(i)[0];
+            int prevAmount = (int) this.inventoryList.get(i)[0];
             array[0] = amountList.get(i) + prevAmount; // the amount of the item
             array[1] = priceList.get(i); // priece of the item
             this.inventoryList.put(i, array);
@@ -96,8 +96,9 @@ public class User implements Parcelable {
         }
     }
 
-    public int getInventoryAmount(int key) {
-        return this.inventoryList.get(key)[0];
+    //TODO: parcelable
+    public static int getInventoryAmount(int key) {
+        return inventoryList.get(key)[0];
     }
 
 
@@ -188,8 +189,9 @@ public class User implements Parcelable {
         this.vocabBookID = vocabBookID;
     }
 
-    public HashMap<Integer, int[]> getInventoryList() {
-        return this.inventoryList;
+    // TODO: change this to non static method, use parcelable
+    public static HashMap<Integer, int[]> getInventoryList() {
+        return inventoryList;
     }
 
     public void setInventoryList(HashMap<Integer, int[]> inventoryList) {
@@ -226,6 +228,47 @@ public class User implements Parcelable {
         }
     }
 
+    public void incrementHealth(int amount) {
+        this.health += amount;
+        if (this.health > HEALTH_MAX) {
+            this.health = 100;
+        }
+    }
+
+    public void incrementMood(int amount) {
+        this.mood += amount;
+        if (this.mood > MOOD_MAX) {
+            this.mood = 100;
+        }
+    }
+
+    public int foodToHealthConversion(int index) {
+        // Food: food value / 1000 * 5 (+5 for every $1000 food consumed)
+        int price = Store.getItemList().get(index).getPrice();
+
+//        return (int) (price * 5) / 1000;
+        return 5000;
+    }
+
+    public int foodToMoodConversion(int index) {
+        //TODO: complete this method
+        // Food: if value > 1000, then + 3~5, random
+        int price = Store.getItemList().get(index).getPrice();
+        Random rnd = new Random();
+        int r = rnd.nextInt(3);
+        if (price > 1000) {
+            switch (r) {
+                case 0:
+                    return 3;
+                case 1:
+                    return 4;
+                default:
+                    return 5;
+            }
+        }
+        return 0;
+    }
+
     private ArrayList<UserData> generateData(int count, Double range) {
 
         ArrayList<UserData> data = new ArrayList<>();
@@ -234,7 +277,7 @@ public class User implements Parcelable {
         ArrayList<Double> stepCountslist = new ArrayList<>();
 
         for (int i = 0; i < count; i++) {
-            Double mult = range ;
+            Double mult = range;
             Double val = (Math.random() * mult) + 50;
             stepCountslist.add(val);
         }
@@ -277,8 +320,7 @@ public class User implements Parcelable {
 
         if (this.mood >= 60) {
             this.health -= 20;
-        }
-        else {
+        } else {
             this.health -= 30;
         }
 
@@ -334,40 +376,10 @@ public class User implements Parcelable {
         @Override
         public User[] newArray(int size) {
             return new User[size];
-    public void incrementHealth(int amount) {
-        this.health += amount;
-        if (this.health > HEALTH_MAX) {
-            this.health = 100;
-        }
-    }
-
-    public void incrementMood(int amount) {
-        this.mood += amount;
-        if (this.mood > MOOD_MAX) {
-            this.mood = 100;
         }
     };
 
-    public static int foodToHealthConversion(int index) {
-        // Food: food value / 1000 * 5 (+5 for every $1000 food consumed)
-        int price = Store.getItemList().get(index).getPrice();
 
-        return (int) (price * 5) / 1000;
-    }
-    public static int foodToMoodConversion(int index) {
-        //TODO: complete this method
-        // Food: if value > 1000, then + 3~5, random
-        int price = Store.getItemList().get(index).getPrice();
-        Random rnd = new Random();
-        int r = rnd.nextInt(3);
-        if (price > 1000) {
-            switch (r) {
-                case 0: return 3;
-                case 1: return 4;
-                default: return 5;
-            }
-        }
-        return 0;
 
-    }
+
 }
