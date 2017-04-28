@@ -118,6 +118,9 @@ public class MainActivity extends AppCompatActivity {
 
     private ImageView drawerToggler;
 
+    private Button testDead;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -137,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
 
         buildFitnessClient();
 
-
+        readData();
 
 
         // Store the context variable
@@ -154,10 +157,29 @@ public class MainActivity extends AppCompatActivity {
 
         drawerToggler = (ImageView) findViewById(R.id.drawerToggler);
 
+        testDead = (Button) findViewById(R.id.test_dead);
+
+        // Setting an OnClickLister for the testing dead activity
+        testDead.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mUser.newDay();
+                //mUser.setHealth(-20);
+                System.out.println("Clicked, Health now is" + mUser.getHealth());
+                System.out.println("Clicked, Mood now is" + mUser.getMood());
+                moneyDisplay.setText(String.valueOf(mUser.getCash()));
+                healthProgress.setProgressWithAnimation(mUser.getHealth());
+                moodProgress.setProgressWithAnimation(mUser.getMood());
+                if (mUser.getHealth() <= 0) {
+                    switchDie();
+                }
+
+            }
+        });
+
         // Setting up animation
         ImageView catAnimation = (ImageView) findViewById(R.id.miaomiaomiao);
         //catAnimation.setBackgroundResource(R.drawable.thin_cat_animation);
-
         ((AnimationDrawable) catAnimation.getBackground()).start();
         catAnimation.setOnLongClickListener(new MyLongClickListener());
         catAnimation.setOnClickListener(new MyClickListener());
@@ -165,13 +187,21 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.leftArrow).setOnClickListener(new MyClickListener());
         findViewById(R.id.rightArrow).setOnClickListener(new MyClickListener());
 
-
         catAnimation.setOnTouchListener(new MyTouchListener());
 
 
         String catName = mUser.getName();
         displayCatName.setText(catName);
 
+        // If health is zero, the cat dies.
+
+        if (mUser.getHealth() == 0) {
+            switchDie();
+        }
+
+        System.out.println("In main dataArray is Empty? " + mUser.getUserData().isEmpty());
+
+        profile = new ProfileDrawerItem().withName(catName).withIcon(GoogleMaterial.Icon.gmd_pets);
         profile = new ProfileDrawerItem().withName(catName).withIcon(R.drawable.pawprint);
 
         header = new AccountHeaderBuilder()
@@ -220,6 +250,7 @@ public class MainActivity extends AppCompatActivity {
                             boolean isSetting = false;
                             if (drawerItem.getIdentifier() == 1) {
                                 intent = new Intent(MainActivity.this, StatsDayActivity.class);
+                                readData();
                             }
                             else if (drawerItem.getIdentifier() == 2) {
                                 intent = new Intent(MainActivity.this, StoreActivity.class);
@@ -261,6 +292,13 @@ public class MainActivity extends AppCompatActivity {
 
         scheduleAlarm();
     }
+
+    private void switchDie() {
+        Intent intent = new Intent(this, DeadActivity.class);
+        intent.putExtra("User", mUser);
+        startActivity(intent);
+    }
+
 
     @Override
     protected void onStart() {

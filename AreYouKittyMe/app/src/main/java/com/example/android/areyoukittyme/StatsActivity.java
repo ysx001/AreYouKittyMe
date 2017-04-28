@@ -62,15 +62,14 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
 
     private Context context;
 
-    private final int day = 1;
     // 52 weeks in a year
     private final int week = 52;
     // 12 month in a year
     private final int month = 12;
 
-    public final int[] STEP_COLORS = { R.color.colorAccent };
-    public final int[] FOCUS_COLORS = { R.color.colorAccentLight};
-    public final int[] VOCAB_COLORS = { R.color.colorAccentDark};
+    private final int[] STEP_COLORS = { R.color.colorAccent };
+    private final int[] FOCUS_COLORS = { R.color.colorAccentLight};
+    private final int[] VOCAB_COLORS = { R.color.colorAccentDark};
 
     private User mUser;
 
@@ -83,7 +82,6 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
 
 
     private SeekBar mSeekBarMonth, mSeekBarWeek;
-    private TextView tvMonth, tvWeek;
 
 
 
@@ -129,14 +127,8 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
 //        mTfRegular = Typeface.createFromAsset(getAssets(), "OpenSans-Regular.ttf");
 //        mTfLight = Typeface.createFromAsset(getAssets(), "OpenSans-Light.ttf");
 
-        tvMonth = (TextView) findViewById(R.id.tvMonthMax);
-        tvWeek = (TextView) findViewById(R.id.tvWeekMax);
-
         mSeekBarMonth = (SeekBar) findViewById(R.id.monthSeekBar);
         mSeekBarWeek = (SeekBar) findViewById(R.id.weekSeekBar);
-        
-        
-        
 
         monthChart = (LineChart) findViewById(R.id.monthChart);
         monthChart.setOnChartValueSelectedListener(this);
@@ -159,7 +151,7 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
         monthChart.setPinchZoom(true);
 
         // set an alternative background color
-        monthChart.setBackgroundColor(Color.LTGRAY);
+        //monthChart.setBackgroundColor(Color.rgb(241,195,208));
 
         // add data
         setLineData(this.dataArray, 0);
@@ -175,7 +167,7 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
         lMonth.setForm(LegendForm.LINE);
 //        l.setTypeface(mTfLight);
         lMonth.setTextSize(11f);
-        lMonth.setTextColor(Color.WHITE);
+        lMonth.setTextColor(Color.DKGRAY);
         lMonth.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
         lMonth.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
         lMonth.setOrientation(Legend.LegendOrientation.HORIZONTAL);
@@ -185,7 +177,7 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
         XAxis xMonthAxis = monthChart.getXAxis();
 //        xMonthAxis.setTypeface(mTfLight);
         xMonthAxis.setTextSize(11f);
-        xMonthAxis.setTextColor(Color.WHITE);
+        xMonthAxis.setTextColor(Color.DKGRAY);
         xMonthAxis.setDrawGridLines(false);
         //xMonthAxis.setDrawAxisLine(false);
         xMonthAxis.setValueFormatter(xmonthAxisFormatter);
@@ -238,7 +230,7 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
         XAxis xWeekAxis = weekChart.getXAxis();
         xWeekAxis.setPosition(XAxisPosition.BOTTOM);
         //xWeekAxis.setTypeface(mTfLight);
-        xWeekAxis.setDrawGridLines(false);
+       // xWeekAxis.setDrawGridLines(false);
         xWeekAxis.setGranularity(1f); // only intervals of 1 day
         xWeekAxis.setLabelCount(7);
         xWeekAxis.setValueFormatter(xAxisFormatter);
@@ -260,7 +252,7 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
         // Set Right Axis for focus time
         YAxis rightWeekAxis = weekChart.getAxisRight();
 
-        rightWeekAxis.setDrawGridLines(true);
+       // rightWeekAxis.setDrawGridLines(true);
         //rightWeekAxis.setTypeface(mTfLight);
         rightWeekAxis.setLabelCount(8, false);
         rightWeekAxis.setValueFormatter(weekAxisFormat);
@@ -313,15 +305,15 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
         ArrayList<Entry> vocabTime = new ArrayList<>();
 
         for (int i = start ; i < start + 30; i++) {
-            stepCounts.add(new Entry(i - start, dataArray.get(0).getData().get(i).floatValue()));
+            stepCounts.add(new Entry(i - start, dataArray.get(0).getData().get(i).floatValue()/(float)mUser.getStepsGoal()));
         }
 
         for (int i = start; i < start + 30; i++) {
-            focusTime.add(new Entry(i - start, dataArray.get(1).getData().get(i).floatValue()));
+            focusTime.add(new Entry(i - start, dataArray.get(1).getData().get(i).floatValue()/(float)mUser.getFocusGoal()));
         }
 
         for (int i = start; i < start + 30; i++) {
-            vocabTime.add(new Entry(i - start, dataArray.get(2).getData().get(i).floatValue()));
+            vocabTime.add(new Entry(i - start, dataArray.get(2).getData().get(i).floatValue()/(float)mUser.getVocabGoal()));
         }
 
 
@@ -343,9 +335,9 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
 
             stepSet.setAxisDependency(AxisDependency.LEFT);
             stepSet.setColor(Color.rgb(209, 141, 178));
-            stepSet.setCircleColor(Color.WHITE);
+            stepSet.setCircleColor(Color.rgb(209, 198, 191));
             stepSet.setLineWidth(2f);
-            stepSet.setCircleRadius(3f);
+            stepSet.setCircleRadius(2f);
             stepSet.setFillAlpha(65);
             stepSet.setFillColor(Color.BLUE);
             stepSet.setHighLightColor(Color.BLUE);
@@ -360,9 +352,9 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
             focusSet = new LineDataSet(focusTime, "Focus Time");
             focusSet.setAxisDependency(AxisDependency.RIGHT);
             focusSet.setColor(Color.rgb(241,195,208));
-            focusSet.setCircleColor(Color.WHITE);
+            focusSet.setCircleColor(Color.rgb(209, 198, 191));
             focusSet.setLineWidth(2f);
-            focusSet.setCircleRadius(3f);
+            focusSet.setCircleRadius(2f);
             focusSet.setFillAlpha(65);
             focusSet.setFillColor(Color.RED);
             focusSet.setDrawCircleHole(false);
@@ -373,9 +365,9 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
             vocabSet = new LineDataSet(vocabTime, "Vocab Time");
             vocabSet.setAxisDependency(AxisDependency.RIGHT);
             vocabSet.setColor(Color.rgb(201, 147, 212));
-            vocabSet.setCircleColor(Color.WHITE);
+            vocabSet.setCircleColor(Color.rgb(209, 198, 191));
             vocabSet.setLineWidth(2f);
-            vocabSet.setCircleRadius(3f);
+            vocabSet.setCircleRadius(2f);
             vocabSet.setFillAlpha(65);
             vocabSet.setFillColor(ColorTemplate.colorWithAlpha(Color.YELLOW, 200));
             vocabSet.setDrawCircleHole(false);
@@ -407,9 +399,9 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
         ArrayList<BarEntry> vocabTime = new ArrayList<>();
 
         for (int i = start; i < start + 7; i++) {
-            float stepVal = dataArray.get(0).getData().get(i).floatValue();
-            float focusVal = dataArray.get(1).getData().get(i).floatValue();
-            float vocabVal = dataArray.get(2).getData().get(i).floatValue();
+            float stepVal = dataArray.get(0).getData().get(i).floatValue()/(float) mUser.getStepsGoal();
+            float focusVal = dataArray.get(1).getData().get(i).floatValue()/(float) mUser.getFocusGoal();
+            float vocabVal = dataArray.get(2).getData().get(i).floatValue()/(float) mUser.getVocabGoal();
 
             stepCounts.add(new BarEntry(i - start, new float[] {stepVal, focusVal, vocabVal}));
         }
@@ -577,8 +569,8 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 
-        tvMonth.setText("" + (mSeekBarMonth.getProgress()));
-        tvWeek.setText("" + (mSeekBarWeek.getProgress()));
+        //tvMonth.setText("" + (mSeekBarMonth.getProgress()));
+        //tvWeek.setText("" + (mSeekBarWeek.getProgress()));
 
         setLineData(dataArray , mSeekBarMonth.getProgress());
         monthChart.invalidate();
@@ -597,7 +589,6 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
 
     }
 
-    protected RectF mOnValueSelectedRectF = new RectF();
 
     @SuppressLint("NewApi")
     @Override

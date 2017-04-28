@@ -18,7 +18,7 @@ import java.util.Random;
 
 /**
  * Created by PrGxw on 4/10/2017.
- *
+ * <p>
  * Modifed by ysx001 on 4/25/2017. Added Parcelable
  */
 
@@ -28,29 +28,29 @@ public class User implements Parcelable {
     private  int age;
     private  int totalDays;
 
-    private  ArrayList<UserData> userData = new ArrayList<>();
+    private ArrayList<UserData> userData = new ArrayList<>();
     private final int year = 365;
 
-    private  int stepsGoal;
-    private  int focusGoal;
-    private  int vocabGoal;
+    private int stepsGoal;
+    private int focusGoal;
+    private int vocabGoal;
 
-    private  int steps;
-    private  int focus;
-    private  int vocab;
+    private int steps;
+    private int focus;
+    private int vocab;
 
     // 0: SAT6000
     // 1: French
     // 2: German
     // 3: Spanish
-    private  int vocabBookID;
+    private int vocabBookID;
 
     private static HashMap<Integer, int[]> inventoryList;
 
     // Cat attributes
-    private  int cash;
-    private  int health;
-    private  int mood;
+    private int cash;
+    private int health;
+    private int mood;
 
     private static int HEALTH_MAX = 100;
     private static int MOOD_MAX = 100;
@@ -68,6 +68,8 @@ public class User implements Parcelable {
         this.vocab = 0;
         this.cash = 1000;
         this.inventoryList = null;
+        this.health = 80;
+        this.mood = 50;
         this.health = 80;
         this.mood = 90;
         this.userData = generateData(year, 30.0);
@@ -235,8 +237,8 @@ public class User implements Parcelable {
         ArrayList<Double> stepCountslist = new ArrayList<>();
 
         for (int i = 0; i < count; i++) {
-            Double mult = range ;
-            Double val = (Math.random() * mult) + 50;
+            Double mult = range;
+            Double val = (Math.random() * mult) + 1000;
             stepCountslist.add(val);
         }
 
@@ -255,7 +257,7 @@ public class User implements Parcelable {
 
         for (int i = 0; i < count; i++) {
             Double mult = range / 5.0;
-            Double val = (Math.random() * mult) + 100;
+            Double val = (Math.random() * mult) + 20;
             vocabTimelist.add(val);
         }
 
@@ -285,8 +287,7 @@ public class User implements Parcelable {
 
         if (this.mood >= 60) {
             this.health -= 20;
-        }
-        else {
+        } else {
             this.health -= 30;
         }
 
