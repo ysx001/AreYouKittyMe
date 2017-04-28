@@ -18,6 +18,9 @@
         android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:theme="@style/AppTheme.NoActionBar"
+        android:hardwareAccelerated="false"
+        android:largeHeap="true"
         android:theme="@style/AppTheme">
 
         <!-- Add the launch mode "single top" attribute to the GoogleFitActivity so that when you open -->
@@ -25,7 +28,8 @@
         <!-- generate a new one -->
 
         <activity android:name=".AdoptActivity"
-                  android:launchMode="singleTop">
+            android:theme="@style/AppTheme.NoActionBar.Translucent"
+            android:launchMode="singleInstance">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -36,11 +40,13 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
-            android:launchMode="singleInstance"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar.Translucent"
+            android:launchMode="singleInstance">
+        </activity>
         <activity
             android:name=".SettingsActivity"
             android:label="Settings"
+            android:launchMode="singleInstance"
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

@@ -21,6 +21,8 @@ import android.widget.TextView;
 
 import java.util.Random;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 import static android.app.PendingIntent.getActivity;
 
 public class TimerActivity extends AppCompatActivity implements View.OnClickListener {
@@ -80,7 +82,7 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
         this.isPausing = false;
 
         // enable back button to main page
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
     }
@@ -103,13 +105,13 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
 
         Intent intent = new Intent(context, destActivity);
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        intent.putExtra("User", mUser);
         startActivity(intent);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        NotificationUtils.setTimerActivityResumed();
     }
 
     @Override
@@ -124,6 +126,7 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onResume() {
         super.onResume();
+        NotificationUtils.setTimerActivityResumed();
         if (isCountingdown || isPausing) {
             if ((System.currentTimeMillis() - this.pauseTime) / 1000.0 > 6.0) {
                 timerReset();
@@ -376,5 +379,9 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
         this.secCountdown.setText(String.format("%02d", this.second));
     }
 
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
 
 }

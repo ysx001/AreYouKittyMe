@@ -35,6 +35,8 @@ import com.github.mikephil.charting.utils.MPPointF;
 import java.util.ArrayList;
 import java.util.List;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 public class StatsDayActivity extends AppCompatActivity implements OnChartValueSelectedListener {
 
     private Button monthweekButton;
@@ -82,7 +84,7 @@ public class StatsDayActivity extends AppCompatActivity implements OnChartValueS
 
 
         // enable back button to main page
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Store the context variable
         context = StatsDayActivity.this;
@@ -424,6 +426,11 @@ public class StatsDayActivity extends AppCompatActivity implements OnChartValueS
 
     @Override
     public void onNothingSelected() {
-    };
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
 
 }

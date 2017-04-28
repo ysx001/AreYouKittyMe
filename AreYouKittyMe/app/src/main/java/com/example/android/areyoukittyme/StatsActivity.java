@@ -50,13 +50,13 @@ import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.interfaces.datasets.IDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 /**
  *
  */
 public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeListener,
         OnChartValueSelectedListener{
-
-
 
     private Button dayButton;
 
@@ -98,6 +98,7 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
 
         mUser = startingIntent.getExtras().getParcelable("User");
         dataArray = mUser.getUserData();
+
         MediaPlayer mPlayer = MediaPlayer.create(StatsActivity.this, R.raw.stats);
         mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         mPlayer.start();
@@ -298,7 +299,7 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
         mSeekBarMonth.setOnSeekBarChangeListener(this);
 
         // enable back button to main page
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
     }
 
@@ -611,6 +612,11 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
     @Override
     public void onNothingSelected() {
 
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 }
 

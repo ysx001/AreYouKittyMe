@@ -7,6 +7,9 @@
     android:id="@+id/main_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginBottom="25dp"
+    android:background="@drawable/main"
+    android:fitsSystemWindows="true"
     tools:context=".MainActivity">
 
     <ImageView
@@ -40,8 +43,8 @@
         android:layout_marginTop="28dp" />
 
     <ImageView
-        android:id="@+id/miaomiaomiao_main"
-        android:layout_width="match_parent"
+        android:id="@+id/miaomiaomiao"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:layout_centerVertical="true"

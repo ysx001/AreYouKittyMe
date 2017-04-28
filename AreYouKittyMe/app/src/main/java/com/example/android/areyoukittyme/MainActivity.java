@@ -12,6 +12,9 @@ import android.os.AsyncTask;
 import android.graphics.Point;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.graphics.Color;
+import android.graphics.drawable.AnimationDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -19,6 +22,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,11 +32,15 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.android.areyoukittyme.Item.Avocado;
+import com.example.android.areyoukittyme.Item.Corndog;
 import com.example.android.areyoukittyme.Service.newDayAlarmReceiver;
 import com.example.android.areyoukittyme.Item.Avocado;
 import com.example.android.areyoukittyme.Item.Corndog;
@@ -41,6 +49,12 @@ import com.example.android.areyoukittyme.logger.LogView;
 import com.example.android.areyoukittyme.logger.LogWrapper;
 import com.example.android.areyoukittyme.logger.MessageOnlyLogFilter;
 import com.example.android.areyoukittyme.stepcounter.GoogleFitActivity;
+import com.example.android.areyoukittyme.ItemFragments.AsparagusFragment;
+import com.example.android.areyoukittyme.ItemFragments.AvocadoFragment;
+import com.example.android.areyoukittyme.ItemFragments.BaconFragment;
+import com.example.android.areyoukittyme.ItemFragments.CorndogFragment;
+import com.example.android.areyoukittyme.ItemFragments.FishFragment;
+import com.example.android.areyoukittyme.ItemFragments.HamburgerFragment;
 import com.github.pwittchen.swipe.library.Swipe;
 import com.example.android.areyoukittyme.ItemFragments.AsparagusFragment;
 import com.example.android.areyoukittyme.ItemFragments.AvocadoFragment;
@@ -95,11 +109,13 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class MainActivity extends AppCompatActivity {
 
-    private final int NUM_PAGES = 6;
     // key for parcable
     private User mUser;
 
+    private static int NUM_PAGES = 6;
+
     private Context context;
+
     private AccountHeader header;
     private IProfile profile;
     private Drawer drawer;
@@ -156,8 +172,9 @@ public class MainActivity extends AppCompatActivity {
         moodProgress = (CircularProgressBar) findViewById(R.id.moodProgress);
 
         displayCatName = (TextView) findViewById(R.id.cat_name_display);
+
+//        displayCatName = (TextView) findViewById(R.id.cat_name_display);
         drawerToggler = (ImageView) findViewById(R.id.drawerToggler);
-//        findViewById(R.id.miaomiaomiao).setOnTouchListener(new MyLongClickListener());
 
         testDead = (Button) findViewById(R.id.test_dead);
 
@@ -184,6 +201,11 @@ public class MainActivity extends AppCompatActivity {
         ImageView catAnimation = (ImageView) findViewById(R.id.miaomiaomiao);
         //catAnimation.setBackgroundResource(R.drawable.thin_cat_animation);
         ((AnimationDrawable) catAnimation.getBackground()).start();
+        catAnimation.setOnLongClickListener(new MyLongClickListener());
+        catAnimation.setOnClickListener(new MyClickListener());
+        findViewById(R.id.main_content).setOnClickListener(new MyClickListener());
+        findViewById(R.id.leftArrow).setOnClickListener(new MyClickListener());
+        findViewById(R.id.rightArrow).setOnClickListener(new MyClickListener());
 
         catAnimation.setOnTouchListener(new MyTouchListener());
 
@@ -214,7 +236,8 @@ public class MainActivity extends AppCompatActivity {
 
                         Class destActivity = SettingsActivity.class;
                         Intent settingsIntent = new Intent(context, destActivity);
-
+                        settingsIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                        settingsIntent.putExtra("User", mUser);
                         startActivity(settingsIntent);
 
                         return false;
@@ -243,6 +266,7 @@ public class MainActivity extends AppCompatActivity {
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                         if (drawerItem != null) {
                             Intent intent = null;
+                            boolean isSetting = false;
                             if (drawerItem.getIdentifier() == 1) {
                                 intent = new Intent(MainActivity.this, StatsDayActivity.class);
                             }
@@ -256,7 +280,18 @@ public class MainActivity extends AppCompatActivity {
                                 intent = new Intent(MainActivity.this, TimerActivity.class);
                             }
                             else if (drawerItem.getIdentifier() == 5) {
+                                isSetting = true;
                                 intent = new Intent(MainActivity.this, SettingsActivity.class);
+                                intent.putExtra("User", mUser);
+                                startActivityForResult(intent, 1);
+                            }
+                            else if (drawerItem.getIdentifier() == 6) {
+                            }
+
+                            if (intent != null && !isSetting) {
+                                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                                intent.putExtra("User", mUser);
+                                startActivity(intent);
 
                             }
                             else if (drawerItem.getIdentifier() == 6) {
@@ -290,6 +325,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+//        scheduleAlarm();
         scheduleAlarm();
 //        mApiClient.connect();
         mPager = (ViewPager) findViewById(R.id.pager_temp);
@@ -313,12 +349,23 @@ public class MainActivity extends AppCompatActivity {
         displayCatName.setText(mUser.getName());
         header.updateProfile(profile);
         drawer.setSelection(0);
-//        mApiClient.connect();
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+
+        try {
+            Intent startingIntent = getIntent();
+            mUser = startingIntent.getExtras().getParcelable("User");
+        } catch (Exception e){
+        }
 
         moneyDisplay.setText(String.valueOf(mUser.getCash()));
         healthProgress.setProgressWithAnimation(mUser.getHealth());
@@ -351,19 +398,9 @@ public class MainActivity extends AppCompatActivity {
             intent.addCategory(Intent.CATEGORY_HOME);
             intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 
-
             startActivity(intent);
         }
-        if (mPager.getCurrentItem() == 0) {
-            // If the user is currently looking at the first step, allow the system to handle the
-            // Back button. This calls finish() on this activity and pops the back stack.
-            super.onBackPressed();
-        } else {
-            // Otherwise, select the previous step.
-            mPager.setCurrentItem(mPager.getCurrentItem() - 1);
-        }
     }
-
 
     private void scheduleAlarm() {
 
@@ -535,6 +572,38 @@ public class MainActivity extends AppCompatActivity {
         com.example.android.areyoukittyme.logger.Log.i(TAG, "Ready");
     }
 
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
+    /**
+     * Read the current daily step total, computed from midnight of the current day
+     * on the device's current timezone.
+     */
+    private class VerifyDataTask extends AsyncTask<Void, Void, Void> {
+        protected Void doInBackground(Void... params) {
+
+            long total = 0;
+
+            PendingResult<DailyTotalResult> result = Fitness.HistoryApi.readDailyTotal(mClient, DataType.TYPE_STEP_COUNT_DELTA);
+            DailyTotalResult totalResult = result.await(30, TimeUnit.SECONDS);
+            if (totalResult.getStatus().isSuccess()) {
+                DataSet totalSet = totalResult.getTotal();
+                total = totalSet.isEmpty()
+                        ? 0
+                        : totalSet.getDataPoints().get(0).getValue(Field.FIELD_STEPS).asInt();
+
+                stepCount = total;
+                System.out.println("Step count +" + stepCount);
+                mUser.setSteps((int) total);
+            } else {
+                com.example.android.areyoukittyme.logger.Log.w(TAG, "There was a problem getting the step count.");
+            }
+
+            com.example.android.areyoukittyme.logger.Log.i(TAG, "Total steps: " + total);
+
+            return null;
     /**
      * Read the current daily step total, computed from midnight of the current day
      * on the device's current timezone.
@@ -678,7 +747,9 @@ public class MainActivity extends AppCompatActivity {
 //    private static void eatAnimation() {
 //
 //    }
+    private void eatAnimation() {
 
+    }
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));

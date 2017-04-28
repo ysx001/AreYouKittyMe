@@ -1,5 +1,7 @@
 package com.example.android.areyoukittyme.User;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,7 +46,7 @@ public class User implements Parcelable {
     // 3: Spanish
     private  int vocabBookID;
 
-    private  HashMap<Integer, int[]> inventoryList;
+    private static HashMap<Integer, int[]> inventoryList;
 
     // Cat attributes
     private  int cash;
@@ -66,7 +68,7 @@ public class User implements Parcelable {
         this.cash = 1000;
         this.inventoryList = null;
         this.health = 80;
-        this.mood = 50;
+        this.mood = 90;
         this.userData = generateData(year, 30.0);
         this.inventoryList = new HashMap<Integer, int[]>();
         initInventoryList();
@@ -195,7 +197,7 @@ public class User implements Parcelable {
     }
 
     public int getCash() {
-        return cash;
+        return this.cash;
     }
 
     public void setCash(int cash) {
@@ -332,9 +334,6 @@ public class User implements Parcelable {
         @Override
         public User[] newArray(int size) {
             return new User[size];
-        }
-    };
-
     public void incrementHealth(int amount) {
         this.health += amount;
         if (this.health > HEALTH_MAX) {
@@ -347,7 +346,7 @@ public class User implements Parcelable {
         if (this.mood > MOOD_MAX) {
             this.mood = 100;
         }
-    }
+    };
 
     public static int foodToHealthConversion(int index) {
         // Food: food value / 1000 * 5 (+5 for every $1000 food consumed)

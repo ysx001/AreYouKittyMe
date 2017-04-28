@@ -21,6 +21,8 @@ import android.widget.Toast;
 
 import com.example.android.areyoukittyme.User.User;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 /**
  * Created by Jingya on 4/13/17.
  */
@@ -147,6 +149,11 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         setResult(RESULT_OK, intent);
         finish();
         //startActivity(intent);
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
 }

@@ -257,14 +257,14 @@ public class Vocab_Repo {
         values.put(Vocab._ID, vocab.getVocab_Id());
         values.put(Vocab.KEY_WORD, vocab.getWord());
         values.put(Vocab.KEY_DEFINITION, vocab.getDefinition());
-        if(Integer.parseInt(vocab.getDate())>=7){
+        if(Integer.parseInt(vocab.getDay())>=7){
             values.put(Vocab.KEY_PROGRESS, 2);
             numOfStudied += 1;
             numOfStudying-=1;
         }else{
             values.put(Vocab.KEY_PROGRESS, vocab.getProgress());
         }
-        values.put(Vocab.KEY_DAY, String.format("%d",Integer.parseInt(vocab.getDate()))+1);
+        values.put(Vocab.KEY_DAY, String.format("%d",Integer.parseInt(vocab.getDay()))+1);
         values.put(Vocab.KEY_DATE,newDate);
 
         try{

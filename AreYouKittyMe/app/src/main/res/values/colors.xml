@@ -6,4 +6,8 @@
     <color name="colorAccentLight">#f1c3d0</color>
     <color name="colorAccent">#DB8DB2</color>
     <color name="colorAccentDark">#C993D4</color>
+
+    <color name="material_drawer_background">#463c3c</color>
+    <color name="material_drawer_primary_text">#FFF8F9</color>
+    <color name="material_drawer_primary_icon">#FFF8F9</color>
 </resources>

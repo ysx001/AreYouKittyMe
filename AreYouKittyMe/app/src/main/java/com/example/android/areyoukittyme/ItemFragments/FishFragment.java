@@ -53,8 +53,8 @@ public class FishFragment extends Fragment {
             // TODO: decrease in amount;
             // TODO: animation:
             // increase health and mood
-            User.incrementHealth(User.foodToHealthConversion(vp.getCurrentItem()));
-            User.incrementMood(User.foodToMoodConversion(vp.getCurrentItem()));
+            //User.incrementHealth(User.foodToHealthConversion(vp.getCurrentItem()));
+            //User.incrementMood(User.foodToMoodConversion(vp.getCurrentItem()));
         }
     }
 

@@ -15,6 +15,8 @@ import com.example.android.areyoukittyme.User.User;
 import com.example.android.areyoukittyme.User.User;
 import com.example.android.areyoukittyme.Vocabs_Utilities.Vocab_Repo;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 public class AdoptActivity extends AppCompatActivity {
 
     private EditText catNameTxt;
@@ -76,8 +78,9 @@ public class AdoptActivity extends AppCompatActivity {
 
     }
 
-
-    public void onClickNameCatButton(View v) {
-
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
+
 }

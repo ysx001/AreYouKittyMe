@@ -29,6 +29,8 @@ package com.example.android.areyoukittyme;
         import java.util.ArrayList;
         import java.util.HashMap;
 
+        import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 public class StoreActivity extends AppCompatActivity {
 
     private User mUser;
@@ -50,18 +52,16 @@ public class StoreActivity extends AppCompatActivity {
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        shake = AnimationUtils.loadAnimation(this, R.anim.shake);
         super.onCreate(savedInstanceState);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setContentView(R.layout.activity_store);
 
-        // Use getIntent method to store the Intent that started this Activity
+        // Get parcelable user
         Intent startingIntent = getIntent();
         mUser = startingIntent.getExtras().getParcelable("User");
 
+        shake = AnimationUtils.loadAnimation(this, R.anim.shake);
 
-
-
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setContentView(R.layout.activity_store);
         priceList = new ArrayList<>();
         amountListTextView = new ArrayList<>();
         amountListInt = new ArrayList<>();
@@ -76,10 +76,8 @@ public class StoreActivity extends AppCompatActivity {
         View coordLayout = findViewById(R.id.coordinatorLayout);
         mySnackbar = Snackbar.make(coordLayout, "Not Enough CatCash", BaseTransientBottomBar.LENGTH_SHORT);
 
-        //TODO: find a way to store the model
-        mUser.setCash(100);
-        mUser.setInventoryList(new HashMap<Integer, Object[]>());
-        this.theStore = new Store();
+//        User.setInventoryList(new HashMap<Integer, Object[]>());
+//        new Store();
         populateStore();
 
         catCash = (TextView) findViewById(R.id.catCash);
@@ -106,16 +104,13 @@ public class StoreActivity extends AppCompatActivity {
 
         Intent intent = new Intent(context, destActivity);
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        intent.putExtra("User", mUser);
         startActivity(intent);
     }
 
 
 
     private void checkout() {
-//        int total = 0;
-//        int price;
-//        int amount;
-
         MediaPlayer mPlayer = MediaPlayer.create(StoreActivity.this, R.raw.cash_register);
         mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         mPlayer.start();
@@ -130,7 +125,7 @@ public class StoreActivity extends AppCompatActivity {
             for (int i = 0; i < StoreActivity.amountListTextView.size(); i++) {
                 StoreActivity.amountListTextView.get(i).setText(String.valueOf(0));
             }
-            mUser.userCheckout(StoreActivity.amountList, StoreActivity.priceList);
+            mUser.userCheckout(StoreActivity.amountListInt, StoreActivity.priceList);
         }
     }
 
@@ -261,6 +256,13 @@ public class StoreActivity extends AppCompatActivity {
 
         }
     }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
+
 }
 
 //package com.example.android.areyoukittyme;
