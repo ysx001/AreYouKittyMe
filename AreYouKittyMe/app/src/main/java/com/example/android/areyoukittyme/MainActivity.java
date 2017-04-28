@@ -41,7 +41,6 @@ import com.example.android.areyoukittyme.User.User;
 import com.example.android.areyoukittyme.logger.LogView;
 import com.example.android.areyoukittyme.logger.LogWrapper;
 import com.example.android.areyoukittyme.logger.MessageOnlyLogFilter;
-import com.example.android.areyoukittyme.stepcounter.GoogleFitActivity;
 import com.example.android.areyoukittyme.ItemFragments.AsparagusFragment;
 import com.example.android.areyoukittyme.ItemFragments.AvocadoFragment;
 import com.example.android.areyoukittyme.ItemFragments.BaconFragment;
