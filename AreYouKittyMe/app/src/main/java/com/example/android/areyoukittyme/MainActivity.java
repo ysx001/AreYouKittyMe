@@ -202,6 +202,7 @@ public class MainActivity extends AppCompatActivity {
         System.out.println("In main dataArray is Empty? " + mUser.getUserData().isEmpty());
 
         profile = new ProfileDrawerItem().withName(catName).withIcon(GoogleMaterial.Icon.gmd_pets);
+        profile = new ProfileDrawerItem().withName(catName).withIcon(R.drawable.pawprint);
 
         header = new AccountHeaderBuilder()
                 .withActivity(this)

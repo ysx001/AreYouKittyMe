@@ -18,6 +18,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10sp"
+        android:paddingStart="10dp"
+        android:text="Steps Today:" />
         android:text="Steps Today:"/>
 
     <TextView
@@ -25,13 +27,25 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10sp"
+        android:paddingStart="10dp"
+        android:text="Vocab Studied:" />
         android:text="Vocab Studied:"/>
+
+    <TextView
+        android:id="@+id/vocabTimeView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10sp"
+        android:paddingStart="10dp"
+        android:text="Vocab Time:" />
 
     <TextView
         android:id="@+id/focusTimeView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10sp"
+        android:paddingStart="10dp"
+        android:text="Focus Time: " />
         android:text="Focus Time: "/>
 
 
@@ -50,6 +64,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Month/Week"
+        android:layout_marginTop="10dp"
         android:background="@color/colorAccentLight"
         />
 

@@ -230,7 +230,7 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
         XAxis xWeekAxis = weekChart.getXAxis();
         xWeekAxis.setPosition(XAxisPosition.BOTTOM);
         //xWeekAxis.setTypeface(mTfLight);
-        xWeekAxis.setDrawGridLines(false);
+       // xWeekAxis.setDrawGridLines(false);
         xWeekAxis.setGranularity(1f); // only intervals of 1 day
         xWeekAxis.setLabelCount(7);
         xWeekAxis.setValueFormatter(xAxisFormatter);
@@ -252,7 +252,7 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
         // Set Right Axis for focus time
         YAxis rightWeekAxis = weekChart.getAxisRight();
 
-        rightWeekAxis.setDrawGridLines(true);
+       // rightWeekAxis.setDrawGridLines(true);
         //rightWeekAxis.setTypeface(mTfLight);
         rightWeekAxis.setLabelCount(8, false);
         rightWeekAxis.setValueFormatter(weekAxisFormat);
@@ -399,9 +399,9 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
         ArrayList<BarEntry> vocabTime = new ArrayList<>();
 
         for (int i = start; i < start + 7; i++) {
-            float stepVal = dataArray.get(0).getData().get(i).floatValue();
-            float focusVal = dataArray.get(1).getData().get(i).floatValue();
-            float vocabVal = dataArray.get(2).getData().get(i).floatValue();
+            float stepVal = dataArray.get(0).getData().get(i).floatValue()/(float) mUser.getStepsGoal();
+            float focusVal = dataArray.get(1).getData().get(i).floatValue()/(float) mUser.getFocusGoal();
+            float vocabVal = dataArray.get(2).getData().get(i).floatValue()/(float) mUser.getVocabGoal();
 
             stepCounts.add(new BarEntry(i - start, new float[] {stepVal, focusVal, vocabVal}));
         }

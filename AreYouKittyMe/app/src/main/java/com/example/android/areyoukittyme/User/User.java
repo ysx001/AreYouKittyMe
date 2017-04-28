@@ -24,8 +24,9 @@ import java.util.Random;
 
 public class User implements Parcelable {
 
-    private String name;
-    private int age;
+    private  String name;
+    private  int age;
+    private  int totalDays;
 
     private ArrayList<UserData> userData = new ArrayList<>();
     private final int year = 365;
@@ -56,6 +57,8 @@ public class User implements Parcelable {
 
     public User(String name) {
         this.name = name;
+        this.age = 1;
+        this.totalDays = 0;
         this.stepsGoal = 8000;
         this.focusGoal = 120;
         this.vocabGoal = 30;
@@ -271,6 +274,13 @@ public class User implements Parcelable {
 
 
     public void newDay() {
+        this.totalDays ++;
+
+        if (this.age < 8 && this.totalDays >= Math.pow(this.age, 2)) {
+            this.totalDays = 0;
+            this.age ++;
+        }
+
         this.steps = 0;
         this.focus = 0;
         this.vocab = 0;

@@ -136,7 +136,7 @@
         android:layout_alignStart="@+id/nameSettingLabel"
         android:layout_marginBottom="10dp"
         android:padding="5dp"
-        android:text="Age:"
+        android:text="Level:"
         android:textSize="18sp" />
 
     <ImageView
@@ -147,7 +147,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="29dp"
         android:layout_marginTop="30dp"
-        app:srcCompat="@mipmap/ic_launcher_round" />
+        app:srcCompat="@drawable/pawprint" />
 
     <TextView
         android:id="@+id/nameSettingLabel"

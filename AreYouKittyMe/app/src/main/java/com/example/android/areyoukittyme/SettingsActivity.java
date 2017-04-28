@@ -79,7 +79,44 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
 
     private void loadCurrentSettings() {
         nameSetting.setText(mUser.getName());
-        ageSetting.setText(String.valueOf(mUser.getAge()));
+
+        int age = mUser.getAge();
+        String level = "";
+        switch (age) {
+            case 1: {
+                level = "Kindergarden";
+                break;
+            }
+            case 2: {
+                level = "Primary School";
+                break;
+            }
+            case 3: {
+                level = "Middle School";
+                break;
+            }
+            case 4: {
+                level = "High School";
+                break;
+            }
+            case 5: {
+                level = "College";
+                break;
+            }
+            case 6: {
+                level = "Master";
+                break;
+            }
+            case 7: {
+                level = "PhD";
+                break;
+            }
+            case 8: {
+                level = "Professor";
+                break;
+            }
+        }
+        ageSetting.setText(level);
 
         vocabSetting.setText(String.valueOf(mUser.getVocabGoal()));
         stepsSetting.setText(String.valueOf(mUser.getStepsGoal()));
@@ -90,7 +127,6 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
 
     private void applySettings() {
         mUser.setName(nameSetting.getText().toString());
-        mUser.setAge(Integer.parseInt(ageSetting.getText().toString()));
 
         mUser.setVocabGoal(Integer.parseInt(vocabSetting.getText().toString()));
         mUser.setStepsGoal(Integer.parseInt(stepsSetting.getText().toString()));
