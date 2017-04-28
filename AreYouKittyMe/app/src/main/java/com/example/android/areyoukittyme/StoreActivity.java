@@ -103,6 +103,7 @@ public class StoreActivity extends AppCompatActivity {
 
         Intent intent = new Intent(context, destActivity);
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        intent.putExtra("User", mUser);
         startActivity(intent);
     }
 

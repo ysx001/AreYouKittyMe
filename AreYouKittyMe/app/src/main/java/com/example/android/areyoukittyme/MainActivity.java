@@ -217,6 +217,7 @@ public class MainActivity extends AppCompatActivity {
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                         if (drawerItem != null) {
                             Intent intent = null;
+                            boolean isSetting = false;
                             if (drawerItem.getIdentifier() == 1) {
                                 intent = new Intent(MainActivity.this, StatsDayActivity.class);
                             }
@@ -230,15 +231,18 @@ public class MainActivity extends AppCompatActivity {
                                 intent = new Intent(MainActivity.this, TimerActivity.class);
                             }
                             else if (drawerItem.getIdentifier() == 5) {
+                                isSetting = true;
                                 intent = new Intent(MainActivity.this, SettingsActivity.class);
+                                intent.putExtra("User", mUser);
+                                startActivityForResult(intent, 1);
                             }
                             else if (drawerItem.getIdentifier() == 6) {
                             }
 
-                            if (intent != null) {
+                            if (intent != null && !isSetting) {
                                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                                 intent.putExtra("User", mUser);
-                                startActivityForResult(intent, 1);
+                                startActivity(intent);
                             }
                         }
                         return false;
@@ -269,8 +273,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
+
+        try {
+            Intent startingIntent = getIntent();
+            mUser = startingIntent.getExtras().getParcelable("User");
+        } catch (Exception e){
+        }
 
         moneyDisplay.setText(String.valueOf(mUser.getCash()));
         healthProgress.setProgressWithAnimation(mUser.getHealth());
@@ -304,14 +320,6 @@ public class MainActivity extends AppCompatActivity {
             intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 
             startActivity(intent);
-        }
-        if (mPager.getCurrentItem() == 0) {
-            // If the user is currently looking at the first step, allow the system to handle the
-            // Back button. This calls finish() on this activity and pops the back stack.
-            super.onBackPressed();
-        } else {
-            // Otherwise, select the previous step.
-            mPager.setCurrentItem(mPager.getCurrentItem() - 1);
         }
     }
 

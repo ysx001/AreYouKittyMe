@@ -105,13 +105,13 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
 
         Intent intent = new Intent(context, destActivity);
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        intent.putExtra("User", mUser);
         startActivity(intent);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        NotificationUtils.setTimerActivityResumed();
     }
 
     @Override
@@ -126,6 +126,7 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onResume() {
         super.onResume();
+        NotificationUtils.setTimerActivityResumed();
         if (isCountingdown || isPausing) {
             if ((System.currentTimeMillis() - this.pauseTime) / 1000.0 > 6.0) {
                 timerReset();
