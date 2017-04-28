@@ -135,7 +135,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 mUser.newDay();
                 //mUser.setHealth(-20);
-                System.out.println("Health now is" + mUser.getHealth());
+                System.out.println("Clicked, Health now is" + mUser.getHealth());
+                System.out.println("Clicked, Mood now is" + mUser.getMood());
                 moneyDisplay.setText(String.valueOf(mUser.getCash()));
                 healthProgress.setProgressWithAnimation(mUser.getHealth());
                 moodProgress.setProgressWithAnimation(mUser.getMood());

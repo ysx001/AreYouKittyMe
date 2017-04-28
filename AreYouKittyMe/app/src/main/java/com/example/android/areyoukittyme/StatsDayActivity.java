@@ -44,28 +44,12 @@ public class StatsDayActivity extends AppCompatActivity implements OnChartValueS
 
     private Context context;
 
-    private final int day = 1;
-    // 52 weeks in a year
-    private final int week = 52;
-    // 12 month in a year
-    private final int month = 12;
-    private final int year = 365;
-
-    public final int[] STEP_COLORS = { R.color.colorAccent };
-    public final int[] FOCUS_COLORS = { R.color.colorAccentLight};
-    public final int[] VOCAB_COLORS = { R.color.colorAccentDark};
 
     private User mUser;
 
     private ArrayList<UserData> dataArray  = new ArrayList<>();
 
-
-//    private ArrayList<ArrayList<Double>> dataArray = generateData(year, 30.0);
-
-
     protected HorizontalBarChart dayChart;
-    private SeekBar mSeekBarX, mSeekBarY;
-    private TextView tvX, tvY;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -303,19 +287,6 @@ public class StatsDayActivity extends AppCompatActivity implements OnChartValueS
 
 
 
-    private int[] getColors() {
-
-        int stacksize = 3;
-
-        // have as many colors as stack-values per entry
-        int[] colors = new int[stacksize];
-
-        colors[0] = STEP_COLORS[0];
-        colors[1] = FOCUS_COLORS[0];
-        colors[2] = VOCAB_COLORS[0];
-
-        return colors;
-    }
 
     private void setBarData(ArrayList<UserData> dataArray) {
 

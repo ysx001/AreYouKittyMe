@@ -60,15 +60,14 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
 
     private Context context;
 
-    private final int day = 1;
     // 52 weeks in a year
     private final int week = 52;
     // 12 month in a year
     private final int month = 12;
 
-    public final int[] STEP_COLORS = { R.color.colorAccent };
-    public final int[] FOCUS_COLORS = { R.color.colorAccentLight};
-    public final int[] VOCAB_COLORS = { R.color.colorAccentDark};
+    private final int[] STEP_COLORS = { R.color.colorAccent };
+    private final int[] FOCUS_COLORS = { R.color.colorAccentLight};
+    private final int[] VOCAB_COLORS = { R.color.colorAccentDark};
 
     private User mUser;
 
@@ -81,7 +80,6 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
 
 
     private SeekBar mSeekBarMonth, mSeekBarWeek;
-    private TextView tvMonth, tvWeek;
 
 
 
@@ -121,9 +119,6 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
 
 //        mTfRegular = Typeface.createFromAsset(getAssets(), "OpenSans-Regular.ttf");
 //        mTfLight = Typeface.createFromAsset(getAssets(), "OpenSans-Light.ttf");
-
-        tvMonth = (TextView) findViewById(R.id.tvMonthMax);
-        tvWeek = (TextView) findViewById(R.id.tvWeekMax);
 
         mSeekBarMonth = (SeekBar) findViewById(R.id.monthSeekBar);
         mSeekBarWeek = (SeekBar) findViewById(R.id.weekSeekBar);
@@ -587,7 +582,6 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
 
     }
 
-    protected RectF mOnValueSelectedRectF = new RectF();
 
     @SuppressLint("NewApi")
     @Override
