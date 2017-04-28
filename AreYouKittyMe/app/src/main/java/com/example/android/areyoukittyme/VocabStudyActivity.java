@@ -115,7 +115,7 @@ public class VocabStudyActivity extends AppCompatActivity implements View.OnClic
 
     public void highlightTheCorrectAnswer(){
         Button[] btns = new Button[]{choiceBtn1,choiceBtn2,choiceBtn3,choiceBtn4};
-        btns[quiz.getCurrentQuestion().getIndexOfRightAnswer()].setBackgroundColor(Color.RED);
+        btns[quiz.getCurrentQuestion().getIndexOfRightAnswer()].setBackgroundColor(Light_Goldenrod_Color);
 
     }
 

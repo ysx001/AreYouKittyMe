@@ -82,11 +82,12 @@ public class VocabActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                try {
-                    Vocab_Repo.addAnEntireVocabListToTheDataBase(getAssets().open("French.txt"));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                //Vocab_Repo.addAnEntireVocabListToTheDataBase(getAssets().open("French.txt"));
+                Context context = VocabActivity.this;
+                Class destActivity = VocabularyListActivity.class;
+                Intent startVocabActivityIntent = new Intent(context, destActivity);
+
+                startActivity(startVocabActivityIntent);
             }
         });
 

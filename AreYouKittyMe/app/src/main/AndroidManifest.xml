@@ -78,14 +78,6 @@
                 android:value=".VocabActivity"/>
         </activity>
         <activity
-            android:name=".VocabReviewActivity"
-            android:label="@string/app_name"
-            android:parentActivityName=".VocabActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".VocabReviewActivity"/>
-        </activity>
-        <activity
             android:name=".VocabStudyActivity"
             android:label="@string/app_name"
             android:parentActivityName=".VocabActivity">
@@ -93,6 +85,43 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".VocabStudyActivity"/>
         </activity>
+
+        <activity
+            android:name=".VocabularyListActivity"
+            android:label="@string/app_name"
+            android:parentActivityName=".VocabActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".VocabularyListActivity"/>
+        </activity>
+
+        <activity
+            android:name=".Studying_Activity"
+            android:label="@string/app_name"
+            android:parentActivityName=".VocabularyListActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Studying_Activity"/>
+        </activity>
+
+        <activity
+            android:name=".Studid_Activity"
+            android:label="@string/app_name"
+            android:parentActivityName=".VocabularyListActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Studid_Activity"/>
+        </activity>
+
+        <activity
+            android:name=".NotStarted_Activity"
+            android:label="@string/app_name"
+            android:parentActivityName=".VocabularyListActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".NotStarted_Activity"/>
+        </activity>
+
         <activity
             android:name=".TimerActivity"
             android:label="@string/title_timer"

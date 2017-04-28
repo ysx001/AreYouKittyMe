@@ -26,6 +26,12 @@ public class Quiz {
 
     protected boolean exited = false;
 
+    protected int numOfQuestions;
+    protected int numOfQuestionStudiedToday;
+    protected int numOfQuestionGotRight;
+    protected int numOfQuestionKnwon;
+
+
     public Quiz(boolean mode) throws ParseException {
 
 
@@ -37,6 +43,7 @@ public class Quiz {
         }
         this.answeredQuestions = new ArrayList<Question>();
         currentQuestion = this.questions.get(0);
+
 
     }
 
