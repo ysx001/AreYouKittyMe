@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+
+    <string android:name="app_name">example1</string>
+    <string android:name="hello_world">Hello world!</string>
+
+    <string-array android:name="titles">
+        <item>Prakash</item>
+        <item>Bhavin</item>
+        <item>Chirag</item>
+        <item>Yakub</item>
+    </string-array>
+</resources>

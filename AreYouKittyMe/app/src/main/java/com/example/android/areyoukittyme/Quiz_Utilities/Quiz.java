@@ -26,6 +26,12 @@ public class Quiz {
 
     protected boolean exited = false;
 
+    protected int numOfQuestions;
+    protected int numOfQuestionStudiedToday;
+    protected int numOfQuestionGotRight;
+    protected int numOfQuestionKnwon;
+
+
     public Quiz(boolean mode) throws ParseException {
 
 
@@ -37,6 +43,7 @@ public class Quiz {
         }
         this.answeredQuestions = new ArrayList<Question>();
         currentQuestion = this.questions.get(0);
+
 
     }
 
@@ -79,6 +86,12 @@ public class Quiz {
             Vocab_Repo.updateAWordOnItsProgress(1,question.getVocab().getVocab_Id(),0);
         }else if(question.getVocab().getProgress()==1){
             Vocab_Repo.updateAWordOnItsReviewPeriod(question.getVocab().getVocab_Id());
+        }
+    }
+
+    public void processYoAnswer(Question question) throws ParseException {
+        if(question.getVocab().getProgress() == 0){
+            Vocab_Repo.updateAWordOnItsProgress(1,question.getVocab().getVocab_Id(),0);
         }
     }
 

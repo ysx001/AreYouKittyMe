@@ -117,7 +117,7 @@ public class VocabStudyActivity extends AppCompatActivity implements View.OnClic
 
     public void highlightTheCorrectAnswer(){
         Button[] btns = new Button[]{choiceBtn1,choiceBtn2,choiceBtn3,choiceBtn4};
-        btns[quiz.getCurrentQuestion().getIndexOfRightAnswer()].setBackgroundColor(Color.RED);
+        btns[quiz.getCurrentQuestion().getIndexOfRightAnswer()].setBackgroundColor(Light_Goldenrod_Color);
 
     }
 
@@ -222,6 +222,11 @@ public class VocabStudyActivity extends AppCompatActivity implements View.OnClic
                 updateQuizInterface();
                 answered = false;
             } else {
+                try {
+                    quiz.processYoAnswer(quiz.getCurrentQuestion());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
                 highlightTheCorrectAnswer();
             }
         }
