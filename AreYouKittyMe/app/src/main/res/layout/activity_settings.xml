@@ -143,11 +143,10 @@
         android:id="@+id/profileImage"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_alignParentStart="true"
+        android:layout_marginTop="60dp"
+        app:srcCompat="@drawable/pawprint"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="29dp"
-        android:layout_marginTop="30dp"
-        app:srcCompat="@drawable/pawprint" />
+        android:layout_alignEnd="@+id/focusSettingLabel" />
 
     <TextView
         android:id="@+id/nameSettingLabel"
