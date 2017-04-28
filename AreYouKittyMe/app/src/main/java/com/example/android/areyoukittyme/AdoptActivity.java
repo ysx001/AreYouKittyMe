@@ -13,11 +13,13 @@ import android.widget.EditText;
 import com.example.android.areyoukittyme.Store.Store;
 import com.example.android.areyoukittyme.User.User;
 import com.example.android.areyoukittyme.User.User;
+import com.example.android.areyoukittyme.Vocabs_Utilities.Vocab_Repo;
 
 public class AdoptActivity extends AppCompatActivity {
 
     private EditText catNameTxt;
     private Button catNameButton;
+    private User mUser;
 
 
     @Override
@@ -31,7 +33,7 @@ public class AdoptActivity extends AppCompatActivity {
         // find the button and the edittext from xml using findViewById
         catNameTxt = (EditText) findViewById(R.id.cat_name_txt);
         catNameButton = (Button) findViewById(R.id.cat_name_btn);
-
+        System.out.println("Yo");
 
         // Setting an OnClickLister for the catNameButton
         catNameButton.setOnClickListener(new OnClickListener() {
@@ -42,7 +44,10 @@ public class AdoptActivity extends AppCompatActivity {
 
                 if (textEntered.length() > 0) {
                     // Initialize User object
-                    User user = new User(textEntered);
+                    mUser = new User(textEntered);
+                    System.out.println("New health is " + mUser.getHealth());
+                    System.out.println("New mood is " + mUser.getMood());
+                    System.out.println("New cash is " + mUser.getCash());
 
                     // Store the context variable
                     Context context = AdoptActivity.this;
@@ -50,6 +55,7 @@ public class AdoptActivity extends AppCompatActivity {
                     Class destActivity = MainActivity.class;
                     // create Intent that will start the activity
                     Intent startMainActivityIntent = new Intent(context, destActivity);
+                    startMainActivityIntent.putExtra("User", mUser);
                     startActivity(startMainActivityIntent);
                 }
                 else {

@@ -35,20 +35,28 @@
         android:layout_height="wrap_content"
         android:text="This is default text. Hopefully it changes."
         android:textSize="30sp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true" />
+        android:layout_below="@+id/drawerToggler"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="28dp" />
 
     <ImageView
         android:id="@+id/miaomiaomiao_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/catnormal0001"
+        android:layout_marginTop="32dp"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
-        android:layout_marginTop="31dp"
-        android:visibility="visible"
-        android:layout_below="@+id/cat_name_display"
-        android:layout_alignParentStart="true" />/>
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/normal_cat_animation"
+        />
+
+    <!--<ImageView-->
+        <!--android:id="@+id/miaomiaomiao"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--app:srcCompat="@drawable/catnormal0001"-->
+        <!--android:layout_marginTop="32dp"-->
+        <!--android:layout_below="@+id/cat_name_display"-->
+        <!--android:layout_centerHorizontal="true" />-->
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/drawerToggler"
@@ -106,6 +114,29 @@
         android:layout_marginStart="30dp"
         android:text="####"
         android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/test_dead"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Day"
+        android:layout_alignBottom="@+id/moodProgress"
+        android:layout_centerHorizontal="true" />
+    <!--<TextView-->
+        <!--android:id="@+id/title_text_view"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="@string/intro_text" />-->
+    <!--<ScrollView-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="fill_parent"-->
+        <!--android:layout_below="@id/title_text_view">-->
+        <!--<com.example.android.areyoukittyme.logger.LogView-->
+            <!--android:id="@+id/sample_logview"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:scrollbars="vertical" />-->
+    <!--</ScrollView>-->
 
 
     <RelativeLayout

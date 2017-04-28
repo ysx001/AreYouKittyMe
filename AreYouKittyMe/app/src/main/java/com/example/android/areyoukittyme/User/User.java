@@ -3,6 +3,8 @@ package com.example.android.areyoukittyme.User;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.widget.TextView;
 
 import com.example.android.areyoukittyme.Cat.Cat;
@@ -10,63 +12,63 @@ import com.example.android.areyoukittyme.Item.Item;
 import com.example.android.areyoukittyme.R;
 import com.example.android.areyoukittyme.Store.Store;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
 /**
  * Created by PrGxw on 4/10/2017.
+ *
+ * Modifed by ysx001 on 4/25/2017. Added Parcelable
  */
 
-public class User {
+public class User implements Parcelable {
 
-    private static String name;
-    private static int age;
+    private  String name;
+    private  int age;
 
-    private static ArrayList<ArrayList<Double>> userData;
+    private  ArrayList<UserData> userData = new ArrayList<>();
     private final int year = 365;
 
-    private static int stepsGoal;
-    private static int focusGoal;
-    private static int vocabGoal;
+    private  int stepsGoal;
+    private  int focusGoal;
+    private  int vocabGoal;
 
-    private static int steps;
-    private static int focus;
-    private static int vocab;
+    private  int steps;
+    private  int focus;
+    private  int vocab;
 
     // 0: SAT6000
     // 1: French
     // 2: German
     // 3: Spanish
-    private static int vocabBookID;
+    private  int vocabBookID;
 
-    private static HashMap<Integer, int[]> inventoryList;
+    private  HashMap<Integer, int[]> inventoryList;
 
     // Cat attributes
-    private static int cash;
-    private static int health;
-    private static int mood;
+    private  int cash;
+    private  int health;
+    private  int mood;
 
     private static int HEALTH_MAX = 100;
     private static int MOOD_MAX = 100;
 
     public User(String name) {
-        User.name = name;
-        User.stepsGoal = 8000;
-        User.focusGoal = 120;
-        User.vocabGoal = 30;
-        User.vocabBookID = 0;
-        User.steps = 0;
-        User.focus = 0;
-        User.vocab = 0;
-        User.cash = 1000;
-        User.inventoryList = null;
-        User.health = 80;
-        User.mood = 90;
-        User.userData = generateData(year, 30.0);
-        User.cash = 1000;
-        User.inventoryList = new HashMap<Integer, int[]>();
+        this.name = name;
+        this.stepsGoal = 8000;
+        this.focusGoal = 120;
+        this.vocabGoal = 30;
+        this.vocabBookID = 0;
+        this.steps = 0;
+        this.focus = 0;
+        this.vocab = 0;
+        this.cash = 1000;
+        this.inventoryList = null;
+        this.health = 80;
+        this.mood = 50;
+        this.userData = generateData(year, 30.0);
+        this.inventoryList = new HashMap<Integer, int[]>();
         initInventoryList();
     }
 
@@ -97,79 +99,91 @@ public class User {
     }
 
 
-    public static String getName() {
+    public String getName() {
         return name;
     }
 
-    public static void setName(String name) {
-        User.name = name;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public static int getAge() {
+    public int getAge() {
         return age;
     }
 
-    public static void setAge(int age) {
-        User.age = age;
+    public void setAge(int age) {
+        this.age = age;
     }
 
-    public static int getStepsGoal() {
+    public void setUserData(ArrayList<UserData> userData) {
+        this.userData = userData;
+    }
+
+    public ArrayList<UserData> getUserData() {
+        return userData;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public int getStepsGoal() {
         return stepsGoal;
     }
 
-    public static void setStepsGoal(int stepsGoal) {
-        User.stepsGoal = stepsGoal;
+    public void setStepsGoal(int stepsGoal) {
+        this.stepsGoal = stepsGoal;
     }
 
-    public static int getFocusGoal() {
+    public int getFocusGoal() {
         return focusGoal;
     }
 
-    public static void setFocusGoal(int focusGoal) {
-        User.focusGoal = focusGoal;
+    public void setFocusGoal(int focusGoal) {
+        this.focusGoal = focusGoal;
     }
 
-    public static int getVocabGoal() {
+    public int getVocabGoal() {
         return vocabGoal;
     }
 
-    public static void setVocabGoal(int vocabGoal) {
-        User.vocabGoal = vocabGoal;
+    public void setVocabGoal(int vocabGoal) {
+        this.vocabGoal = vocabGoal;
     }
 
-    public static int getSteps() {
+    public int getSteps() {
         return steps;
     }
 
-    public static void setSteps(int steps) {
-        User.steps = steps;
+    public void setSteps(int steps) {
+        this.steps = steps;
     }
 
-    public static int getFocus() {
+    public int getFocus() {
         return focus;
     }
 
-    public static void setFocus(int focus) {
-        User.focus += focus;
-        if (User.focus >= User.focusGoal) {
-            User.cash += 500;
+    public void setFocus(int focus) {
+        this.focus += focus;
+        if (this.focus >= this.focusGoal) {
+            this.cash += 500;
         }
     }
 
-    public static int getVocab() {
+    public int getVocab() {
         return vocab;
     }
 
-    public static void setVocab(int vocab) {
-        User.vocab = vocab;
+    public void setVocab(int vocab) {
+        this.vocab = vocab;
     }
 
-    public static int getVocabBookID() {
+    public int getVocabBookID() {
         return vocabBookID;
     }
 
-    public static void setVocabBookID(int vocabBookID) {
-        User.vocabBookID = vocabBookID;
+    public void setVocabBookID(int vocabBookID) {
+        this.vocabBookID = vocabBookID;
     }
 
     public static HashMap<Integer, int[]> getInventoryList() {
@@ -180,65 +194,71 @@ public class User {
         User.inventoryList = inventoryList;
     }
 
-    public static int getCash() {
+    public int getCash() {
         return cash;
     }
 
-    public static void setCash(int c) {
-        User.cash = c;
+    public void setCash(int cash) {
+        this.cash = cash;
     }
 
-    public static int getHealth() {
+    public int getHealth() {
         return health;
     }
 
-    public static void setHealth(int health) {
-        User.health += health;
-        if (User.health > 100) {
-            User.health = 100;
+    public void setHealth(int health) {
+        this.health += health;
+        if (this.health > 100) {
+            this.health = 100;
         }
     }
 
-    public static int getMood() {
+    public int getMood() {
         return mood;
     }
 
-    public static void setMood(int mood) {
-        User.mood += mood;
-        if (User.mood > 100) {
-            User.mood = 100;
+    public void setMood(int mood) {
+        this.mood += mood;
+        if (this.mood > 100) {
+            this.mood = 100;
         }
     }
 
-    private ArrayList<ArrayList<Double>> generateData(int count, Double range) {
+    private ArrayList<UserData> generateData(int count, Double range) {
 
-        ArrayList<ArrayList<Double>> data = new ArrayList<>();
-        ArrayList<Double> stepCounts = new ArrayList<>();
+        ArrayList<UserData> data = new ArrayList<>();
+
+
+        ArrayList<Double> stepCountslist = new ArrayList<>();
 
         for (int i = 0; i < count; i++) {
             Double mult = range ;
             Double val = (Math.random() * mult) + 50;
-            stepCounts.add(val);
+            stepCountslist.add(val);
         }
 
-        ArrayList<Double> focusTime = new ArrayList<>();
+        ArrayList<Double> focusTimelist = new ArrayList<>();
 
         for (int i = 0; i < count; i++) {
             Double mult = range / 2.0;
             Double val = (Math.random() * mult) + 60;
-            focusTime.add(val);
+            focusTimelist.add(val);
 //            if(i == 10) {
 //                yVals2.add(new Entry(i, val + 50));
 //            }
         }
 
-        ArrayList<Double> vocabTime = new ArrayList<>();
+        ArrayList<Double> vocabTimelist = new ArrayList<>();
 
         for (int i = 0; i < count; i++) {
             Double mult = range / 5.0;
             Double val = (Math.random() * mult) + 100;
-            vocabTime.add(val);
+            vocabTimelist.add(val);
         }
+
+        UserData stepCounts = new UserData(stepCountslist);
+        UserData focusTime = new UserData(focusTimelist);
+        UserData vocabTime = new UserData(vocabTimelist);
 
         data.add(stepCounts);
         data.add(focusTime);
@@ -247,24 +267,73 @@ public class User {
         return data;
     }
 
-    public static ArrayList<ArrayList<Double>> getUserData() {
-        return userData;
-    }
 
-    public static void newDay() {
-        User.steps = 0;
-        User.focus = 0;
-        User.vocab = 0;
+    public void newDay() {
+        this.steps = 0;
+        this.focus = 0;
+        this.vocab = 0;
 
-        if (User.mood >= 60) {
-            User.health -= 20;
+        if (this.mood >= 60) {
+            this.health -= 20;
         }
         else {
-            User.health -= 30;
+            this.health -= 30;
         }
 
-        User.mood -= 10;
+        this.mood -= 10;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.name);
+        dest.writeInt(this.age);
+        dest.writeTypedList(this.userData);
+        dest.writeInt(this.stepsGoal);
+        dest.writeInt(this.focusGoal);
+        dest.writeInt(this.vocabGoal);
+        dest.writeInt(this.steps);
+        dest.writeInt(this.focus);
+        dest.writeInt(this.vocab);
+        dest.writeInt(this.vocabBookID);
+        //dest.writeSerializable(this.inventoryList);
+        dest.writeInt(this.cash);
+        dest.writeInt(this.health);
+        dest.writeInt(this.mood);
+    }
+
+    protected User(Parcel in) {
+        this.name = in.readString();
+        this.age = in.readInt();
+        this.userData = in.createTypedArrayList(UserData.CREATOR);
+        this.stepsGoal = in.readInt();
+        this.focusGoal = in.readInt();
+        this.vocabGoal = in.readInt();
+        this.steps = in.readInt();
+        this.focus = in.readInt();
+        this.vocab = in.readInt();
+        this.vocabBookID = in.readInt();
+//        this.inventoryList = (HashMap<Integer, Object[]>) in.readSerializable();
+        this.cash = in.readInt();
+        this.health = in.readInt();
+        this.mood = in.readInt();
+    }
+
+    public static final Creator<User> CREATOR = new Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel source) {
+            return new User(source);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
 
     public static void incrementHealth(int amount) {
         User.health += amount;

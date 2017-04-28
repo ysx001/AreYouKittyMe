@@ -29,20 +29,32 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.android.support:design:25.3.1'
     compile('com.mikepenz:materialdrawer:5.9.0@aar') {  //MaterialDrawer
         transitive = true
     }
-    compile 'com.mikhaellopez:circularprogressbar:1.1.1' //Circular progress bar
-    compile 'com.mikepenz:google-material-typeface:3.0.1.0.original@aar' //Google Material Icons
-    compile 'com.mikepenz:fontawesome-typeface:4.7.0.0@aar'     //FontAwesome
+    //Swipe detector
+    //Google Material Icons
+    //FontAwesome
+    // For plotting
+    // Thanks PhilJay for the awesome library!
+    // compile "com.google.android.gms:play-services-fitness:${google_play_services_library}"
+    //Custom font
+    //Circular progress bar
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'uk.co.chrisjenx:calligraphy:2.2.0'
+    compile 'com.mikhaellopez:circularprogressbar:1.1.1'
     compile 'com.mikepenz:google-material-typeface:3.0.1.0.original@aar'
     compile 'com.mikepenz:fontawesome-typeface:4.7.0.0@aar'
-    compile 'com.google.android.gms:play-services-fitness:8.4.0'
-    compile 'com.github.PhilJay:MPAndroidChart:v3.0.2' // For plotting
-    // Thanks PhilJay for the awesome library!
+    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.android.support:design:25.3.1'
+    compile 'com.github.pwittchen:swipe:0.0.1'
+    compile 'com.google.android.gms:play-services-fitness:10.2.1'
+    compile 'com.github.PhilJay:MPAndroidChart:v3.0.2'
+
+    // Other dependencies ...
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
+
     testCompile 'junit:junit:4.12'
 //    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
     configurations.all {

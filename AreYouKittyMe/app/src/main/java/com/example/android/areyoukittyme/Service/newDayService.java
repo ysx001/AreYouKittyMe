@@ -24,12 +24,15 @@ public class newDayService extends IntentService {
     private static final String EXTRA_PARAM2 = "com.example.android.areyoukittyme.Service.extra.PARAM2";
     */
 
+    User mUser;
+
     public newDayService() {
         super("newDayService");
     }
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        User.newDay();
+        mUser = intent.getExtras().getParcelable("User");
+        mUser.newDay();
     }
 }

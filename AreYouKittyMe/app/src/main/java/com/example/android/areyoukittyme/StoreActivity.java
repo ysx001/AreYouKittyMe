@@ -30,8 +30,9 @@ package com.example.android.areyoukittyme;
 
 public class StoreActivity extends AppCompatActivity {
 
-//    private static User user;
-//    private static Store theStore;
+    private User mUser;
+
+    private Store theStore;
     private static int ItemDogAmount = 0;
     private static int itemFishAmount = 0;
     public static ArrayList<Integer> priceList;
@@ -52,6 +53,14 @@ public class StoreActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_store);
+
+        // Use getIntent method to store the Intent that started this Activity
+        Intent startingIntent = getIntent();
+        mUser = startingIntent.getExtras().getParcelable("User");
+
+
+
+
         priceList = new ArrayList<>();
         amountListTextView = new ArrayList<>();
         amountListInt = new ArrayList<>();
@@ -66,12 +75,14 @@ public class StoreActivity extends AppCompatActivity {
         View coordLayout = findViewById(R.id.coordinatorLayout);
         mySnackbar = Snackbar.make(coordLayout, "Not Enough CatCash", BaseTransientBottomBar.LENGTH_SHORT);
 
-//        User.setInventoryList(new HashMap<Integer, Object[]>());
-//        new Store();
+        //TODO: find a way to store the model
+        mUser.setCash(100);
+        mUser.setInventoryList(new HashMap<Integer, Object[]>());
+        this.theStore = new Store();
         populateStore();
 
         catCash = (TextView) findViewById(R.id.catCash);
-        catCash.setText(String.format("CatCash: %d", User.getCash()));
+        catCash.setText(String.format("CatCash: %d", mUser.getCash()));
         totalText = (TextView) findViewById(R.id.totalAmount);
     }
 
@@ -98,22 +109,27 @@ public class StoreActivity extends AppCompatActivity {
     }
 
 
+
     private void checkout() {
+//        int total = 0;
+//        int price;
+//        int amount;
+
         MediaPlayer mPlayer = MediaPlayer.create(StoreActivity.this, R.raw.cash_register);
         mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         mPlayer.start();
-        if (total > User.getCash()) {
+        if (total > mUser.getCash()) {
             Toast.makeText(getApplicationContext(), "Not Enough CatCash", Toast.LENGTH_SHORT).show();
         }
         else {
-            User.setCash(User.getCash() - total);
-            catCash.setText(String.format("CatCash: %d", User.getCash()));
+            mUser.setCash(mUser.getCash() - total);
+            catCash.setText(String.format("CatCash: %d", mUser.getCash()));
             total = 0;
             totalText.setText(String.format("Total: %d", total));
             for (int i = 0; i < StoreActivity.amountListTextView.size(); i++) {
                 StoreActivity.amountListTextView.get(i).setText(String.valueOf(0));
             }
-            User.userCheckout(StoreActivity.amountListInt, StoreActivity.priceList);
+            mUser.userCheckout(StoreActivity.amountList, StoreActivity.priceList);
         }
     }
 

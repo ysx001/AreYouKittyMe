@@ -2,6 +2,7 @@ package com.example.android.areyoukittyme;
 
 
 import com.example.android.areyoukittyme.User.User;
+import com.example.android.areyoukittyme.User.UserData;
 import com.example.android.areyoukittyme.plot.DayAxisValueFormatter;
 import com.example.android.areyoukittyme.plot.MyAxisValueFormatter;
 import com.example.android.areyoukittyme.plot.XYMarkerView;
@@ -48,13 +49,14 @@ import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.interfaces.datasets.IDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
-import com.github.mikephil.charting.utils.MPPointF;
 
 /**
  *
  */
 public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeListener,
         OnChartValueSelectedListener{
+
+
 
     private Button dayButton;
 
@@ -70,10 +72,10 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
     public final int[] FOCUS_COLORS = { R.color.colorAccentLight};
     public final int[] VOCAB_COLORS = { R.color.colorAccentDark};
 
-    private static User mUser = new User("Sarah");
+    private User mUser;
 
 
-    private ArrayList<ArrayList<Double>> dataArray = User.getUserData();
+    private ArrayList<UserData> dataArray;
 
 
     protected LineChart monthChart;
@@ -91,6 +93,11 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stats);
 
+        // Use getIntent method to store the Intent that started this Activity
+        Intent startingIntent = getIntent();
+
+        mUser = startingIntent.getExtras().getParcelable("User");
+        dataArray = mUser.getUserData();
         MediaPlayer mPlayer = MediaPlayer.create(StatsActivity.this, R.raw.stats);
         mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         mPlayer.start();
@@ -112,7 +119,7 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
 
                 // create Intent that will start the activity
                 Intent startStatsIntent = new Intent(context, destActivity);
-
+                startStatsIntent.putExtra("User", mUser);
                 startActivity(startStatsIntent);
 
             }
@@ -158,6 +165,8 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
 
         monthChart.animateX(2000);
 
+        IAxisValueFormatter xmonthAxisFormatter = new DayAxisValueFormatter(monthChart);
+
         // get the legend (only possible after setting data)
         Legend lMonth = monthChart.getLegend();
 
@@ -177,7 +186,8 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
         xMonthAxis.setTextSize(11f);
         xMonthAxis.setTextColor(Color.WHITE);
         xMonthAxis.setDrawGridLines(false);
-        xMonthAxis.setDrawAxisLine(false);
+        //xMonthAxis.setDrawAxisLine(false);
+        xMonthAxis.setValueFormatter(xmonthAxisFormatter);
 
         YAxis leftMonthAxis = monthChart.getAxisLeft();
 //        leftMonthAxis.setTypeface(mTfLight);
@@ -293,44 +303,8 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
     }
 
 
-//    private ArrayList<ArrayList<Double>> generateData(int count, Double range) {
-//
-//        ArrayList<ArrayList<Double>> data = new ArrayList<>();
-//        ArrayList<Double> stepCounts = new ArrayList<>();
-//
-//        for (int i = 0; i < count; i++) {
-//            Double mult = range ;
-//            Double val = (Math.random() * mult) + 50;
-//            stepCounts.add(val);
-//        }
-//
-//        ArrayList<Double> focusTime = new ArrayList<>();
-//
-//        for (int i = 0; i < count; i++) {
-//            Double mult = range / 2.0;
-//            Double val = (Math.random() * mult) + 60;
-//            focusTime.add(val);
-////            if(i == 10) {
-////                yVals2.add(new Entry(i, val + 50));
-////            }
-//        }
-//
-//        ArrayList<Double> vocabTime = new ArrayList<>();
-//
-//        for (int i = 0; i < count; i++) {
-//            Double mult = range / 5.0;
-//            Double val = (Math.random() * mult) + 100;
-//            vocabTime.add(val);
-//        }
-//
-//        data.add(stepCounts);
-//        data.add(focusTime);
-//        data.add(vocabTime);
-//
-//        return data;
-//    }
 
-    private void setLineData(ArrayList<ArrayList<Double>> dataArray, int start) {
+    private void setLineData(ArrayList<UserData> dataArray, int start) {
 
 
         ArrayList<Entry> stepCounts = new ArrayList<>();
@@ -338,15 +312,15 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
         ArrayList<Entry> vocabTime = new ArrayList<>();
 
         for (int i = start ; i < start + 30; i++) {
-            stepCounts.add(new Entry(i - start, dataArray.get(0).get(i).floatValue()));
+            stepCounts.add(new Entry(i - start, dataArray.get(0).getData().get(i).floatValue()));
         }
 
         for (int i = start; i < start + 30; i++) {
-            focusTime.add(new Entry(i - start, dataArray.get(1).get(i).floatValue()));
+            focusTime.add(new Entry(i - start, dataArray.get(1).getData().get(i).floatValue()));
         }
 
         for (int i = start; i < start + 30; i++) {
-            vocabTime.add(new Entry(i - start, dataArray.get(2).get(i).floatValue()));
+            vocabTime.add(new Entry(i - start, dataArray.get(2).getData().get(i).floatValue()));
         }
 
 
@@ -421,7 +395,7 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
 
 
 
-    private void setBarData(ArrayList<ArrayList<Double>> dataArray, int start) {
+    private void setBarData(ArrayList<UserData> dataArray, int start) {
 
         //float start = 1f;
 
@@ -432,9 +406,9 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
         ArrayList<BarEntry> vocabTime = new ArrayList<>();
 
         for (int i = start; i < start + 7; i++) {
-            float stepVal = dataArray.get(0).get(i).floatValue();
-            float focusVal = dataArray.get(1).get(i).floatValue();
-            float vocabVal = dataArray.get(2).get(i).floatValue();
+            float stepVal = dataArray.get(0).getData().get(i).floatValue();
+            float focusVal = dataArray.get(1).getData().get(i).floatValue();
+            float vocabVal = dataArray.get(2).getData().get(i).floatValue();
 
             stepCounts.add(new BarEntry(i - start, new float[] {stepVal, focusVal, vocabVal}));
         }
