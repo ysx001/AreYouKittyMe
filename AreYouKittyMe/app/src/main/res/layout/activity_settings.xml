@@ -223,21 +223,26 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:layout_marginBottom="38dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="62dp">
+        android:layout_alignParentStart="true">
 
         <Button
             android:id="@+id/settingDiscardBtn"
+            style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignStart="@+id/profileImage"
             android:layout_below="@+id/vocabBookSettingLabel"
+            android:layout_marginBottom="5dp"
             android:layout_marginEnd="10dp"
             android:layout_marginStart="30dp"
+            android:layout_marginTop="5dp"
             android:layout_weight="1"
             android:background="@color/colorAccentLight"
+            android:elevation="0dp"
             android:text="DISCARD"
+            android:textAlignment="center"
             android:textColor="@color/common_google_signin_btn_text_dark_default"
             android:textSize="18sp" />
 
@@ -247,8 +252,10 @@
             android:layout_height="wrap_content"
             android:layout_alignStart="@+id/profileImage"
             android:layout_below="@+id/vocabBookSettingLabel"
+            android:layout_marginBottom="5dp"
             android:layout_marginEnd="30dp"
             android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
             android:layout_weight="1"
             android:background="@color/colorPrimary"
             android:text="APPLY"

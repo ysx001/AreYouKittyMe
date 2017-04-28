@@ -6,6 +6,7 @@ import com.example.android.areyoukittyme.Cat.Cat;
 import com.example.android.areyoukittyme.Item.Item;
 import com.example.android.areyoukittyme.Store.Store;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -51,10 +52,10 @@ public class User {
         User.steps = 0;
         User.focus = 0;
         User.vocab = 0;
-        User.cash = 0;
+        User.cash = 1000;
         User.inventoryList = null;
-        User.health = 100;
-        User.mood = 100;
+        User.health = 80;
+        User.mood = 90;
         User.userData = generateData(year, 30.0);
     }
 
@@ -121,7 +122,10 @@ public class User {
     }
 
     public static void setFocus(int focus) {
-        User.focus = focus;
+        User.focus += focus;
+        if (User.focus >= User.focusGoal) {
+            User.cash += 500;
+        }
     }
 
     public static int getVocab() {
@@ -161,7 +165,10 @@ public class User {
     }
 
     public static void setHealth(int health) {
-        User.health = health;
+        User.health += health;
+        if (User.health > 100) {
+            User.health = 100;
+        }
     }
 
     public static int getMood() {
@@ -169,7 +176,10 @@ public class User {
     }
 
     public static void setMood(int mood) {
-        User.mood = mood;
+        User.mood += mood;
+        if (User.mood > 100) {
+            User.mood = 100;
+        }
     }
 
     private ArrayList<ArrayList<Double>> generateData(int count, Double range) {
@@ -211,5 +221,20 @@ public class User {
 
     public static ArrayList<ArrayList<Double>> getUserData() {
         return userData;
+    }
+
+    public static void newDay() {
+        User.steps = 0;
+        User.focus = 0;
+        User.vocab = 0;
+
+        if (User.mood >= 60) {
+            User.health -= 20;
+        }
+        else {
+            User.health -= 30;
+        }
+
+        User.mood -= 10;
     }
 }
