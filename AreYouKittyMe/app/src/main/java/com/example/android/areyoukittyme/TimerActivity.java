@@ -12,6 +12,7 @@ import android.widget.Button;
 
 import com.example.android.areyoukittyme.User.User;
 import com.example.android.areyoukittyme.utilities.NotificationUtils;
+
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -225,8 +226,7 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
                             t.interrupt();
                         }
                     }).show();
-        }
-        else if (isPausing){
+        } else if (isPausing) {
             // Resume
             isCountingdown = true;
             isPausing = false;
@@ -353,20 +353,17 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
         // Decrement TextViews by 1 second
 
         if (this.second > 0) {
-            this.second --;
-        }
-        else {
+            this.second--;
+        } else {
             if (this.minute > 0) {
                 this.second = 59;
-                this.minute --;
-            }
-            else {
+                this.minute--;
+            } else {
                 if (this.hour > 0) {
                     this.second = 59;
                     this.minute = 59;
-                    this.hour --;
-                }
-                else {
+                    this.hour--;
+                } else {
                     this.t.interrupt();
                     timerReset();
                     timerFinished();

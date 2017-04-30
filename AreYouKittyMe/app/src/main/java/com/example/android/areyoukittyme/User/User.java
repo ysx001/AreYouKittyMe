@@ -20,14 +20,15 @@ import java.util.Random;
 
 /**
  * Created by PrGxw on 4/10/2017.
- *
+ * <p>
  * Modifed by ysx001 on 4/25/2017. Added Parcelable
  */
 
 public class User implements Parcelable {
 
-    private String name;
-    private int age;
+    private  String name;
+    private  int age;
+    private  int totalDays;
 
     private ArrayList<UserData> userData = new ArrayList<>();
     private final int year = 365;
@@ -58,6 +59,8 @@ public class User implements Parcelable {
 
     public User(String name) {
         this.name = name;
+        this.age = 1;
+        this.totalDays = 0;
         this.stepsGoal = 8000;
         this.focusGoal = 120;
         this.vocabGoal = 30;
@@ -67,6 +70,8 @@ public class User implements Parcelable {
         this.vocab = 0;
         this.cash = 1000;
         this.inventoryList = null;
+        this.health = 80;
+        this.mood = 50;
         this.health = 80;
         this.mood = 90;
         this.userData = generateData(year, 30.0);
@@ -278,7 +283,7 @@ public class User implements Parcelable {
 
         for (int i = 0; i < count; i++) {
             Double mult = range;
-            Double val = (Math.random() * mult) + 50;
+            Double val = (Math.random() * mult) + 1000;
             stepCountslist.add(val);
         }
 
@@ -297,7 +302,7 @@ public class User implements Parcelable {
 
         for (int i = 0; i < count; i++) {
             Double mult = range / 5.0;
-            Double val = (Math.random() * mult) + 100;
+            Double val = (Math.random() * mult) + 20;
             vocabTimelist.add(val);
         }
 
@@ -314,6 +319,13 @@ public class User implements Parcelable {
 
 
     public void newDay() {
+        this.totalDays ++;
+
+        if (this.age < 8 && this.totalDays >= Math.pow(this.age, 2)) {
+            this.totalDays = 0;
+            this.age ++;
+        }
+
         this.steps = 0;
         this.focus = 0;
         this.vocab = 0;

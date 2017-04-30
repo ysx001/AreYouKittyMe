@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
 
         buildFitnessClient();
 
-
+        readData();
 
 
         // Store the context variable
@@ -155,7 +155,11 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 mUser.newDay();
                 //mUser.setHealth(-20);
-                System.out.println("Health now is" + mUser.getHealth());
+                System.out.println("Clicked, Health now is" + mUser.getHealth());
+                System.out.println("Clicked, Mood now is" + mUser.getMood());
+                moneyDisplay.setText(String.valueOf(mUser.getCash()));
+                healthProgress.setProgressWithAnimation(mUser.getHealth());
+                moodProgress.setProgressWithAnimation(mUser.getMood());
                 if (mUser.getHealth() <= 0) {
                     gouDie();
                 }
@@ -194,6 +198,7 @@ public class MainActivity extends AppCompatActivity {
         System.out.println("In main dataArray is Empty? " + mUser.getUserData().isEmpty());
 
         profile = new ProfileDrawerItem().withName(catName).withIcon(GoogleMaterial.Icon.gmd_pets);
+        profile = new ProfileDrawerItem().withName(catName).withIcon(R.drawable.pawprint);
 
         header = new AccountHeaderBuilder()
                 .withActivity(this)
@@ -241,6 +246,7 @@ public class MainActivity extends AppCompatActivity {
                             boolean isSetting = false;
                             if (drawerItem.getIdentifier() == 1) {
                                 intent = new Intent(MainActivity.this, StatsDayActivity.class);
+                                readData();
                             }
                             else if (drawerItem.getIdentifier() == 2) {
                                 intent = new Intent(MainActivity.this, StoreActivity.class);

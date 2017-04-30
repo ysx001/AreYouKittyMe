@@ -1,39 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginTop="30sp"
-    android:orientation="vertical">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+    android:weightSum="1">
 
     <TextView
-        android:id="@+id/textView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10sp"
-        android:gravity="center"
-        android:paddingBottom="10sp"
         android:text="Day View"
-        android:textSize="20sp" />
+        android:gravity="center"
+        android:textSize="20sp"
+        android:layout_margin="10sp"/>
 
     <TextView
         android:id="@+id/stepCountView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10sp"
+        android:paddingStart="10dp"
         android:text="Steps Today:" />
+        android:text="Steps Today:"/>
 
     <TextView
         android:id="@+id/vocabCountView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10sp"
+        android:paddingStart="10dp"
         android:text="Vocab Studied:" />
+        android:text="Vocab Studied:"/>
 
     <TextView
         android:id="@+id/vocabTimeView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10sp"
+        android:paddingStart="10dp"
         android:text="Vocab Time:" />
 
     <TextView
@@ -41,25 +44,29 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10sp"
+        android:paddingStart="10dp"
         android:text="Focus Time: " />
+        android:text="Focus Time: "/>
 
 
     <com.github.mikephil.charting.charts.HorizontalBarChart
         android:id="@+id/dayChart"
         android:layout_width="match_parent"
-        android:layout_height="316dp"
+        android:layout_height="340dp"
+        android:background="@android:color/white"
         android:layout_above="@+id/seekBar1"
-        android:layout_marginBottom="5sp"
-        android:layout_marginTop="40sp"
-        android:background="@android:color/white" />
+        android:layout_marginTop="30sp"
+        android:layout_marginBottom="10sp"
+        android:layout_weight="0.32" />
 
     <Button
         android:id="@+id/monthWeekButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="19dp"
+        android:text="Month/Week"
+        android:layout_marginTop="10dp"
         android:background="@color/colorAccentLight"
-        android:text="Month/Week" />
+        />
 
 
 </LinearLayout>
