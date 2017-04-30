@@ -147,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
 //        displayCatName = (TextView) findViewById(R.id.cat_name_display);
         drawerToggler = (ImageView) findViewById(R.id.drawerToggler);
 
-        testDead = (Button) findViewById(R.id.test_dead);
+//        testDead = (Button) findViewById(R.id.test_dead);
 
         // Setting an OnClickLister for the testing dead activity
         testDead.setOnClickListener(new View.OnClickListener() {
