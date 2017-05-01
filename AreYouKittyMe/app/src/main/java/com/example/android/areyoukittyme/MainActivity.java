@@ -119,6 +119,9 @@ public class MainActivity extends AppCompatActivity {
 
     private Button testDead;
 
+    public User getmUser() {
+        return mUser;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -179,7 +182,7 @@ public class MainActivity extends AppCompatActivity {
         // Setting up animation
         ImageView catAnimation = (ImageView) findViewById(R.id.miaomiaomiao);
         //catAnimation.setBackgroundResource(R.drawable.thin_cat_animation);
-        ((AnimationDrawable) catAnimation.getBackground()).start();
+//        ((AnimationDrawable) catAnimation.getBackground()).start();
         catAnimation.setOnLongClickListener(new MyLongClickListener());
         catAnimation.setOnClickListener(new MyClickListener());
         findViewById(R.id.main_content).setOnClickListener(new MyClickListener());

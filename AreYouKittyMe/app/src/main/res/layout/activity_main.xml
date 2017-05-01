@@ -42,23 +42,23 @@
         android:layout_alignParentStart="true"
         android:layout_marginTop="28dp" />
 
-    <ImageView
-        android:id="@+id/miaomiaomiao"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/normal_cat_animation"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20dp" />
-
     <!--<ImageView-->
         <!--android:id="@+id/miaomiaomiao"-->
         <!--android:layout_width="wrap_content"-->
         <!--android:layout_height="wrap_content"-->
-        <!--app:srcCompat="@drawable/catnormal0001"-->
-        <!--android:layout_marginTop="32dp"-->
-        <!--android:layout_below="@+id/cat_name_display"-->
-        <!--android:layout_centerHorizontal="true" />-->
+        <!--android:background="@drawable/normal_cat_animation"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:layout_marginBottom="20dp" />-->
+
+    <ImageView
+        android:id="@+id/miaomiaomiao"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/catnormal0001"
+        android:layout_marginTop="32dp"
+        android:layout_below="@+id/cat_name_display"
+        android:layout_centerHorizontal="true" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/drawerToggler"

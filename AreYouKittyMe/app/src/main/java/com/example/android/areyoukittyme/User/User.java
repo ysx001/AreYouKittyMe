@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.android.areyoukittyme.Cat.Cat;
 import com.example.android.areyoukittyme.Item.Item;
 import com.example.android.areyoukittyme.R;
 import com.example.android.areyoukittyme.Store.Store;
