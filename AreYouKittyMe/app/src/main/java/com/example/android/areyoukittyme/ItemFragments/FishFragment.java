@@ -10,8 +10,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.android.areyoukittyme.Item.Fish;
+import com.example.android.areyoukittyme.MainActivity;
 import com.example.android.areyoukittyme.R;
 import com.example.android.areyoukittyme.User.User;
+import com.mikhaellopez.circularprogressbar.CircularProgressBar;
 
 /**
  * Created by PrGxw on 4/18/2017.
@@ -39,37 +41,23 @@ public class FishFragment extends Fragment {
         return rootView;
     }
 
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        TextView t = (TextView)rootView.findViewById(R.id.fishAmount);
-//        t.setText(String.format("x%d", User.getInventoryAmount(Fish.getIndex())));
-//    }
     private final class MyClickListener implements View.OnClickListener {
         public void onClick(View v) {
             RelativeLayout p = (RelativeLayout) rootView.getParent().getParent();
             ViewPager vp = (ViewPager) rootView.getParent();
-//            p.setVisibility(View.INVISIBLE);
-            TextView text = (TextView)rootView.findViewById(R.id.fishAmount);
+
+            TextView text = (TextView) rootView.findViewById(R.id.fishAmount);
             text.setText(String.format("x%d", 0));
-            // TODO: decrease in amount;
-            // TODO: animation:
-            // increase health and mood
-            //User.incrementHealth(User.foodToHealthConversion(vp.getCurrentItem()));
-            //User.incrementMood(User.foodToMoodConversion(vp.getCurrentItem()));
+
+            User mUser = ((MainActivity) getActivity()).getmUser();
+            CircularProgressBar healthProgress = ((MainActivity) getActivity()).getHealthProgress();
+            CircularProgressBar moodProgress = ((MainActivity) getActivity()).getMoodProgress();
+
+            mUser.incrementMood(mUser.foodToMoodConversion(vp.getCurrentItem()));
+            System.out.println("now is: " + mUser.getHealth());
+            mUser.incrementHealth(mUser.foodToHealthConversion(vp.getCurrentItem()));
+            healthProgress.setProgressWithAnimation(mUser.getHealth());
+            moodProgress.setProgressWithAnimation(mUser.getMood());
         }
     }
-
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        TextView text = (TextView)rootView.findViewById(R.id.fishAmount);
-//        if (User.getInventoryList().containsKey(Fish.getIndex())) {
-//            text.setText(String.format("x%d", User.getInventoryAmount(Fish.getIndex())));
-////            text.setText("Resume");
-//        }
-//        else {
-//            text.setText("nokey");
-//        }
-//    }
 }

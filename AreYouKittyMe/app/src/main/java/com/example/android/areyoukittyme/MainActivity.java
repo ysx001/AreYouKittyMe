@@ -101,8 +101,6 @@ public class MainActivity extends AppCompatActivity {
 
     MediaPlayer mPlayer;
 
-
-
     private ImageView drawerToggler;
 
     private Button testDead;
@@ -116,10 +114,6 @@ public class MainActivity extends AppCompatActivity {
         // Use getIntent method to store the Intent that started this Activity
         Intent startingIntent = getIntent();
         mUser = startingIntent.getExtras().getParcelable("User");
-
-        System.out.println("Health now is " + mUser.getHealth());
-        System.out.println("mood now is " + mUser.getMood());
-        System.out.println("cash now is " + mUser.getCash());
 
         // This method sets up our custom logger, which will print all log messages to the device
         // screen, as well as to adb logcat.
@@ -150,21 +144,21 @@ public class MainActivity extends AppCompatActivity {
 //        testDead = (Button) findViewById(R.id.test_dead);
 
         // Setting an OnClickLister for the testing dead activity
-        testDead.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mUser.newDay();
-                //mUser.setHealth(-20);
-                System.out.println("Clicked, Health now is" + mUser.getHealth());
-                System.out.println("Clicked, Mood now is" + mUser.getMood());
-                moneyDisplay.setText(String.valueOf(mUser.getCash()));
-                healthProgress.setProgressWithAnimation(mUser.getHealth());
-                moodProgress.setProgressWithAnimation(mUser.getMood());
-                if (mUser.getHealth() <= 0) {
-                    gouDie();
-                }
-            }
-        });
+//        testDead.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mUser.newDay();
+//                //mUser.setHealth(-20);
+//                System.out.println("Clicked, Health now is" + mUser.getHealth());
+//                System.out.println("Clicked, Mood now is" + mUser.getMood());
+//                moneyDisplay.setText(String.valueOf(mUser.getCash()));
+//                healthProgress.setProgressWithAnimation(mUser.getHealth());
+//                moodProgress.setProgressWithAnimation(mUser.getMood());
+//                if (mUser.getHealth() <= 0) {
+//                    gouDie();
+//                }
+//            }
+//        });
 
         findViewById(R.id.click_assist).setOnLongClickListener(new MyLongClickListener());
         findViewById(R.id.click_assist).setOnClickListener(new MyClickListener());
@@ -306,9 +300,14 @@ public class MainActivity extends AppCompatActivity {
 //        scheduleAlarm();
         scheduleAlarm();
 //        mApiClient.connect();
+
         mPager = (ViewPager) findViewById(R.id.pager_temp);
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
+
+//        mPagerAdapter.
+
+
 //        Bundle bundle = new BUndle()
 //        findViewById(R.id.test_dead).setOnClickListener(new MyClickListener());
 
@@ -590,25 +589,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     private final class MyLongClickListener implements View.OnLongClickListener {
-
-//        public boolean onLongClick(View view, MotionEvent motionEvent) {
-//            if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-//                mPlayer.start();
-//                ViewPager v = (ViewPager) findViewById(R.id.pager_temp);
-//                int visibility = v.getVisibility();
-//                if (visibility == View.VISIBLE) {
-//                    v.setVisibility(View.INVISIBLE);
-//                }
-//                else {
-//                    v.setVisibility(View.VISIBLE);
-//                }
-//
-//                return true;
-//            } else {
-//                return false;
-//            }
-//        }
-
         @Override
         public boolean onLongClick(View v) {
                 mPlayer.start();
@@ -644,6 +624,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+
         @Override
         public int getCount() {
             return NUM_PAGES;
@@ -664,29 +645,13 @@ public class MainActivity extends AppCompatActivity {
                 vp.setCurrentItem(vp.getCurrentItem()+1, true);
             }
             else if (v.getId() == R.id.asparagusImage) {
-                // TODO: decrease amount
-//                mPagerAdapter.notifyDataSetChanged();
-                //  close window
-//                popup.setVisibility(View.INVISIBLE);
-                //  increase mood and health
-//                User.incrementHealth(User.foodToHealthConversion(vp.getCurrentItem()));
-//                User.incrementMood(User.foodToMoodConversion(vp.getCurrentItem()));
-
-//                eatAnimation();
             }
-            else if (v.getId() == R.id.fishImage) {
+            else {
                 mUser.incrementMood(mUser.foodToMoodConversion(vp.getCurrentItem()));
                 System.out.println("now is: " + mUser.getHealth());
                 mUser.incrementHealth(mUser.foodToHealthConversion(vp.getCurrentItem()));
                 healthProgress.setProgressWithAnimation(mUser.getHealth());
                 moodProgress.setProgressWithAnimation(mUser.getMood());
-            }
-            else {
-//                mUser.incrementMood(mUser.foodToMoodConversion(vp.getCurrentItem()));
-//                System.out.println("now is: " + mUser.getHealth());
-//                mUser.incrementHealth(mUser.foodToHealthConversion(vp.getCurrentItem()));
-//                healthProgress.setProgressWithAnimation(mUser.getHealth());
-//                moodProgress.setProgressWithAnimation(mUser.getMood());
                 if (popup.getVisibility() == View.VISIBLE) {
                     System.out.println("now is " + "visible");
                     popup.setVisibility(View.INVISIBLE);
@@ -706,4 +671,27 @@ public class MainActivity extends AppCompatActivity {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
+    public User getmUser() {
+        return mUser;
+    }
+
+    public void setmUser(User mUser) {
+        this.mUser = mUser;
+    }
+
+    public CircularProgressBar getMoodProgress() {
+        return moodProgress;
+    }
+
+    public void setMoodProgress(CircularProgressBar moodProgress) {
+        this.moodProgress = moodProgress;
+    }
+
+    public CircularProgressBar getHealthProgress() {
+        return healthProgress;
+    }
+
+    public void setHealthProgress(CircularProgressBar healthProgress) {
+        this.healthProgress = healthProgress;
+    }
 }
