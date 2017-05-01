@@ -149,8 +149,6 @@ public class MainActivity extends AppCompatActivity {
 //            public void onClick(View v) {
 //                mUser.newDay();
 //                //mUser.setHealth(-20);
-//                System.out.println("Clicked, Health now is" + mUser.getHealth());
-//                System.out.println("Clicked, Mood now is" + mUser.getMood());
 //                moneyDisplay.setText(String.valueOf(mUser.getCash()));
 //                healthProgress.setProgressWithAnimation(mUser.getHealth());
 //                moodProgress.setProgressWithAnimation(mUser.getMood());
@@ -188,8 +186,6 @@ public class MainActivity extends AppCompatActivity {
         if (mUser.getHealth() == 0) {
             gouDie();
         }
-
-        System.out.println("In main dataArray is Empty? " + mUser.getUserData().isEmpty());
 
         profile = new ProfileDrawerItem().withName(catName).withIcon(GoogleMaterial.Icon.gmd_pets);
         profile = new ProfileDrawerItem().withName(catName).withIcon(R.drawable.pawprint);
@@ -362,7 +358,6 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == 1) {
             if(resultCode == RESULT_OK) {
                 mUser = data.getExtras().getParcelable("User");
-                System.out.println("In Main User Name is " + mUser.getName());
             }
         }
     }
@@ -574,7 +569,6 @@ public class MainActivity extends AppCompatActivity {
                         : totalSet.getDataPoints().get(0).getValue(Field.FIELD_STEPS).asInt();
 
                 stepCount = total;
-                System.out.println("Step count +" + stepCount);
                 mUser.setSteps((int) total);
             } else {
                 com.example.android.areyoukittyme.logger.Log.w(TAG, "There was a problem getting the step count.");
@@ -633,7 +627,6 @@ public class MainActivity extends AppCompatActivity {
 
     private final class MyClickListener implements View.OnClickListener {
         public void onClick(View v) {
-            System.out.println("now is: " + "start");
             RelativeLayout popup = (RelativeLayout) findViewById(R.id.popup_container);
             ViewPager vp = (ViewPager) findViewById(R.id.pager_temp);
             if (v.getId() == R.id.leftArrow) {
@@ -641,19 +634,16 @@ public class MainActivity extends AppCompatActivity {
                 vp.setCurrentItem(vp.getCurrentItem()-1, true);
             }
             else if (v.getId() == R.id.rightArrow) {
-                System.out.println("now is: " + "arrow");
                 vp.setCurrentItem(vp.getCurrentItem()+1, true);
             }
             else if (v.getId() == R.id.asparagusImage) {
             }
             else {
-                mUser.incrementMood(mUser.foodToMoodConversion(vp.getCurrentItem()));
-                System.out.println("now is: " + mUser.getHealth());
-                mUser.incrementHealth(mUser.foodToHealthConversion(vp.getCurrentItem()));
-                healthProgress.setProgressWithAnimation(mUser.getHealth());
-                moodProgress.setProgressWithAnimation(mUser.getMood());
+//                mUser.incrementMood(mUser.foodToMoodConversion(vp.getCurrentItem()));
+//                mUser.incrementHealth(mUser.foodToHealthConversion(vp.getCurrentItem()));
+//                healthProgress.setProgressWithAnimation(mUser.getHealth());
+//                moodProgress.setProgressWithAnimation(mUser.getMood());
                 if (popup.getVisibility() == View.VISIBLE) {
-                    System.out.println("now is " + "visible");
                     popup.setVisibility(View.INVISIBLE);
                 }
             }

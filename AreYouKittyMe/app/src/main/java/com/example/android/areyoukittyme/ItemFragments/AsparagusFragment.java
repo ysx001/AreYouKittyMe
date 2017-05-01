@@ -28,17 +28,19 @@ import com.mikhaellopez.circularprogressbar.CircularProgressBar;
 
 public class AsparagusFragment extends Fragment {
     private static ViewGroup rootView;
+    private User mUser;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        mUser = ((MainActivity) getActivity()).getmUser();
         rootView = (ViewGroup) inflater.inflate(R.layout.fragment_item_asparagus, container, false);
         TextView text = (TextView)rootView.findViewById(R.id.asparagusAmount);
         rootView.findViewById(R.id.asparagusImage).setOnClickListener(new MyClickListener());
 
 
 
-        if (User.getInventoryList().containsKey(Asparagus.getIndex())) {
-            text.setText(String.format("x%d", User.getInventoryAmount(Asparagus.getIndex())));
+        if (mUser.getInventoryList().containsKey(Asparagus.getIndex())) {
+            text.setText(String.format("x%d", mUser.getInventoryAmount(Asparagus.getIndex())));
         }
         else {
             text.setText("nokey");
@@ -49,21 +51,32 @@ public class AsparagusFragment extends Fragment {
 
     private final class MyClickListener implements View.OnClickListener {
         public void onClick(View v) {
-            RelativeLayout p = (RelativeLayout) rootView.getParent().getParent();
-            ViewPager vp = (ViewPager) rootView.getParent();
+            if (mUser.getInventoryAmount(Asparagus.getIndex()) > 0) {
+                RelativeLayout p = (RelativeLayout) rootView.getParent().getParent();
+                ViewPager vp = (ViewPager) rootView.getParent();
 
-            TextView text = (TextView) rootView.findViewById(R.id.asparagusAmount);
-            text.setText(String.format("x%d", 0));
+                TextView text = (TextView) rootView.findViewById(R.id.asparagusAmount);
+                text.setText(String.format("x%d", mUser.getInventoryAmount(Asparagus.getIndex()) - 1));
 
-            User mUser = ((MainActivity) getActivity()).getmUser();
-            CircularProgressBar healthProgress = ((MainActivity) getActivity()).getHealthProgress();
-            CircularProgressBar moodProgress = ((MainActivity) getActivity()).getMoodProgress();
+                CircularProgressBar healthProgress = ((MainActivity) getActivity()).getHealthProgress();
+                CircularProgressBar moodProgress = ((MainActivity) getActivity()).getMoodProgress();
 
-            mUser.incrementMood(mUser.foodToMoodConversion(vp.getCurrentItem()));
-            System.out.println("now is: " + mUser.getHealth());
-            mUser.incrementHealth(mUser.foodToHealthConversion(vp.getCurrentItem()));
-            healthProgress.setProgressWithAnimation(mUser.getHealth());
-            moodProgress.setProgressWithAnimation(mUser.getMood());
+                int prevAmount = mUser.getInventoryAmount(Asparagus.getIndex());
+                mUser.getInventoryList().put(Asparagus.getIndex(), prevAmount - 1);
+
+                mUser.incrementMood(mUser.foodToMoodConversion(vp.getCurrentItem()));
+                System.out.println("now is: " + mUser.getHealth());
+                mUser.incrementHealth(mUser.foodToHealthConversion(vp.getCurrentItem()));
+                healthProgress.setProgressWithAnimation(mUser.getHealth());
+                moodProgress.setProgressWithAnimation(mUser.getMood());
+            }
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        TextView text = (TextView)rootView.findViewById(R.id.asparagusAmount);
+        text.setText(String.format("x%d", mUser.getInventoryAmount(Asparagus.getIndex())));
     }
 }

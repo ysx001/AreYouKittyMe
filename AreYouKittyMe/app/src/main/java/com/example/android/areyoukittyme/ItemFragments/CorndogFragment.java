@@ -22,17 +22,19 @@ import com.mikhaellopez.circularprogressbar.CircularProgressBar;
 public class CorndogFragment extends Fragment {
 
     private static ViewGroup rootView;
+    private User mUser;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        mUser = ((MainActivity) getActivity()).getmUser();
         rootView = (ViewGroup) inflater.inflate(R.layout.fragment_item_corndog, container, false);
         TextView text = (TextView)rootView.findViewById(R.id.corndogAmount);
         rootView.findViewById(R.id.corndogImage).setOnClickListener(new MyClickListener());
 
 
 
-        if (User.getInventoryList().containsKey(Corndog.getIndex())) {
-            text.setText(String.format("x%d", User.getInventoryAmount(Corndog.getIndex())));
+        if (mUser.getInventoryList().containsKey(Corndog.getIndex())) {
+            text.setText(String.format("x%d", mUser.getInventoryAmount(Corndog.getIndex())));
         }
         else {
             text.setText("nokey");
@@ -43,21 +45,32 @@ public class CorndogFragment extends Fragment {
 
     private final class MyClickListener implements View.OnClickListener {
         public void onClick(View v) {
-            RelativeLayout p = (RelativeLayout) rootView.getParent().getParent();
-            ViewPager vp = (ViewPager) rootView.getParent();
+            if (mUser.getInventoryAmount(Corndog.getIndex()) > 0) {
+                RelativeLayout p = (RelativeLayout) rootView.getParent().getParent();
+                ViewPager vp = (ViewPager) rootView.getParent();
 
-            TextView text = (TextView) rootView.findViewById(R.id.corndogAmount);
-            text.setText(String.format("x%d", 0));
+                TextView text = (TextView) rootView.findViewById(R.id.corndogAmount);
+                text.setText(String.format("x%d", mUser.getInventoryAmount(Corndog.getIndex()) - 1));
 
-            User mUser = ((MainActivity) getActivity()).getmUser();
-            CircularProgressBar healthProgress = ((MainActivity) getActivity()).getHealthProgress();
-            CircularProgressBar moodProgress = ((MainActivity) getActivity()).getMoodProgress();
+                CircularProgressBar healthProgress = ((MainActivity) getActivity()).getHealthProgress();
+                CircularProgressBar moodProgress = ((MainActivity) getActivity()).getMoodProgress();
 
-            mUser.incrementMood(mUser.foodToMoodConversion(vp.getCurrentItem()));
-            System.out.println("now is: " + mUser.getHealth());
-            mUser.incrementHealth(mUser.foodToHealthConversion(vp.getCurrentItem()));
-            healthProgress.setProgressWithAnimation(mUser.getHealth());
-            moodProgress.setProgressWithAnimation(mUser.getMood());
+                int prevAmount = mUser.getInventoryAmount(Corndog.getIndex());
+                mUser.getInventoryList().put(Corndog.getIndex(), prevAmount - 1);
+
+                mUser.incrementMood(mUser.foodToMoodConversion(vp.getCurrentItem()));
+                System.out.println("now is: " + mUser.getHealth());
+                mUser.incrementHealth(mUser.foodToHealthConversion(vp.getCurrentItem()));
+                healthProgress.setProgressWithAnimation(mUser.getHealth());
+                moodProgress.setProgressWithAnimation(mUser.getMood());
+            }
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        TextView text = (TextView)rootView.findViewById(R.id.corndogAmount);
+        text.setText(String.format("x%d", mUser.getInventoryAmount(Corndog.getIndex())));
     }
 }

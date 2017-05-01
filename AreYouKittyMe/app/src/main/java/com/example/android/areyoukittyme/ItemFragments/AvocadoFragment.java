@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.android.areyoukittyme.Item.Asparagus;
 import com.example.android.areyoukittyme.Item.Avocado;
 import com.example.android.areyoukittyme.MainActivity;
 import com.example.android.areyoukittyme.R;
@@ -21,18 +22,19 @@ import com.mikhaellopez.circularprogressbar.CircularProgressBar;
 
 public class AvocadoFragment extends Fragment {
     private static ViewGroup rootView;
-
+    private User mUser;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        mUser = ((MainActivity) getActivity()).getmUser();
         rootView = (ViewGroup) inflater.inflate(R.layout.fragment_item_avocado, container, false);
         TextView text = (TextView)rootView.findViewById(R.id.avocadoAmount);
         rootView.findViewById(R.id.avocadoImage).setOnClickListener(new MyClickListener());
 
 
 
-        if (User.getInventoryList().containsKey(Avocado.getIndex())) {
-            text.setText(String.format("x%d", User.getInventoryAmount(Avocado.getIndex())));
+        if (mUser.getInventoryList().containsKey(Avocado.getIndex())) {
+            text.setText(String.format("x%d", mUser.getInventoryAmount(Avocado.getIndex())));
         }
         else {
             text.setText("nokey");
@@ -43,21 +45,32 @@ public class AvocadoFragment extends Fragment {
 
     private final class MyClickListener implements View.OnClickListener {
         public void onClick(View v) {
-            RelativeLayout p = (RelativeLayout) rootView.getParent().getParent();
-            ViewPager vp = (ViewPager) rootView.getParent();
+            if (mUser.getInventoryAmount(Avocado.getIndex()) > 0) {
+                RelativeLayout p = (RelativeLayout) rootView.getParent().getParent();
+                ViewPager vp = (ViewPager) rootView.getParent();
 
-            TextView text = (TextView) rootView.findViewById(R.id.avocadoAmount);
-            text.setText(String.format("x%d", 0));
+                TextView text = (TextView) rootView.findViewById(R.id.avocadoAmount);
+                text.setText(String.format("x%d", mUser.getInventoryAmount(Avocado.getIndex()) - 1));
 
-            User mUser = ((MainActivity) getActivity()).getmUser();
-            CircularProgressBar healthProgress = ((MainActivity) getActivity()).getHealthProgress();
-            CircularProgressBar moodProgress = ((MainActivity) getActivity()).getMoodProgress();
+                CircularProgressBar healthProgress = ((MainActivity) getActivity()).getHealthProgress();
+                CircularProgressBar moodProgress = ((MainActivity) getActivity()).getMoodProgress();
 
-            mUser.incrementMood(mUser.foodToMoodConversion(vp.getCurrentItem()));
-            System.out.println("now is: " + mUser.getHealth());
-            mUser.incrementHealth(mUser.foodToHealthConversion(vp.getCurrentItem()));
-            healthProgress.setProgressWithAnimation(mUser.getHealth());
-            moodProgress.setProgressWithAnimation(mUser.getMood());
+                int prevAmount = mUser.getInventoryAmount(Avocado.getIndex());
+                mUser.getInventoryList().put(Avocado.getIndex(), prevAmount - 1);
+
+                mUser.incrementMood(mUser.foodToMoodConversion(vp.getCurrentItem()));
+                System.out.println("now is: " + mUser.getHealth());
+                mUser.incrementHealth(mUser.foodToHealthConversion(vp.getCurrentItem()));
+                healthProgress.setProgressWithAnimation(mUser.getHealth());
+                moodProgress.setProgressWithAnimation(mUser.getMood());
+            }
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        TextView text = (TextView)rootView.findViewById(R.id.avocadoAmount);
+        text.setText(String.format("x%d", mUser.getInventoryAmount(Avocado.getIndex())));
     }
 }
