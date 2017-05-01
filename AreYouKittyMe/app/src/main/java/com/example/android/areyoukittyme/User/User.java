@@ -94,8 +94,7 @@ public class User implements Parcelable {
     public void initInventoryList() {
 
         for (int i = 0; i < 6; i++) {
-            int[] array = new int[2];
-            int temp = 1; // amount
+            int temp = i; // amount
 //            array[1] = 0; // price
             this.inventoryList.put(i, temp);
         }

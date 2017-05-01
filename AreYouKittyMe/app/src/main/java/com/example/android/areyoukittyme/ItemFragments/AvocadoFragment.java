@@ -31,7 +31,8 @@ public class AvocadoFragment extends Fragment {
         TextView text = (TextView)rootView.findViewById(R.id.avocadoAmount);
         rootView.findViewById(R.id.avocadoImage).setOnClickListener(new MyClickListener());
 
-
+        System.out.println("Avocado index now is " + Avocado.getIndex());
+        System.out.println("Avocado amount now is " + mUser.getInventoryAmount(Avocado.getIndex()));
 
         if (mUser.getInventoryList().containsKey(Avocado.getIndex())) {
             text.setText(String.format("x%d", mUser.getInventoryAmount(Avocado.getIndex())));
