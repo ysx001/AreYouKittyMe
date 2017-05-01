@@ -309,6 +309,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * When cat dies, the app goes into another activity.
+     */
     private void gouDie() {
         Intent intent = new Intent(this, DeadActivity.class);
         intent.putExtra("User", mUser);
@@ -325,6 +328,7 @@ public class MainActivity extends AppCompatActivity {
         header.updateProfile(profile);
         drawer.setSelection(0);
     }
+
 
     @Override
     protected void onNewIntent(Intent intent) {
@@ -376,6 +380,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Schedules the alarm at a specific time
+     */
     private void scheduleAlarm() {
 
         Intent intent = new Intent(getApplicationContext(), newDayAlarmReceiver.class);
@@ -396,9 +403,6 @@ public class MainActivity extends AppCompatActivity {
         alarm.setInexactRepeating(AlarmManager.RTC_WAKEUP, firstMillis,
                 AlarmManager.INTERVAL_DAY, pIntent);
     }
-
-
-
 
 
     private final class MyTouchListener implements View.OnTouchListener {

@@ -15,13 +15,7 @@ public class Question {
     private int indexOfRightAnswer;
     private VocabList vocab;
 
-
-
-
-
     public Question(VocabList vocab) {
-
-
         answers = new String[4];
         indexOfRightAnswer = Vocab_Repo.random.nextInt(4);
         answers[indexOfRightAnswer] = vocab.getDefinition();
@@ -35,10 +29,7 @@ public class Question {
             answers[i] = j;
             i += 1;
         }
-
-
     }
-
 
     public boolean checkAnswer(int chosenAnswer){
         return chosenAnswer == this.indexOfRightAnswer;
