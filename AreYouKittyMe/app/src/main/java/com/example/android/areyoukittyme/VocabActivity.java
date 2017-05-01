@@ -1,20 +1,26 @@
 package com.example.android.areyoukittyme;
 
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Handler;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 
 import com.example.android.areyoukittyme.Vocabs_Utilities.Vocab_Database;
 import com.example.android.areyoukittyme.Vocabs_Utilities.Vocab_DatabaseManager;
@@ -29,8 +35,12 @@ public class VocabActivity extends AppCompatActivity {
     private Button studyButton;
     private Button reviewButton;
     private Button vocabButton;
+    private Button input;
+    private Dialog dialog;
     private ProgressBar progressBar;
     private int mProgressStatus = 0;
+    public final static String[] books = new String[]{"French", "Spanish", "German", "SAT6000"};
+    public static int chosenBook = 0;
 
     //private static Vocab_Database vocab_database;
 
@@ -52,6 +62,57 @@ public class VocabActivity extends AppCompatActivity {
         progressBar = (ProgressBar)findViewById(R.id.vocab_progressBar);
         vocabButton = (Button)findViewById(R.id.vocabulary_button);
 
+        //For presentation
+        progressBar.setProgress(30);
+
+        try{Vocab_Repo.getAVocabWord();}catch(Exception e){
+            LayoutInflater li = LayoutInflater.from(this);
+
+            View promptsView = li.inflate(R.layout.dialog_spinner, null);
+
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+
+            alertDialogBuilder.setView(promptsView);
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, books);
+
+            alertDialogBuilder.setTitle("My Dialog..");
+
+            final AlertDialog alertDialog = alertDialogBuilder.create();
+
+            final Spinner mSpinner= (Spinner) promptsView
+                    .findViewById(R.id.spinner2);
+
+            mSpinner.setAdapter(adapter);
+            final Button mButton = (Button) promptsView
+                    .findViewById(R.id.confirmButton);
+            mButton.setText("Confirm");
+            mButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+                        Vocab_Repo.addAnEntireVocabListToTheDataBase(getAssets().open(getFilename(mSpinner.getSelectedItemPosition())));
+                        alertDialog.dismiss();
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
+
+                }
+            });
+
+// reference UI elements from my_dialog_layout in similar fashion
+
+            mSpinner.setOnItemSelectedListener(new OnSpinnerItemClicked());
+
+
+
+// show it
+            alertDialog.show();
+            alertDialog.setCanceledOnTouchOutside(false);}
+
+
+
+
+
         Intent vocabIntent = getIntent();
 
         studyButton.setOnClickListener(new View.OnClickListener(){
@@ -69,6 +130,8 @@ public class VocabActivity extends AppCompatActivity {
             }
 
         });
+
+
 
         reviewButton.setOnClickListener(new View.OnClickListener(){
 
@@ -90,13 +153,30 @@ public class VocabActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                try {
-                    Vocab_Repo.addAnEntireVocabListToTheDataBase(getAssets().open("French.txt"));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                //Vocab_Repo.addAnEntireVocabListToTheDataBase(getAssets().open("French.txt"));
+                Context context = VocabActivity.this;
+                Class destActivity = VocabularyListActivity.class;
+                Intent startVocabActivityIntent = new Intent(context, destActivity);
+
+                startActivity(startVocabActivityIntent);
             }
         });
+
+    }
+
+    public String getFilename(int index){
+        switch(index){
+            case 0:
+                return "French.txt";
+            case 1:
+                return "Spanish.txt";
+            case 2:
+                return "German.txt";
+            case 3:
+                return "SAT6000.txt";
+        }
+
+        return "French.txt";
 
     }
 

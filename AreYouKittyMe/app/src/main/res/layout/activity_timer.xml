@@ -99,7 +99,7 @@
         android:layout_alignBaseline="@+id/colonTextView"
         android:layout_alignBottom="@+id/colonTextView"
         android:layout_toStartOf="@+id/dotTextView"
-        android:text="@string/zero_time_timer"
+        android:text="30"
         android:textAlignment="center"
         android:textSize="72sp" />
 

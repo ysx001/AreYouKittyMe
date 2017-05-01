@@ -139,7 +139,15 @@ public class Vocab_Repo {
     }
 
     public static int getCurrentVocabCount(){
-        return numOfRow;
+        SQLiteDatabase db = Vocab_DatabaseManager.getInstance().openDatabase();
+        String selectQuery = "SELECT  * FROM " + Vocab.TABLE ;
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        cursor.close();
+        Vocab_DatabaseManager.getInstance().closeDatabase();
+
+
+        return cursor.getCount();
+
     }
 
     public static Vocab getAVocabByWord(String criteria, String word){
@@ -171,6 +179,24 @@ public class Vocab_Repo {
 
 
         return vocabWanted;
+
+    }
+
+    public static void  getAVocabWord(){
+
+        SQLiteDatabase db = Vocab_DatabaseManager.getInstance().openDatabase();
+        String selectQuery;
+
+            selectQuery = "SELECT  * FROM " + Vocab.TABLE ;
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        cursor.moveToFirst();
+        cursor.getString(1);
+
+
+        cursor.close();
+        Vocab_DatabaseManager.getInstance().closeDatabase();
+
 
     }
 
