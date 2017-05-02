@@ -33,6 +33,10 @@ public class AdoptActivity extends AppCompatActivity {
     private User mUser;
 
 
+    /**
+     * Creates the view of Adopt page and links the buttons in it.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

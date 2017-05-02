@@ -295,11 +295,12 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
 
     }
 
-
-
+    /**
+     * Sets up the line display with the data given.
+     * @param dataArray The data to be displayed.
+     * @param start The starting point of the data.
+     */
     private void setLineData(ArrayList<UserData> dataArray, int start) {
-
-
         ArrayList<Entry> stepCounts = new ArrayList<>();
         ArrayList<Entry> focusTime = new ArrayList<>();
         ArrayList<Entry> vocabTime = new ArrayList<>();
@@ -385,14 +386,12 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
 
     }
 
-
-
-
+    /**
+     * Sets up the bar display with the data given
+     * @param dataArray The data to be displayed.
+     * @param start The starting point of the data.
+     */
     private void setBarData(ArrayList<UserData> dataArray, int start) {
-
-        //float start = 1f;
-
-
 
         ArrayList<BarEntry> stepCounts = new ArrayList<>();
         ArrayList<BarEntry> focusTime = new ArrayList<>();
@@ -556,6 +555,9 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
         return true;
     }
 
+    /**
+     * On back pressed, it goes to MainActivity
+     */
     @Override
     public void onBackPressed() {
         Class destActivity = MainActivity.class;
@@ -566,6 +568,12 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
         startActivity(intent);
     }
 
+    /**
+     * When progress is changed, we update the view
+     * @param seekBar
+     * @param progress The current progress.
+     * @param fromUser
+     */
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 
@@ -588,7 +596,6 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
     public void onStopTrackingTouch(SeekBar seekBar) {
 
     }
-
 
     @SuppressLint("NewApi")
     @Override

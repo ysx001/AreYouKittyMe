@@ -85,7 +85,12 @@ public class StoreActivity extends AppCompatActivity {
         totalText = (TextView) findViewById(R.id.totalAmount);
     }
 
-    //TODO: fix bug: must set total to zero when back button is clicked
+    /**
+     * When item is selected from the menu bar
+     *
+     * @param item Item selected
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -97,6 +102,9 @@ public class StoreActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * When back is pressed, go back to MainActivity
+     */
     @Override
     public void onBackPressed() {
         Class destActivity = MainActivity.class;
@@ -108,8 +116,9 @@ public class StoreActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-
-
+    /**
+     * Checks out the items from store.
+     */
     private void checkout() {
         MediaPlayer mPlayer = MediaPlayer.create(StoreActivity.this, R.raw.cash_register);
         mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
@@ -129,6 +138,9 @@ public class StoreActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Populates the store GUI with the item stored in class Store.
+     */
     private void populateStore() {
         // TODO: change the layout to gridview
         LinearLayout storeContainer = (LinearLayout) findViewById(R.id.storeContainer);
@@ -218,6 +230,9 @@ public class StoreActivity extends AppCompatActivity {
         return String.valueOf(intStr);
     }
 
+    /**
+     * Handles clicking
+     */
     private final class MyClickListener implements OnClickListener {
         @Override
         public void onClick(View v) {

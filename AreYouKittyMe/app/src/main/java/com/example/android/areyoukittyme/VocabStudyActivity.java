@@ -103,7 +103,9 @@ public class VocabStudyActivity extends AppCompatActivity implements View.OnClic
         answered = false;
     }
 
-
+    /**
+     * Updates the quiz interface.
+     */
     public void updateQuizInterface(){
         this.questionView.setText(quiz.getCurrentQuestion().getVocab().getWord());
         System.out.println(quiz.getCurrentQuestion().getVocab().getWord());
@@ -117,14 +119,14 @@ public class VocabStudyActivity extends AppCompatActivity implements View.OnClic
         this.choiceBtn4.setBackgroundColor(getColor(R.color.primary_light));
     }
 
+    /**
+     * Highlights the correct answer during the quiz.
+     */
     public void highlightTheCorrectAnswer(){
         Button[] btns = new Button[]{choiceBtn1,choiceBtn2,choiceBtn3,choiceBtn4};
         btns[quiz.getCurrentQuestion().getIndexOfRightAnswer()].setBackgroundColor(getColor(R.color.colorAccentLight));
 
     }
-
-
-
 
     @Override
     public void onClick(View v) {
@@ -164,6 +166,9 @@ public class VocabStudyActivity extends AppCompatActivity implements View.OnClic
         }
     }
 
+    /**
+     * Go to the next question when next button is clicked.
+     */
     private void nextBtnClicked() {
         if (answered == true) {
             if (quiz.getIfThereIsAnyVocab()) {
@@ -178,6 +183,9 @@ public class VocabStudyActivity extends AppCompatActivity implements View.OnClic
         }
     }
 
+    /**
+     * Goes to the Vocab page activity when button is clicked.
+     */
     private void goBackToVocabPage() {
         Class destActivity = VocabActivity.class;
         Context context = VocabStudyActivity.this;
@@ -187,8 +195,9 @@ public class VocabStudyActivity extends AppCompatActivity implements View.OnClic
         startActivity(intent);
     }
 
-
-
+    /**
+     * When the user does not know the correct answer of the quiz, the correct answer is highlighted
+     */
     private void notKnownClicked() {
         if (answered == false){
             quiz.checkCurrentAnswer(0);
@@ -197,6 +206,9 @@ public class VocabStudyActivity extends AppCompatActivity implements View.OnClic
         }
     }
 
+    /**
+     * When known buttons is clicked, the system records the vocab and goes on to the next question.
+     */
     private void knownBtnClicked() {
         if (answered == false){
         System.out.println("I know");
@@ -210,6 +222,10 @@ public class VocabStudyActivity extends AppCompatActivity implements View.OnClic
 
     }
 
+    /**
+     * Called when choice buttons is clicked
+     * @param index The index of the choice button
+     */
     public void choiceBtnClicked(int index){
         if (answered==false) {
 

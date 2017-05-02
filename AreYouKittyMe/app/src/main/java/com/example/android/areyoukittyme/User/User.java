@@ -1,6 +1,5 @@
 package com.example.android.areyoukittyme.User;
 
-import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
@@ -15,7 +14,6 @@ import com.example.android.areyoukittyme.Item.Item;
 import com.example.android.areyoukittyme.R;
 import com.example.android.areyoukittyme.Store.Store;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -72,7 +70,7 @@ public class User implements Parcelable {
         this.focus = 0;
         this.vocab = 0;
         this.cash = 1000;
-//        this.inventoryList = null;
+        this.inventoryList = null;
         this.health = 80;
         this.mood = 50;
         this.health = 80;
@@ -82,22 +80,30 @@ public class User implements Parcelable {
         initInventoryList();
     }
 
+    /**
+     * Checkout the user from store and put item into user inventory
+     *
+     * @param amountList A list of amounts of the items purchased
+     * @param priceList A list of prices of the items purchased
+     */
     public void userCheckout(ArrayList<Integer> amountList, ArrayList<Integer> priceList) {
         for (int i = 0; i < amountList.size(); i++) {
             int[] array = new int[2];
-            int prevAmount = this.inventoryList.getInventoryList().get(i);
+            int prevAmount = this.inventoryList.get(i);
 //            array[0] = amountList.get(i) + prevAmount; // the amount of the item
 //            array[1] = priceList.get(i); // price of the item
             int temp = amountList.get(i) + prevAmount; // the amount of the item
-            this.inventoryList.getInventoryList().put(i, temp);
+            this.inventoryList.put(i, temp);
 
         }
     }
 
+    /**
+     * Initializes the inventory list
+     */
     public void initInventoryList() {
 
         for (int i = 0; i < 6; i++) {
-            int[] array = new int[2];
             int temp = 1; // amount
 //            array[1] = 0; // price
             this.inventoryList.getInventoryList().put(i, temp);
@@ -105,6 +111,11 @@ public class User implements Parcelable {
         System.out.println("Initialized, the inventory list now is" + this.inventoryList);
     }
 
+    /**
+     * Gets the amount of the item at index key.
+     * @param key The index of the item in the inventory list.
+     * @return The amount of the item
+     */
     public int getInventoryAmount(int key) {
         return inventoryList.getInventoryList().get(key);
     }
@@ -127,14 +138,6 @@ public class User implements Parcelable {
 
     public int getAge() {
         return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public void setUserData(ArrayList<UserData> userData) {
-        this.userData = userData;
     }
 
     public ArrayList<UserData> getUserData() {
@@ -208,10 +211,6 @@ public class User implements Parcelable {
         return inventoryList.getInventoryList();
     }
 
-    public void setInventoryList(HashMap<Integer, Integer> inventoryList) {
-        this.inventoryList.setInventoryList(inventoryList);
-    }
-
     public int getCash() {
         return this.cash;
     }
@@ -256,6 +255,11 @@ public class User implements Parcelable {
         }
     }
 
+    /**
+     * A way to calculate how much health a food item will restore.
+     * @param index The index of the food item.
+     * @return The amount to be restored.
+     */
     public int foodToHealthConversion(int index) {
         // Food: food value / 1000 * 5 (+5 for every $1000 food consumed)
         int price = Store.getItemList().get(index).getPrice();
@@ -264,6 +268,11 @@ public class User implements Parcelable {
 //        return 5000;
     }
 
+    /**
+     * A way to calculate how much mood a food item will restore.
+     * @param index The index of the food item.
+     * @return The amount to be restored.
+     */
     public int foodToMoodConversion(int index) {
         // Food: if value > 1000, then + 3~5, random
         int price = Store.getItemList().get(index).getPrice();
@@ -282,11 +291,15 @@ public class User implements Parcelable {
         return 0;
     }
 
+    /**
+     * Generates data for the stats activities.
+     *
+     * @param count The max amount of data to be generated.
+     * @param range The range that determines the random number.
+     * @return Data generated.
+     */
     private ArrayList<UserData> generateData(int count, Double range) {
-
         ArrayList<UserData> data = new ArrayList<>();
-
-
         ArrayList<Double> stepCountslist = new ArrayList<>();
 
         for (int i = 0; i < count; i++) {
@@ -325,7 +338,9 @@ public class User implements Parcelable {
         return data;
     }
 
-
+    /**
+     * Called when a new day starts. Deducts health and mood and resets step and vocab.
+     */
     public void newDay() {
         this.totalDays ++;
 
@@ -387,6 +402,9 @@ public class User implements Parcelable {
         this.inventoryList = in.readParcelable(InventoryList.class.getClassLoader());
     }
 
+    /**
+     * Creates a single user instance.
+     */
     public static final Creator<User> CREATOR = new Creator<User>() {
         @Override
         public User createFromParcel(Parcel source) {

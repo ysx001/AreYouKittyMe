@@ -143,8 +143,6 @@ public class GoogleFitActivity extends AppCompatActivity {
                 });
     }
 
-
-
     private void readData() {
         new VerifyDataTask().execute();
     }

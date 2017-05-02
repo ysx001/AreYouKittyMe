@@ -164,6 +164,12 @@ public class VocabActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Gets the filenames for the library that the user will be using.
+     *
+     * @param index The index of the files.
+     * @return The string of the filename according to the index.
+     */
     public String getFilename(int index){
         switch(index){
             case 0:
@@ -180,6 +186,11 @@ public class VocabActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Called when menu items are selected
+     * @param item The item selected
+     * @return true when pressed.
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
