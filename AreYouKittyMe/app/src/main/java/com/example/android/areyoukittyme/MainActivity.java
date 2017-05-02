@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.AsyncTask;
 import android.graphics.Point;
@@ -29,6 +30,7 @@ import android.widget.TextView;
 
 import com.example.android.areyoukittyme.Service.newDayAlarmReceiver;
 import com.example.android.areyoukittyme.User.User;
+import com.example.android.areyoukittyme.logger.Log;
 import com.example.android.areyoukittyme.logger.LogWrapper;
 import com.example.android.areyoukittyme.logger.MessageOnlyLogFilter;
 import com.example.android.areyoukittyme.ItemFragments.AsparagusFragment;
@@ -50,6 +52,7 @@ import com.google.android.gms.fitness.data.DataSet;
 import com.google.android.gms.fitness.data.DataType;
 import com.google.android.gms.fitness.data.Field;
 import com.google.android.gms.fitness.result.DailyTotalResult;
+import com.google.gson.Gson;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
@@ -64,6 +67,7 @@ import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.mikhaellopez.circularprogressbar.CircularProgressBar;
 
 import java.util.Calendar;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -114,6 +118,7 @@ public class MainActivity extends AppCompatActivity {
         // Use getIntent method to store the Intent that started this Activity
         Intent startingIntent = getIntent();
         mUser = startingIntent.getExtras().getParcelable("User");
+        //mUser.initInventoryList();
 
         // This method sets up our custom logger, which will print all log messages to the device
         // screen, as well as to adb logcat.
@@ -248,19 +253,7 @@ public class MainActivity extends AppCompatActivity {
                                 intent = new Intent(MainActivity.this, TimerActivity.class);
                             }
                             else if (drawerItem.getIdentifier() == 5) {
-                                isSetting = true;
                                 intent = new Intent(MainActivity.this, SettingsActivity.class);
-                                intent.putExtra("User", mUser);
-                                startActivityForResult(intent, 1);
-                            }
-                            else if (drawerItem.getIdentifier() == 6) {
-                            }
-
-                            if (intent != null && !isSetting) {
-                                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                                intent.putExtra("User", mUser);
-                                startActivity(intent);
-
                             }
                             else if (drawerItem.getIdentifier() == 6) {
                             }
@@ -268,8 +261,7 @@ public class MainActivity extends AppCompatActivity {
                             if (intent != null) {
                                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                                 intent.putExtra("User", mUser);
-                                startActivityForResult(intent, 1);
-//                                startActivity(intent);
+
                                 if (drawerItem.getIdentifier() == 2) {
                                     startActivityForResult(intent, 1);
                                 }
@@ -348,9 +340,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    protected void onStop() {
+        super.onStop();
+        Log.e("stop", "stop");
+        SharedPreferences mPrefs = getSharedPreferences("userPref", context.MODE_PRIVATE);
+        SharedPreferences.Editor prefsEditor = mPrefs.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(mUser);
+        System.out.println(json);
+        prefsEditor.putString("user", json);
 
+        String inventoryJson = gson.toJson(mUser.getInventoryListObject());
+        prefsEditor.putString("inventory", inventoryJson);
+
+        prefsEditor.commit();
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

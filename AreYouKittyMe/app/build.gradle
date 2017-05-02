@@ -26,28 +26,15 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-//    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-//        exclude group: 'com.android.support', module: 'support-annotations'
-//    })
+
     compile('com.mikepenz:materialdrawer:5.9.0@aar') {  //MaterialDrawer
         transitive = true
     }
-    //Swipe detector
-    //Google Material Icons
-    //FontAwesome
-    // For plotting
-    // Thanks PhilJay for the awesome library!
-   // compile "com.google.android.gms:play-services-fitness:${google_play_services_library}"
+
+    compile 'com.google.code.gson:gson:2.7' //GSON
     compile 'uk.co.chrisjenx:calligraphy:2.2.0' //Custom font
     compile 'com.github.garretyoder:Colorful:1.1' //Custom theme colors
     compile 'com.mikhaellopez:circularprogressbar:1.1.1' //Circular progress bar
-   // compile "com.google.android.gms:play-services-fitness:${google_play_services_library}"
-    compile 'uk.co.chrisjenx:calligraphy:2.2.0' //Custom font
-    compile 'com.github.garretyoder:Colorful:1.1' //Custom theme colors
-    compile 'com.mikhaellopez:circularprogressbar:1.1.1' //Circular progress bar
-    // compile "com.google.android.gms:play-services-fitness:${google_play_services_library}"
-    //Custom font
-    //Circular progress bar
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'uk.co.chrisjenx:calligraphy:2.2.0'
     compile 'com.mikhaellopez:circularprogressbar:1.1.1'
@@ -60,7 +47,7 @@ dependencies {
     compile 'com.github.PhilJay:MPAndroidChart:v3.0.2'
     testCompile 'junit:junit:4.12'
     compile fileTree(dir: 'libs', include: ['*.jar'])
-//    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
+
     configurations.all {
         resolutionStrategy.force 'com.android.support.test.espresso:espresso-core:2.2.2'
     }

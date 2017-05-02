@@ -1,5 +1,6 @@
 package com.example.android.areyoukittyme.User;
 
+import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
@@ -14,8 +15,10 @@ import com.example.android.areyoukittyme.Item.Item;
 import com.example.android.areyoukittyme.R;
 import com.example.android.areyoukittyme.Store.Store;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 /**
@@ -47,15 +50,15 @@ public class User implements Parcelable {
     // 3: Spanish
     private int vocabBookID;
 
-    private static HashMap<Integer, Integer> inventoryList;
+    private transient static InventoryList inventoryList = new InventoryList();
 
     // Cat attributes
     private int cash;
     private int health;
     private int mood;
 
-    private static int HEALTH_MAX = 100;
-    private static int MOOD_MAX = 100;
+    private transient static int HEALTH_MAX = 100;
+    private transient static int MOOD_MAX = 100;
 
     public User(String name) {
         this.name = name;
@@ -69,24 +72,24 @@ public class User implements Parcelable {
         this.focus = 0;
         this.vocab = 0;
         this.cash = 1000;
-        this.inventoryList = null;
+//        this.inventoryList = null;
         this.health = 80;
         this.mood = 50;
         this.health = 80;
         this.mood = 90;
         this.userData = generateData(year, 30.0);
-        this.inventoryList = new HashMap<Integer, Integer>();
+        this.inventoryList = new InventoryList();
         initInventoryList();
     }
 
     public void userCheckout(ArrayList<Integer> amountList, ArrayList<Integer> priceList) {
         for (int i = 0; i < amountList.size(); i++) {
             int[] array = new int[2];
-            int prevAmount = this.inventoryList.get(i);
+            int prevAmount = this.inventoryList.getInventoryList().get(i);
 //            array[0] = amountList.get(i) + prevAmount; // the amount of the item
 //            array[1] = priceList.get(i); // price of the item
             int temp = amountList.get(i) + prevAmount; // the amount of the item
-            this.inventoryList.put(i, temp);
+            this.inventoryList.getInventoryList().put(i, temp);
 
         }
     }
@@ -97,15 +100,22 @@ public class User implements Parcelable {
             int[] array = new int[2];
             int temp = 1; // amount
 //            array[1] = 0; // price
-            this.inventoryList.put(i, temp);
+            this.inventoryList.getInventoryList().put(i, temp);
         }
         System.out.println("Initialized, the inventory list now is" + this.inventoryList);
     }
 
     public int getInventoryAmount(int key) {
-        return inventoryList.get(key);
+        return inventoryList.getInventoryList().get(key);
     }
 
+    public InventoryList getInventoryListObject() {
+        return inventoryList;
+    }
+
+    public void setInventoryListObject(InventoryList inventory) {
+        inventoryList = inventory;
+    }
 
     public String getName() {
         return name;
@@ -195,11 +205,11 @@ public class User implements Parcelable {
     }
 
     public HashMap<Integer, Integer> getInventoryList() {
-        return inventoryList;
+        return inventoryList.getInventoryList();
     }
 
     public void setInventoryList(HashMap<Integer, Integer> inventoryList) {
-        this.inventoryList = inventoryList;
+        this.inventoryList.setInventoryList(inventoryList);
     }
 
     public int getCash() {
@@ -354,10 +364,10 @@ public class User implements Parcelable {
         dest.writeInt(this.focus);
         dest.writeInt(this.vocab);
         dest.writeInt(this.vocabBookID);
-        //dest.writeSerializable(this.inventoryList);
         dest.writeInt(this.cash);
         dest.writeInt(this.health);
         dest.writeInt(this.mood);
+        dest.writeParcelable(this.inventoryList, 1);
     }
 
     protected User(Parcel in) {
@@ -371,10 +381,10 @@ public class User implements Parcelable {
         this.focus = in.readInt();
         this.vocab = in.readInt();
         this.vocabBookID = in.readInt();
-//        this.inventoryList = (HashMap<Integer, Object[]>) in.readSerializable();
         this.cash = in.readInt();
         this.health = in.readInt();
         this.mood = in.readInt();
+        this.inventoryList = in.readParcelable(InventoryList.class.getClassLoader());
     }
 
     public static final Creator<User> CREATOR = new Creator<User>() {
@@ -388,8 +398,5 @@ public class User implements Parcelable {
             return new User[size];
         }
     };
-
-
-
 
 }
