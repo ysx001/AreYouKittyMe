@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -12,6 +13,7 @@ import android.widget.Button;
 
 import com.example.android.areyoukittyme.User.User;
 import com.example.android.areyoukittyme.utilities.NotificationUtils;
+import com.google.gson.Gson;
 
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -133,6 +135,25 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
             NotificationUtils.remindUserSwitchBack(this);
             this.pauseTime = System.currentTimeMillis();
         }
+    }
+
+    /**
+     * Called when the activity is stopped
+     */
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        SharedPreferences mPrefs = getSharedPreferences("userPref", TimerActivity.this.MODE_PRIVATE);
+        SharedPreferences.Editor prefsEditor = mPrefs.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(mUser);
+        prefsEditor.putString("user", json);
+
+        String inventoryJson = gson.toJson(mUser.getInventoryListObject());
+        prefsEditor.putString("inventory", inventoryJson);
+
+        prefsEditor.commit();
     }
 
     /**

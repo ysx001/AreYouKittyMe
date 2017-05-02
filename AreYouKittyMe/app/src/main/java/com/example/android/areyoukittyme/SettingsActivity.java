@@ -3,6 +3,7 @@ package com.example.android.areyoukittyme;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.areyoukittyme.User.User;
+import com.google.gson.Gson;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -70,11 +72,27 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
 
         ageSetting.setEnabled(false);
 
-//       String[] items = new String[]{"SAT 6000", "French", "German", "Spanish"};
-//       ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, items);
-//       vocabBookSetting.setAdapter(adapter);
+       String[] items = new String[]{"SAT 6000", "French", "German", "Spanish"};
+       ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, items);
+       vocabBookSetting.setAdapter(adapter);
 
         loadCurrentSettings();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        SharedPreferences mPrefs = getSharedPreferences("userPref", SettingsActivity.this.MODE_PRIVATE);
+        SharedPreferences.Editor prefsEditor = mPrefs.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(mUser);
+        prefsEditor.putString("user", json);
+
+        String inventoryJson = gson.toJson(mUser.getInventoryListObject());
+        prefsEditor.putString("inventory", inventoryJson);
+
+        prefsEditor.commit();
     }
 
     /**
@@ -183,14 +201,11 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         Context context = SettingsActivity.this;
 
         System.out.println("Back Pressed User name now is " + mUser.getName());
-        //Intent intent = new Intent(context, destActivity);
-        Intent intent = new Intent();
+        Intent intent = new Intent(context, destActivity);
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         applySettings();
         intent.putExtra("User", mUser);
-        setResult(RESULT_OK, intent);
-        finish();
-        //startActivity(intent);
+        startActivity(intent);
     }
 
     @Override

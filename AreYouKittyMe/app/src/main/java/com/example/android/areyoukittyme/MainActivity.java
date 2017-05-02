@@ -153,7 +153,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 mUser.newDay();
-                //mUser.setHealth(-20);
                 moneyDisplay.setText(String.valueOf(mUser.getCash()));
                 healthProgress.setProgressWithAnimation(mUser.getHealth());
                 moodProgress.setProgressWithAnimation(mUser.getMood());
@@ -308,17 +307,6 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        profile.withName(mUser.getName());
-        displayCatName.setText(mUser.getName());
-        header.updateProfile(profile);
-        drawer.setSelection(0);
-    }
-
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
@@ -338,6 +326,11 @@ public class MainActivity extends AppCompatActivity {
         moneyDisplay.setText(String.valueOf(mUser.getCash()));
         healthProgress.setProgressWithAnimation(mUser.getHealth());
         moodProgress.setProgressWithAnimation(mUser.getMood());
+
+        profile.withName(mUser.getName());
+        displayCatName.setText(mUser.getName());
+        header.updateProfile(profile);
+        drawer.setSelection(0);
     }
 
     @Override
@@ -348,7 +341,6 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences.Editor prefsEditor = mPrefs.edit();
         Gson gson = new Gson();
         String json = gson.toJson(mUser);
-        System.out.println(json);
         prefsEditor.putString("user", json);
 
         String inventoryJson = gson.toJson(mUser.getInventoryListObject());
