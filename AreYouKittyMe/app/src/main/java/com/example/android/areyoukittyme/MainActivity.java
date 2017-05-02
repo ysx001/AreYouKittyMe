@@ -109,6 +109,9 @@ public class MainActivity extends AppCompatActivity {
 
     private Button testDead;
 
+    public User getmUser() {
+        return mUser;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,29 +142,26 @@ public class MainActivity extends AppCompatActivity {
         healthProgress = (CircularProgressBar) findViewById(R.id.healthProgress);
         moodProgress = (CircularProgressBar) findViewById(R.id.moodProgress);
 
-
-
         displayCatName = (TextView) findViewById(R.id.cat_name_display);
 
-//        displayCatName = (TextView) findViewById(R.id.cat_name_display);
         drawerToggler = (ImageView) findViewById(R.id.drawerToggler);
 
-//        testDead = (Button) findViewById(R.id.test_dead);
+        testDead = (Button) findViewById(R.id.test_dead);
 
         // Setting an OnClickLister for the testing dead activity
-//        testDead.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                mUser.newDay();
-//                //mUser.setHealth(-20);
-//                moneyDisplay.setText(String.valueOf(mUser.getCash()));
-//                healthProgress.setProgressWithAnimation(mUser.getHealth());
-//                moodProgress.setProgressWithAnimation(mUser.getMood());
-//                if (mUser.getHealth() <= 0) {
-//                    gouDie();
-//                }
-//            }
-//        });
+        testDead.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mUser.newDay();
+                //mUser.setHealth(-20);
+                moneyDisplay.setText(String.valueOf(mUser.getCash()));
+                healthProgress.setProgressWithAnimation(mUser.getHealth());
+                moodProgress.setProgressWithAnimation(mUser.getMood());
+                if (mUser.getHealth() <= 0) {
+                    switchDie();
+                }
+            }
+        });
 
         findViewById(R.id.click_assist).setOnLongClickListener(new MyLongClickListener());
         findViewById(R.id.click_assist).setOnClickListener(new MyClickListener());
@@ -174,7 +174,6 @@ public class MainActivity extends AppCompatActivity {
         ImageView catAnimation = (ImageView) findViewById(R.id.miaomiaomiao);
         //catAnimation.setBackgroundResource(R.drawable.thin_cat_animation);
         ((AnimationDrawable) catAnimation.getBackground()).start();
-//        catAnimation.setOnLongClickListener(new MyLongClickListener());
         catAnimation.setOnClickListener(new MyClickListener());
         findViewById(R.id.main_content).setOnClickListener(new MyClickListener());
         findViewById(R.id.leftArrow).setOnClickListener(new MyClickListener());
@@ -189,7 +188,7 @@ public class MainActivity extends AppCompatActivity {
         // If health is zero, the cat dies.
 
         if (mUser.getHealth() == 0) {
-            gouDie();
+            switchDie();
         }
 
         profile = new ProfileDrawerItem().withName(catName).withIcon(GoogleMaterial.Icon.gmd_pets);
@@ -285,7 +284,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-//        scheduleAlarm();
         scheduleAlarm();
 //        mApiClient.connect();
 
@@ -304,7 +302,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * When cat dies, the app goes into another activity.
      */
-    private void gouDie() {
+    private void switchDie() {
         Intent intent = new Intent(this, DeadActivity.class);
         intent.putExtra("User", mUser);
         startActivity(intent);
@@ -320,7 +318,6 @@ public class MainActivity extends AppCompatActivity {
         header.updateProfile(profile);
         drawer.setSelection(0);
     }
-
 
     @Override
     protected void onNewIntent(Intent intent) {
@@ -668,9 +665,6 @@ public class MainActivity extends AppCompatActivity {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
-    public User getmUser() {
-        return mUser;
-    }
 
     public void setmUser(User mUser) {
         this.mUser = mUser;

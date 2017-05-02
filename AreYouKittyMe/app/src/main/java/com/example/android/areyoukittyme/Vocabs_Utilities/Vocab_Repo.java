@@ -322,10 +322,10 @@ public class Vocab_Repo {
         //Vocab_DatabaseManager.setVocabGeneralProgress(new Vocab_Progress_General(vocabArrays.size(),"SAT6000.csv", currentDate, dailyGoal));
         int j = 0;
         for(ArrayList<String> i: vocabArrays){
-            System.out.println(i.size());
+            //System.out.println(i.size());
             vocab = new Vocab(j, i.get(0), i.get(1),0, "0", currentDate );
             insert(vocab);
-            System.out.println(j);
+            //System.out.println(j);
             j+= 1;
 
 

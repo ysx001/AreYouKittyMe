@@ -1,6 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'AreYouKittyMe'
+            keyPassword 'Sarah08!2'
+            storeFile file('/home/sarah/keystores/android.jks')
+            storePassword 'Sarah08!2'
+        }
+    }
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
     defaultConfig {
@@ -27,6 +35,10 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    //    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    //        exclude group: 'com.android.support', module: 'support-annotations'
+    //    })
     compile('com.mikepenz:materialdrawer:5.9.0@aar') {  //MaterialDrawer
         transitive = true
     }
@@ -36,6 +48,29 @@ dependencies {
     compile 'com.github.garretyoder:Colorful:1.1' //Custom theme colors
     compile 'com.mikhaellopez:circularprogressbar:1.1.1' //Circular progress bar
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    //Swipe detector
+    //Google Material Icons
+    //FontAwesome
+    // For plotting
+    // Thanks PhilJay for the awesome library!
+    // compile "com.google.android.gms:play-services-fitness:${google_play_services_library}"
+    compile 'uk.co.chrisjenx:calligraphy:2.2.0'
+    //Custom font
+    compile 'com.github.garretyoder:Colorful:1.1'
+    //Custom theme colors
+    compile 'com.mikhaellopez:circularprogressbar:1.1.1'
+    //Circular progress bar
+    // compile "com.google.android.gms:play-services-fitness:${google_play_services_library}"
+    compile 'uk.co.chrisjenx:calligraphy:2.2.0'
+    //Custom font
+    compile 'com.github.garretyoder:Colorful:1.1'
+    //Custom theme colors
+    compile 'com.mikhaellopez:circularprogressbar:1.1.1'
+    //Circular progress bar
+    // compile "com.google.android.gms:play-services-fitness:${google_play_services_library}"
+    //Custom font
+    //Circular progress bar
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'uk.co.chrisjenx:calligraphy:2.2.0'
     compile 'com.mikhaellopez:circularprogressbar:1.1.1'
     compile 'com.mikepenz:google-material-typeface:3.0.1.0.original@aar'
@@ -50,5 +85,18 @@ dependencies {
 
     configurations.all {
         resolutionStrategy.force 'com.android.support.test.espresso:espresso-core:2.2.2'
+    }
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    //    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
+    //    configurations.all {
+    //        resolutionStrategy.force 'com.android.support.test.espresso:espresso-core:2.2.2'
+    //    }
+    //    compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    androidTestCompile 'com.android.support.test.espresso:espresso-contrib:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+        exclude group: 'com.android.support', module: 'support-v4'
+        exclude group: 'com.android.support', module: 'design'
+        exclude group: 'com.android.support', module: 'recyclerview-v7'
     }
 }
