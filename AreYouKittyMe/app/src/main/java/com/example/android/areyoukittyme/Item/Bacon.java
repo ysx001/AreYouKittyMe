@@ -13,7 +13,7 @@ public class Bacon implements Item{
     private static int index;
 
     public Bacon(int index) {
-        setPrice(45);
+        setPrice(600);
         this.id = R.drawable.bacon;
         setIcon(id);
         this.index = index;

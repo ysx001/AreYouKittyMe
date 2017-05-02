@@ -27,6 +27,7 @@ package com.example.android.areyoukittyme;
         import com.example.android.areyoukittyme.User.User;
 
         import java.util.ArrayList;
+        import java.util.HashMap;
 
         import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -108,6 +109,7 @@ public class StoreActivity extends AppCompatActivity {
     }
 
 
+
     private void checkout() {
         MediaPlayer mPlayer = MediaPlayer.create(StoreActivity.this, R.raw.cash_register);
         mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
@@ -130,7 +132,7 @@ public class StoreActivity extends AppCompatActivity {
     private void populateStore() {
         // TODO: change the layout to gridview
         LinearLayout storeContainer = (LinearLayout) findViewById(R.id.storeContainer);
-        storeContainer.setPadding(20, 200, 20, 0);
+        storeContainer.setPadding(20, 0, 20, 0);
 
 
         LinearLayout hContainer = new LinearLayout(this);
@@ -153,7 +155,7 @@ public class StoreActivity extends AppCompatActivity {
             // setting image
             ImageView itemIcon = new ImageView(this);
             itemIcon.setImageResource(item.getId());
-            itemIcon.setLayoutParams(new LinearLayout.LayoutParams(400, 400));
+            itemIcon.setLayoutParams(new LinearLayout.LayoutParams(300, 300));
             subContainer.addView(itemIcon);
             // setting price tag
             TextView priceTag = new TextView(this);
@@ -203,7 +205,7 @@ public class StoreActivity extends AppCompatActivity {
                 storeContainer.addView(hContainer);
                 TextView temp = new TextView(this);
                 temp.setText("");
-                temp.setHeight(200);
+                temp.setHeight(0);
                 storeContainer.addView(temp);
 
             }

@@ -41,6 +41,16 @@ dependencies {
     compile 'uk.co.chrisjenx:calligraphy:2.2.0' //Custom font
     compile 'com.github.garretyoder:Colorful:1.1' //Custom theme colors
     compile 'com.mikhaellopez:circularprogressbar:1.1.1' //Circular progress bar
+   // compile "com.google.android.gms:play-services-fitness:${google_play_services_library}"
+    compile 'uk.co.chrisjenx:calligraphy:2.2.0' //Custom font
+    compile 'com.github.garretyoder:Colorful:1.1' //Custom theme colors
+    compile 'com.mikhaellopez:circularprogressbar:1.1.1' //Circular progress bar
+    // compile "com.google.android.gms:play-services-fitness:${google_play_services_library}"
+    //Custom font
+    //Circular progress bar
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'uk.co.chrisjenx:calligraphy:2.2.0'
+    compile 'com.mikhaellopez:circularprogressbar:1.1.1'
     compile 'com.mikepenz:google-material-typeface:3.0.1.0.original@aar'
     compile 'com.mikepenz:fontawesome-typeface:4.7.0.0@aar'
     compile 'com.android.support:appcompat-v7:25.3.1'

@@ -14,7 +14,7 @@ public class Hamburger implements Item{
     private static int index;
 
     public Hamburger(int index) {
-        setPrice(220);
+        setPrice(1000);
         this.id = R.drawable.hamburguer;
         setIcon(id);
         this.index = index;
