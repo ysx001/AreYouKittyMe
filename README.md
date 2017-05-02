@@ -28,26 +28,32 @@ scrum/
 
 * Android Studio, preferably 2.2.+
 * Android SDK Build Tools v25.0.0
-* Emulator or Android Kitkat 4.4 or above 
+* Emulator or physical device of Nexus 6P (Our current release is optimized for Nexus 6P. For best user experience, please try the app on Nexus 6P)
 
 ### Installation
 
 Following are the two ways you can use our application.
 
-1. Install using `.apk` file in `dist/` folder. You would need to enable _Install from Unknown Sources_ in the Security Settings on your Android.
+1. Install using `.apk` file in `dist/` folder. 
+    * You would need to enable _Install from Unknown Sources_ in the Security Settings on your Android.
+    * Download the `.apk` file onto your phone. (You can use USB or upload to cloud storage)
+    * Click on the `.apk` file to install it on your phone
 2. Import the entire project in [Android Studio](https://developer.android.com/studio/index.html) and download all SDK requirements.
     * Install project dependencies from __Tools > Android > Sync Gradle with Project Files__
     * Run `app` module on an emulator or an Android
 
 ## Testing
 
-We utilized [`Espresso`](https://developer.android.com/training/testing/ui-testing/espresso-testing.html) library to test the UI functionality of our application. In Android, these tests are called Instrumentation Tests, and they can be found in `app/src/androidTest`. You can run the Instrumentation Tests as follows:
+To test the functionality of our app, two approaches of testing are implementated:
+First, we used intrumentation test (`/src/AndroidTest`) to verify the UI functionality of our application. This is realized with [`Espresso`](https://developer.android.com/training/testing/ui-testing/espresso-testing.html) framework by Google.
+Secondly, we implemented Junit test ( (`/src/test`)) to make sure our User model functions correctly.
+
+To run the instrumentation test:
 * Using the left pane, change the Project view to __Project__ (default)
 * Open `app/src/androidTest/`
 * Right-click on `androidTest/java/` and click __Run 'All Tests'__
 * Select your preferred device to run UI tests on
 
-In addition, the `JUnit` tests can be found in `app/src/test`. You do not need a device to run these tests.
 
 ## Authors
 Thanks for the delication and time investment the following amazing people:
