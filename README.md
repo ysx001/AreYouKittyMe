@@ -1,11 +1,6 @@
 # Are You Kitty Me
 
-Hana is an research-based productivity application built for Android. This app was developed for CSCI 205: Software Engineering & Design course during Fall 2016 at Bucknell University.
-
-This application came to life when our team realized that there was a need for a Pomodoro timer which freely offered greater levels of customization. When browsing the market, we found several applications falling short due to a poor User Interface or lack of extensibility. When we came together, we decided to extend our application to serve a broader purpose.
-
-Productivity hackers often employ a series of applications to ensure maximum value of their time. We found it absurd that many groups suggested the use of 3 or more apps which offered similar functionality. To service the broader needs of the market, we wanted to create an modular application that can implement many popular techniques. Our end product **Hana!** fulfills these needs by implementing Getting Things Done, Pomodoro, and the 10-Minute Hack techniques. 
-
+Are You Kitty Me is a multi-purpose android app combining productivity, fitness, as well as vocab studying, that integrates a cat feeding system to motivate the user to complete his/her goals on a daily basis.
 ## Files
 
 ```
