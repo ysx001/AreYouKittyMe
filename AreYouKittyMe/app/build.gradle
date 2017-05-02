@@ -36,17 +36,9 @@ android {
     }
 }
 
-//
-//task grantAnimationPermission(type: Exec, dependsOn: 'installDebug') {
-//    commandLine "adb shell pm grant com.example.android.areyoukittyme android.permission.SET_ANIMATION_SCALE".split(' ')
-//}
-//
-//tasks.whenTaskAdded { task ->
-//    if (task.name.startsWith('connected')) {
-//        task.dependsOn grantAnimationPermission
-//    }
-//}
 dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+
     compile fileTree(include: ['*.jar'], dir: 'libs')
     //    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
     //        exclude group: 'com.android.support', module: 'support-annotations'
@@ -54,6 +46,12 @@ dependencies {
     compile('com.mikepenz:materialdrawer:5.9.0@aar') {  //MaterialDrawer
         transitive = true
     }
+
+    compile 'com.google.code.gson:gson:2.7' //GSON
+    compile 'uk.co.chrisjenx:calligraphy:2.2.0' //Custom font
+    compile 'com.github.garretyoder:Colorful:1.1' //Custom theme colors
+    compile 'com.mikhaellopez:circularprogressbar:1.1.1' //Circular progress bar
+    compile fileTree(dir: 'libs', include: ['*.jar'])
     //Swipe detector
     //Google Material Icons
     //FontAwesome
@@ -87,15 +85,18 @@ dependencies {
     compile 'com.google.android.gms:play-services-fitness:10.2.1'
     compile 'com.github.PhilJay:MPAndroidChart:v3.0.2'
     testCompile 'junit:junit:4.12'
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    configurations.all {
+        resolutionStrategy.force 'com.android.support.test.espresso:espresso-core:2.2.2'
+    }
     compile fileTree(include: ['*.jar'], dir: 'libs')
     //    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
     //    configurations.all {
     //        resolutionStrategy.force 'com.android.support.test.espresso:espresso-core:2.2.2'
     //    }
     //    compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
+
     androidTestCompile 'com.android.support.test.espresso:espresso-contrib:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
         exclude group: 'com.android.support', module: 'support-v4'
