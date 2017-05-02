@@ -27,6 +27,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.android.areyoukittyme.Service.DayAlarmReceiver;
 import com.example.android.areyoukittyme.User.User;
@@ -538,15 +539,7 @@ public class MainActivity extends AppCompatActivity {
         // Filter strips out everything except the message text.
         MessageOnlyLogFilter msgFilter = new MessageOnlyLogFilter();
         logWrapper.setNext(msgFilter);
-//        // On screen logging via a customized TextView.
-//        LogView logView = (LogView) findViewById(R.id.sample_logview);
-//
-//        // Fixing this lint error adds logic without benefit.
-//        //noinspection AndroidLintDeprecation
-//        logView.setTextAppearance(this, R.style.Log);
-//
-//        logView.setBackgroundColor(Color.WHITE);
-//        msgFilter.setNext(logView);
+
         com.example.android.areyoukittyme.logger.Log.i(TAG, "Ready");
     }
 //
@@ -641,8 +634,11 @@ public class MainActivity extends AppCompatActivity {
                 vp.setCurrentItem(vp.getCurrentItem()+1, true);
             }
             else if (v.getId() == R.id.asparagusImage) {
+
             }
             else {
+
+
 //                mUser.incrementMood(mUser.foodToMoodConversion(vp.getCurrentItem()));
 //                mUser.incrementHealth(mUser.foodToHealthConversion(vp.getCurrentItem()));
 //                healthProgress.setProgressWithAnimation(mUser.getHealth());
@@ -654,9 +650,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-//    private static void eatAnimation() {
-//
-//    }
     private void eatAnimation() {
 
     }

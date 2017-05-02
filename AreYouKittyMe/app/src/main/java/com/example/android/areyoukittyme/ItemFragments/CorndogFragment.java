@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.android.areyoukittyme.Item.Corndog;
 import com.example.android.areyoukittyme.MainActivity;
@@ -51,6 +52,10 @@ public class CorndogFragment extends Fragment {
 
                 TextView text = (TextView) rootView.findViewById(R.id.corndogAmount);
                 text.setText(String.format("x%d", mUser.getInventoryAmount(Corndog.getIndex()) - 1));
+
+                String Toasttext = String.format("Health increased by %d \n Mood increased by %d", mUser.foodToHealthConversion(vp.getCurrentItem()), mUser.foodToMoodConversion(vp.getCurrentItem()));
+
+                Toast.makeText(getActivity(), Toasttext ,Toast.LENGTH_SHORT).show();
 
                 CircularProgressBar healthProgress = ((MainActivity) getActivity()).getHealthProgress();
                 CircularProgressBar moodProgress = ((MainActivity) getActivity()).getMoodProgress();

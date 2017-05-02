@@ -147,6 +147,14 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
 
             case R.id.settingDiscardBtn: {
                 loadCurrentSettings();
+
+                Context context = getApplicationContext();
+                CharSequence text = "Changes discarded";
+                int duration = Toast.LENGTH_SHORT;
+
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
+
                 break;
             }
 

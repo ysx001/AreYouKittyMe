@@ -75,7 +75,7 @@ public class VocabActivity extends AppCompatActivity {
             alertDialogBuilder.setView(promptsView);
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, books);
 
-            alertDialogBuilder.setTitle("My Dialog..");
+            alertDialogBuilder.setTitle("Setting vocab library");
 
             final AlertDialog alertDialog = alertDialogBuilder.create();
 

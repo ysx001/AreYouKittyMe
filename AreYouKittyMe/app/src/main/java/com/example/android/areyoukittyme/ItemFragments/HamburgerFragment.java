@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.android.areyoukittyme.Item.Hamburger;
 import com.example.android.areyoukittyme.MainActivity;
@@ -50,6 +51,10 @@ public class HamburgerFragment extends Fragment {
 
                 TextView text = (TextView) rootView.findViewById(R.id.hamburgerAmount);
                 text.setText(String.format("x%d", mUser.getInventoryAmount(Hamburger.getIndex()) - 1));
+
+                String Toasttext = String.format("Health increased by %d \n Mood increased by %d", mUser.foodToHealthConversion(vp.getCurrentItem()), mUser.foodToMoodConversion(vp.getCurrentItem()));
+
+                Toast.makeText(getActivity(), Toasttext ,Toast.LENGTH_SHORT).show();
 
                 User mUser = ((MainActivity) getActivity()).getmUser();
                 CircularProgressBar healthProgress = ((MainActivity) getActivity()).getHealthProgress();
