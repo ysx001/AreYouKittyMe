@@ -27,6 +27,7 @@ package com.example.android.areyoukittyme;
         import com.example.android.areyoukittyme.User.User;
 
         import java.util.ArrayList;
+        import java.util.HashMap;
 
         import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -84,7 +85,12 @@ public class StoreActivity extends AppCompatActivity {
         totalText = (TextView) findViewById(R.id.totalAmount);
     }
 
-    //TODO: fix bug: must set total to zero when back button is clicked
+    /**
+     * When item is selected from the menu bar
+     *
+     * @param item Item selected
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -96,6 +102,9 @@ public class StoreActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * When back is pressed, go back to MainActivity
+     */
     @Override
     public void onBackPressed() {
         Class destActivity = MainActivity.class;
@@ -107,7 +116,9 @@ public class StoreActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-
+    /**
+     * Checks out the items from store.
+     */
     private void checkout() {
         MediaPlayer mPlayer = MediaPlayer.create(StoreActivity.this, R.raw.cash_register);
         mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
@@ -127,10 +138,13 @@ public class StoreActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Populates the store GUI with the item stored in class Store.
+     */
     private void populateStore() {
         // TODO: change the layout to gridview
         LinearLayout storeContainer = (LinearLayout) findViewById(R.id.storeContainer);
-        storeContainer.setPadding(20, 200, 20, 0);
+        storeContainer.setPadding(20, 0, 20, 0);
 
 
         LinearLayout hContainer = new LinearLayout(this);
@@ -153,7 +167,7 @@ public class StoreActivity extends AppCompatActivity {
             // setting image
             ImageView itemIcon = new ImageView(this);
             itemIcon.setImageResource(item.getId());
-            itemIcon.setLayoutParams(new LinearLayout.LayoutParams(400, 400));
+            itemIcon.setLayoutParams(new LinearLayout.LayoutParams(300, 300));
             subContainer.addView(itemIcon);
             // setting price tag
             TextView priceTag = new TextView(this);
@@ -203,7 +217,7 @@ public class StoreActivity extends AppCompatActivity {
                 storeContainer.addView(hContainer);
                 TextView temp = new TextView(this);
                 temp.setText("");
-                temp.setHeight(200);
+                temp.setHeight(0);
                 storeContainer.addView(temp);
 
             }
@@ -216,6 +230,9 @@ public class StoreActivity extends AppCompatActivity {
         return String.valueOf(intStr);
     }
 
+    /**
+     * Handles clicking
+     */
     private final class MyClickListener implements OnClickListener {
         @Override
         public void onClick(View v) {

@@ -31,10 +31,7 @@ public class Quiz {
     protected int numOfQuestionGotRight;
     protected int numOfQuestionKnwon;
 
-
     public Quiz(boolean mode) throws ParseException {
-
-
         if (!mode){
             questions = Vocab_Repo.convertVocabListsToQuestions(Vocab_Repo.getVocabsToStudy());
             questions.addAll(Vocab_Repo.convertVocabListsToQuestions(Vocab_Repo.getVocabsReviewableVocab()));
@@ -43,10 +40,13 @@ public class Quiz {
         }
         this.answeredQuestions = new ArrayList<Question>();
         currentQuestion = this.questions.get(0);
-
-
     }
 
+    /**
+     * Checks if there is any vocab left.
+     *
+     * @return true if there is, otherwise false.
+     */
     public boolean getIfThereIsAnyVocab(){
         return !questions.isEmpty();
     }
@@ -64,23 +64,28 @@ public class Quiz {
 
     }
 
-
-
+    /**
+     * Checks if the current answer is correct.
+     *
+     * @param chosenIndex The index of the answer to be checked.
+     * @return True if correct, false otherwise.
+     */
     public boolean checkCurrentAnswer(int chosenIndex) {
-
         boolean correct = currentQuestion.checkAnswer(chosenIndex);
 
         if(!answeredQuestions.contains(currentQuestion)){
             answeredQuestions.add(currentQuestion);
             questions.remove(currentQuestion);
         }
-
         return correct;
-
     }
 
-
-
+    /**
+     * Processes the correct answer.
+     *
+     * @param question The question of the answer.
+     * @throws ParseException
+     */
     public void processCorrectAnswer(Question question) throws ParseException {
         if(question.getVocab().getProgress() == 0){
             Vocab_Repo.updateAWordOnItsProgress(1,question.getVocab().getVocab_Id(),0);
@@ -89,12 +94,18 @@ public class Quiz {
         }
     }
 
+
     public void processYoAnswer(Question question) throws ParseException {
         if(question.getVocab().getProgress() == 0){
             Vocab_Repo.updateAWordOnItsProgress(1,question.getVocab().getVocab_Id(),0);
         }
     }
 
+    /**
+     * Processes known vocabularies.
+     *
+     * @param question The question to which the vocabs belong to.
+     */
     public void processKnownVocab(Question question){
         if(!answeredQuestions.contains(currentQuestion)){
             answeredQuestions.add(currentQuestion);
@@ -104,15 +115,18 @@ public class Quiz {
         Vocab_Repo.updateAWordOnItsProgress(2,question.getVocab().getVocab_Id(),0);
     }
 
+    /**
+     * Change the current question to the next.
+     */
     public void toNextQuestion(){
         this.currentQuestion = getUnansweredQuestion();
     }
 
-    public void reset() {
-        this.questions = null;
-        this.answeredQuestions = null;
-    }
-
+    /**
+     * Gets the unanswer question to be displayed
+     *
+     * @return The question that is not answered.
+     */
     public Question getUnansweredQuestion(){
         if (this.questions.size()>0){
             return this.questions.get(0);
@@ -125,17 +139,12 @@ public class Quiz {
         return currentQuestion;
     }
 
-    public void setCurrentQuestion(Question currentQuestion) {
-        this.currentQuestion = currentQuestion;
-    }
 
     public int getRecord() {
-
         return record;
     }
 
     public void setRecord(int record) {
-
         this.record = record;
     }
 

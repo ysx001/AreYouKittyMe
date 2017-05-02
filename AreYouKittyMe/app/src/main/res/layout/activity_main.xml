@@ -42,23 +42,23 @@
         android:layout_alignParentStart="true"
         android:layout_marginTop="28dp" />
 
-    <!--<ImageView-->
-        <!--android:id="@+id/miaomiaomiao"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:background="@drawable/normal_cat_animation"-->
-        <!--android:layout_alignParentBottom="true"-->
-        <!--android:layout_centerHorizontal="true"-->
-        <!--android:layout_marginBottom="20dp" />-->
-
     <ImageView
         android:id="@+id/miaomiaomiao"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/catnormal0001"
-        android:layout_marginTop="32dp"
-        android:layout_below="@+id/cat_name_display"
-        android:layout_centerHorizontal="true" />
+        android:background="@drawable/normal_cat_animation"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp" />
+
+    <!--<ImageView-->
+        <!--android:id="@+id/miaomiaomiao"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--app:srcCompat="@drawable/catnormal0001"-->
+        <!--android:layout_marginTop="32dp"-->
+        <!--android:layout_below="@+id/cat_name_display"-->
+        <!--android:layout_centerHorizontal="true" />-->
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/drawerToggler"
@@ -139,18 +139,17 @@
             <!--android:layout_height="wrap_content"-->
             <!--android:scrollbars="vertical" />-->
     <!--</ScrollView>-->
-
-
     <RelativeLayout
         android:id="@+id/popup_container"
         android:layout_width="200dp"
         android:layout_height="200dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignTop="@+id/drawerToggler"
-        android:layout_marginTop="32dp"
         android:layout_weight="0.50"
         android:background="@drawable/thought_bubble"
-        android:visibility="invisible">
+        android:visibility="invisible"
+        android:layout_below="@+id/test_dead"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="17dp"
+        android:layout_marginTop="25dp">
 
         <ImageButton
             android:id="@+id/rightArrow"
@@ -187,7 +186,17 @@
             android:background="@null"
             android:scaleType="fitCenter"
             app:srcCompat="@drawable/arrows_slim_r" />
+
     </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/click_assist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/transparent"
+        android:layout_alignBottom="@+id/miaomiaomiao"
+        android:layout_toStartOf="@+id/drawerToggler" />
+
 
 
 </RelativeLayout>

@@ -21,6 +21,7 @@ public class Studying_Activity extends AppCompatActivity{
 
     private SimpleCursorAdapter adapter;
 
+    /*Called when first created*/
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

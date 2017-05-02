@@ -5,40 +5,30 @@ import android.app.PendingIntent;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentSender;
+import android.graphics.drawable.AnimationDrawable;
+import android.os.AsyncTask;
 import android.graphics.Point;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.graphics.Color;
-import android.graphics.drawable.AnimationDrawable;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
-import android.util.Log;
 import android.view.View;
-import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.android.areyoukittyme.Item.Avocado;
-import com.example.android.areyoukittyme.Item.Corndog;
 import com.example.android.areyoukittyme.Service.newDayAlarmReceiver;
 import com.example.android.areyoukittyme.User.User;
-import com.example.android.areyoukittyme.logger.LogView;
 import com.example.android.areyoukittyme.logger.LogWrapper;
 import com.example.android.areyoukittyme.logger.MessageOnlyLogFilter;
 import com.example.android.areyoukittyme.ItemFragments.AsparagusFragment;
@@ -56,17 +46,10 @@ import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.fitness.Fitness;
 import com.google.android.gms.fitness.FitnessStatusCodes;
-import com.google.android.gms.fitness.data.DataPoint;
 import com.google.android.gms.fitness.data.DataSet;
-import com.google.android.gms.fitness.data.DataSource;
 import com.google.android.gms.fitness.data.DataType;
 import com.google.android.gms.fitness.data.Field;
-import com.google.android.gms.fitness.data.Value;
-import com.google.android.gms.fitness.request.DataSourcesRequest;
-import com.google.android.gms.fitness.request.OnDataPointListener;
-import com.google.android.gms.fitness.request.SensorRequest;
 import com.google.android.gms.fitness.result.DailyTotalResult;
-import com.google.android.gms.fitness.result.DataSourcesResult;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
@@ -80,16 +63,12 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.mikhaellopez.circularprogressbar.CircularProgressBar;
 
-import org.w3c.dom.Text;
-
 import java.util.Calendar;
-import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class MainActivity extends AppCompatActivity {
-
 
     // key for parcable
     private User mUser;
@@ -106,14 +85,21 @@ public class MainActivity extends AppCompatActivity {
     private CircularProgressBar healthProgress;
     private CircularProgressBar moodProgress;
 
+    private TextView fishA;
+    private TextView avocadoA;
+    private TextView baconA;
+    private TextView corndogA;
+    private TextView hamburgerA;
+    private TextView asparagusA;
+
+
+
     private TextView displayCatName;
     private ViewPager mPager;
     private PagerAdapter mPagerAdapter;
     Point p;
 
     MediaPlayer mPlayer;
-
-
 
     private ImageView drawerToggler;
 
@@ -131,10 +117,6 @@ public class MainActivity extends AppCompatActivity {
         // Use getIntent method to store the Intent that started this Activity
         Intent startingIntent = getIntent();
         mUser = startingIntent.getExtras().getParcelable("User");
-
-        System.out.println("Health now is " + mUser.getHealth());
-        System.out.println("mood now is " + mUser.getMood());
-        System.out.println("cash now is " + mUser.getCash());
 
         // This method sets up our custom logger, which will print all log messages to the device
         // screen, as well as to adb logcat.
@@ -167,23 +149,26 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 mUser.newDay();
                 //mUser.setHealth(-20);
-                System.out.println("Clicked, Health now is" + mUser.getHealth());
-                System.out.println("Clicked, Mood now is" + mUser.getMood());
                 moneyDisplay.setText(String.valueOf(mUser.getCash()));
                 healthProgress.setProgressWithAnimation(mUser.getHealth());
                 moodProgress.setProgressWithAnimation(mUser.getMood());
                 if (mUser.getHealth() <= 0) {
                     switchDie();
                 }
-
             }
         });
 
+        findViewById(R.id.click_assist).setOnLongClickListener(new MyLongClickListener());
+        findViewById(R.id.click_assist).setOnClickListener(new MyClickListener());
+
+//        findViewById(R.id.miaomiaomiao).setOnClickListener(new MyClickListener());
+        findViewById(R.id.main_content).setOnClickListener(new MyClickListener());
+        findViewById(R.id.leftArrow).setOnClickListener(new MyClickListener());
+        findViewById(R.id.rightArrow).setOnClickListener(new MyClickListener());
         // Setting up animation
         ImageView catAnimation = (ImageView) findViewById(R.id.miaomiaomiao);
         //catAnimation.setBackgroundResource(R.drawable.thin_cat_animation);
-//        ((AnimationDrawable) catAnimation.getBackground()).start();
-        catAnimation.setOnLongClickListener(new MyLongClickListener());
+        ((AnimationDrawable) catAnimation.getBackground()).start();
         catAnimation.setOnClickListener(new MyClickListener());
         findViewById(R.id.main_content).setOnClickListener(new MyClickListener());
         findViewById(R.id.leftArrow).setOnClickListener(new MyClickListener());
@@ -200,8 +185,6 @@ public class MainActivity extends AppCompatActivity {
         if (mUser.getHealth() == 0) {
             switchDie();
         }
-
-        System.out.println("In main dataArray is Empty? " + mUser.getUserData().isEmpty());
 
         profile = new ProfileDrawerItem().withName(catName).withIcon(GoogleMaterial.Icon.gmd_pets);
         profile = new ProfileDrawerItem().withName(catName).withIcon(R.drawable.pawprint);
@@ -276,6 +259,23 @@ public class MainActivity extends AppCompatActivity {
                                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                                 intent.putExtra("User", mUser);
                                 startActivity(intent);
+
+                            }
+                            else if (drawerItem.getIdentifier() == 6) {
+                            }
+
+                            if (intent != null) {
+                                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                                intent.putExtra("User", mUser);
+                                startActivityForResult(intent, 1);
+//                                startActivity(intent);
+                                if (drawerItem.getIdentifier() == 2) {
+                                    startActivityForResult(intent, 1);
+                                }
+                                else {
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                                    startActivity(intent);
+                                }
                             }
                         }
                         return false;
@@ -293,8 +293,23 @@ public class MainActivity extends AppCompatActivity {
         });
 
         scheduleAlarm();
+//        mApiClient.connect();
+
+        mPager = (ViewPager) findViewById(R.id.pager_temp);
+        mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
+        mPager.setAdapter(mPagerAdapter);
+
+//        mPagerAdapter.
+
+
+//        Bundle bundle = new BUndle()
+//        findViewById(R.id.test_dead).setOnClickListener(new MyClickListener());
+
     }
 
+    /**
+     * When cat dies, the app goes into another activity.
+     */
     private void switchDie() {
         Intent intent = new Intent(this, DeadActivity.class);
         intent.putExtra("User", mUser);
@@ -344,7 +359,6 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == 1) {
             if(resultCode == RESULT_OK) {
                 mUser = data.getExtras().getParcelable("User");
-                System.out.println("In Main User Name is " + mUser.getName());
             }
         }
     }
@@ -363,6 +377,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Schedules the alarm at a specific time
+     */
     private void scheduleAlarm() {
 
         Intent intent = new Intent(getApplicationContext(), newDayAlarmReceiver.class);
@@ -383,9 +400,6 @@ public class MainActivity extends AppCompatActivity {
         alarm.setInexactRepeating(AlarmManager.RTC_WAKEUP, firstMillis,
                 AlarmManager.INTERVAL_DAY, pIntent);
     }
-
-
-
 
 
     private final class MyTouchListener implements View.OnTouchListener {
@@ -532,11 +546,11 @@ public class MainActivity extends AppCompatActivity {
 //        msgFilter.setNext(logView);
         com.example.android.areyoukittyme.logger.Log.i(TAG, "Ready");
     }
-
-    @Override
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
-    }
+//
+//    @Override
+//    protected void attachBaseContext(Context newBase) {
+//        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+//    }
 
     /**
      * Read the current daily step total, computed from midnight of the current day
@@ -556,7 +570,6 @@ public class MainActivity extends AppCompatActivity {
                         : totalSet.getDataPoints().get(0).getValue(Field.FIELD_STEPS).asInt();
 
                 stepCount = total;
-                System.out.println("Step count +" + stepCount);
                 mUser.setSteps((int) total);
             } else {
                 com.example.android.areyoukittyme.logger.Log.w(TAG, "There was a problem getting the step count.");
@@ -566,27 +579,11 @@ public class MainActivity extends AppCompatActivity {
 
             return null;
         }
+
+        public void onConnectionSuspended(int i) {
+        }
     }
-
     private final class MyLongClickListener implements View.OnLongClickListener {
-//        public boolean onLongClick(View view, MotionEvent motionEvent) {
-//            if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-//                mPlayer.start();
-//                ViewPager v = (ViewPager) findViewById(R.id.pager_temp);
-//                int visibility = v.getVisibility();
-//                if (visibility == View.VISIBLE) {
-//                    v.setVisibility(View.INVISIBLE);
-//                }
-//                else {
-//                    v.setVisibility(View.VISIBLE);
-//                }
-//
-//                return true;
-//            } else {
-//                return false;
-//            }
-//        }
-
         @Override
         public boolean onLongClick(View v) {
                 mPlayer.start();
@@ -622,6 +619,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+
         @Override
         public int getCount() {
             return NUM_PAGES;
@@ -630,29 +628,22 @@ public class MainActivity extends AppCompatActivity {
 
     private final class MyClickListener implements View.OnClickListener {
         public void onClick(View v) {
-
             RelativeLayout popup = (RelativeLayout) findViewById(R.id.popup_container);
             ViewPager vp = (ViewPager) findViewById(R.id.pager_temp);
             if (v.getId() == R.id.leftArrow) {
+
                 vp.setCurrentItem(vp.getCurrentItem()-1, true);
             }
             else if (v.getId() == R.id.rightArrow) {
                 vp.setCurrentItem(vp.getCurrentItem()+1, true);
             }
             else if (v.getId() == R.id.asparagusImage) {
-                // TODO: decrease amount
-//                mPagerAdapter.notifyDataSetChanged();
-                //  close window
-//                popup.setVisibility(View.INVISIBLE);
-                //  increase mood and health
-//                User.incrementHealth(User.foodToHealthConversion(vp.getCurrentItem()));
-//                User.incrementMood(User.foodToMoodConversion(vp.getCurrentItem()));
-
-                eatAnimation();
             }
-            else if (v.getId() == R.id.fishImage) {}
-
             else {
+//                mUser.incrementMood(mUser.foodToMoodConversion(vp.getCurrentItem()));
+//                mUser.incrementHealth(mUser.foodToHealthConversion(vp.getCurrentItem()));
+//                healthProgress.setProgressWithAnimation(mUser.getHealth());
+//                moodProgress.setProgressWithAnimation(mUser.getMood());
                 if (popup.getVisibility() == View.VISIBLE) {
                     popup.setVisibility(View.INVISIBLE);
                 }
@@ -660,8 +651,35 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+//    private static void eatAnimation() {
+//
+//    }
     private void eatAnimation() {
 
     }
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
 
+
+    public void setmUser(User mUser) {
+        this.mUser = mUser;
+    }
+
+    public CircularProgressBar getMoodProgress() {
+        return moodProgress;
+    }
+
+    public void setMoodProgress(CircularProgressBar moodProgress) {
+        this.moodProgress = moodProgress;
+    }
+
+    public CircularProgressBar getHealthProgress() {
+        return healthProgress;
+    }
+
+    public void setHealthProgress(CircularProgressBar healthProgress) {
+        this.healthProgress = healthProgress;
+    }
 }

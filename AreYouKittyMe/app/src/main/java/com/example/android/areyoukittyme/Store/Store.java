@@ -3,7 +3,6 @@ package com.example.android.areyoukittyme.Store;
 import com.example.android.areyoukittyme.Item.Asparagus;
 import com.example.android.areyoukittyme.Item.Avocado;
 import com.example.android.areyoukittyme.Item.Bacon;
-import com.example.android.areyoukittyme.Item.Candy;
 import com.example.android.areyoukittyme.Item.Corndog;
 import com.example.android.areyoukittyme.Item.Fish;
 import com.example.android.areyoukittyme.Item.Hamburger;
@@ -27,6 +26,12 @@ public class Store {
         this.itemList.add(new Bacon(3));
         this.itemList.add(new Hamburger(4));
         this.itemList.add(new Corndog(5));
+            System.out.println("ALL IDs now is : " + Fish.getIndex());
+            System.out.println("ALL IDs now is : " + Asparagus.getIndex());
+            System.out.println("ALL IDs now is : " + Avocado.getIndex());
+            System.out.println("ALL IDs now is : " + Bacon.getIndex());
+            System.out.println("ALL IDs now is : " + Hamburger.getIndex());
+            System.out.println("ALL IDs now is : " + Corndog.getIndex());
     }
 
     public static ArrayList<Item> getItemList() {

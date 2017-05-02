@@ -10,8 +10,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.android.areyoukittyme.Item.Fish;
+import com.example.android.areyoukittyme.MainActivity;
 import com.example.android.areyoukittyme.R;
+import com.example.android.areyoukittyme.Store.Store;
 import com.example.android.areyoukittyme.User.User;
+import com.mikhaellopez.circularprogressbar.CircularProgressBar;
 
 /**
  * Created by PrGxw on 4/18/2017.
@@ -19,18 +22,19 @@ import com.example.android.areyoukittyme.User.User;
 
 public class FishFragment extends Fragment {
     private static ViewGroup rootView;
-
+    private User mUser;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        mUser = ((MainActivity) getActivity()).getmUser();
         rootView = (ViewGroup) inflater.inflate(R.layout.fragment_item_fish, container, false);
         TextView text = (TextView)rootView.findViewById(R.id.fishAmount);
         rootView.findViewById(R.id.fishImage).setOnClickListener(new MyClickListener());
 
 
 
-        if (User.getInventoryList().containsKey(Fish.getIndex())) {
-            text.setText(String.format("x%d", User.getInventoryAmount(Fish.getIndex())));
+        if (mUser.getInventoryList().containsKey(Fish.getIndex())) {
+            text.setText(String.format("x%d", mUser.getInventoryAmount(Fish.getIndex())));
         }
         else {
             text.setText("nokey");
@@ -39,35 +43,37 @@ public class FishFragment extends Fragment {
         return rootView;
     }
 
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        TextView t = (TextView)rootView.findViewById(R.id.fishAmount);
-//        t.setText(String.format("x%d", User.getInventoryAmount(Fish.getIndex())));
-//    }
     private final class MyClickListener implements View.OnClickListener {
         public void onClick(View v) {
-            RelativeLayout p = (RelativeLayout) rootView.getParent().getParent();
-            ViewPager vp = (ViewPager) rootView.getParent();
-            p.setVisibility(View.INVISIBLE);
-            // TODO: decrease in amount;
-            // TODO: animation:
-            // increase health and mood
-            //User.incrementHealth(User.foodToHealthConversion(vp.getCurrentItem()));
-            //User.incrementMood(User.foodToMoodConversion(vp.getCurrentItem()));
+            if (mUser.getInventoryAmount(Fish.getIndex()) > 0) {
+                RelativeLayout p = (RelativeLayout) rootView.getParent().getParent();
+                ViewPager vp = (ViewPager) rootView.getParent();
+
+                TextView text = (TextView) rootView.findViewById(R.id.fishAmount);
+//            int prevAmount = ;
+                text.setText(String.format("x%d", mUser.getInventoryAmount(Fish.getIndex()) - 1));
+
+
+                CircularProgressBar healthProgress = ((MainActivity) getActivity()).getHealthProgress();
+                CircularProgressBar moodProgress = ((MainActivity) getActivity()).getMoodProgress();
+
+                int prevAmount = mUser.getInventoryAmount(Fish.getIndex());
+                mUser.getInventoryList().put(Fish.getIndex(), prevAmount - 1);
+
+                mUser.incrementMood(mUser.foodToMoodConversion(vp.getCurrentItem()));
+                System.out.println("now is: " + mUser.getHealth());
+                mUser.incrementHealth(mUser.foodToHealthConversion(vp.getCurrentItem()));
+                healthProgress.setProgressWithAnimation(mUser.getHealth());
+                moodProgress.setProgressWithAnimation(mUser.getMood());
+            }
         }
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        User mUser = ((MainActivity) getActivity()).getmUser();
         TextView text = (TextView)rootView.findViewById(R.id.fishAmount);
-        if (User.getInventoryList().containsKey(Fish.getIndex())) {
-            text.setText(String.format("x%d", User.getInventoryAmount(Fish.getIndex())));
-//            text.setText("Resume");
-        }
-        else {
-            text.setText("nokey");
-        }
+        text.setText(String.format("x%d", mUser.getInventoryAmount(Fish.getIndex())));
     }
 }

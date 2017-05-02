@@ -13,7 +13,7 @@ public class Asparagus implements Item{
     private static int index;
 
     public Asparagus(int index) {
-        setPrice(90);
+        setPrice(200);
         this.id = R.drawable.asparagus;
         setIcon(this.id);
         this.index = index;

@@ -77,6 +77,9 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         loadCurrentSettings();
     }
 
+    /**
+     * Loads the stages of the cat.
+     */
     private void loadCurrentSettings() {
         nameSetting.setText(mUser.getName());
 
@@ -125,6 +128,9 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         vocabBookSetting.setSelection(mUser.getVocabBookID());
     }
 
+    /**
+     * Applies the setting
+     */
     private void applySettings() {
         mUser.setName(nameSetting.getText().toString());
 

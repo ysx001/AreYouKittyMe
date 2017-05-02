@@ -16,7 +16,7 @@ public class Fish implements Item{
     private static int index;
 
     public Fish(int index) {
-        setPrice(80);
+        setPrice(100);
         this.id = R.drawable.fish;
         setIcon(id);
         this.index = index;

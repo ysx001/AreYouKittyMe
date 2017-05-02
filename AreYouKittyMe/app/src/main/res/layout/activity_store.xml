@@ -29,6 +29,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
                 <LinearLayout
                     android:id="@+id/storeContainer"
                     android:layout_width="match_parent"
@@ -46,28 +47,34 @@
 
     <LinearLayout
         android:layout_width="match_parent"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingLeft="45dp"
+        android:paddingRight="45dp"
+
         android:layout_height="60dp"
+        android:background="@drawable/bar"
+        android:orientation="horizontal"
         android:layout_alignParentBottom="true"
-        android:background="@drawable/shape"
-        android:orientation="horizontal">
+        android:layout_alignParentStart="true">
 
         <TextView
             android:id="@+id/totalAmount"
-            android:layout_width="wrap_content"
+            android:layout_width="60dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="TOTAL: 0" />
 
         <TextView
             android:id="@+id/catCash"
-            android:layout_width="wrap_content"
+            android:layout_width="60dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="CatCash: #" />
 
         <Button
             android:id="@+id/checkoutBtn"
-            android:layout_width="wrap_content"
+            android:layout_width="60dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Checkout" />

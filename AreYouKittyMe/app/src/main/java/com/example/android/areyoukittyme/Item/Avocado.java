@@ -13,9 +13,10 @@ public class Avocado implements Item{
     private static int index;
 
     public Avocado(int index) {
-        setPrice(25);
+        setPrice(400);
         this.id = R.drawable.avocado;
         setIcon(id);
+        this.index = index;
     }
 
     @Override
@@ -40,9 +41,9 @@ public class Avocado implements Item{
         return price;
     }
     public static int getIndex() {
-        return index;
+        return Avocado.index;
     }
-    public static void setIndex(int index) {
-        Avocado.index = index;
-    }
+//    public static void setIndex(int index) {
+//        Avocado.index = index;
+//    }
 }

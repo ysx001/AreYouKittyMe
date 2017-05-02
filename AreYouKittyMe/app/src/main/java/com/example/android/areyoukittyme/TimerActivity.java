@@ -51,6 +51,7 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
 
     private long pauseTime = 0;
 
+    /* Called when first created */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,6 +90,9 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
 
     }
 
+    /* *
+    * Called when menu item is selected
+    * */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -100,6 +104,9 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
+    /**
+     * Called when back is pressed
+     */
     @Override
     public void onBackPressed() {
         Class destActivity = MainActivity.class;
@@ -116,6 +123,9 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
         super.onStart();
     }
 
+    /**
+     * Called when the activity is paused
+     */
     @Override
     protected void onPause() {
         super.onPause();
@@ -125,6 +135,9 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
+    /**
+     * Called when activity is resumed
+     */
     @Override
     protected void onResume() {
         super.onResume();
@@ -161,6 +174,9 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
+    /**
+     * Starts the timer.Is called when the start button is clicked.
+     */
     private void startBtnClicked() {
         boolean hourExist = false;
         boolean minExist = false;
@@ -207,6 +223,9 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
+    /**
+     * Pauses the timed.Is called when the pause button clicked.
+     */
     private void pauseBtnClicked() {
         if (isCountingdown) {
             // Pause
@@ -239,6 +258,9 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
+    /**
+     * Cancels the timer. Called when cancel button is clicked.
+     */
     private void cancelBtnClicked() {
         if (isCountingdown) {
             new AlertDialog.Builder(this)
@@ -263,6 +285,9 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
+    /**
+     * Resets the timer.
+     */
     private void timerReset() {
         this.focusTime -= hour * 60 + minute;
 
@@ -285,6 +310,9 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
         timerStartBtn.setEnabled(true);
     }
 
+    /**
+     * When timer is done, increases the health and pompts user with some text.
+     */
     private void timerFinished() {
         mUser.setFocus(focusTime);
         mUser.setHealth(8 * focusTime / mUser.getFocusGoal());
@@ -306,6 +334,9 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
                 }).show();
     }
 
+    /**
+     * When timer is cancels, Health and mood gets deducted and User will be prompted with text.
+     */
     private void timerCancelled() {
         mUser.setFocus(focusTime);
         mUser.setHealth(8 * focusTime / mUser.getFocusGoal());
@@ -323,6 +354,9 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
                 }).show();
     }
 
+    /**
+     * Creates the thread for countdown
+     */
     private void countdownThreadSetup() {
         // Set up thread for updating countdown text
 
@@ -350,6 +384,9 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
         this.t.start();
     }
 
+    /**
+     * Decrement text in TextView as the countdown begins
+     */
     private void textViewCountdown() {
         // Decrement TextViews by 1 second
 
