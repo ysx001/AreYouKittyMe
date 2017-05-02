@@ -89,11 +89,11 @@ public class User implements Parcelable {
     public void userCheckout(ArrayList<Integer> amountList, ArrayList<Integer> priceList) {
         for (int i = 0; i < amountList.size(); i++) {
             int[] array = new int[2];
-            int prevAmount = this.inventoryList.get(i);
+            int prevAmount = this.inventoryList.getInventoryList().get(i);
 //            array[0] = amountList.get(i) + prevAmount; // the amount of the item
 //            array[1] = priceList.get(i); // price of the item
             int temp = amountList.get(i) + prevAmount; // the amount of the item
-            this.inventoryList.put(i, temp);
+            this.inventoryList.getInventoryList().put(i, temp);
 
         }
     }
