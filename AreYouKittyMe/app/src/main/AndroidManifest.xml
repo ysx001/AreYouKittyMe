@@ -6,9 +6,9 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <!--<uses-permission android:name="android.permission.SET_ANIMATION_SCALE"/>-->
 
-    <receiver
-        android:name=".Alarm"
-        android:process=":remote" />
+    <!--<receiver-->
+        <!--android:name=".Alarm"-->
+        <!--android:process=":remote" />-->
 
     <application
         android:allowBackup="true"
@@ -144,9 +144,9 @@
             android:name=".Service.newDayService"
             android:exported="false" />
 
-        <receiver
-            android:name=".Service.newDayAlarmReceiver"
-            android:process=":remote"></receiver>
+        <!--<receiver-->
+            <!--android:name=".Service.DayAlarmReceiver"-->
+            <!--android:process=":remote"></receiver>-->
 
         <activity android:name=".DeadActivity"></activity>
     </application>
