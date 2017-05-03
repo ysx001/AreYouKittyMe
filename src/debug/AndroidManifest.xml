@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.android.areyoukittyme">
+
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <!--<uses-permission android:name="android.permission.SET_ANIMATION_SCALE"/>-->
+
+    <receiver
+        android:name=".Alarm"
+        android:process=":remote" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/icon"
+        android:name=".mApplication"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/icon"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme.NoActionBar"
+        android:hardwareAccelerated="false"
+        android:largeHeap="true"
+        >
+
+        <!-- Add the launch mode "single top" attribute to the GoogleFitActivity so that when you open -->
+        <!-- GoogleFitActivity using a notification, it will take you back to the already opened activity, not -->
+        <!-- generate a new one -->
+
+        <activity android:name=".AdoptActivity"
+            android:theme="@style/AppTheme.NoActionBar.Translucent"
+            android:launchMode="singleInstance">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
+
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/title_activity_main"
+            android:theme="@style/AppTheme.NoActionBar.Translucent"
+            android:launchMode="singleInstance">
+        </activity>
+        <activity
+            android:name=".SettingsActivity"
+            android:label="Settings"
+            android:launchMode="singleInstance"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity"/>
+        </activity>
+        <activity
+            android:name=".StatsActivity"
+            android:label="@string/app_name"
+            android:parentActivityName=".MainActivity">
+            <!-- The meta-data element is needed for versions lower than 4.1 -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity"/>
+        </activity>
+        <activity
+            android:name=".StatsDayActivity"
+            android:label="@string/app_name"
+            android:parentActivityName=".MainActivity">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity"/>
+
+        </activity>
+        <activity
+            android:name=".StoreActivity"
+            android:label="@string/app_name"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity"/>
+        </activity>
+        <activity
+            android:name=".VocabActivity"
+            android:label="@string/app_name"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".VocabActivity"/>
+        </activity>
+        <activity
+            android:name=".VocabStudyActivity"
+            android:label="@string/app_name"
+            android:parentActivityName=".VocabActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".VocabStudyActivity"/>
+        </activity>
+        <activity
+            android:name=".VocabularyListActivity"
+            android:label="@string/app_name"
+            android:parentActivityName=".VocabActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".VocabularyListActivity"/>
+        </activity>
+        <activity
+            android:name=".Studying_Activity"
+            android:label="@string/app_name"
+            android:parentActivityName=".VocabularyListActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Studying_Activity"/>
+        </activity>
+
+        <activity
+            android:name=".Studid_Activity"
+            android:label="@string/app_name"
+            android:parentActivityName=".VocabularyListActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Studid_Activity"/>
+        </activity>
+
+        <activity
+            android:name=".NotStarted_Activity"
+            android:label="@string/app_name"
+            android:parentActivityName=".VocabularyListActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".NotStarted_Activity"/>
+            android:value=".VocabStudyActivity"/>
+        </activity>
+        <activity
+            android:name=".TimerActivity"
+            android:label="@string/title_timer"
+            android:launchMode="singleInstance"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.android.areyoukittyme.MainActivity"/>
+        </activity>
+
+        <service
+            android:name=".Service.newDayService"
+            android:exported="false" />
+
+        <receiver
+            android:name=".Service.DayAlarmReceiver"
+            android:process=":remote"></receiver>
+
+        <activity android:name=".DeadActivity"></activity>
+    </application>
+
+</manifest>

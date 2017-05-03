@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+    <!--<android.support.constraint.ConstraintLayout-->
+    <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+    <!--xmlns:tools="http://schemas.android.com/tools"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--tools:context="com.example.android.areyoukittyme.StoreActivity">-->
+<android.support.design.widget.CoordinatorLayout
+    android:id = "@+id/coordinatorLayout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/parent"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent">
+
+
+        <ScrollView
+            android:id = "@+id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/storeContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                </LinearLayout>
+                <TextView
+                    android:layout_height="60dp"
+                    android:layout_width="match_parent" />
+
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingLeft="45dp"
+        android:paddingRight="45dp"
+
+        android:layout_height="60dp"
+        android:background="@drawable/bar"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true">
+
+        <TextView
+            android:id="@+id/totalAmount"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="TOTAL: 0" />
+
+        <TextView
+            android:id="@+id/catCash"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="CatCash: #" />
+
+        <Button
+            android:id="@+id/checkoutBtn"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Checkout" />
+    </LinearLayout>
+
+    </RelativeLayout>
+
+</android.support.design.widget.CoordinatorLayout>
+
+
+<!--</android.support.constraint.ConstraintLayout>-->
+    <!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--android:layout_width="395dp"-->
+    <!--android:layout_height="587dp"-->
+    <!--android:columnCount="2"-->
+    <!--android:columnWidth="320dp"-->
+    <!--android:orientation="vertical"-->
+    <!--android:rowCount="2"-->
+    <!--android:stretchMode="columnWidth"-->
+    <!--tools:layout_editor_absoluteY="8dp"-->
+    <!--tools:layout_editor_absoluteX="8dp"-->
+    <!--android:weightSum="1">-->
+
+    <!--&lt;!&ndash;<LinearLayout&ndash;&gt;-->
+    <!--&lt;!&ndash;android:id="@+id/topleft"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:layout_height="160dp"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:layout_row="0"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:layout_weight="0.34"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:background="@drawable/shape">&ndash;&gt;-->
+    <!--&lt;!&ndash;</LinearLayout>&ndash;&gt;-->
+
+    <!--<GridView-->
+    <!--android:id="@+id/topleft"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="160dp"-->
+    <!--android:background="@drawable/shape"-->
+    <!--android:columnWidth="45dp"-->
+    <!--android:gravity="center"-->
+    <!--android:horizontalSpacing="10dp"-->
+    <!--android:numColumns="auto_fit"-->
+    <!--android:stretchMode="columnWidth"-->
+    <!--android:verticalSpacing="10dp" />-->
+
+
+    <!--<GridView-->
+    <!--android:id="@+id/topright"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="160dp"-->
+    <!--android:background="@drawable/shape"-->
+    <!--android:columnWidth="45dp"-->
+    <!--android:gravity="center"-->
+    <!--android:horizontalSpacing="10dp"-->
+    <!--android:numColumns="auto_fit"-->
+    <!--android:stretchMode="columnWidth"-->
+    <!--android:verticalSpacing="10dp" />-->
+
+    <!--<LinearLayout-->
+    <!--android:id="@+id/currentCashContainer"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="57dp"-->
+    <!--android:orientation="horizontal"-->
+    <!--android:weightSum="1">-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/currentCashLbl"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="47dp"-->
+    <!--android:text="Current Cash: "-->
+    <!--android:layout_weight="0.13"></TextView>-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/currentCashAmount"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="49dp"-->
+    <!--android:text="AMOUNT "-->
+    <!--android:layout_weight="0.28"></TextView>-->
+
+    <!--<Button-->
+    <!--android:id="@+id/AddCashTempBtn"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_weight="0.13"-->
+    <!--android:text="Add Cash" />-->
+    <!--</LinearLayout>-->
+
+    <!--<LinearLayout-->
+    <!--android:id="@+id/myCash"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="57dp"-->
+    <!--android:orientation="horizontal"-->
+    <!--android:weightSum="1">-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/myCashLbl"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="47dp"-->
+    <!--android:text="Current Cash: "-->
+    <!--android:layout_weight="0.13"></TextView>-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/myCashAmount"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="49dp"-->
+    <!--android:text="AMOUNT "-->
+    <!--android:layout_weight="0.28"></TextView>-->
+
+    <!--</LinearLayout>-->
+
+    <!--<Button-->
+    <!--android:id="@+id/backToMainBtn"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_weight="0.34"-->
+    <!--android:text="Back to Main page" />-->
+
+
+    <!--</LinearLayout>-->

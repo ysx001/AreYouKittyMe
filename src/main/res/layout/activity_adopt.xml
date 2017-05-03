@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:paddingBottom="16dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/adoptbg2"
+    android:fitsSystemWindows="true"
+    tools:context="com.example.android.areyoukittyme.AdoptActivity">
+
+
+    <EditText
+        android:id="@+id/cat_name_txt"
+        android:layout_width="172dp"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/cat_name_btn"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="8dp"
+        android:ems="10"
+        android:hint="Name your cat"
+        android:inputType="textPersonName"
+        android:textAlignment="center"
+        tools:layout_editor_absoluteX="85dp"
+        tools:layout_editor_absoluteY="342dp" />
+
+
+    <Button
+        android:id="@+id/cat_name_btn"
+        style="@android:style/Widget.DeviceDefault.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="163dp"
+        android:background="#4E363A"
+        android:text="ADOPT"
+        android:textColor="#EDD3D8"
+        tools:layout_editor_absoluteX="123dp"
+        tools:layout_editor_absoluteY="392dp" />
+
+
+</RelativeLayout>
