@@ -378,6 +378,7 @@ public class User implements Parcelable {
         dest.writeInt(this.steps);
         dest.writeInt(this.focus);
         dest.writeInt(this.vocab);
+        dest.writeInt(this.vocabTotal);
         dest.writeInt(this.vocabBookID);
         dest.writeInt(this.cash);
         dest.writeInt(this.health);
@@ -395,6 +396,7 @@ public class User implements Parcelable {
         this.steps = in.readInt();
         this.focus = in.readInt();
         this.vocab = in.readInt();
+        this.vocabTotal = in.readInt();
         this.vocabBookID = in.readInt();
         this.cash = in.readInt();
         this.health = in.readInt();

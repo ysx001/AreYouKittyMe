@@ -159,6 +159,7 @@ public class VocabActivity extends AppCompatActivity {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         setIntent(intent);
+        Log.e("newIntent", "new");
     }
 
     @Override
@@ -168,7 +169,9 @@ public class VocabActivity extends AppCompatActivity {
         try {
             Intent startingIntent = getIntent();
             mUser = startingIntent.getExtras().getParcelable("User");
+            Log.e("user", "got");
         } catch (Exception e){
+            Log.e("user", "ex");
         }
 
         int percent = 0;
@@ -180,7 +183,8 @@ public class VocabActivity extends AppCompatActivity {
             Log.e("k", String.valueOf(mUser.getVocabTotal()));
             Log.e("try", "try1");
             //percent = Vocab_Repo.getProgressPercent();
-            percent = mUser.getVocabTotal() / 200 * 100;
+            percent = 100 * mUser.getVocabTotal() / 200;
+            Log.e("percent", String.valueOf(percent));
         }catch (Exception e) {
             Log.e("ex", "ex");
         }
