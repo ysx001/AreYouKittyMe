@@ -40,17 +40,8 @@ public class Vocab_Repo {
     public static final int[] dateIncrement = {1, 1, 2, 3, 8, 10, 15};
     public final static long MILLISECONDS_PER_DAY = 1000L * 60 * 60 * 24;
     private static int dailyGoal= 50;
-    private static int numOfRow;
     public final static Random random = new Random();
-    private static int numOfVocab;
-    private static int numOfStudied;
-    private static int numOfStudying;
 
-
-
-    public Vocab_Repo() {
-
-    }
 
 
     public static String createTable() {
@@ -142,11 +133,24 @@ public class Vocab_Repo {
         SQLiteDatabase db = Vocab_DatabaseManager.getInstance().openDatabase();
         String selectQuery = "SELECT  * FROM " + Vocab.TABLE ;
         Cursor cursor = db.rawQuery(selectQuery, null);
+        int i = cursor.getCount();
         cursor.close();
         Vocab_DatabaseManager.getInstance().closeDatabase();
 
 
-        return cursor.getCount();
+        return i;
+
+    }
+
+    public static int getProgressPercent(){
+        int i = getCurrentVocabCount();
+        SQLiteDatabase db = Vocab_DatabaseManager.getInstance().openDatabase();
+        String selectQuery = "SELECT  * FROM " + Vocab.TABLE + "WHERE Vocab.progress = 0";
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        int j =cursor.getCount();
+        cursor.close();
+        Vocab_DatabaseManager.getInstance().closeDatabase();
+        return (j/i)*100;
 
     }
 
@@ -217,11 +221,9 @@ public class Vocab_Repo {
         newValues.put(Vocab.KEY_PROGRESS, newState);
         if(currentState==0&&newState==1){
             newValues.put(Vocab.KEY_DAY, "1");
-            numOfStudying+=1;}
+            }
         else if (currentState==1&&newState==2){
             newValues.put(Vocab.KEY_DAY,cursor.getString(4));
-            numOfStudied+=1;
-            numOfStudying-=1;
         }
         newValues.put(Vocab.KEY_DATE,cursor.getString(5));
         cursor.close();
@@ -285,8 +287,6 @@ public class Vocab_Repo {
         values.put(Vocab.KEY_DEFINITION, vocab.getDefinition());
         if(Integer.parseInt(vocab.getDay())>=7){
             values.put(Vocab.KEY_PROGRESS, 2);
-            numOfStudied += 1;
-            numOfStudying-=1;
         }else{
             values.put(Vocab.KEY_PROGRESS, vocab.getProgress());
         }
@@ -319,7 +319,7 @@ public class Vocab_Repo {
         ArrayList<ArrayList<String>> vocabArrays = Vocab_Data_Csv_Process.processInData(
                                         Vocab_Data_Csv_Process.ReadInVocabData(in));
 
-        //Vocab_DatabaseManager.setVocabGeneralProgress(new Vocab_Progress_General(vocabArrays.size(),"SAT6000.csv", currentDate, dailyGoal));
+
         int j = 0;
         for(ArrayList<String> i: vocabArrays){
             //System.out.println(i.size());
@@ -330,7 +330,6 @@ public class Vocab_Repo {
 
 
         }
-        numOfRow = vocabArrays.size();
     }
 
     public static ArrayList<VocabList> getVocabsReviewableVocab() throws ParseException {
@@ -426,8 +425,9 @@ public class Vocab_Repo {
         int prevNum = notThisOneID;
 
 
-        if(cursor.moveToFirst()){
-            do{
+        //if(cursor.moveToFirst()){
+            //do{
+        while((cursor.moveToPosition(random.nextInt(num)))&&(randomDefinitionsList.size()<3)){
                 //System.out.println("Prev  "+prevNum);
                 //System.out.println("current  "+ cursor.getPosition());
                 //System.out.println("id get" + cursor.getInt(0));
@@ -437,8 +437,8 @@ public class Vocab_Repo {
                     randomDefinitionsList.add(cursor.getString(2));
                 }
                 prevNum = cursor.getPosition();
-            }while((cursor.moveToPosition(random.nextInt(num)))&&(randomDefinitionsList.size()<3));
-        }
+            };
+        //}
 
         for(String i: randomDefinitionsList){
             System.out.println(i+" ");

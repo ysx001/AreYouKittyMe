@@ -18,13 +18,16 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 
+import com.example.android.areyoukittyme.User.User;
 import com.example.android.areyoukittyme.Vocabs_Utilities.Vocab_Repo;
+import com.example.android.areyoukittyme.logger.Log;
 
 import java.io.IOException;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class VocabActivity extends AppCompatActivity {
+    private User mUser;
 
     private Button studyButton;
     private Button reviewButton;
@@ -33,7 +36,7 @@ public class VocabActivity extends AppCompatActivity {
     private Dialog dialog;
     private ProgressBar progressBar;
     private int mProgressStatus = 0;
-    public final static String[] books = new String[]{"French", "Spanish", "German", "SAT6000"};
+    public final static String[] books = new String[]{"French", "Spanish", "German"};
     public static int chosenBook = 0;
 
     //private static Vocab_Database vocab_database;
@@ -45,6 +48,9 @@ public class VocabActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vocab);
 
+        Intent startingIntent = getIntent();
+        mUser = startingIntent.getExtras().getParcelable("User");
+
         MediaPlayer mPlayer = MediaPlayer.create(VocabActivity.this, R.raw.book);
         mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         mPlayer.start();
@@ -55,7 +61,7 @@ public class VocabActivity extends AppCompatActivity {
         vocabButton = (Button)findViewById(R.id.vocabulary_button);
 
         //For presentation
-        progressBar.setProgress(30);
+        //progressBar.setProgress(30);
 
         try{
             Vocab_Repo.getAVocabWord();
@@ -69,7 +75,7 @@ public class VocabActivity extends AppCompatActivity {
             alertDialogBuilder.setView(promptsView);
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, books);
 
-            alertDialogBuilder.setTitle("Vocab book..");
+            //alertDialogBuilder.setTitle("");
 
             final AlertDialog alertDialog = alertDialogBuilder.create();
 
@@ -111,7 +117,7 @@ public class VocabActivity extends AppCompatActivity {
                 Context context = VocabActivity.this;
                 Class destActivity = VocabStudyActivity.class;
                 Intent startVocabActivityIntent = new Intent(context, destActivity);
-
+                startVocabActivityIntent.putExtra("User", mUser);
                 startActivity(startVocabActivityIntent);
                 mode = false;
 
@@ -149,6 +155,39 @@ public class VocabActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        try {
+            Intent startingIntent = getIntent();
+            mUser = startingIntent.getExtras().getParcelable("User");
+        } catch (Exception e){
+        }
+
+        int percent = 0;
+
+        try {
+            Vocab_Repo.getAVocabWord();
+            Log.e("try", "try");
+            int total = Vocab_Repo.getCurrentVocabCount();
+            Log.e("k", String.valueOf(mUser.getVocabTotal()));
+            Log.e("try", "try1");
+            //percent = Vocab_Repo.getProgressPercent();
+            percent = mUser.getVocabTotal() / 200 * 100;
+        }catch (Exception e) {
+            Log.e("ex", "ex");
+        }
+
+        progressBar.setProgress(percent);
+    }
+
     /**
      * Gets the filenames for the library that the user will be using.
      *
@@ -163,8 +202,8 @@ public class VocabActivity extends AppCompatActivity {
                 return "Spanish.txt";
             case 2:
                 return "German.txt";
-            case 3:
-                return "SAT6000.txt";
+            //case 3:
+                //return "SAT6000.txt";
         }
 
         return "French.txt";
@@ -192,6 +231,7 @@ public class VocabActivity extends AppCompatActivity {
         Context context = VocabActivity.this;
 
         Intent intent = new Intent(context, destActivity);
+        intent.putExtra("User", mUser);
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent);
     }

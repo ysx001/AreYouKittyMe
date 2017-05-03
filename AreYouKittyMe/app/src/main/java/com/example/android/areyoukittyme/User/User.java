@@ -40,6 +40,7 @@ public class User implements Parcelable {
     private int steps;
     private int focus;
     private int vocab;
+    private int vocabTotal;
 
     // 0: SAT6000
     // 1: French
@@ -191,7 +192,15 @@ public class User implements Parcelable {
     }
 
     public void setVocab(int vocab) {
-        this.vocab = vocab;
+        this.vocab += vocab;
+    }
+
+    public int getVocabTotal() {
+        return vocabTotal;
+    }
+
+    public void setVocabTotal(int vocabTotal) {
+        this.vocabTotal += vocabTotal;
     }
 
     public int getVocabBookID() {

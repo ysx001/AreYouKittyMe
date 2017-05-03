@@ -1,9 +1,7 @@
 package com.example.android.areyoukittyme;
 
-
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -11,12 +9,15 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.android.areyoukittyme.Quiz_Utilities.Quiz;
+import com.example.android.areyoukittyme.User.User;
+import com.example.android.areyoukittyme.logger.Log;
 
 import java.text.ParseException;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class VocabStudyActivity extends AppCompatActivity implements View.OnClickListener {
+    private User mUser;
 
     private Button choiceBtn1;
     private Button choiceBtn2;
@@ -34,6 +35,9 @@ public class VocabStudyActivity extends AppCompatActivity implements View.OnClic
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reviewstudy);
+
+        Intent startingIntent = getIntent();
+        mUser = startingIntent.getExtras().getParcelable("User");
 
         this.choiceBtn1 = (Button)findViewById(R.id.FirstOption_button);
         this.choiceBtn1.setOnClickListener(this);
@@ -68,6 +72,11 @@ public class VocabStudyActivity extends AppCompatActivity implements View.OnClic
             goBackToVocabPage();
         }
         answered = false;
+    }
+
+    @Override
+    public void onBackPressed() {
+        goBackToVocabPage();
     }
 
     /**
@@ -153,10 +162,19 @@ public class VocabStudyActivity extends AppCompatActivity implements View.OnClic
      * Goes to the Vocab page activity when button is clicked.
      */
     private void goBackToVocabPage() {
+        Log.e("yo", String.valueOf(quiz.getNumOfQuestionStudiedToday()));
         Class destActivity = VocabActivity.class;
         Context context = VocabStudyActivity.this;
 
+
+
+        mUser.setVocab(quiz.getNumOfQuestionStudiedToday());
+        Log.e("yoyoyo", String.valueOf(mUser.getVocab()));
+        mUser.setVocabTotal(quiz.getNumOfQuestionStudiedToday());
+        Log.e("yoyoyoyoy", String.valueOf(mUser.getVocabTotal()));
+
         Intent intent = new Intent(context, destActivity);
+        intent.putExtra("User", mUser);
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent);
     }
