@@ -27,8 +27,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.example.android.areyoukittyme.Service.newDayAlarmReceiver;
+import com.example.android.areyoukittyme.Service.DayAlarmReceiver;
 import com.example.android.areyoukittyme.User.User;
 import com.example.android.areyoukittyme.logger.Log;
 import com.example.android.areyoukittyme.logger.LogWrapper;
@@ -355,9 +356,9 @@ public class MainActivity extends AppCompatActivity {
      */
     private void scheduleAlarm() {
 
-        Intent intent = new Intent(getApplicationContext(), newDayAlarmReceiver.class);
+        Intent intent = new Intent(getApplicationContext(), DayAlarmReceiver.class);
         intent.putExtra("User", mUser);
-        final PendingIntent pIntent = PendingIntent.getBroadcast(this, newDayAlarmReceiver.REQUEST_CODE,
+        final PendingIntent pIntent = PendingIntent.getBroadcast(this, DayAlarmReceiver.REQUEST_CODE,
                 intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         Calendar calendar = Calendar.getInstance();
@@ -504,6 +505,7 @@ public class MainActivity extends AppCompatActivity {
         // Filter strips out everything except the message text.
         MessageOnlyLogFilter msgFilter = new MessageOnlyLogFilter();
         logWrapper.setNext(msgFilter);
+
         com.example.android.areyoukittyme.logger.Log.i(TAG, "Ready");
     }
 
@@ -589,6 +591,7 @@ public class MainActivity extends AppCompatActivity {
                 vp.setCurrentItem(vp.getCurrentItem()+1, true);
             }
             else if (v.getId() == R.id.asparagusImage) {
+
             }
             else {
                 if (popup.getVisibility() == View.VISIBLE) {
@@ -597,6 +600,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
 
     @Override
     protected void attachBaseContext(Context newBase) {

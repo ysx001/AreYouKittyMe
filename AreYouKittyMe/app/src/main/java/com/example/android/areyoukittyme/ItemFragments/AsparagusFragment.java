@@ -1,5 +1,6 @@
 package com.example.android.areyoukittyme.ItemFragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.android.areyoukittyme.Item.Asparagus;
 import com.example.android.areyoukittyme.Item.Avocado;
@@ -58,15 +60,19 @@ public class AsparagusFragment extends Fragment {
                 TextView text = (TextView) rootView.findViewById(R.id.asparagusAmount);
                 text.setText(String.format("x%d", mUser.getInventoryAmount(Asparagus.getIndex()) - 1));
 
+                String Toasttext = String.format("Health increased by %d \n Mood increased by %d", mUser.foodToHealthConversion(vp.getCurrentItem()), mUser.foodToMoodConversion(vp.getCurrentItem()));
+
+                Toast.makeText(getActivity(), Toasttext ,Toast.LENGTH_SHORT).show();
+
                 CircularProgressBar healthProgress = ((MainActivity) getActivity()).getHealthProgress();
                 CircularProgressBar moodProgress = ((MainActivity) getActivity()).getMoodProgress();
 
                 int prevAmount = mUser.getInventoryAmount(Asparagus.getIndex());
                 mUser.getInventoryList().put(Asparagus.getIndex(), prevAmount - 1);
 
-                mUser.incrementMood(mUser.foodToMoodConversion(vp.getCurrentItem()));
+                mUser.setMood(mUser.foodToMoodConversion(vp.getCurrentItem()));
                 System.out.println("now is: " + mUser.getHealth());
-                mUser.incrementHealth(mUser.foodToHealthConversion(vp.getCurrentItem()));
+                mUser.setHealth(mUser.foodToHealthConversion(vp.getCurrentItem()));
                 healthProgress.setProgressWithAnimation(mUser.getHealth());
                 moodProgress.setProgressWithAnimation(mUser.getMood());
             }

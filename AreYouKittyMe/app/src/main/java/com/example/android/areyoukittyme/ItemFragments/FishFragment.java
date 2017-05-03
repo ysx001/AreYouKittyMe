@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.android.areyoukittyme.Item.Fish;
 import com.example.android.areyoukittyme.MainActivity;
@@ -53,6 +54,10 @@ public class FishFragment extends Fragment {
 //            int prevAmount = ;
                 text.setText(String.format("x%d", mUser.getInventoryAmount(Fish.getIndex()) - 1));
 
+                String Toasttext = String.format("Health increased by %d \n Mood increased by %d", mUser.foodToHealthConversion(vp.getCurrentItem()), mUser.foodToMoodConversion(vp.getCurrentItem()));
+
+                Toast.makeText(getActivity(), Toasttext ,Toast.LENGTH_SHORT).show();
+
 
                 CircularProgressBar healthProgress = ((MainActivity) getActivity()).getHealthProgress();
                 CircularProgressBar moodProgress = ((MainActivity) getActivity()).getMoodProgress();
@@ -60,9 +65,9 @@ public class FishFragment extends Fragment {
                 int prevAmount = mUser.getInventoryAmount(Fish.getIndex());
                 mUser.getInventoryList().put(Fish.getIndex(), prevAmount - 1);
 
-                mUser.incrementMood(mUser.foodToMoodConversion(vp.getCurrentItem()));
+                mUser.setMood(mUser.foodToMoodConversion(vp.getCurrentItem()));
                 System.out.println("now is: " + mUser.getHealth());
-                mUser.incrementHealth(mUser.foodToHealthConversion(vp.getCurrentItem()));
+                mUser.setHealth(mUser.foodToHealthConversion(vp.getCurrentItem()));
                 healthProgress.setProgressWithAnimation(mUser.getHealth());
                 moodProgress.setProgressWithAnimation(mUser.getMood());
             }

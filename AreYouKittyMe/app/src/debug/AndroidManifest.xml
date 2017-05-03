@@ -145,7 +145,7 @@
             android:exported="false" />
 
         <receiver
-            android:name=".Service.newDayAlarmReceiver"
+            android:name=".Service.DayAlarmReceiver"
             android:process=":remote"></receiver>
 
         <activity android:name=".DeadActivity"></activity>
