@@ -184,7 +184,7 @@ public class VocabStudyActivity extends AppCompatActivity implements View.OnClic
         Class destActivity = VocabActivity.class;
         Context context = VocabStudyActivity.this;
 
-
+        mUser.setCash(quiz.getNumOfQuestionStudiedToday() * 5);
 
         mUser.setVocab(quiz.getNumOfQuestionStudiedToday());
         Log.e("yoyoyo", String.valueOf(mUser.getVocab()));
