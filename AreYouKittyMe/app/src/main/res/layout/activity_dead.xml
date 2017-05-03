@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.android.areyoukittyme.DeadActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:padding="40sp"
+        android:text="Your Kitty is Dead..."
+        android:textAlignment="center"
+        android:textColor="#AB757E"
+        android:textSize="32sp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/skeleton"
+        android:id="@+id/imageView"
+        android:padding="75sp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:id="@+id/revive_cat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/readopt_cat"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="7dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
+        android:background="@color/colorPrimaryLight"
+        android:onClick="restartGame"
+        android:padding="9dp"
+        android:text="Revive for $5.00"
+        android:textColor="@android:color/white"
+        android:textSize="16sp" />
+
+
+    <Button
+        android:id="@+id/readopt_cat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="21dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
+        android:background="@color/colorAccentLight"
+        android:padding="9dp"
+        android:text="Adopt a new Cat"
+        android:textColor="@android:color/white"
+        android:textSize="16sp" />
+
+
+
+
+</RelativeLayout>

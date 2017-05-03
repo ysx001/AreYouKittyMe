@@ -1,8 +1,8 @@
 package com.example.android.areyoukittyme;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
@@ -12,8 +12,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.android.areyoukittyme.User.User;
+import com.google.gson.Gson;
+
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
  * Created by Jingya on 4/13/17.
@@ -21,7 +25,8 @@ import com.example.android.areyoukittyme.User.User;
 
 public class SettingsActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private ImageView profileImage;
+    private User mUser;
+
     private EditText nameSetting;
     private EditText ageSetting;
 
@@ -39,7 +44,10 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        profileImage = (ImageView) findViewById(R.id.profileImage);
+        // Use getIntent method to store the Intent that started this Activity
+        Intent startingIntent = getIntent();
+        mUser = startingIntent.getExtras().getParcelable("User");
+
         nameSetting = (EditText) findViewById(R.id.nameSetting);
         ageSetting = (EditText) findViewById(R.id.ageSetting);
 
@@ -63,26 +71,84 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         loadCurrentSettings();
     }
 
-    private void loadCurrentSettings() {
-        nameSetting.setText(User.getName());
-        ageSetting.setText(String.valueOf(User.getAge()));
+    @Override
+    protected void onStop() {
+        super.onStop();
 
-        vocabSetting.setText(String.valueOf(User.getVocabGoal()));
-        stepsSetting.setText(String.valueOf(User.getStepsGoal()));
-        focusSetting.setText(String.valueOf(User.getFocusGoal()));
+        SharedPreferences mPrefs = getSharedPreferences("userPref", SettingsActivity.this.MODE_PRIVATE);
+        SharedPreferences.Editor prefsEditor = mPrefs.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(mUser);
+        prefsEditor.putString("user", json);
 
-        vocabBookSetting.setSelection(User.getVocabBookID());
+        String inventoryJson = gson.toJson(mUser.getInventoryListObject());
+        prefsEditor.putString("inventory", inventoryJson);
+
+        prefsEditor.commit();
     }
 
+    /**
+     * Loads the stages of the cat.
+     */
+    private void loadCurrentSettings() {
+        nameSetting.setText(mUser.getName());
+
+        int age = mUser.getAge();
+        String level = "";
+        switch (age) {
+            case 1: {
+                level = "Kindergarden";
+                break;
+            }
+            case 2: {
+                level = "Primary School";
+                break;
+            }
+            case 3: {
+                level = "Middle School";
+                break;
+            }
+            case 4: {
+                level = "High School";
+                break;
+            }
+            case 5: {
+                level = "College";
+                break;
+            }
+            case 6: {
+                level = "Master";
+                break;
+            }
+            case 7: {
+                level = "PhD";
+                break;
+            }
+            case 8: {
+                level = "Professor";
+                break;
+            }
+        }
+        ageSetting.setText(level);
+
+        vocabSetting.setText(String.valueOf(mUser.getVocabGoal()));
+        stepsSetting.setText(String.valueOf(mUser.getStepsGoal()));
+        focusSetting.setText(String.valueOf(mUser.getFocusGoal()));
+
+        vocabBookSetting.setSelection(mUser.getVocabBookID());
+    }
+
+    /**
+     * Applies the setting
+     */
     private void applySettings() {
-        User.setName(nameSetting.getText().toString());
-        User.setAge(Integer.parseInt(ageSetting.getText().toString()));
+        mUser.setName(nameSetting.getText().toString());
 
-        User.setVocabGoal(Integer.parseInt(vocabSetting.getText().toString()));
-        User.setStepsGoal(Integer.parseInt(stepsSetting.getText().toString()));
-        User.setFocusGoal(Integer.parseInt(focusSetting.getText().toString()));
+        mUser.setVocabGoal(Integer.parseInt(vocabSetting.getText().toString()));
+        mUser.setStepsGoal(Integer.parseInt(stepsSetting.getText().toString()));
+        mUser.setFocusGoal(Integer.parseInt(focusSetting.getText().toString()));
 
-        User.setVocabBookID(vocabBookSetting.getSelectedItemPosition());
+        mUser.setVocabBookID(vocabBookSetting.getSelectedItemPosition());
     }
 
     @Override
@@ -95,7 +161,16 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
             }
 
             case R.id.settingApplyBtn: {
+
+
+                Context context = getApplicationContext();
+                CharSequence text = "Changes applied";
+                int duration = Toast.LENGTH_SHORT;
+
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
                 applySettings();
+                System.out.println("User name now is " + mUser.getName());
                 break;
             }
         }
@@ -117,9 +192,16 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         Class destActivity = MainActivity.class;
         Context context = SettingsActivity.this;
 
+        System.out.println("Back Pressed User name now is " + mUser.getName());
         Intent intent = new Intent(context, destActivity);
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        applySettings();
+        intent.putExtra("User", mUser);
         startActivity(intent);
     }
 
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
 }

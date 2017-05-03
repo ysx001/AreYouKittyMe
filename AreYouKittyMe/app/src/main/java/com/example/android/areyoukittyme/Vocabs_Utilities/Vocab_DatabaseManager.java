@@ -14,7 +14,7 @@ public class Vocab_DatabaseManager {
     private static Vocab_DatabaseManager instance;
     private static SQLiteOpenHelper mDatabaseHelper;
     private SQLiteDatabase mDatabase;
-    private static Vocab_Progress_General vocabGeneralProgress;
+
 
     public static synchronized void initializeInstance(SQLiteOpenHelper helper) {
         if (instance == null) {
@@ -32,14 +32,6 @@ public class Vocab_DatabaseManager {
         }
 
         return instance;
-    }
-
-    public static Vocab_Progress_General getVocabGeneralProgress() {
-        return vocabGeneralProgress;
-    }
-
-    public static void setVocabGeneralProgress(Vocab_Progress_General vocabGeneralProgress) {
-        vocabGeneralProgress = vocabGeneralProgress;
     }
 
 

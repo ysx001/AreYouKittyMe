@@ -11,54 +11,70 @@
     <TextView
         android:id="@+id/Question_textView"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:layout_alignParentEnd="true"
+        android:layout_height="wrap_content"
+
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="117dp"
         android:text="TextView"
         android:textAlignment="center"
-        android:textSize="30sp" />
+        android:textSize="40sp" />
 
-    <RadioGroup
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="300dp"
+        android:layout_marginBottom="9dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:orientation="vertical"
         android:layout_above="@+id/linearLayout"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="13dp">
+        android:layout_alignStart="@+id/linearLayout">
 
         <Button
             android:id="@+id/FirstOption_button"
+            style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="match_parent"
-            android:layout_height="72dp"
+            android:layout_height="62dp"
+            android:layout_marginBottom="10dp"
+            android:background="@color/colorPrimaryLight"
             android:text="Button" />
 
         <Button
             android:id="@+id/SecondOption_button2"
+            style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="match_parent"
-            android:layout_height="71dp"
+            android:layout_height="62dp"
+            android:layout_marginBottom="10dp"
+            android:background="@color/colorPrimaryLight"
             android:text="Button" />
 
         <Button
             android:id="@+id/ThirdOption_button3"
+            style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="match_parent"
-            android:layout_height="79dp"
+            android:layout_height="62dp"
+            android:layout_marginBottom="10dp"
+            android:background="@color/colorPrimaryLight"
             android:text="Button" />
 
         <Button
-            android:id="@+id/FourOption_button4"
+            android:id="@+id/FourthOption_button4"
+            style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="match_parent"
-            android:layout_height="72dp"
+            android:layout_height="62dp"
+            android:layout_marginBottom="10dp"
+            android:background="@color/colorPrimaryLight"
             android:text="Button" />
-    </RadioGroup>
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="11dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:orientation="horizontal">
 
         <Button
@@ -66,14 +82,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Button" />
+            android:text="Know" />
 
         <Button
             android:id="@+id/NotKnown_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Button" />
+            android:text="Do not know" />
+
+        <Button
+            android:id="@+id/Next_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Next" />
 
     </LinearLayout>
 

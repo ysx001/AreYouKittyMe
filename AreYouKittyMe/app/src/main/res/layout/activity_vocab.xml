@@ -18,45 +18,44 @@
         tools:layout_editor_absoluteX="47dp"
         tools:layout_editor_absoluteY="296dp"
         tools:layout_editorabsoluteX="30dp"
-        android:layout_marginStart="49dp"
-        android:layout_above="@+id/Vocab_textView2"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="28dp" />
+        android:layout_marginTop="32dp"
+        android:layout_below="@+id/imageView2"
+        android:layout_alignStart="@+id/imageView2" />
 
     <Button
         android:id="@+id/vocab_Review_button"
+        style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
+        android:background="@color/colorAccentLight"
         android:text="Review"
-        android:textSize="18sp"
-        tools:layout_editor_absoluteX="217dp"
-        tools:layout_editor_absoluteY="425dp"
-        android:layout_marginStart="43dp"
-        android:layout_alignBaseline="@+id/vocab_study_button2"
+        android:textSize="12sp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
         android:layout_alignBottom="@+id/vocab_study_button2"
-        android:layout_toEndOf="@+id/vocab_textView" />
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:id="@+id/vocab_study_button2"
+        style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
+        android:background="@color/colorAccentLight"
         android:text="Study"
-        android:textSize="18sp"
-        tools:layout_editor_absoluteX="47dp"
-        tools:layout_editor_absoluteY="425dp"
-        android:layout_marginBottom="14dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignEnd="@+id/Vocab_textView2" />
-
+        android:textSize="12sp"
+        android:layout_below="@+id/Vocab_textView2"
+        android:layout_alignEnd="@+id/Vocab_textView2"
+        android:layout_marginTop="20sp"
+        android:layout_marginEnd="20dp" />
     <TextView
         android:id="@+id/Vocab_textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/vocab_study_button2"
-        android:layout_alignStart="@+id/vocab_textView"
-        android:layout_marginBottom="13dp"
         android:text="Today"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:layout_marginTop="14dp"
+        android:layout_below="@+id/vocab_textView"
+        android:layout_alignStart="@+id/vocab_textView" />
 
     <ProgressBar
         android:id="@+id/vocab_progressBar"
@@ -64,17 +63,27 @@
         android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/vocab_textView"
-        android:layout_alignStart="@+id/vocab_Review_button"
-        android:layout_alignTop="@+id/vocab_textView" />
+        android:layout_alignEnd="@+id/vocabulary_button" />
 
     <Button
         android:id="@+id/vocabulary_button"
+        style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/vocab_progressBar"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="19dp"
+        android:layout_height="40dp"
+        android:background="@color/colorPrimaryLight"
         android:text="Vocabulary"
-        android:textSize="10sp" />
+        android:textSize="12sp"
+        android:layout_marginStart="55dp"
+        android:layout_alignBottom="@+id/vocab_Review_button"
+        android:layout_toEndOf="@+id/vocab_textView" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="250dp"
+        android:layout_height="350dp"
+        app:srcCompat="@drawable/catnormal0011"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="47dp" />
 
 </RelativeLayout>
