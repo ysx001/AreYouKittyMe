@@ -135,7 +135,7 @@ public class VocabActivity extends AppCompatActivity {
                 Context context = VocabActivity.this;
                 Class destActivity = VocabStudyActivity.class;
                 Intent startVocabActivityIntent = new Intent(context, destActivity);
-
+                startVocabActivityIntent.putExtra("User", mUser);
                 startActivity(startVocabActivityIntent);
                 mode = true;
 
