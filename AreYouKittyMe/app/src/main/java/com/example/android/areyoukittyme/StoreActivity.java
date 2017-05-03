@@ -280,3 +280,4 @@ public class StoreActivity extends AppCompatActivity {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 }
+

@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-public class newDayAlarmReceiver extends BroadcastReceiver {
+public class DayAlarmReceiver extends BroadcastReceiver {
 
     public static final int REQUEST_CODE = 12345;
 

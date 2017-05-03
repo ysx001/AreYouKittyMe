@@ -23,11 +23,15 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
         }
         buildTypes {
             debug {
                 debuggable true
             }
+        }
+        debug {
+            signingConfig signingConfigs.config
         }
     }
 }
@@ -99,4 +103,8 @@ dependencies {
         exclude group: 'com.android.support', module: 'design'
         exclude group: 'com.android.support', module: 'recyclerview-v7'
     }
+
+    // Required -- JUnit 4 framework
+    testCompile 'junit:junit:4.12'
+
 }
