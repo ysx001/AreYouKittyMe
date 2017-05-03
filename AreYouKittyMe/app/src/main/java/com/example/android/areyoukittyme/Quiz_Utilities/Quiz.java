@@ -75,6 +75,7 @@ public class Quiz {
             questions.remove(currentQuestion);
         }
 
+
         return correct;
 
     }
@@ -82,8 +83,10 @@ public class Quiz {
 
 
     public void processCorrectAnswer(Question question) throws ParseException {
+
         if(question.getVocab().getProgress() == 0){
             Vocab_Repo.updateAWordOnItsProgress(1,question.getVocab().getVocab_Id(),0);
+            numOfQuestionStudiedToday += 1;
         }else if(question.getVocab().getProgress()==1){
             Vocab_Repo.updateAWordOnItsReviewPeriod(question.getVocab().getVocab_Id());
         }
@@ -92,6 +95,7 @@ public class Quiz {
     public void processYoAnswer(Question question) throws ParseException {
         if(question.getVocab().getProgress() == 0){
             Vocab_Repo.updateAWordOnItsProgress(1,question.getVocab().getVocab_Id(),0);
+            numOfQuestionStudiedToday += 1;
         }
     }
 

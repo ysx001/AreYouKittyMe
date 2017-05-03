@@ -19,41 +19,33 @@ public class Vocab_Data_Csv_Process {
 
         Scanner fScanner=null;
 
+        fScanner = new Scanner(file, String.valueOf(Charset.forName("ISO-8859-1")));
 
-
-
-
-            //try {
-                //File f = new File(file);
-                fScanner = new Scanner(file, String.valueOf(Charset.forName("ISO-8859-1")));
-
-
-            //} catch (FileNotFoundException e) {
-                //System.out.println("File not found, please try again!");
-                //return null;
-            //}
 
 
         return fScanner;
     }
 
     public static ArrayList<ArrayList<String>> processInData(Scanner data) throws UnsupportedEncodingException {
-        //System.out.println(data.nextLine());
+        data.nextLine();
 
 
         ArrayList<ArrayList<String>> processedData = new ArrayList<ArrayList<String>>();
 
         while (data.hasNextLine()) {
             String line = new String(data.nextLine().getBytes("ISO-8859-1"), "ISO-8859-15");
+            System.out.println(line);
             String[] parts = line.split("\",\"");
             ArrayList<String> row = new ArrayList<String>();
+            System.out.println(parts.length);
+            if (parts.length>=2){
 
             for (int i = 0; i < parts.length; i++) {
 
                 row.add(parts[i]);
                 //System.out.println(row.size());
             }
-            processedData.add(row);
+            processedData.add(row);}
             //System.out.println(row.size());
         }
         return processedData;

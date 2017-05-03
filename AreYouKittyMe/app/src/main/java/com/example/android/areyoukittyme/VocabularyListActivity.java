@@ -13,15 +13,19 @@ import com.example.android.areyoukittyme.Studid_Activity;
 import com.example.android.areyoukittyme.Studying_Activity;
 
 public class VocabularyListActivity extends TabActivity {
+
+    TabHost tabHost;
     /**
      * Called when the activity is first created.
+     *
+     *
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vocabulary_list);
 
-        TabHost tabHost = (TabHost) findViewById(android.R.id.tabhost); // initiate TabHost
+        tabHost = (TabHost) findViewById(android.R.id.tabhost); // initiate TabHost
         TabHost.TabSpec spec; // Reusable TabSpec for each tab
         Intent intent; // Reusable Intent for each tab
 

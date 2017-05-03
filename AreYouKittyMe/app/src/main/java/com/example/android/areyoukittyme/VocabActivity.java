@@ -39,7 +39,7 @@ public class VocabActivity extends AppCompatActivity {
     private Dialog dialog;
     private ProgressBar progressBar;
     private int mProgressStatus = 0;
-    public final static String[] books = new String[]{"French", "Spanish", "German", "SAT6000"};
+    public final static String[] books = new String[]{"French", "Spanish", "German"};
     public static int chosenBook = 0;
 
     //private static Vocab_Database vocab_database;
@@ -75,7 +75,7 @@ public class VocabActivity extends AppCompatActivity {
             alertDialogBuilder.setView(promptsView);
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, books);
 
-            alertDialogBuilder.setTitle("My Dialog..");
+            //alertDialogBuilder.setTitle("");
 
             final AlertDialog alertDialog = alertDialogBuilder.create();
 
@@ -90,6 +90,7 @@ public class VocabActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     try {
+                        System.out.println(getFilename(mSpinner.getSelectedItemPosition()));
                         Vocab_Repo.addAnEntireVocabListToTheDataBase(getAssets().open(getFilename(mSpinner.getSelectedItemPosition())));
                         alertDialog.dismiss();
                     } catch (IOException e1) {
@@ -172,8 +173,8 @@ public class VocabActivity extends AppCompatActivity {
                 return "Spanish.txt";
             case 2:
                 return "German.txt";
-            case 3:
-                return "SAT6000.txt";
+            //case 3:
+                //return "SAT6000.txt";
         }
 
         return "French.txt";
