@@ -63,9 +63,9 @@ public class BaconFragment extends Fragment {
                 int prevAmount = mUser.getInventoryAmount(Bacon.getIndex());
                 mUser.getInventoryList().put(Bacon.getIndex(), prevAmount - 1);
 
-                mUser.incrementMood(mUser.foodToMoodConversion(vp.getCurrentItem()));
+                mUser.setMood(mUser.foodToMoodConversion(vp.getCurrentItem()));
                 System.out.println("now is: " + mUser.getHealth());
-                mUser.incrementHealth(mUser.foodToHealthConversion(vp.getCurrentItem()));
+                mUser.setHealth(mUser.foodToHealthConversion(vp.getCurrentItem()));
                 healthProgress.setProgressWithAnimation(mUser.getHealth());
                 moodProgress.setProgressWithAnimation(mUser.getMood());
             }

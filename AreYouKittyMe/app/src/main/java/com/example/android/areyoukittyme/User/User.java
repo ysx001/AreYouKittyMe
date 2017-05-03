@@ -54,8 +54,8 @@ public class User implements Parcelable {
     private int health;
     private int mood;
 
-    private transient static int HEALTH_MAX = 100;
-    private transient static int MOOD_MAX = 100;
+    public transient static int HEALTH_MAX = 100;
+    public transient static int MOOD_MAX = 100;
 
     public User(String name) {
         this.name = name;
@@ -240,19 +240,6 @@ public class User implements Parcelable {
         }
     }
 
-    public void incrementHealth(int amount) {
-        this.health += amount;
-        if (this.health > HEALTH_MAX) {
-            this.health = 100;
-        }
-    }
-
-    public void incrementMood(int amount) {
-        this.mood += amount;
-        if (this.mood > MOOD_MAX) {
-            this.mood = 100;
-        }
-    }
 
     /**
      * A way to calculate how much health a food item will restore.

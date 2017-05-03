@@ -70,9 +70,9 @@ public class AsparagusFragment extends Fragment {
                 int prevAmount = mUser.getInventoryAmount(Asparagus.getIndex());
                 mUser.getInventoryList().put(Asparagus.getIndex(), prevAmount - 1);
 
-                mUser.incrementMood(mUser.foodToMoodConversion(vp.getCurrentItem()));
+                mUser.setMood(mUser.foodToMoodConversion(vp.getCurrentItem()));
                 System.out.println("now is: " + mUser.getHealth());
-                mUser.incrementHealth(mUser.foodToHealthConversion(vp.getCurrentItem()));
+                mUser.setHealth(mUser.foodToHealthConversion(vp.getCurrentItem()));
                 healthProgress.setProgressWithAnimation(mUser.getHealth());
                 moodProgress.setProgressWithAnimation(mUser.getMood());
             }
