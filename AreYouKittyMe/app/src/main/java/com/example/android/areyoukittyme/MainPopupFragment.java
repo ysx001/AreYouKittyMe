@@ -6,9 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.app.Fragment;
 
-import com.example.android.areyoukittyme.R;
-
-
 /**
  * Created by PrGxw on 4/16/2017.
  */

@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -14,15 +13,7 @@ import android.widget.EditText;
 import com.example.android.areyoukittyme.Store.Store;
 import com.example.android.areyoukittyme.User.InventoryList;
 import com.example.android.areyoukittyme.User.User;
-import com.example.android.areyoukittyme.User.User;
-import com.example.android.areyoukittyme.Vocabs_Utilities.Vocab_Repo;
-import com.example.android.areyoukittyme.logger.Log;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.lang.reflect.Type;
-import java.util.HashMap;
-import java.util.Map;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -57,25 +48,17 @@ public class AdoptActivity extends AppCompatActivity {
         super.onStart();
 
         try {
-            Log.e("not null", "not null");
             Gson gson = new Gson();
             String json = getSharedPreferences("userPref", Context.MODE_PRIVATE).getString("user", "");
             String inventoryJson = getSharedPreferences("userPref", Context.MODE_PRIVATE).getString("inventory", "");
 
             mUser = gson.fromJson(json, User.class);
-            Log.e("not null", "not null");
 
             if (mUser == null) {
                 throw new Exception("Shared preference does not exist.");
             }
 
             mUser.setInventoryListObject(gson.fromJson(inventoryJson, InventoryList.class));
-
-            /*Type intIntMap = new TypeToken<HashMap<Integer, Integer>>(){}.getType();
-            HashMap<Integer, Integer> inventoryList = gson.fromJson(inventoryJson, intIntMap);
-            mUser.setInventoryList(inventoryList);*/
-
-            Log.e("not null", "not null");
 
             Context context = AdoptActivity.this;
             Class destActivity = MainActivity.class;
@@ -121,7 +104,6 @@ public class AdoptActivity extends AppCompatActivity {
                                     }
                                 }).show();
                     }
-
                 }
             });
         }
@@ -131,5 +113,4 @@ public class AdoptActivity extends AppCompatActivity {
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
-
 }

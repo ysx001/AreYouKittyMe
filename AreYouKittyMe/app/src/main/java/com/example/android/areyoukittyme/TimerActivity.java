@@ -15,9 +15,7 @@ import com.example.android.areyoukittyme.User.User;
 import com.example.android.areyoukittyme.utilities.NotificationUtils;
 import com.google.gson.Gson;
 
-import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -25,8 +23,6 @@ import android.widget.TextView;
 import java.util.Random;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
-
-import static android.app.PendingIntent.getActivity;
 
 public class TimerActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -85,11 +81,6 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
         this.focusTime = 0;
         this.isCountingdown = false;
         this.isPausing = false;
-
-        // enable back button to main page
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-
     }
 
     /* *
@@ -118,11 +109,6 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         intent.putExtra("User", mUser);
         startActivity(intent);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
     }
 
     /**
@@ -196,7 +182,7 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
     }
 
     /**
-     * Starts the timer.Is called when the start button is clicked.
+     * Starts the timer. Is called when the start button is clicked.
      */
     private void startBtnClicked() {
         boolean hourExist = false;
@@ -245,7 +231,7 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
     }
 
     /**
-     * Pauses the timed.Is called when the pause button clicked.
+     * Pauses the timer. Is called when the pause button clicked.
      */
     private void pauseBtnClicked() {
         if (isCountingdown) {
@@ -356,7 +342,7 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
     }
 
     /**
-     * When timer is cancels, Health and mood gets deducted and User will be prompted with text.
+     * When timer is canceled, Health and mood gets deducted and User will be prompted with text.
      */
     private void timerCancelled() {
         mUser.setFocus(focusTime);
@@ -409,8 +395,8 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
      * Decrement text in TextView as the countdown begins
      */
     private void textViewCountdown() {
-        // Decrement TextViews by 1 second
 
+        // Decrement TextViews by 1 second
         if (this.second > 0) {
             this.second--;
         } else {
@@ -439,5 +425,4 @@ public class TimerActivity extends AppCompatActivity implements View.OnClickList
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
-
 }

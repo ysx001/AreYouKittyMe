@@ -25,7 +25,6 @@ public class DeadActivity extends AppCompatActivity implements View.OnClickListe
         Intent startingIntent = getIntent();
         mUser = startingIntent.getExtras().getParcelable("User");
 
-
         revive = (Button) findViewById(R.id.revive_cat);
         revive.setOnClickListener(this);
         readopt = (Button) findViewById(R.id.readopt_cat);
@@ -52,8 +51,4 @@ public class DeadActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(intent);
         }
     }
-
-
-
-
 }

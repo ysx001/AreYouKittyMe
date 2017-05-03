@@ -11,30 +11,28 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 public class ScreenSlidePageActivity extends AppCompatActivity {
-            /**
-          * The number of pages (wizard steps) to show in this demo.
-          */
+    /**
+     * The number of pages (wizard steps) to show in this demo.
+     */
     private static final int NUM_PAGES = 5;
 
-            /**
-          * The pager widget, which handles animation and allows swiping horizontally to access previous
-          * and next wizard steps.
-          */
+    /**
+     * The pager widget, which handles animation and allows swiping horizontally to access previous
+     * and next wizard steps.
+     */
     private ViewPager mPager;
 
-            /**
-          * The pager adapter, which provides the pages to the view pager widget.
-          */
+    /**
+     * The pager adapter, which provides the pages to the view pager widget.
+     */
     private PagerAdapter mPagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        int view = R.layout.activity_screen_slide;
         int view = R.layout.activity_screen_slide;
         setContentView(view);
 
-        // Instantiate a ViewPager and a PagerAdapter.
         mPager = (ViewPager) findViewById(R.id.pager);
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
@@ -52,10 +50,10 @@ public class ScreenSlidePageActivity extends AppCompatActivity {
         }
     }
 
-            /**
-          * A simple pager adapter that represents 5 ScreenSlidePageFragment objects, in
-          * sequence.
-          */
+    /**
+     * A simple pager adapter that represents 5 ScreenSlidePageFragment objects, in
+     * sequence.
+     */
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
         public ScreenSlidePagerAdapter(FragmentManager fm) {
             super(fm);

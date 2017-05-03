@@ -4,11 +4,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.view.ScrollingView;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ListView;
-import android.widget.ScrollView;
 
 import com.example.android.areyoukittyme.Vocabs_Utilities.Vocab;
 import com.example.android.areyoukittyme.Vocabs_Utilities.Vocab_DatabaseManager;
@@ -39,21 +37,6 @@ public class Studying_Activity extends AppCompatActivity{
 
         adapter = new SimpleCursorAdapter(this,R.layout.activity_row_template, todoCursor,  columns, TO,0 );
         ListView listView = (ListView) findViewById(R.id.list);
-        //Vocab_CursorAdapter_Studying adapter = new Vocab_CursorAdapter_Studying(this,todoCursor);
         listView.setAdapter(adapter);
-
-        /*
-        SQLiteDatabase db = Vocab_DatabaseManager.getInstance().openDatabase();
-        Cursor todoCursor = db.rawQuery("SELECT  * FROM " + Vocab.TABLE,null);// + " WHERE Vocab.progress=1",null);
-        System.out.println(todoCursor.getString(0));
-
-        todoCursor.moveToFirst();
-
-        ListView listView = (ListView) findViewById(R.id.list);
-        Vocab_CursorAdapter_Studying adapter = new Vocab_CursorAdapter_Studying(this,todoCursor);
-        listView.setAdapter(adapter);*/
-
-
-
     }
 }

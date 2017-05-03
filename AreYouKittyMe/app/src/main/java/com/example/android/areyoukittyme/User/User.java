@@ -87,10 +87,7 @@ public class User implements Parcelable {
      */
     public void userCheckout(ArrayList<Integer> amountList, ArrayList<Integer> priceList) {
         for (int i = 0; i < amountList.size(); i++) {
-            int[] array = new int[2];
             int prevAmount = this.inventoryList.getInventoryList().get(i);
-//            array[0] = amountList.get(i) + prevAmount; // the amount of the item
-//            array[1] = priceList.get(i); // price of the item
             int temp = amountList.get(i) + prevAmount; // the amount of the item
             this.inventoryList.getInventoryList().put(i, temp);
 
@@ -104,7 +101,6 @@ public class User implements Parcelable {
 
         for (int i = 0; i < 6; i++) {
             int temp = 1; // amount
-//            array[1] = 0; // price
             this.inventoryList.getInventoryList().put(i, temp);
         }
         System.out.println("Initialized, the inventory list now is" + this.inventoryList);
@@ -264,7 +260,6 @@ public class User implements Parcelable {
         int price = Store.getItemList().get(index).getPrice();
 
         return (int) (price * 5) / 1000;
-//        return 5000;
     }
 
     /**
@@ -313,9 +308,6 @@ public class User implements Parcelable {
             Double mult = range / 2.0;
             Double val = (Math.random() * mult) + 60;
             focusTimelist.add(val);
-//            if(i == 10) {
-//                yVals2.add(new Entry(i, val + 50));
-//            }
         }
 
         ArrayList<Double> vocabTimelist = new ArrayList<>();
@@ -415,5 +407,4 @@ public class User implements Parcelable {
             return new User[size];
         }
     };
-
 }

@@ -1,17 +1,15 @@
 package com.example.android.areyoukittyme;
 
-
+import android.annotation.SuppressLint;
 import com.example.android.areyoukittyme.User.User;
 import com.example.android.areyoukittyme.User.UserData;
 import com.example.android.areyoukittyme.plot.DayAxisValueFormatter;
 import com.example.android.areyoukittyme.plot.MyAxisValueFormatter;
 import com.example.android.areyoukittyme.plot.XYMarkerView;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.RectF;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -22,7 +20,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.LineChart;
@@ -124,9 +121,6 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
             }
         });
 
-//        mTfRegular = Typeface.createFromAsset(getAssets(), "OpenSans-Regular.ttf");
-//        mTfLight = Typeface.createFromAsset(getAssets(), "OpenSans-Light.ttf");
-
         mSeekBarMonth = (SeekBar) findViewById(R.id.monthSeekBar);
         mSeekBarWeek = (SeekBar) findViewById(R.id.weekSeekBar);
 
@@ -150,9 +144,6 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
         // if disabled, scaling can be done on x- and y-axis separately
         monthChart.setPinchZoom(true);
 
-        // set an alternative background color
-        //monthChart.setBackgroundColor(Color.rgb(241,195,208));
-
         // add data
         setLineData(this.dataArray, 0);
 
@@ -165,52 +156,34 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
 
         // modify the legend ...
         lMonth.setForm(LegendForm.LINE);
-//        l.setTypeface(mTfLight);
         lMonth.setTextSize(11f);
         lMonth.setTextColor(Color.DKGRAY);
         lMonth.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
         lMonth.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
         lMonth.setOrientation(Legend.LegendOrientation.HORIZONTAL);
         lMonth.setDrawInside(false);
-//        l.setYOffset(11f);
 
         XAxis xMonthAxis = monthChart.getXAxis();
-//        xMonthAxis.setTypeface(mTfLight);
         xMonthAxis.setTextSize(11f);
         xMonthAxis.setTextColor(Color.DKGRAY);
         xMonthAxis.setDrawGridLines(false);
-        //xMonthAxis.setDrawAxisLine(false);
         xMonthAxis.setValueFormatter(xmonthAxisFormatter);
 
         YAxis leftMonthAxis = monthChart.getAxisLeft();
-//        leftMonthAxis.setTypeface(mTfLight);
         leftMonthAxis.setTextColor(ColorTemplate.getHoloBlue());
-//        leftMonthAxis.setAxisMaximum(200f);
-        //leftMonthAxis.setAxisMinimum(0f);
         leftMonthAxis.setDrawGridLines(true);
         leftMonthAxis.setGranularityEnabled(true);
 
         YAxis rightMonthAxis = monthChart.getAxisRight();
-//        rightMonthAxis.setTypeface(mTfLight);
         rightMonthAxis.setTextColor(Color.RED);
-//        rightMonthAxis.setAxisMaximum(900);
-        //rightMonthAxis.setAxisMinimum(0);
         rightMonthAxis.setDrawGridLines(false);
         rightMonthAxis.setDrawZeroLine(false);
         rightMonthAxis.setGranularityEnabled(false);
-        
-        
-
 
         weekChart = (BarChart) findViewById(R.id.weekChart);
-//        weekChart.setOnChartValueSelectedListener(this);
 
         weekChart.setDrawBarShadow(false);
         weekChart.setDrawValueAboveBar(true);
-
-//        weekChart.setHighlightPerTapEnabled(true);
-
-
 
         weekChart.getDescription().setEnabled(false);
 
@@ -223,14 +196,11 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
 
         weekChart.setDrawGridBackground(false);
         weekChart.animateX(2000);
-        // weekChart.setDrawYLabels(false);
 
         IAxisValueFormatter xAxisFormatter = new DayAxisValueFormatter(weekChart);
 
         XAxis xWeekAxis = weekChart.getXAxis();
         xWeekAxis.setPosition(XAxisPosition.BOTTOM);
-        //xWeekAxis.setTypeface(mTfLight);
-       // xWeekAxis.setDrawGridLines(false);
         xWeekAxis.setGranularity(1f); // only intervals of 1 day
         xWeekAxis.setLabelCount(7);
         xWeekAxis.setValueFormatter(xAxisFormatter);
@@ -239,8 +209,6 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
 
         // Set Left Axis for step data
         YAxis leftWeekAxis = weekChart.getAxisLeft();
-        //leftWeekAxis.setTypeface(mTfLight);
-
 
         leftWeekAxis.setLabelCount(8, true);
         leftWeekAxis.setValueFormatter(weekAxisFormat);
@@ -252,8 +220,6 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
         // Set Right Axis for focus time
         YAxis rightWeekAxis = weekChart.getAxisRight();
 
-       // rightWeekAxis.setDrawGridLines(true);
-        //rightWeekAxis.setTypeface(mTfLight);
         rightWeekAxis.setLabelCount(8, false);
         rightWeekAxis.setValueFormatter(weekAxisFormat);
         rightWeekAxis.setSpaceTop(15f);
@@ -268,17 +234,12 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
         lweek.setFormSize(9f);
         lweek.setTextSize(11f);
         lweek.setXEntrySpace(4f);
-        // l.setExtra(ColorTemplate.VORDIPLOM_COLORS, new String[] { "abc",
-        // "def", "ghj", "ikl", "mno" });
-        // l.setCustom(ColorTemplate.VORDIPLOM_COLORS, new String[] { "abc",
-        // "def", "ghj", "ikl", "mno" });
 
         XYMarkerView mv = new XYMarkerView(this, xAxisFormatter);
         mv.setChartView(weekChart); // For bounds control
         weekChart.setMarker(mv); // Set the marker to the chart
 
         setBarData(this.dataArray, 0);
-
 
         // setting data
         mSeekBarWeek.setProgress(0);
@@ -289,10 +250,6 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
 
         mSeekBarWeek.setOnSeekBarChangeListener(this);
         mSeekBarMonth.setOnSeekBarChangeListener(this);
-
-        // enable back button to main page
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
     }
 
     /**
@@ -317,11 +274,9 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
             vocabTime.add(new Entry(i - start, dataArray.get(2).getData().get(i).floatValue()/(float)mUser.getVocabGoal()));
         }
 
-
         LineDataSet stepSet, focusSet, vocabSet;
 
-        if (monthChart.getData() != null &&
-                monthChart.getData().getDataSetCount() > 0) {
+        if (monthChart.getData() != null && monthChart.getData().getDataSetCount() > 0) {
             stepSet = (LineDataSet) monthChart.getData().getDataSetByIndex(0);
             focusSet = (LineDataSet) monthChart.getData().getDataSetByIndex(1);
             vocabSet = (LineDataSet) monthChart.getData().getDataSetByIndex(2);
@@ -344,10 +299,6 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
             stepSet.setHighLightColor(Color.BLUE);
             stepSet.setDrawCircleHole(false);
             stepSet.setDrawValues(false);
-            //set1.setFillFormatter(new MyFillFormatter(0f));
-            //set1.setDrawHorizontalHighlightIndicator(false);
-            //set1.setVisible(false);
-            //set1.setCircleHoleColor(Color.WHITE);
 
             // create a dataset and give it a type
             focusSet = new LineDataSet(focusTime, "Focus Time");
@@ -361,7 +312,6 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
             focusSet.setDrawCircleHole(false);
             focusSet.setHighLightColor(Color.rgb(244, 117, 117));
             focusSet.setDrawValues(false);
-            //set2.setFillFormatter(new MyFillFormatter(900f));
 
             vocabSet = new LineDataSet(vocabTime, "Vocab Time");
             vocabSet.setAxisDependency(AxisDependency.RIGHT);
@@ -383,7 +333,6 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
             // set data
             monthChart.setData(data);
         }
-
     }
 
     /**
@@ -404,20 +353,8 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
 
             stepCounts.add(new BarEntry(i - start, new float[] {stepVal, focusVal, vocabVal}));
         }
-//
-//        for (int i = 0; i < dataArray.get(1).size(); i++) {
-//            focusTime.add(new BarEntry(i, dataArray.get(1).get(i).floatValue()));
-//        }
-//
-//        for (int i = 0; i < dataArray.get(2).size(); i++) {
-//            vocabTime.add(new BarEntry(i, dataArray.get(2).get(i).floatValue()));
-//        }
-
-
 
         BarDataSet step_set;
-//        BarDataSet focus_set;
-//        BarDataSet vocab_set;
 
         if (weekChart.getData() != null &&
                 weekChart.getData().getDataSetCount() > 0) {
@@ -425,43 +362,26 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
             step_set = (BarDataSet) weekChart.getData().getDataSetByIndex(0);
             step_set.setValues(stepCounts);
 
-//            focus_set = (BarDataSet) weekChart.getData().getDataSetByIndex(1);
-//            focus_set.setValues(focusTime);
-
             weekChart.getData().notifyDataChanged();
             weekChart.notifyDataSetChanged();
         } else {
             step_set = new BarDataSet(stepCounts, "Weekly Stats");
-//            focus_set = new BarDataSet(focusTime, "Focus Time");
-//            vocab_set = new BarDataSet(vocabTime, "Vocab Time");
-//
 
             step_set.setDrawIcons(false);
             step_set.setColors(getColors(), StatsActivity.this);
             step_set.setStackLabels(new String[]{"Step Count", "Focus Time", "Vocab Time"});
-            //step_set.setAxisDependency(AxisDependency.LEFT);
-
-//            focus_set.setDrawIcons(false);
-//            focus_set.setColors(FOCUS_COLORS, StatsActivity.this);
-//
-//            vocab_set.setDrawIcons(false);
-//            vocab_set.setColors(VOCAB_COLORS, StatsActivity.this);
 
             ArrayList<IBarDataSet> dataSets = new ArrayList<>();
 
             dataSets.add(step_set);
-//            dataSets.add(focus_set);
-//            dataSets.add(vocab_set);
 
             BarData data = new BarData(dataSets);
             data.setValueTextSize(10f);
-            //data.setValueTypeface(mTfLight);
             data.setBarWidth(0.9f);
 
             weekChart.setData(data);
         }
         weekChart.setFitBars(true);
-        //weekChart.invalidate();
     }
 
 
@@ -577,9 +497,6 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 
-        //tvMonth.setText("" + (mSeekBarMonth.getProgress()));
-        //tvWeek.setText("" + (mSeekBarWeek.getProgress()));
-
         setLineData(dataArray , mSeekBarMonth.getProgress());
         monthChart.invalidate();
 
@@ -589,12 +506,10 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
 
     @Override
     public void onStartTrackingTouch(SeekBar seekBar) {
-
     }
 
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
-
     }
 
     @SuppressLint("NewApi")
@@ -604,12 +519,10 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
         Log.i("LOWHIGH", "low: " + monthChart.getLowestVisibleX() + ", high: " + monthChart.getHighestVisibleX
                 ());
         Log.i("MIN MAX", "xmin: " + monthChart.getXChartMin() + ", xmax: " + monthChart.getXChartMax() + ", ymin: " + monthChart.getYChartMin() + ", ymax: " + monthChart.getYChartMax());
-
     }
 
     @Override
     public void onNothingSelected() {
-
     }
 
     @Override
@@ -617,4 +530,3 @@ public class StatsActivity extends AppCompatActivity implements OnSeekBarChangeL
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 }
-

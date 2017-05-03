@@ -16,8 +16,6 @@ import java.text.ParseException;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-import static com.example.android.areyoukittyme.R.color.colorPrimaryLight;
-
 public class VocabStudyActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Button choiceBtn1;
@@ -29,8 +27,6 @@ public class VocabStudyActivity extends AppCompatActivity implements View.OnClic
     private Button nextBtn;
     private TextView questionView;
     private Quiz quiz;
-    public static final int Khaiki_Color = Color.rgb(240,230,140);
-    public static final int Light_Goldenrod_Color = Color.rgb(238,221,130);
     private Button[] btns;
     private boolean answered;
 
@@ -38,7 +34,6 @@ public class VocabStudyActivity extends AppCompatActivity implements View.OnClic
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reviewstudy);
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         this.choiceBtn1 = (Button)findViewById(R.id.FirstOption_button);
         this.choiceBtn1.setOnClickListener(this);
@@ -56,34 +51,6 @@ public class VocabStudyActivity extends AppCompatActivity implements View.OnClic
         this.questionView = (TextView) findViewById(R.id.Question_textView);
         this.nextBtn = (Button)findViewById(R.id.Next_button);
         this.nextBtn.setOnClickListener(this);
-
-
-        System.out.println("Yo");
-        /*
-        choiceBtn1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                questionView.setText("Processed");
-                if (answered == false) {
-
-                    if (quiz.checkCurrentAnswer(0)) {
-                        try {
-                            quiz.processCorrectAnswer(quiz.getCurrentQuestion());
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        quiz.toNextQuestion();
-                        updateQuizInterface();
-                    } else {
-                        highlightTheCorrectAnswer();
-                    }
-                }
-                answered = true;
-            }
-        });
-        */
-
-
     }
 
     @Override
@@ -125,7 +92,6 @@ public class VocabStudyActivity extends AppCompatActivity implements View.OnClic
     public void highlightTheCorrectAnswer(){
         Button[] btns = new Button[]{choiceBtn1,choiceBtn2,choiceBtn3,choiceBtn4};
         btns[quiz.getCurrentQuestion().getIndexOfRightAnswer()].setBackgroundColor(getColor(R.color.colorAccentLight));
-
     }
 
     @Override
@@ -210,16 +176,16 @@ public class VocabStudyActivity extends AppCompatActivity implements View.OnClic
      * When known buttons is clicked, the system records the vocab and goes on to the next question.
      */
     private void knownBtnClicked() {
-        if (answered == false){
-        System.out.println("I know");
-        quiz.processKnownVocab(quiz.getCurrentQuestion());
-        if(quiz.getIfThereIsAnyVocab()){
-            quiz.toNextQuestion();
-            updateQuizInterface();
-        }else{
-            goBackToVocabPage();
-        }}
-
+        if (answered == false) {
+            System.out.println("I know");
+            quiz.processKnownVocab(quiz.getCurrentQuestion());
+            if(quiz.getIfThereIsAnyVocab()){
+                quiz.toNextQuestion();
+                updateQuizInterface();
+            }else{
+                goBackToVocabPage();
+            }
+        }
     }
 
     /**
@@ -248,49 +214,10 @@ public class VocabStudyActivity extends AppCompatActivity implements View.OnClic
                 highlightTheCorrectAnswer();
             }
         }
-
     }
-
-
-
-    /*
-
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        switch (v.getId()) {
-
-            case R.id.FirstOption_button: {
-                choiceBtnTouched(0);
-                break;
-            }
-            case R.id.SecondOption_button2: {
-                choiceBtnTouched(1);
-                break;
-            }
-
-            case R.id.ThirdOption_button3: {
-                choiceBtnTouched(2);
-                break;
-            }
-            case R.id.FourthOption_button4:{
-                choiceBtnTouched(3);
-                break;
-            }
-            case R.id.Known_button:{
-                choiceBtnTouched(4);
-                break;
-            }
-            case R.id.NotKnown_button:{
-                choiceBtnTouched(5);
-                break;
-            }
-        }
-    }
-    */
 
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
-
 }

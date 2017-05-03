@@ -9,21 +9,15 @@ import android.media.MediaPlayer;
 import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 
-import com.example.android.areyoukittyme.Vocabs_Utilities.Vocab_Database;
-import com.example.android.areyoukittyme.Vocabs_Utilities.Vocab_DatabaseManager;
 import com.example.android.areyoukittyme.Vocabs_Utilities.Vocab_Repo;
 
 import java.io.IOException;
@@ -43,7 +37,6 @@ public class VocabActivity extends AppCompatActivity {
     public static int chosenBook = 0;
 
     //private static Vocab_Database vocab_database;
-
     private Handler mHandler = new Handler();
     public static boolean mode = false;
 
@@ -51,7 +44,6 @@ public class VocabActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vocab);
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         MediaPlayer mPlayer = MediaPlayer.create(VocabActivity.this, R.raw.book);
         mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
@@ -65,7 +57,9 @@ public class VocabActivity extends AppCompatActivity {
         //For presentation
         progressBar.setProgress(30);
 
-        try{Vocab_Repo.getAVocabWord();}catch(Exception e){
+        try{
+            Vocab_Repo.getAVocabWord();
+        }catch(Exception e){
             LayoutInflater li = LayoutInflater.from(this);
 
             View promptsView = li.inflate(R.layout.dialog_spinner, null);
@@ -99,19 +93,13 @@ public class VocabActivity extends AppCompatActivity {
                 }
             });
 
-// reference UI elements from my_dialog_layout in similar fashion
-
+            // reference UI elements from my_dialog_layout in similar fashion
             mSpinner.setOnItemSelectedListener(new OnSpinnerItemClicked());
 
-
-
-// show it
+            // show it
             alertDialog.show();
-            alertDialog.setCanceledOnTouchOutside(false);}
-
-
-
-
+            alertDialog.setCanceledOnTouchOutside(false);
+        }
 
         Intent vocabIntent = getIntent();
 
@@ -130,8 +118,6 @@ public class VocabActivity extends AppCompatActivity {
             }
 
         });
-
-
 
         reviewButton.setOnClickListener(new View.OnClickListener(){
 
@@ -161,7 +147,6 @@ public class VocabActivity extends AppCompatActivity {
                 startActivity(startVocabActivityIntent);
             }
         });
-
     }
 
     /**
@@ -183,7 +168,6 @@ public class VocabActivity extends AppCompatActivity {
         }
 
         return "French.txt";
-
     }
 
     /**
@@ -216,5 +200,4 @@ public class VocabActivity extends AppCompatActivity {
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
-
 }

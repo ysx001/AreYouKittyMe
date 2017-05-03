@@ -36,17 +36,6 @@ public class Studid_Activity extends AppCompatActivity{
 
         adapter = new SimpleCursorAdapter(this,R.layout.activity_row_template, todoCursor,  columns, TO,0 );
         ListView listView = (ListView) findViewById(R.id.list);
-        //Vocab_CursorAdapter_Studying adapter = new Vocab_CursorAdapter_Studying(this,todoCursor);
         listView.setAdapter(adapter);
-        /*
-        SQLiteDatabase db = Vocab_DatabaseManager.getInstance().openDatabase();
-        Cursor todoCursor = db.rawQuery("SELECT  * FROM " + Vocab.TABLE,null);// + " WHERE Vocab.progress=2",null);
-        System.out.println(todoCursor.getString(0));
-
-        todoCursor.moveToFirst();
-
-        ListView listView = (ListView) findViewById(R.id.list);
-        Vocab_CursorAdapter_Studying adapter = new Vocab_CursorAdapter_Studying(this,todoCursor);
-        listView.setAdapter(adapter);*/
     }
 }

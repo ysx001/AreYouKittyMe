@@ -10,13 +10,10 @@ import android.widget.Toast;
 
 class OnSpinnerItemClicked implements android.widget.AdapterView.OnItemSelectedListener {
     @Override
-    public void onItemSelected(AdapterView<?> parent,
-                               View view, int pos, long id) {
+    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
 
         Toast.makeText(parent.getContext(), "Clicked : " +
                 parent.getItemAtPosition(pos).toString(), Toast.LENGTH_LONG).show();
-
-
     }
 
     @Override

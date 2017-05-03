@@ -67,7 +67,6 @@ import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.mikhaellopez.circularprogressbar.CircularProgressBar;
 
 import java.util.Calendar;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
@@ -88,15 +87,6 @@ public class MainActivity extends AppCompatActivity {
     private TextView moneyDisplay;
     private CircularProgressBar healthProgress;
     private CircularProgressBar moodProgress;
-
-    private TextView fishA;
-    private TextView avocadoA;
-    private TextView baconA;
-    private TextView corndogA;
-    private TextView hamburgerA;
-    private TextView asparagusA;
-
-
 
     private TextView displayCatName;
     private ViewPager mPager;
@@ -121,7 +111,6 @@ public class MainActivity extends AppCompatActivity {
         // Use getIntent method to store the Intent that started this Activity
         Intent startingIntent = getIntent();
         mUser = startingIntent.getExtras().getParcelable("User");
-        //mUser.initInventoryList();
 
         // This method sets up our custom logger, which will print all log messages to the device
         // screen, as well as to adb logcat.
@@ -165,13 +154,11 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.click_assist).setOnLongClickListener(new MyLongClickListener());
         findViewById(R.id.click_assist).setOnClickListener(new MyClickListener());
 
-//        findViewById(R.id.miaomiaomiao).setOnClickListener(new MyClickListener());
         findViewById(R.id.main_content).setOnClickListener(new MyClickListener());
         findViewById(R.id.leftArrow).setOnClickListener(new MyClickListener());
         findViewById(R.id.rightArrow).setOnClickListener(new MyClickListener());
         // Setting up animation
         ImageView catAnimation = (ImageView) findViewById(R.id.miaomiaomiao);
-        //catAnimation.setBackgroundResource(R.drawable.thin_cat_animation);
         ((AnimationDrawable) catAnimation.getBackground()).start();
         catAnimation.setOnClickListener(new MyClickListener());
         findViewById(R.id.main_content).setOnClickListener(new MyClickListener());
@@ -185,7 +172,6 @@ public class MainActivity extends AppCompatActivity {
         displayCatName.setText(catName);
 
         // If health is zero, the cat dies.
-
         if (mUser.getHealth() == 0) {
             switchDie();
         }
@@ -284,18 +270,10 @@ public class MainActivity extends AppCompatActivity {
         });
 
         scheduleAlarm();
-//        mApiClient.connect();
 
         mPager = (ViewPager) findViewById(R.id.pager_temp);
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
-
-//        mPagerAdapter.
-
-
-//        Bundle bundle = new BUndle()
-//        findViewById(R.id.test_dead).setOnClickListener(new MyClickListener());
-
     }
 
     /**
@@ -400,8 +378,6 @@ public class MainActivity extends AppCompatActivity {
     private final class MyTouchListener implements View.OnTouchListener {
         public boolean onTouch(View view, MotionEvent motionEvent) {
             if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-//                ClipData data = ClipData.newPlainText("", "");
-//                Item item = view.getId();
                 ClipData data = ClipData.newPlainText("Item price", "80");
                 return true;
             } else {
@@ -496,8 +472,6 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
-
-
     private void readData() {
         new VerifyDataTask().execute();
     }
@@ -530,22 +504,8 @@ public class MainActivity extends AppCompatActivity {
         // Filter strips out everything except the message text.
         MessageOnlyLogFilter msgFilter = new MessageOnlyLogFilter();
         logWrapper.setNext(msgFilter);
-//        // On screen logging via a customized TextView.
-//        LogView logView = (LogView) findViewById(R.id.sample_logview);
-//
-//        // Fixing this lint error adds logic without benefit.
-//        //noinspection AndroidLintDeprecation
-//        logView.setTextAppearance(this, R.style.Log);
-//
-//        logView.setBackgroundColor(Color.WHITE);
-//        msgFilter.setNext(logView);
         com.example.android.areyoukittyme.logger.Log.i(TAG, "Ready");
     }
-//
-//    @Override
-//    protected void attachBaseContext(Context newBase) {
-//        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
-//    }
 
     /**
      * Read the current daily step total, computed from midnight of the current day
@@ -574,9 +534,6 @@ public class MainActivity extends AppCompatActivity {
 
             return null;
         }
-
-        public void onConnectionSuspended(int i) {
-        }
     }
     private final class MyLongClickListener implements View.OnLongClickListener {
         @Override
@@ -592,7 +549,6 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 return true;
-
         }
     }
 
@@ -635,10 +591,6 @@ public class MainActivity extends AppCompatActivity {
             else if (v.getId() == R.id.asparagusImage) {
             }
             else {
-//                mUser.incrementMood(mUser.foodToMoodConversion(vp.getCurrentItem()));
-//                mUser.incrementHealth(mUser.foodToHealthConversion(vp.getCurrentItem()));
-//                healthProgress.setProgressWithAnimation(mUser.getHealth());
-//                moodProgress.setProgressWithAnimation(mUser.getMood());
                 if (popup.getVisibility() == View.VISIBLE) {
                     popup.setVisibility(View.INVISIBLE);
                 }
@@ -646,12 +598,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-//    private static void eatAnimation() {
-//
-//    }
-    private void eatAnimation() {
-
-    }
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
