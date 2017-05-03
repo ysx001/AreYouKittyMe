@@ -4,6 +4,7 @@ Are You Kitty Me is a multi-purpose android app combining productivity, fitness,
 ## Files
 
 ```
+AreYouKittyMe/
 +-- src/
     +-- androidTest/
     +-- main/
@@ -15,7 +16,7 @@ scrum/
 ```
 
 ### Description
-
+* `AreYouKittyMe/` contains the buildable Android project
 * `src/` contains the android project files with tests and resources
 * `design/` contains CRC cards, Use-case diagram, and UML for the project
 * `dist/` contains the generated and runnable `.apk` file
