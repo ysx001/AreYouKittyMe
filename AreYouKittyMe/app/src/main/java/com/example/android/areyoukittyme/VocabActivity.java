@@ -244,6 +244,8 @@ public class VocabActivity extends AppCompatActivity {
 
     @Override
     protected void onStop() {
+        super.onStop();
+
         SharedPreferences mPrefs = getSharedPreferences("userPref", VocabActivity.this.MODE_PRIVATE);
         SharedPreferences.Editor prefsEditor = mPrefs.edit();
         Gson gson = new Gson();
